@@ -1,4 +1,4 @@
-// Knockout JavaScript library v3.1.0
+// Knockout JavaScript library v3.1.1
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 (function(){
@@ -47,7 +47,7 @@ ko.exportProperty = function(owner, publicName, object) {
   owner[publicName] = object;
 };
 
-ko.version = "3.1.0-debug";
+ko.version = "3.1.1-debug";
 
 ko.exportSymbol('version', ko.version);
 
