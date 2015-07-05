@@ -1,0 +1,44 @@
+#
+# Knockout Web site config
+#
+# ---
+#
+# Application Cache
+appcache:
+  target: build/ko.appcache
+  manifest: >
+    CACHE MANIFEST
+    # $ISOTIME
+    /build/templates.html
+    /build/style.css
+    /build/libs.js
+    /build/app.js
+
+    NETWORK:
+    *
+
+
+# HTML Templates
+templates:
+  src: templates/*
+  dest: build/templates.html
+
+
+# Javascript libraries
+libs.js:
+  dest: build/libs.js
+  filename: libs.js
+  src:
+    - node_modules/jquery/dist/jquery.js
+
+
+# Our JS application
+app.js:
+  src: src/**/*.js
+  dest: build/app.js
+
+
+# less => css
+less:
+  src: less/styles.less
+  dest: build/styles.css

@@ -13,3 +13,5 @@ _site
 
 .DS_Store
 build
+
+node_modules

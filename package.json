@@ -1,0 +1,34 @@
+{
+  "name": "knockout-gh-pages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-babel": "^5.1.0",
+    "gulp-eslint": "^0.15.0",
+    "gulp-less": "^3.0.3",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "less-plugin-autoprefix": "^1.4.2",
+    "lodash": "^3.10.0"
+  },
+  "devDependencies": {
+    "gulp-babel": "^5.1.0",
+    "jquery": "^2.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://brianmhunt@github.com/brianmhunt/knockout.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brianmhunt/knockout/issues"
+  },
+  "homepage": "https://github.com/brianmhunt/knockout#readme"
+}
