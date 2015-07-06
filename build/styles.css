@@ -1653,3 +1653,6 @@ a:hover {
   min-height: 60%;
   min-height: calc(100vh - 120px);
 }
+.ace_editor {
+  height: 200px;
+}

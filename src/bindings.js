@@ -1,8 +1,10 @@
+/* global ace */
 
-ko.bindingHandlers.highlight = {
+ko.bindingHandlers.editor = {
   /* highlight: "langauge" */
-  init: function (element, va) {
-    element.className = (element.className || '') + " language-" + va()
-    window.Prism.highlightElement(element)
+  init: function (element) {
+    var editor = ace.edit(element)
+    editor.setTheme("ace/theme/solarized_dark")
+    editor.getSession().setMode("ace/mode/javascript")
   }
 }

@@ -16,6 +16,12 @@ appcache:
     build/app.js
     images/hourglass.gif
 
+    # Ace
+    bower_components/ace-builds/src/ace.js
+    bower_components/ace-builds/src/mode-javascript.js
+    bower_components/ace-builds/src/theme-solarized_dark.js
+    bower_components/ace-builds/src/worker-javascript.js
+
     NETWORK:
     *
 
@@ -35,7 +41,7 @@ libs.js:
     - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
     - node_modules/jquery/dist/jquery.js
     - node_modules/knockout/build/output/knockout-latest.js
-    - src/knockout.punches.js
+    - bower_components/knockout.punches/knockout.punches.js
 
 
 # Our JS application
