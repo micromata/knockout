@@ -14,7 +14,7 @@ appcache:
     build/styles.css
     build/libs.js
     build/app.js
-    build/loading.gif
+    images/hourglass.gif
 
     NETWORK:
     *

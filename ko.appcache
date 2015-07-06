@@ -1,11 +1,11 @@
 CACHE MANIFEST
-# 2015-07-06T16:09:31.859Z
+# 2015-07-06T16:16:21.879Z
 index.html
 build/templates.html
 build/styles.css
 build/libs.js
 build/app.js
-build/loading.gif
+images/hourglass.gif
 
 NETWORK:
 *
