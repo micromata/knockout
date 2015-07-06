@@ -1,11 +1,20 @@
 <!doctype html>
-<html manifest='ko.appcache'>
+<html manifest='/ko.appcache'>
 <head>
   <meta charset='utf-8'>
   <title> Knockout.js </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
 </head>
-<body>
-  Loading.
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    Knockout.js
+    <img src="build/loading.gif" />
+  </div>
+
+  <div class='page' data-bind='template: "page"'></div>
+
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
 </body>
 </html>

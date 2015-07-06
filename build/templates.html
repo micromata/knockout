@@ -1,0 +1,30 @@
+<!--     /Users/bmh/Repos/knockout/templates/footer.html    --><template id='footer'>
+  <div class='footer'>
+    Footer
+  </div>
+</template>
+
+<!--     /Users/bmh/Repos/knockout/templates/header.html    --><template id='header'>
+  <div class='header'>
+    Header
+  </div>
+</template>
+
+<!--     /Users/bmh/Repos/knockout/templates/main.html    --><template id='main'>
+  Main...
+</template>
+
+<!--     /Users/bmh/Repos/knockout/templates/page.html    --><template id='page'>
+  {{# template: 'header' /}}
+
+  <div class='main' data-bind='if: body'>
+    {{# template: body /}}
+  </div>
+
+  {{# template: 'footer' /}}
+</template>
+
+<!--     /Users/bmh/Repos/knockout/templates/updating-appcache.html    --><template id='updating-appcache'>
+  This page has been updated. Everything will reload automatically
+  when the latest version has finished downloading.
+</template>

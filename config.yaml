@@ -5,14 +5,16 @@
 #
 # Application Cache
 appcache:
-  target: build/ko.appcache
-  manifest: >
+  target: ko.appcache
+  manifest: |
     CACHE MANIFEST
     # $ISOTIME
-    /build/templates.html
-    /build/style.css
-    /build/libs.js
-    /build/app.js
+    index.html
+    build/templates.html
+    build/styles.css
+    build/libs.js
+    build/app.js
+    build/loading.gif
 
     NETWORK:
     *
@@ -21,24 +23,30 @@ appcache:
 # HTML Templates
 templates:
   src: templates/*
-  dest: build/templates.html
+  dest: build/
+  filename: templates.html
 
 
 # Javascript libraries
 libs.js:
-  dest: build/libs.js
+  dest: build/
   filename: libs.js
   src:
+    - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
     - node_modules/jquery/dist/jquery.js
+    - node_modules/knockout/build/output/knockout-latest.js
+    - src/knockout.punches.js
 
 
 # Our JS application
 app.js:
   src: src/**/*.js
-  dest: build/app.js
-
+  dest: build/
+  name: app.js
+  babel-config:
+    modules: common
 
 # less => css
 less:
   src: less/styles.less
-  dest: build/styles.css
+  dest: build/

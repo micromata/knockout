@@ -12,6 +12,5 @@ desktop.ini
 _site
 
 .DS_Store
-build
 
 node_modules

@@ -2,20 +2,25 @@
 // Gulp Tasks
 // ----------
 //
+/*eslint no-undef: 0*/
 
 var gulp = require('gulp')
 var plugins = require('gulp-load-plugins')()
 var _ = require('lodash')
+var fs = require('fs')
+var yaml = require('js-yaml')
 
 
 Object.defineProperty(global, 'config', {
-  get:  _.debounce(function config() {
-    return fs.readFileSync('./config.yaml', { encoding: 'utf8' })
+  get: _.throttle(function config() {
+    return yaml.safeLoad(
+      fs.readFileSync('./config.yaml', { encoding: 'utf8' })
+    )
   }, 100)
 })
 
 
-function make_appcache() {
+function makeAppcache() {
   var isotime = new Date().toISOString()
   var manifest = config.appcache.manifest.replace("$ISOTIME", isotime)
   fs.writeFileSync(config.appcache.target, manifest)
@@ -37,10 +42,10 @@ gulp.task('eslint', function () {
 })
 
 
-gulp.task('make:appcache', make_appcache)
+gulp.task('make:appcache', _.throttle(makeAppcache, 100))
 
 
-gulp.task('make:libs.js', function () {
+gulp.task('make:libs', function () {
   gulp.src(config['libs.js'].src)
     .pipe(plugins.concat(config['libs.js'].filename))
     // .pipe(plugins.replace("# sourceMappingURL=jquery.min.map", ""))
@@ -49,13 +54,18 @@ gulp.task('make:libs.js', function () {
 })
 
 
-gulp.task('make:app.js', function () {
+gulp.task('make:app', function () {
   return gulp.src(config['app.js'].src)
       .pipe(plugins.sourcemaps.init())
-      .pipe(plugins.babel())
-      .pipe(plugins.concat(config['app.js'].dest))
-      .pipe(plugins.sourcemaps.write('.'))
-      .pipe(gulp.dest('dist'));
+      .pipe(plugins.babel(config['app.js']['babel-config']))
+      .on('error', function (err) {
+        plugins.util.log(err.message)
+        console.log("---", err.stack)
+        this.emit('end')
+      })
+      .pipe(plugins.concat(config['app.js'].name))
+      .pipe(plugins.sourcemaps.write())
+      .pipe(gulp.dest(config['app.js'].dest))
 })
 
 
@@ -64,12 +74,12 @@ gulp.task('make:css', function () {
   var autoprefix = new LessPluginAutoPrefix()
   var options = {
     paths: ["less", "bower_components"],
-    plugins: [autoprefix],
+    plugins: [autoprefix]
   }
   return gulp.src(config.less.src)
-    .pipe(plugins.less(options).on('error', gutil.log))
+    .pipe(plugins.less(options).on('error', plugins.util.log))
     .on('error', function(err) {
-      console.log(err.message.red)
+      plugins.util.log(err.message.red)
       this.emit('end')
     })
     .pipe(gulp.dest(config.less.dest))
@@ -88,11 +98,34 @@ gulp.task("make:opine", function () {
 })
 
 
-gulp.task('watch', function () {
+var REMAKE_TASKS = [
+  'make:templates', 'make:css', 'make:app', 'make:libs'
+]
+gulp.task('watch', REMAKE_TASKS, function () {
   gulp.watch(config.templates.src, ['make:templates'])
-  gulp.watch(['build/*.js', 'build/*.html'], ['make:appcache'])
+  gulp.watch(['build/*'], ['make:appcache'])
   gulp.watch('less/**/*.less', ['make:css'])
+  gulp.watch('src/**/*.js', ['make:app'])
+  gulp.watch('config.yaml', REMAKE_TASKS)
 })
 
 
-gulp.task('default')
+gulp.task('reload', function () {
+  plugins.connect.reload()
+})
+
+
+gulp.task('server', ['watch'], function () {
+  plugins.connect.server({
+    livereload: true,
+    port: 8900,
+    root: './'
+  })
+  gulp.watch('build/ko.appcache', ['reload'])
+})
+
+
+
+gulp.on('err', function(e) {
+  console.log("Gulp Error:", e.err.stack)
+})
