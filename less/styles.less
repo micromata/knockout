@@ -1,5 +1,11 @@
 
 @import (inline) "../node_modules/purecss/build/pure.css";
+@import (inline) "../node_modules/purecss/build/grids-responsive-min.css";
+@import (inline) "../node_modules/prismjs/themes/prism-dark.css";
+
+
+@active-color: rgb(255, 98, 40);
+@link-color: rgb(50, 34, 230);
 
 .headline {
   font-size: 4em;
@@ -20,6 +26,13 @@
   }
 }
 
+a {
+  text-decoration: none;
+  color: @link-color;
+  &:hover {
+    color: @active-color;
+  }
+}
 
 .page {
   opacity: 0;
@@ -42,6 +55,15 @@
 .footer {
   height: 60px;
   width: 100%;
+
+  .links {
+    list-style: none;
+    li {
+      display: inline-block;
+      line-height: 1.5em;
+      padding: 2px 0.3em;
+    }
+  }
 }
 
 

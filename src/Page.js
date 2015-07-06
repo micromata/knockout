@@ -4,5 +4,8 @@
 class Page {
   constructor() {
     this.body = ko.observable()
+
+    this.links = window.links
+    this.cdn = window.cdn
   }
 }

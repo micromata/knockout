@@ -20,6 +20,7 @@
     "knockout.punches": "^0.5.1",
     "less-plugin-autoprefix": "^1.4.2",
     "lodash": "^3.10.0",
+    "prismjs": "0.0.1",
     "purecss": "^0.6.0"
   },
   "devDependencies": {},

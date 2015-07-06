@@ -51,7 +51,7 @@ function applyBindings() {
 }
 
 function pageLoaded() {
-  window.$root.body("main")
+  window.$root.body("intro")
 }
 
 
