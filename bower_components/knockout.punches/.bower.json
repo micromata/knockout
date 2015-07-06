@@ -1,0 +1,32 @@
+{
+  "name": "knockout.punches",
+  "version": "0.5.1",
+  "homepage": "https://github.com/mbest/knockout.punches",
+  "authors": [
+    "Michael Best <mbest@dasya.com>"
+  ],
+  "description": "provides a set of enhanced binding syntaxes for knockout 3.0.0.",
+  "main": "knockout.punches.min.js",
+  "keywords": [
+    "knockout",
+    "punches"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.5.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.5.1",
+    "commit": "83fb4eb83aba9e18dc36433ee35f8d1b38c63443"
+  },
+  "_source": "git://github.com/mbest/knockout.punches.git",
+  "_target": "~0.5.1",
+  "_originalSource": "knockout.punches",
+  "_direct": true
+}
