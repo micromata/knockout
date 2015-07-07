@@ -1,0 +1,32 @@
+id: intro
+css: example-centered
+html: |-
+  Choose a ticket class
+  <select data-bind='options: tickets,
+                     optionsCaption: "Choose ...",
+                     optionsText: "name",
+                     value: chosenTicket'></select>
+
+  <button data-bind='enable: chosenTicket,
+                     click: resetTicket'>Clear</button>
+
+  <p data-bind='with: chosenTicket'>
+    You have chosen <b data-bind='text: name'></b>
+    ($<span data-bind='text: price'></span>)
+  </p>
+
+
+javascript: |-
+  function TicketsViewModel() {
+    this.tickets = [
+      { name: "Economy", price: 199.95 },
+      { name: "Business", price: 449.22 },
+      { name: "First Class", price: 1199.99 }
+    ];
+    this.chosenTicket = ko.observable();
+    this.resetTicket = function () {
+      this.chosenTicket(null);
+    };
+  }
+
+  ko.applyBindings(new TicketsViewModel(), node);

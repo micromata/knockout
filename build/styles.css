@@ -1494,6 +1494,14 @@ code {
   font-size: medium;
   background-color: #d1cdcd;
 }
+input[type=search] {
+  border-radius: 25px;
+  padding: 2px 0.62em;
+  outline: none;
+}
+input[type=search]:focus {
+  background-color: #adf4fe;
+}
 .pull-right {
   float: right;
 }
@@ -1542,6 +1550,7 @@ code {
   opacity: 0.85;
   -webkit-transition: 0.25s;
           transition: 0.25s;
+  z-index: 250;
 }
 .header:hover {
   opacity: 0.95;
@@ -1584,4 +1593,20 @@ code {
   min-height: 50px;
   border-radius: 5px;
   width: 100%;
+}
+.example-centered {
+  text-align: center;
+}
+.plugin-extras {
+  color: #aaa;
+  font-size: 0.95em;
+}
+.plugin-repo {
+  text-align: right;
+  line-height: 1.25em;
+}
+.plugin-owner {
+  display: block;
+  font-style: italic;
+  font-size: 0.95em;
 }

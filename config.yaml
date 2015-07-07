@@ -16,6 +16,8 @@ appcache:
     build/styles.css
     build/libs.js
     build/app.js
+    build/examples.json
+    build/plugins.json
     images/hourglass.gif
 
     # Ace
@@ -47,7 +49,7 @@ libs.js:
     - node_modules/jquery/dist/jquery.js
     - node_modules/knockout/build/output/knockout-latest.js
     - bower_components/knockout.punches/knockout.punches.js
-    - bower_components/html5-history-api/history.js
+    - node_modules/knockout-transformations/dist/knockout-transformations.js
 
 
 # Our JS application
@@ -58,7 +60,100 @@ app.js:
   babel-config:
     modules: common
 
+
 # less => css
 less:
   src: less/styles.less
   dest: build/
+
+# examples
+examples:
+  src: examples/**/*.yaml
+  dest: build/
+  filename: examples.json
+  settings:
+    safe: true
+
+
+# Plugins
+# ---
+# Plugin not here? Open an issue or submit a PR!
+#
+# Rebuild build/plugins.json with:
+#
+#    $ gulp update:plugins
+#
+plugins:
+  dest: build/plugins.json
+  list:
+    - AndersMalmgren/Knockout.BindingConventions
+    - AndersMalmgren/Knockout.Bootstrap
+    - AndersMalmgren/Knockout.Combobox
+    - AndersMalmgren/Knockout.Concurrency
+    - CraigCav/Knockout-jqGridBinding
+    - CraigCav/ko.datasource
+    - Enome/knockknock
+    - EntitySpaces/entityspaces.js
+    - Igorbek/knockout.rx
+    - Knockout-Contrib/Knockout-Validation
+    - Knockout-Contrib/KoGrid
+    - LucasLorentz/knockout.mapper
+    - One-com/knockout-transformations
+    - Supertext/knockout.groupedOptions
+    - ZiadJ/knockoutjs-reactor
+    - asaake/knockout-relational
+    - billpull/knockout-bootstrap
+    - brianmhunt/knockout-else
+    - brianmhunt/knockout-es6-collections
+    - brianmhunt/knockout-fast-foreach
+    - brianmhunt/knockout-secure-binding
+    - cameronprattedwards/ko-genius
+    - civicsource/knockout-date-range-picker
+    - civicsource/knockout-init
+    - civicsource/knockout-inline-confirm
+    - civicsource/knockout-integer
+    - civicsource/knockout-money
+    - civicsource/knockout-responsive
+    - civicsource/knockout-spin
+    - civicsource/knockout-transitions
+    - cwdoh/Knockout-Binding-Selector
+    - explorigin/knockout.model
+    - finnsson/pagerjs
+    - fru/observable.js
+    - gaevoy/ko.widget
+    - gvas/knockout-jqueryui
+    - hoonzis/KoExtensions
+    - hunterloftis/knockout.namespaces
+    - ifandelse/Knockout.js-External-Template-Engine
+    - jamesfoster/knockout.observableDictionary
+    - johannds/hookpunch.js
+    - kendo-labs/knockout-kendo
+    - madcapnmckay/Knockout-UI
+    - manuel-guilbault/ko.types
+    - mbest/knockout-deferred-updates
+    - mbest/knockout-repeat
+    - mbest/knockout-switch-case
+    - mbest/knockout.punches
+    - mbest/knockout-table
+    - mmjr/Knockout-Memento
+    - nescalante/knockout.contextmenu
+    - onlyurei/knockout-logger-js
+    - paglias/KnockoutApp
+    - plcgi1/knockout.viewNavWithAcl
+    - raheelshan/knockout-load
+    - raheelshan/knockout-search
+    - rniemeyer/knockout-amd-helpers
+    - rniemeyer/knockout-classBindingProvider
+    - rniemeyer/knockout-delegatedEvents
+    - rniemeyer/knockout-interpolate
+    - rniemeyer/knockout-kendo
+    - rniemeyer/knockout-postbox
+    - rniemeyer/knockout-sortable
+    - romanych/ko.editables
+    - seantimm/Knockout.LazyLoad
+    - stevesanderson/knockout-projections
+    - SteveSanderson/knockout-es5
+    - thelinuxlich/knockout.live.plugin
+    - thelinuxlich/knockout.model
+    - thelinuxlich/knockout.underscore.plugin
+    - tyrsius/ko-validate

@@ -1,3 +1,4 @@
+/* global setupEvents, Example */
 
 function loadTemplates() {
   var uri = "./build/templates.html"
@@ -44,12 +45,33 @@ function checkForApplicationUpdate() {
 }
 
 
+function getExamples() {
+  return Promise.resolve($.ajax({
+    url: '/build/examples.json',
+    dataType: 'json'
+  })).then((results) =>
+    Object.keys(results).forEach(function (name) {
+      var setting = results[name]
+      Example.set(setting.id || name, setting)
+    })
+  )
+}
+
+function getPlugins() {
+  return Promise.resolve($.ajax({
+    url: '/build/plugins.json',
+    dataType: 'json'
+  })).then((results) => $root.registerPlugins(results))
+}
+
+
 function applyBindings() {
   ko.punches.enableAll()
   window.$root = new Page()
   ko.punches.enableAll()
   ko.applyBindings(window.$root)
 }
+
 
 function pageLoaded() {
   window.$root.body("intro")
@@ -59,6 +81,8 @@ function pageLoaded() {
 function start() {
   loadTemplates()
     .then(applyBindings)
+    .then(getExamples)
+    .then(getPlugins)
     .then(setupEvents)
     .then(checkForApplicationUpdate)
     .then(pageLoaded)

@@ -9,6 +9,7 @@ var plugins = require('gulp-load-plugins')()
 var _ = require('lodash')
 var fs = require('fs')
 var yaml = require('js-yaml')
+var request = require('request')
 
 
 Object.defineProperty(global, 'config', {
@@ -95,19 +96,95 @@ gulp.task("make:templates", function () {
     .pipe(gulp.dest(config.templates.dest))
 })
 
+gulp.task("make:examples", function () {
+  gulp.src(config.examples.src)
+    .pipe(plugins.yaml(config.examples.settings))
+    .pipe(plugins.jsoncombine(config.examples.filename, function (data) {
+      return new Buffer(JSON.stringify(data))
+    }))
+    .pipe(gulp.dest(config.examples.dest))
+})
+
+
+function updatePlugins(done) {
+  var items = {}
+  var repos = config.plugins.list
+  try {
+    // We track the current to decide if we need to get an update.
+    items = JSON.parse(fs.readFileSync(config.plugins.dest))
+  } catch (e) {
+    items = {}
+  }
+
+  function writePlugins() {
+    fs.writeFileSync(
+      config.plugins.dest, JSON.stringify(items), {encoding: 'utf8'}
+    )
+    if (done) { done() }
+  }
+
+  function getNextRepo() {
+    var repo = repos.shift()
+    if (!repo) {
+      writePlugins()
+      return
+    }
+    function onError(err) {
+      console.error("Error (update:plugins) " + repo + ": ", err)
+    }
+    var token = process.env.GITHUB_PUB_ACCESS_KEY
+    request
+      .get({
+        // Use a public repo access token to get more here, e.g. with
+        // ?
+        url: "https://api.github.com/repos/" + repo +
+          (token ? "?access_token=" + token : ""),
+        headers: {
+          'User-Agent': 'Knockout-Dev-Docs-Gulpfile',
+          'If-None-Match': items[repo] ? items[repo].etag : ''
+        }
+      }, function (err, response, body) {
+        if (err) {
+          onError(err)
+          return
+        }
+        if (response.statusCode === 200) {
+          plugins.util.log("update:plugins  🌎  " + repo)
+          items[repo] = JSON.parse(body)
+          items[repo].etag = response.headers.etag
+        } else if (response.statusCode === 304) {
+          plugins.util.log("update:plugins  ✅ (from cache) " + repo)
+        } else {
+          onError("😡 Bad response: " + body)
+        }
+        getNextRepo()
+      })
+      .on('error', onError)
+  }
+  // Easy parallelism.
+  getNextRepo()
+}
+
+
+gulp.task("update:plugins", updatePlugins)
+
+
 gulp.task("make:opine", function () {
 
 })
 
 
 var REMAKE_TASKS = [
-  'make:templates', 'make:css', 'make:app', 'make:libs'
+  'make:templates', 'make:css', 'make:app', 'make:libs', 'make:examples'
 ]
+
 gulp.task('watch', REMAKE_TASKS, function () {
+  updatePlugins()
   gulp.watch(config.templates.src, ['make:templates'])
   gulp.watch(['build/*'], ['make:appcache'])
   gulp.watch('less/**/*.less', ['make:css'])
-  gulp.watch('src/**/*.js', ['make:app'])
+  gulp.watch(config['app.js'].src, ['make:app'])
+  gulp.watch(config.examples.src, ['make:examples'])
   gulp.watch('config.yaml', REMAKE_TASKS)
 })
 
@@ -119,7 +196,7 @@ gulp.task('reload', function () {
 
 
 gulp.task('server', ['watch'], function () {
-  var s = plugins.connect.server({
+  plugins.connect.server({
     livereload: true,
     port: 8900,
     root: './'
@@ -130,5 +207,5 @@ gulp.task('server', ['watch'], function () {
 
 
 gulp.on('err', function(e) {
-  console.log("Gulp Error:", e.err.stack)
+  console.log("Gulp Error:", e, e.err.stack)
 })

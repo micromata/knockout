@@ -100,28 +100,22 @@
 
   <h1>Live example</h1>
   <div class='pure-g'>
-    <div class='pure-u-1 pure-u-sm-11-24'>
+    <div class='pure-u-1 pure-u-sm-1-2'>
       <h2>
         Javascript
-        <code>function view { ... }</code>
       </h2>
       <div data-bind='edit-js: "intro"'></div>
     </div>
-    <div class='pure-u-1 pure-u-sm-2-24 text-center'>
-      <i class='fa fa-plus fa-2x' style='margin-top: 100px'></i>
-    </div>
-    <div class='pure-u-1 pure-u-sm-11-24'>
+    <div class='pure-u-1 pure-u-sm-1-2'>
       <h2>
         HTML
-        <code>element</code>
+        <code>node</code>
       </h2>
       <div data-bind='edit-html: "intro"'></div>
     </div>
   </div>
 
-  <p>
-    <code>ko.applyBindings(view(), element)</code> =
-  </p>
+  <h2>Result</h2>
   <div data-bind='result: "intro"'></div>
 
 </template>
@@ -139,7 +133,57 @@
 
 <!--     /templates/plugins.html    -->
 <template id='plugins'>
-  Plugins
+  <h1>
+    Plugins
+    <input type='search' placeholder='Search' data-bind='textInput: pluginNeedle' />
+  </h1>
+
+
+
+  <table class='pure-table pure-table-horizontal pure-table-striped' style='width: 100%'>
+    <thead>
+      <tr>
+        <th>Repository</th>
+        <th>About</th>
+      </tr>
+    </thead>
+    <tbody data-bind='foreach: sortedPluginRepos'>
+      <tr data-bind='with: $parent.pluginMap.get($data)'>
+        <td class='plugin-repo'>
+          <a href='{{ html_url }}'>{{ name }}</a>
+          <div class='plugin-owner'>
+            By
+            <a  href='{{ owner.url }}'>
+              {{ owner.login }}
+            </a>
+          </div>
+        </td>
+        <td>
+          {{# template: "plugins-td" /}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</template>
+
+
+<template id='plugins-td'>
+  <div class='pure-g'>
+    <div class='pure-u-1 pure-u-sm-4-5'>
+      {{ description }}
+      {{# if: homepage }}
+        <a href='{{ homepage }}' style='display: block'>
+          <i class='fa fa-home'></i>
+          {{ homepage }}
+        </a>
+      {{/ if }}
+    </div>
+    <div class='pure-u-1 pure-u-sm-1-5 plugin-extras'>
+      <i class='fa fa-star'></i> {{ stargazers_count }}&ensp;
+      <i class='fa fa-code-fork'></i>{{ forks_count }}&ensp;
+      <i class='fa fa-exclamation-circle'></i> {{ open_issues_count }}
+    </div>
+  </div>
 </template>
 
 <!--     /templates/updating-appcache.html    -->

@@ -20,6 +20,13 @@ function setupEditor(element, language, exampleName) {
   })
   session.setMode(`ace/mode/${language}`)
   editor.on('change', () => example[language](editor.getValue()))
+  example[language].subscribe(function (v) {
+    if (editor.getValue() !== v) {
+      editor.setValue(v)
+    }
+  })
+  editor.setValue(example[language]())
+  ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
   return editor
 }
 
@@ -30,15 +37,20 @@ function setupEditor(element, language, exampleName) {
 ko.bindingHandlers['edit-js'] = {
   /* highlight: "langauge" */
   init: function (element, va) {
-    var editor = setupEditor(element, 'javascript', va())
-    ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
+    setupEditor(element, 'javascript', va())
   }
 }
 
 ko.bindingHandlers['edit-html'] = {
   init: function (element, va) {
-    var editor = setupEditor(element, 'html', va())
-    ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
+    setupEditor(element, 'html', va())
+    // debugger
+    // editor.session.setOptions({
+    // // $worker.call('changeOptions', [{
+    //   'expected-doctype-but-got-chars': false,
+    //   'expected-doctype-but-got-end-tag': false,
+    //   'expected-doctype-but-got-start-tag': false
+    // })
   }
 }
 
@@ -51,9 +63,8 @@ ko.bindingHandlers.result = {
       if (element.children[0]) {
         ko.cleanNode(element.children[0])
       }
-      $e.empty().append("<div class='example'>")
+      $e.empty().append(`<div class='example ${example.css}'>`)
     }
-
     resetElement()
 
     function onError(msg) {
@@ -76,15 +87,10 @@ ko.bindingHandlers.result = {
       }
 
       try {
-        var view = new Function(script)
-        if (!view) {
-          onError("Return the viewmodel from the Javascript.")
-          return
-        }
         resetElement()
         $(element.children[0])
           .html(example.html())
-        ko.applyBindings(view, element.children[0])
+        new Function('node', script)(element.children[0])
       } catch(e) {
         onError(e)
       }

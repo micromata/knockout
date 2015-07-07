@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-07-07T15:18:37.603Z
+# 2015-07-07T20:58:50.425Z
 index.html
 favicon.ico
 images/logo.svg
@@ -7,6 +7,8 @@ build/templates.html
 build/styles.css
 build/libs.js
 build/app.js
+build/examples.json
+build/plugins.json
 images/hourglass.gif
 
 # Ace

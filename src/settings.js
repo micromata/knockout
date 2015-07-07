@@ -1,8 +1,11 @@
 
 window.links = [
   { href: "https://github.com/knockout/knockout",
-    title: "Github",
+    title: "Github — Repository",
     icon: "fa-github"},
+  { href: "https://github.com/knockout/knockout/issues/",
+    title: "Github — Issues",
+    icon: "fa-exclamation-circle"},
   { href: 'https://github.com/knockout/knockout/releases',
     title: "Releases",
     icon: "fa-certificate"},
