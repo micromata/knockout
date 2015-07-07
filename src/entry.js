@@ -58,6 +58,7 @@ function pageLoaded() {
 function start() {
   loadTemplates()
     .then(applyBindings)
+    .then(setupEvents)
     .then(checkForApplicationUpdate)
     .then(pageLoaded)
 }

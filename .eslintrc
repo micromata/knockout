@@ -19,3 +19,4 @@ globals:
   ko: true
   $: true
   Page: true
+  $root: true
