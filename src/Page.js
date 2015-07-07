@@ -8,4 +8,8 @@ class Page {
     this.links = window.links
     this.cdn = window.cdn
   }
+
+  open(pinpoint) {
+    this.body(pinpoint.replace("#", ""))
+  }
 }

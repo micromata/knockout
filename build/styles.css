@@ -1472,24 +1472,16 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 body {
   padding: 16px;
 }
-.headline {
-  font-size: 4em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  text-align: center;
+h4 {
+  margin: 0px 1em 0px 0px;
+  border-bottom: 1px solid gray;
 }
-.headline img {
-  display: block;
-  margin: 0 auto;
+h5 {
+  font-size: 1em;
+  margin: 5px;
 }
-.bound .headline {
-  opacity: 0;
-  -webkit-transition: 1s;
-          transition: 1s;
+h5 em {
+  color: #888;
 }
 a {
   text-decoration: none;
@@ -1497,6 +1489,40 @@ a {
 }
 a:hover {
   color: #ff6228;
+}
+code {
+  font-size: medium;
+  background-color: #d1cdcd;
+}
+.pull-right {
+  float: right;
+}
+.text-center {
+  text-align: center;
+}
+.headline {
+  font-size: 4em;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  -webkit-transform: translate(0, -50%);
+      -ms-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  text-align: center;
+}
+.headline img {
+  display: block;
+  margin: 0 auto;
+}
+.headline .logo {
+  width: 80%;
+}
+.bound .headline {
+  z-index: -1;
+  opacity: 0;
+  -webkit-transition: 1s;
+          transition: 1s;
 }
 .page {
   opacity: 0;
@@ -1507,33 +1533,55 @@ a:hover {
           transition: 1s 0.4s;
 }
 .header {
-  height: 60px;
+  height: 34px;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 48px;
   padding-top: 5px;
+  background-color: white;
+  opacity: 0.85;
+  -webkit-transition: 0.25s;
+          transition: 0.25s;
+}
+.header:hover {
+  opacity: 0.95;
 }
 .header a {
+  font-size: 1.1em;
   padding: 4px 0.5em;
 }
+.header img {
+  max-height: 26px;
+}
 .footer {
+  margin-top: 25px;
   height: 60px;
-  width: 100%;
 }
 .footer .links {
+  padding: 0px;
+  line-height: 1.45em;
   list-style: none;
 }
-.footer .links li {
-  display: inline-block;
-  line-height: 1.5em;
-  padding: 2px 0.3em;
-}
 .main {
-  margin-top: 60px;
+  margin-top: 34px;
   min-height: 60%;
   min-height: calc(100vh - 180px);
 }
 .ace_editor {
   height: 200px;
+  border-radius: 6px;
+}
+.error {
+  padding: 1em;
+  border: 1px solid #710b1d;
+  color: #710b1d;
+  border-radius: 12px;
+}
+.example {
+  padding: 6px;
+  box-shadow: inset -2px -2px 4px #f6f6f6, inset 2px 2px 4px #999999;
+  background-color: #dddddd;
+  min-height: 50px;
+  border-radius: 5px;
+  width: 100%;
 }

@@ -1,7 +1,13 @@
+<!--     /templates/api.html    -->
+<template id='api'>
+  API
+</template>
+
 <!--     /templates/footer.html    -->
 <template id='footer'>
   <div class='footer pure-g'>
-    <div class='pure-u-1 pure-u-2-5'>
+    <div class='pure-u-1 pure-u-sm-2-5'>
+      <h4>Links</h4>
       <ul class='links' data-bind='foreach: links'>
         <li>
           <a href='{{ href }}'>
@@ -11,24 +17,33 @@
         </li>
       </ul>
     </div>
-    <div class='pure-u-1 pure-u-1-5'>
-      <a href='https://gitter.im/knockout/knockout'>
-        <img src='https://badges.gitter.im/Join%20Chat.svg' alt='Gitter.im' />
-      </a>
-    </div>
-    <div class='pure-u-1 pure-u-2-5'>
-      by CDN
+    <div class='pure-u-1 pure-u-sm-2-5'>
+      <h4>Link to CDN</h4>
       {{# foreach: cdn }}
-        {{ name }} <em>{{ version }}</em>
-        <a href='{{ min }}'>
-          <i class='fa fa-code'></i>
-          Minified
-        </a>
-        <a href='{{ debug }}'>
-          <i class='fa fa-file-code-o'></i>
-          Debug
-        </a>
-      {{/ foreach}}
+        <div>
+          <h5>
+            {{ name }}
+            &emsp;
+            <em>{{ version }}</em>
+          </h5>
+          <table class='pure-table'>
+            <tr>
+              <td>
+                <a href='{{ min }}'>
+                  <i class='fa fa-fw fa-code'></i>
+                  Minified
+                </a>
+              </td>
+              <td>
+                <a href='{{ debug }}'>
+                  <i class='fa fa-fw fa-file-code-o'></i>
+                  Debug
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      {{/ foreach }}
     </div>
   </div>
 </template>
@@ -36,7 +51,7 @@
 <!--     /templates/header.html    -->
 <template id='header'>
   <div class='header'>
-    Knockout.js
+    <img src='images/logo.svg' alt='Knockout.'/>
 
     <a href='#intro'>Intro</a>
 
@@ -48,11 +63,67 @@
 
 <!--     /templates/intro.html    -->
 <template id='intro'>
-  <div data-bind='editor: "javascript"'>
-    function () {
-      hello
-    }
+
+  <h1>Key Concepts</h1>
+  <div class='pure-g'>
+    <div class='pure-u-sm-2-24'>&nbsp;</div>
+    <div class='pure-u-1 pure-u-sm-5-24'>
+      <i class='fa fa-link fa-4x'></i>
+      <h4>Declarative bindings</h4>
+      Easily associate DOM elements with model data using a
+      concise, readable syntax
+    </div>
+    <div class='pure-u-1 pure-u-sm-5-24'>
+      <i class='fa fa-refresh fa-4x'></i>
+      <h4>Automatic UI refresh</h4>
+      When your data model's state changes, your UI updates automatically
+    </div>
+    <div class='pure-u-1 pure-u-sm-5-24'>
+      <i class='fa fa-code-fork fa-4x'></i>
+      <h4>Dependency Tracking</h4>
+      Implicitly set up chains of relationships between model data, to
+      transform and combine it
+    </div>
+    <div class='pure-u-1 pure-u-sm-5-24'>
+      <i class='fa fa-newspaper-o fa-4x'></i>
+      <h4>Templating</h4>
+      Quickly generate sophisticated, nested UIs as a function of your
+      model data
+    </div>
   </div>
+
+  <p class='text-center'>
+    <i class='fa fa-university fa-2x'></i>
+    Check out the
+    <a href='http://learn.knockoutjs.com'>interactive tutorial</a>.
+  </p>
+
+  <h1>Live example</h1>
+  <div class='pure-g'>
+    <div class='pure-u-1 pure-u-sm-11-24'>
+      <h2>
+        Javascript
+        <code>function view { ... }</code>
+      </h2>
+      <div data-bind='edit-js: "intro"'></div>
+    </div>
+    <div class='pure-u-1 pure-u-sm-2-24 text-center'>
+      <i class='fa fa-plus fa-2x' style='margin-top: 100px'></i>
+    </div>
+    <div class='pure-u-1 pure-u-sm-11-24'>
+      <h2>
+        HTML
+        <code>element</code>
+      </h2>
+      <div data-bind='edit-html: "intro"'></div>
+    </div>
+  </div>
+
+  <p>
+    <code>ko.applyBindings(view(), element)</code> =
+  </p>
+  <div data-bind='result: "intro"'></div>
+
 </template>
 
 <!--     /templates/page.html    -->
@@ -64,6 +135,11 @@
   </div>
 
   {{# template: 'footer' /}}
+</template>
+
+<!--     /templates/plugins.html    -->
+<template id='plugins'>
+  Plugins
 </template>
 
 <!--     /templates/updating-appcache.html    -->

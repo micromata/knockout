@@ -113,17 +113,18 @@ gulp.task('watch', REMAKE_TASKS, function () {
 
 
 gulp.task('reload', function () {
-  plugins.connect.reload()
+  gulp.src('ko.appcache')
+    .pipe(plugins.connect.reload())
 })
 
 
 gulp.task('server', ['watch'], function () {
-  plugins.connect.server({
+  var s = plugins.connect.server({
     livereload: true,
     port: 8900,
     root: './'
   })
-  gulp.watch('build/ko.appcache', ['reload'])
+  gulp.watch('ko.appcache', ['reload'])
 })
 
 

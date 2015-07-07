@@ -6,26 +6,21 @@
 @active-color: rgb(255, 98, 40);
 @link-color: rgb(50, 34, 230);
 
+// tags
 body {
   padding: 16px;
 }
 
-.headline {
-  font-size: 4em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+h4 {
+  margin: 0px 1em 0px 0px;
+  border-bottom: 1px solid gray;
+}
 
-  img {
-    display: block;
-    margin: 0 auto;
-  }
-
-  .bound & {
-    opacity: 0;
-    transition: 1s;
+h5 {
+  font-size: 1em;
+  margin: 5px;
+  em {
+    color: #888;
   }
 }
 
@@ -34,6 +29,48 @@ a {
   color: @link-color;
   &:hover {
     color: @active-color;
+  }
+}
+
+code {
+  font-size: medium;
+  background-color: #d1cdcd;
+}
+
+
+// helpers
+.pull-right {
+  float: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+// semantic
+.headline {
+  font-size: 4em;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translate(0, -50%);
+  text-align: center;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .logo {
+    width: 80%;
+  }
+
+  .bound & {
+    z-index: -1;
+    opacity: 0;
+    transition: 1s;
   }
 }
 
@@ -46,32 +83,41 @@ a {
 }
 
 
-@header-height: 60px;
+@header-height: 34px;
+
 .header {
   height: @header-height;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 48px;
   padding-top: 5px;
+  background-color: white;
+  opacity: 0.85;
+  transition: 0.25s;
+
+  &:hover {
+    opacity: 0.95;
+  }
 
   a {
+    font-size: 1.1em;
     padding: 4px 0.5em;
+  }
+
+  img {
+    max-height: 26px;
   }
 }
 
 
 .footer {
+  margin-top: 25px;
   height: 60px;
-  width: 100%;
 
   .links {
+    padding: 0px;
+    line-height: 1.45em;
     list-style: none;
-    li {
-      display: inline-block;
-      line-height: 1.5em;
-      padding: 2px 0.3em;
-    }
   }
 }
 
@@ -84,5 +130,23 @@ a {
 
 
 .ace_editor {
-    height: 200px;
+  height: 200px;
+  border-radius: 6px;
+}
+
+
+.error {
+  padding: 1em;
+  border: 1px solid rgb(113, 11, 29);
+  color: rgb(113, 11, 29);
+  border-radius: 12px;
+}
+
+.example {
+  padding: 6px;
+  box-shadow: inset -2px -2px 4px #f6f6f6, inset 2px 2px 4px #999999;
+  background-color: #dddddd;
+  min-height: 50px;
+  border-radius: 5px;
+  width: 100%;
 }

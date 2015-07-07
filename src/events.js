@@ -1,23 +1,29 @@
 /*global setupEvents*/
+/* eslint no-unused-vars: 0 */
+
+function isLocal(anchor) {
+  return (location.protocol === anchor.protocol &&
+          location.host === anchor.host)
+}
+
+
 
 //
 // For JS history see:
 // https://github.com/devote/HTML5-History-API
 //
 function onAnchorClick(evt) {
+  if (!isLocal(this)) { return true }
+  $root.open(evt.target.getAttribute('href'))
   history.pushState(null, null, this.href)
-  console.log("New AnchorClick", evt.target)
-
-  var pinpoint = evt.target.getAttribute('href').replace('#', '')
-
-  $root.body(pinpoint)
-
+  document.title = `Knockout.js – ${$(this).text()}`
   return false
 }
 
 
 function onPopState(/* evt */) {
-  console.log("POP to:", location.href)
+  // Consider https://github.com/devote/HTML5-History-API
+  $root.open(location.hash)
 }
 
 

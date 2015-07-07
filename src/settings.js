@@ -3,12 +3,18 @@ window.links = [
   { href: "https://github.com/knockout/knockout",
     title: "Github",
     icon: "fa-github"},
+  { href: 'https://github.com/knockout/knockout/releases',
+    title: "Releases",
+    icon: "fa-certificate"},
   { href: "https://groups.google.com/forum/#!forum/knockoutjs",
     title: "Google Groups",
     icon: "fa-google"},
   { href: "http://stackoverflow.com/tags/knockout.js/info",
     title: "StackOverflow",
-    icon: "fa-stack-overflow"}
+    icon: "fa-stack-overflow"},
+  { href: 'https://gitter.im/knockout/knockout',
+    title: "Gitter",
+    icon: "fa-comments-o"}
 ]
 
 
