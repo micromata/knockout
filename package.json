@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "eslint": "^0.24.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-babel": "^5.1.0",
@@ -16,6 +17,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.6",
     "jquery": "^2.1.4",
+    "js-yaml": "^3.3.1",
     "knockout": "^3.3.0",
     "knockout.punches": "^0.5.1",
     "less-plugin-autoprefix": "^1.4.2",

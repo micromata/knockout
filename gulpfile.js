@@ -88,7 +88,9 @@ gulp.task('make:css', function () {
 
 gulp.task("make:templates", function () {
   return gulp.src(config.templates.src)
-    .pipe(plugins.header("<!--     ${file.history}    -->"))
+    // file.history is ~ ["/full/path/to/templates/file.html"]
+    // file.cwd is ~ "/full/path/to"
+    .pipe(plugins.header("<!--     ${file.history[0].substr(file.cwd.length)}    -->\n"))
     .pipe(plugins.concat(config.templates.filename))
     .pipe(gulp.dest(config.templates.dest))
 })
