@@ -47,7 +47,7 @@ function checkForApplicationUpdate() {
 
 function getExamples() {
   return Promise.resolve($.ajax({
-    url: '/build/examples.json',
+    url: 'build/examples.json',
     dataType: 'json'
   })).then((results) =>
     Object.keys(results).forEach(function (name) {
@@ -59,7 +59,7 @@ function getExamples() {
 
 function getPlugins() {
   return Promise.resolve($.ajax({
-    url: '/build/plugins.json',
+    url: 'build/plugins.json',
     dataType: 'json'
   })).then((results) => $root.registerPlugins(results))
 }
