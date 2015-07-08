@@ -2,8 +2,10 @@ css: example
 name: Enable Bindings
 html: |-
   <p>
-    <input type='checkbox' data-bind="checked: hasCellphone" />
-    I have a cellphone
+    <label>
+      <input type='checkbox' data-bind="checked: hasCellphone" />
+      I have a cellphone
+    </label>
   </p>
   <p>
       Your cellphone number:
