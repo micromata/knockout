@@ -2,13 +2,17 @@
 @import (inline) "../node_modules/purecss/build/pure.css";
 @import (inline) "../node_modules/purecss/build/grids-responsive-min.css";
 
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
 
+// colors
 @active-color: rgb(255, 98, 40);
 @link-color: rgb(50, 34, 230);
 
 // tags
 body {
   padding: 16px;
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
 }
 
 h4 {
@@ -43,6 +47,34 @@ input[type=search] {
   outline: none;
   &:focus {
     background-color: rgb(173, 244, 254);
+  }
+}
+
+// responsive tables
+// see e.g.
+//    http://codepen.io/dudleystorey/pen/Geprd
+//    http://exisweb.net/responsive-table-plugins-and-patterns
+@media screen and (max-width: 600px) {
+  table {
+    thead {
+      display: none;
+    }
+    td {
+      display: block;
+      padding: .6rem;
+    }
+    tbody td:before {
+      content: attr(data-th);
+      display: inline-block;
+      width: 6.24rem;
+      text-align: right;
+      padding-right: 0.24rem;
+    }
+    tbody tr td:first-child {
+      .plugin-owner {
+        text-align: left;
+      }
+    }
   }
 }
 
@@ -181,4 +213,6 @@ input[type=search] {
   display: block;
   font-style: italic;
   font-size: 0.95em;
+
+
 }

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-07-07T21:02:39.787Z
+# 2015-07-08T02:48:30.596Z
 index.html
 favicon.ico
 images/logo.svg
@@ -10,6 +10,8 @@ build/app.js
 build/examples.json
 build/plugins.json
 images/hourglass.gif
+https://fonts.googleapis.com/css?family=Lato:400,700,400italic
+//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css
 
 # Ace
 bower_components/ace-builds/src/ace.js
