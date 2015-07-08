@@ -30,7 +30,20 @@ class Page {
     this.pluginNeedle = ko.observable().extend({rateLimit: 200})
 
     // documentation
-    this.documentation = Documentation.links
+    this.docCatMap = new Map()
+    Documentation.all.forEach(function (doc) {
+      var docList = this.docCatMap.get(doc.category)
+      if (!docList) {
+        docList = []
+        this.docCatMap.set(doc.category, docList)
+      }
+      docList.push(doc)
+    }, this)
+
+    this.docCats = []
+    for (var cat of this.docCatMap.keys()) {
+      this.docCats.push(cat)
+    }
   }
 
   open(pinpoint) {
@@ -42,6 +55,9 @@ class Page {
       mdNode = document.getElementById(mdNodeId)
       if (!mdNode) {
         var htmlStr = marked(node.innerHTML, markedOptions)
+        var title = node.getAttribute('data-title')
+        if (title) { htmlStr = `<h1>${title}</h1>${htmlStr}` }
+
         $(`<template id='${mdNodeId}'>${htmlStr}</template>`)
           .appendTo(document.body)
       }
@@ -49,6 +65,7 @@ class Page {
     } else {
       this.body(pp)
     }
+    $(window).scrollTop(0)
   }
 
   registerPlugins(plugins) {

@@ -36,10 +36,24 @@ appcache:
 
 # HTML Templates
 templates:
-  src: templates/*
+  src: templates/**/*.html
   dest: build/
   filename: templates.html
 
+
+# Markdown templates (processed on browser)
+markdown:
+  src: markdown/**/*.md
+  dest: build/
+  filename: markdown.html
+  header: >
+    <script type='text/x-markdown' id='<%=path.basename(file.path, '.md')%>' data-markdown
+      data-kind='<%= file.frontMatter.kind %>'
+      data-title='<%= file.frontMatter.title %>'
+      data-cat='<%= file.frontMatter.cat %>'
+      data-subcat='<%= file.frontMatter.subCat %>'>
+  footer: >
+    </script>
 
 # Javascript libraries
 libs.js:
@@ -56,6 +70,8 @@ libs.js:
     - bower_components/ace-builds/src/mode-javascript.js
     - bower_components/ace-builds/src/mode-html.js
     - bower_components/ace-builds/src/theme-solarized_dark.js
+    - bower_components/ace-builds/src/theme-solarized_light.js
+    - bower_components/ace-builds/src/theme-tomorrow.js
     - bower_components/ace-builds/src/theme-monokai.js
 
 
@@ -73,6 +89,7 @@ app.js:
 less:
   src: less/styles.less
   dest: build/
+
 
 # examples
 examples:
@@ -144,6 +161,7 @@ plugins:
     - mbest/knockout.punches
     - mbest/knockout-table
     - mmjr/Knockout-Memento
+    - mwiencek/knockout-arraytransforms
     - nescalante/knockout.contextmenu
     - onlyurei/knockout-logger-js
     - paglias/KnockoutApp

@@ -10,7 +10,7 @@ var _ = require('lodash')
 var fs = require('fs')
 var yaml = require('js-yaml')
 var request = require('request')
-
+global.path = require('path')
 
 Object.defineProperty(global, 'config', {
   get: _.throttle(function config() {
@@ -39,7 +39,6 @@ gulp.task('eslint', function () {
   return gulp.src('**/*.js')
     .pipe(plugins.eslint())
     .pipe(plugins.eslint.format())
-
 })
 
 
@@ -96,6 +95,16 @@ gulp.task("make:templates", function () {
     .pipe(gulp.dest(config.templates.dest))
 })
 
+gulp.task("make:markdown", function () {
+  gulp.src(config.markdown.src)
+    .pipe(plugins.frontMatter())
+    .pipe(plugins.header(config.markdown.header))
+    .pipe(plugins.footer(config.markdown.footer))
+    .pipe(plugins.concat(config.markdown.filename))
+    .pipe(gulp.dest(config.markdown.dest))
+})
+
+
 gulp.task("make:examples", function () {
   gulp.src(config.examples.src)
     .pipe(plugins.yaml(config.examples.settings))
@@ -141,7 +150,7 @@ function updatePlugins(done) {
           (token ? "?access_token=" + token : ""),
         headers: {
           'User-Agent': 'Knockout-Dev-Docs-Gulpfile',
-          'If-None-Match': items[repo] ? items[repo].etag : ''
+          'If-Modified-Since': items[repo] ? items[repo]['last-modified'] : ''
         }
       }, function (err, response, body) {
         if (err) {
@@ -151,7 +160,7 @@ function updatePlugins(done) {
         if (response.statusCode === 200) {
           plugins.util.log("update:plugins  🌎  " + repo)
           items[repo] = JSON.parse(body)
-          items[repo].etag = response.headers.etag
+          items[repo]['last-modified'] = response.headers['last-modified']
         } else if (response.statusCode === 304) {
           plugins.util.log("update:plugins  ✅ (from cache) " + repo)
         } else {
@@ -175,11 +184,12 @@ gulp.task("make:opine", function () {
 
 
 var REMAKE_TASKS = [
-  'make:templates', 'make:css', 'make:app', 'make:libs', 'make:examples'
+  'make:templates', 'make:markdown', 'make:css', 'make:app', 'make:libs', 'make:examples'
 ]
 
 gulp.task('watch', REMAKE_TASKS, function () {
   gulp.watch(config.templates.src, ['make:templates'])
+  gulp.watch(config.markdown.src, ['make:markdown'])
   gulp.watch(['build/*'], ['make:appcache'])
   gulp.watch('less/**/*.less', ['make:css'])
   gulp.watch(config['app.js'].src, ['make:app'])

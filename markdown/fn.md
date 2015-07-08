@@ -1,5 +1,8 @@
-<template id='docs/fn' data-markdown>
-
+---
+title: Adding custom functions using "fn"
+kind: documentation
+cat: Further techniques
+---
   Occasionally, you may find opportunities to streamline your code by attaching new functionality to Knockout's core value types. You can define custom functions on any of the following types:
 
   TODO: HIERARCHY
@@ -106,4 +109,3 @@ this.doneTasks = ko.computed(function() {
     return done;
 }, this);
   ```
-</template>

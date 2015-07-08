@@ -1,22 +1,29 @@
-/* global setupEvents, Example */
+/* global setupEvents, Example, Documentation */
 
-function loadTemplates() {
-  var uri = "./build/templates.html"
+function loadHtml(uri) {
   return Promise.resolve($.ajax(uri))
     .then(function (html) {
       if (typeof html !== "string") {
-        console.error("Unable to get templates:", html)
+        console.error(`Unable to get ${uri}:`, html)
       } else {
         // ES5-<template> shim/polyfill:
         // unless 'content' of document.createElement('template')
         //   # see pv_shim_template_tag re. broken-template tags
         //   html = html.replace(/<\/template>/g, '</script>')
         //     .replace(/<template/g, '<script type="text/x-template"')
-        $("<div id='_templates'>")
+        $(`<div id='templates--${uri}'>`)
           .append(html)
           .appendTo(document.body)
       }
     })
+}
+
+function loadTemplates() {
+  return loadHtml('build/templates.html')
+}
+
+function loadMarkdown() {
+  return loadHtml("build/markdown.html")
 }
 
 function onApplicationUpdate() {
@@ -80,13 +87,15 @@ function pageLoaded() {
 
 
 function start() {
-  loadTemplates()
+  Promise.all([loadTemplates(), loadMarkdown()])
+    .then(() => Documentation.initialize())
     .then(applyBindings)
     .then(getExamples)
     .then(getPlugins)
     .then(setupEvents)
     .then(checkForApplicationUpdate)
     .then(pageLoaded)
+    .catch((err) => console.log("Loading:", err))
 }
 
 

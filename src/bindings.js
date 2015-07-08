@@ -6,6 +6,11 @@ var languageThemeMap = {
   javascript: 'monokai'
 }
 
+var readonlyThemeMap = {
+  html: "solarized_light",
+  javascript: "tomorrow"
+}
+
 function setupEditor(element, language, exampleName) {
   var example = Example.get(ko.unwrap(exampleName))
   var editor = ace.edit(element)
@@ -56,35 +61,6 @@ ko.bindingHandlers['edit-html'] = {
 }
 
 
-ko.bindingHandlers.highlight = {
-  init: function (element, va) {
-    var $e = $(element)
-    var language = va()
-    if (language !== 'html' && language !== 'javascript') {
-      console.error("A language should be specified.", element)
-      return
-    }
-    var content = (language === 'html' ? $e.html() : $e.text())
-    $e.empty()
-    var editor = ace.edit(element)
-    var session = editor.getSession()
-    editor.setTheme(`ace/theme/${languageThemeMap[language]}`)
-    editor.setOptions({
-      highlightActiveLine: true,
-      useSoftTabs: true,
-      tabSize: 2,
-      minLines: 3,
-      maxLines: 15,
-      readOnly: true
-    })
-    session.setMode(`ace/mode/${language}`)
-    editor.setValue(content)
-    editor.clearSelection()
-    ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
-  }
-}
-
-
 ko.bindingHandlers.result = {
   init: function (element, va) {
     var $e = $(element)
@@ -129,5 +105,35 @@ ko.bindingHandlers.result = {
 
     ko.utils.domNodeDisposal.addDisposeCallback(element, () => subs.dispose())
     return {controlsDescendantBindings: true}
+  }
+}
+
+
+
+ko.bindingHandlers.highlight = {
+  init: function (element, va) {
+    var $e = $(element)
+    var language = va()
+    if (language !== 'html' && language !== 'javascript') {
+      console.error("A language should be specified.", element)
+      return
+    }
+    var content = (language === 'html' ? $e.html() : $e.text())
+    $e.empty()
+    var editor = ace.edit(element)
+    var session = editor.getSession()
+    editor.setTheme(`ace/theme/${readonlyThemeMap[language]}`)
+    editor.setOptions({
+      highlightActiveLine: false,
+      useSoftTabs: true,
+      tabSize: 2,
+      minLines: 3,
+      maxLines: 25,
+      readOnly: true
+    })
+    session.setMode(`ace/mode/${language}`)
+    editor.setValue(content)
+    editor.clearSelection()
+    ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
   }
 }
