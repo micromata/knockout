@@ -64,7 +64,7 @@ ko.bindingHandlers.highlight = {
       console.error("A language should be specified.", element)
       return
     }
-    var content = $e.html()
+    var content = (language === 'html' ? $e.html() : $e.text())
     $e.empty()
     var editor = ace.edit(element)
     var session = editor.getSession()

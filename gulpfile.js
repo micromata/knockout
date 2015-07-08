@@ -179,7 +179,6 @@ var REMAKE_TASKS = [
 ]
 
 gulp.task('watch', REMAKE_TASKS, function () {
-  updatePlugins()
   gulp.watch(config.templates.src, ['make:templates'])
   gulp.watch(['build/*'], ['make:appcache'])
   gulp.watch('less/**/*.less', ['make:css'])

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-07-08T15:06:26.818Z
+# 2015-07-08T15:24:46.077Z
 index.html
 favicon.ico
 images/logo.svg
@@ -17,6 +17,9 @@ https://fonts.googleapis.com/css?family=Lato:400,700,400italic
 # scripts.
 worker-javascript.js
 worker-html.js
+
+FALLBACK:
+/ index.html
 
 NETWORK:
 *

@@ -27,6 +27,9 @@ appcache:
     worker-javascript.js
     worker-html.js
 
+    FALLBACK:
+    / index.html
+
     NETWORK:
     *
 
