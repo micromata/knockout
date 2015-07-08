@@ -1,0 +1,21 @@
+name: click binding (places)
+html: |-
+  <ul data-bind="foreach: places">
+      <li>
+          <span data-bind="text: $data"></span>
+          <button data-bind="click: $parent.removePlace">Remove</button>
+      </li>
+  </ul>
+
+javascript: |-
+  function MyViewModel() {
+     var self = this;
+     self.places = ko.observableArray(['London', 'Paris', 'Tokyo']);
+
+     // The current item will be passed as the first
+     // parameter, so we know which place to remove
+     self.removePlace = function(place) {
+         self.places.remove(place)
+     }
+  }
+  ko.applyBindings(new MyViewModel());

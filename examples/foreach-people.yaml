@@ -1,0 +1,32 @@
+name: foreach binding (people)
+html: |-
+  <h4>People</h4>
+  <ul data-bind="foreach: people">
+      <li>
+          Name at position <span data-bind="text: $index"> </span>:
+          <span data-bind="text: name"> </span>
+          <a href="#" data-bind="click: $parent.removePerson">Remove</a>
+      </li>
+  </ul>
+  <button data-bind="click: addPerson">Add</button>
+
+javascript: |-
+  function AppViewModel() {
+      var self = this;
+
+      self.people = ko.observableArray([
+          { name: 'Bert' },
+          { name: 'Charles' },
+          { name: 'Denise' }
+      ]);
+
+      self.addPerson = function() {
+          self.people.push({ name: "New at " + new Date() });
+      };
+
+      self.removePerson = function() {
+          self.people.remove(this);
+      }
+  }
+
+  ko.applyBindings(new AppViewModel());

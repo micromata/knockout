@@ -1,0 +1,11 @@
+name: foreach binding ($data)
+html: |-
+  <ul data-bind="foreach: months">
+      <li>
+          The current item is: <b data-bind="text: $data"></b>
+      </li>
+  </ul>
+javascript: |-
+  ko.applyBindings({
+      months: [ 'Jan', 'Feb', 'Mar', 'etc' ]
+  });

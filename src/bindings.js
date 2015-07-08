@@ -1,5 +1,8 @@
 /* global ace, Example */
-/* eslint no-new-func: 0*/
+/* eslint no-new-func: 0, no-underscore-dangle:0*/
+
+// Save a copy for restoration/use
+ko._applyBindings = ko.applyBindings
 
 var languageThemeMap = {
   html: 'solarized_dark',
@@ -14,6 +17,7 @@ var readonlyThemeMap = {
 function setupEditor(element, language, exampleName) {
   var example = Example.get(ko.unwrap(exampleName))
   var editor = ace.edit(element)
+  editor.$blockScrolling = Infinity // hides error message
   var session = editor.getSession()
   editor.setTheme(`ace/theme/${languageThemeMap[language]}`)
   editor.setOptions({
@@ -21,7 +25,8 @@ function setupEditor(element, language, exampleName) {
     useSoftTabs: true,
     tabSize: 2,
     minLines: 3,
-    maxLines: 15
+    maxLines: 30,
+    wrap: true
   })
   session.setMode(`ace/mode/${language}`)
   editor.on('change', () => example[language](editor.getValue()))
@@ -68,7 +73,7 @@ ko.bindingHandlers.result = {
 
     function resetElement() {
       if (element.children[0]) {
-        ko.cleanNode(element.children[0])
+        ko.cleanNode(element)
       }
       $e.empty().append(`<div class='example ${example.css}'>`)
     }
@@ -88,22 +93,41 @@ ko.bindingHandlers.result = {
         return
       }
 
+      if (script.indexOf('ko.applyBindings(') === -1) {
+        if (script.indexOf(' viewModel =') !== -1) {
+          // Insert the ko.applyBindings, for convenience.
+          example.javascript(
+            script + "\nko.applyBindings(viewModel, node)"
+          )
+        } else {
+          onError("ko.applyBindings(view, node) is not called")
+          return
+        }
+      }
+
       if (!html) {
         onError("There's no HTML to bind to.")
         return
       }
+      // Stub ko.applyBindings
+      ko.applyBindings = function (e, n) {
+        ko._applyBindings(e, n || element.children[0])
+      }
 
       try {
         resetElement()
-        $(element.children[0])
-          .html(example.html())
+        $(element.children[0]).html(example.html())
         new Function('node', script)(element.children[0])
       } catch(e) {
         onError(e)
       }
+
+      ko.applyBindings = ko._applyBindings
     })
 
-    ko.utils.domNodeDisposal.addDisposeCallback(element, () => subs.dispose())
+    ko.utils.domNodeDisposal.addDisposeCallback(
+      element, () => subs.dispose()
+    )
     return {controlsDescendantBindings: true}
   }
 }
@@ -128,6 +152,7 @@ ko.bindingHandlers.highlight = {
       useSoftTabs: true,
       tabSize: 2,
       minLines: 3,
+      wrap: true,
       maxLines: 25,
       readOnly: true
     })

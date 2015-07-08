@@ -1,5 +1,4 @@
-id: intro
-css: example-centered
+name: Introduction
 html: |-
   Choose a ticket class
   <select data-bind='options: tickets,

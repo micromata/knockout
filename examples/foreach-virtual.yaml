@@ -1,0 +1,12 @@
+name: foreach binding (virtual)
+html: |-
+  <ul>
+      <li class="header">Header item</li>
+      <!-- ko foreach: myItems -->
+          <li>Item <span data-bind="text: $data"></span></li>
+      <!-- /ko -->
+  </ul>
+javascript: |-
+  ko.applyBindings({
+      myItems: [ 'A', 'B', 'C' ]
+  });

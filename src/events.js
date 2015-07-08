@@ -14,6 +14,10 @@ function isLocal(anchor) {
 //
 function onAnchorClick(evt) {
   if (!isLocal(this)) { return true }
+  if ($(evt.target).parents("live-example").length !== 0) {
+    // click on an element in an example.
+    return true
+  }
   try {
     $root.open(evt.target.getAttribute('href'))
   } catch(e) {

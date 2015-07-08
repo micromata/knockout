@@ -1,0 +1,18 @@
+css: example
+name: Enable Bindings
+html: |-
+  <p>
+    <input type='checkbox' data-bind="checked: hasCellphone" />
+    I have a cellphone
+  </p>
+  <p>
+      Your cellphone number:
+      <input type='text' data-bind="value: cellphoneNumber, enable: hasCellphone" />
+  </p>
+
+javascript: |-
+  var viewModel = {
+      hasCellphone : ko.observable(false),
+      cellphoneNumber: ""
+  };
+  ko.applyBindings(viewModel, node)

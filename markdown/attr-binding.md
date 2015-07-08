@@ -10,18 +10,7 @@ The `attr` binding provides a generic way to set the value of any attribute for 
 
 ### Example
 
-```html
-<a data-bind="attr: { href: url, title: details }">
-    Report
-</a>
-```
-
-```javascript
-var viewModel = {
-    url: ko.observable("year-end.html"),
-    details: ko.observable("Report including final year-end statistics")
-};
-```
+<live-example params='id: "attr"'></live-example>
 
 This will set the element's `href` attribute to `year-end.html` and the element's `title` attribute to `Report including final year-end statistics`.
 

@@ -1,0 +1,12 @@
+name: click binding
+html: |-
+  You've clicked <span data-bind="text: numberOfClicks"></span> times
+  <button data-bind="click: incrementClickCounter">Click me</button>
+javascript: |-
+  var viewModel = {
+      numberOfClicks : ko.observable(0),
+      incrementClickCounter : function() {
+          var previousCount = this.numberOfClicks();
+          this.numberOfClicks(previousCount + 1);
+      }
+  };

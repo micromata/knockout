@@ -1,0 +1,11 @@
+name: attr binding example
+html: |-
+  <a data-bind="attr: { href: url, title: details }">
+      Report
+  </a>
+javascript: |-
+  var viewModel = {
+      url: ko.observable("year-end.html"),
+      details: ko.observable("Report including final year-end statistics")
+  };
+  ko.applyBindings(viewModel, node);

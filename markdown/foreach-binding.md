@@ -16,67 +16,15 @@ Of course, you can arbitrarily nest any number of `foreach` bindings along with 
 
 This example uses `foreach` to produce a read-only table with a row for each array entry.
 
-    <table>
-        <thead>
-            <tr><th>First name</th><th>Last name</th></tr>
-        </thead>
-        <tbody data-bind="foreach: people">
-            <tr>
-                <td data-bind="text: firstName"></td>
-                <td data-bind="text: lastName"></td>
-            </tr>
-        </tbody>
-    </table>
+<live-example params='id: "foreach"'></live-example>
 
-    ```javascript
-        ko.applyBindings({
-            people: [
-                { firstName: 'Bert', lastName: 'Bertington' },
-                { firstName: 'Charles', lastName: 'Charlesforth' },
-                { firstName: 'Denise', lastName: 'Dentiste' }
-            ]
-        });
-    ```
+*Note: Table headers might disappear if the screen is small.*
 
 ### Example 2: Live example with add/remove
 
 The following example shows that, if your array is observable, then the UI will be kept in sync with changes to that array.
 
-{% capture live_example_view %}
-<h4>People</h4>
-<ul data-bind="foreach: people">
-    <li>
-        Name at position <span data-bind="text: $index"> </span>:
-        <span data-bind="text: name"> </span>
-        <a href="#" data-bind="click: $parent.removePerson">Remove</a>
-    </li>
-</ul>
-<button data-bind="click: addPerson">Add</button>
-{% endcapture %}
-
-{% capture live_example_viewmodel %}
-function AppViewModel() {
-    var self = this;
-
-    self.people = ko.observableArray([
-        { name: 'Bert' },
-        { name: 'Charles' },
-        { name: 'Denise' }
-    ]);
-
-    self.addPerson = function() {
-        self.people.push({ name: "New at " + new Date() });
-    };
-
-    self.removePerson = function() {
-        self.people.remove(this);
-    }
-}
-
-ko.applyBindings(new AppViewModel());
-{% endcapture %}
-
-{% include live-example-minimal.html %}
+<live-example params='id: "foreach-people"'></live-example>
 
 ### Parameters
 
@@ -101,21 +49,13 @@ As shown in the above examples, bindings within the `foreach` block can refer to
 
 But what if you want to refer to the array entry itself (not just one of its properties)? In that case, you can use the [special context property](binding-context.html) `$data`. Within a `foreach` block, it means "the current item". For example,
 
-    <ul data-bind="foreach: months">
-        <li>
-            The current item is: <b data-bind="text: $data"></b>
-        </li>
-    </ul>
-
-    ```javascript
-        ko.applyBindings({
-            months: [ 'Jan', 'Feb', 'Mar', 'etc' ]
-        });
-    ```
+<live-example params='id: "foreach-$data"'></live-example>
 
 If you wanted, you could use `$data` as a prefix when referencing properties on each entry. For example, you could rewrite part of [Example 1](#example_1_iterating_over_an_array) as follows:
 
-    <td data-bind="text: $data.firstName"></td>
+```
+  <td data-bind="text: $data.firstName"></td>
+```
 
 ... but you don't have to, because `firstName` will be evaluated within the context of `$data` by default anyway.
 
@@ -125,12 +65,15 @@ As you can see from Example 2 above, it's possible to use `$index` to refer to t
 
 Similarly, you can use `$parent` to refer to data from outside the `foreach`, e.g.:
 
-    <h1 data-bind="text: blogPostTitle"></h1>
-    <ul data-bind="foreach: likes">
-        <li>
-            <b data-bind="text: name"></b> likes the blog post <b data-bind="text: $parent.blogPostTitle"></b>
-        </li>
-    </ul>
+```
+<h1 data-bind="text: blogPostTitle"></h1>
+<ul data-bind="foreach: likes">
+    <li>
+        <b data-bind="text: name"></b> likes the blog
+        post <b data-bind="text: $parent.blogPostTitle"></b>
+    </li>
+</ul>
+```
 
 For more information about `$index` and other context properties such as `$parent`, see documentation for [binding context properties](binding-context.html).
 
@@ -138,30 +81,14 @@ For more information about `$index` and other context properties such as `$paren
 
 As described in Note 1, you can refer to each array entry using the `$data` [context variable](binding-context.html). In some cases though, it may be useful to give the current item a more descriptive name using the `as` option like:
 
-    <ul data-bind="foreach: { data: people, as: 'person' }"></ul>
+```
+<ul data-bind="foreach: { data: people, as: 'person' }"></ul>
+```
 
 Now anywhere inside this `foreach` loop, bindings will be able to refer to `person` to access the current array item, from the `people` array, that is being rendered. This can be especially useful in scenarios where you have nested `foreach` blocks and you need to refer to an item declared at a higher level in the hierarchy. For example:
 
-    <ul data-bind="foreach: { data: categories, as: 'category' }">
-        <li>
-            <ul data-bind="foreach: { data: items, as: 'item' }">
-                <li>
-                    <span data-bind="text: category.name"></span>:
-                    <span data-bind="text: item"></span>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<live-example params='id: "foreach-cats"'></live-example>
 
-    ```javascript
-        var viewModel = {
-            categories: ko.observableArray([
-                { name: 'Fruit', items: [ 'Apple', 'Orange', 'Banana' ] },
-                { name: 'Vegetables', items: [ 'Celery', 'Corn', 'Spinach' ] }
-            ])
-        };
-        ko.applyBindings(viewModel);
-    ```
 
 Tip: Remember to pass a *string literal value* to `as` (e.g., `as: 'category'`, *not* `as: category`), because you are giving a name for a new variable, not reading the value of a variable that already exists.
 
@@ -170,30 +97,21 @@ Tip: Remember to pass a *string literal value* to `as` (e.g., `as: 'category'`, 
 
 In some cases, you might want to duplicate a section of markup, but you don't have any container element on which to put a `foreach` binding. For example, you might want to generate the following:
 
-    <ul>
-        <li class="header">Header item</li>
-        <!-- The following are generated dynamically from an array -->
-        <li>Item A</li>
-        <li>Item B</li>
-        <li>Item C</li>
-    </ul>
+```
+<ul>
+    <li class="header">Header item</li>
+    <!-- The following are generated dynamically from an array -->
+    <li>Item A</li>
+    <li>Item B</li>
+    <li>Item C</li>
+</ul>
+```
 
 In this example, there isn't anywhere to put a normal `foreach` binding. You can't put it on the `<ul>` (because then you'd be duplicating the header item), nor can you put a further container inside the `<ul>` (because only `<li>` elements are allowed inside `<ul>`s).
 
 To handle this, you can use the *containerless control flow syntax*, which is based on comment tags. For example,
 
-    <ul>
-        <li class="header">Header item</li>
-        <!-- ko foreach: myItems -->
-            <li>Item <span data-bind="text: $data"></span></li>
-        <!-- /ko -->
-    </ul>
-
-    ```javascript
-        ko.applyBindings({
-            myItems: [ 'A', 'B', 'C' ]
-        });
-    ```
+<live-example params='id: "foreach-virtual"'></live-example>
 
 The `<!-- ko -->` and `<!-- /ko -->` comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.
 
@@ -213,10 +131,11 @@ Sometimes you may want to mark an array entry as deleted, but without actually l
 
 By default, the `foreach` binding will skip over (i.e., hide) any array entries that are marked as destroyed. If you want to show destroyed entries, use the `includeDestroyed` option. For example,
 
-    <div data-bind='foreach: { data: myArray, includeDestroyed: true }'>
-        ...
-    </div>
-
+```html
+  <div data-bind='foreach: { data: myArray, includeDestroyed: true }'>
+      ...
+  </div>
+```
 
 ### Note 7: Post-processing or animating the generated DOM elements
 
@@ -226,23 +145,7 @@ If you need to run some further custom logic on the generated DOM elements, you 
 
 Here's a trivial example that uses `afterAdd` to apply the classic "yellow fade" effect to newly-added items. It requires the [jQuery Color plugin](https://github.com/jquery/jquery-color) to enable animation of background colors.
 
-    <ul data-bind="foreach: { data: myItems, afterAdd: yellowFadeIn }">
-        <li data-bind="text: $data"></li>
-    </ul>
-
-    <button data-bind="click: addItem">Add</button>
-
-    ```javascript
-        ko.applyBindings({
-            myItems: ko.observableArray([ 'A', 'B', 'C' ]),
-            yellowFadeIn: function(element, index, data) {
-                $(element).filter("li")
-                          .animate({ backgroundColor: 'yellow' }, 200)
-                          .animate({ backgroundColor: 'white' }, 800);
-            },
-            addItem: function() { this.myItems.push('New item'); }
-        });
-    ```
+<live-example params='id: "foreach-afteradd"'></live-example>
 
 Full details:
 
@@ -275,8 +178,4 @@ Full details:
    2. The index of the moved array element
    3. The moved array element
 
-For examples of `afterAdd` and `beforeRemove` see [animated transitions](/examples/animatedTransitions.html).
-
-### Dependencies
-
-None, other than the core Knockout library.
+For examples of `afterAdd` and `beforeRemove` see [animated transitions](#animated).

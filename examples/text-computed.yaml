@@ -1,0 +1,10 @@
+name: text computed
+html: |-
+  The item is <span data-bind="text: priceRating"></span> today.
+javascript: |-
+  var viewModel = {
+      price: ko.observable(24.95)
+  };
+  viewModel.priceRating = ko.computed(function() {
+      return this.price() > 50 ? "expensive" : "affordable";
+  }, viewModel);

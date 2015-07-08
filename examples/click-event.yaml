@@ -1,0 +1,16 @@
+name: click binding (event object)
+html: |-
+  <button data-bind="click: myFunction">
+      Click me
+  </button>
+javascript: |-
+  var viewModel = {
+      myFunction: function(data, event) {
+          if (event.shiftKey) {
+              //do something different
+              // when user has shift key down
+          } else {
+              //do normal action
+          }
+      }
+  };

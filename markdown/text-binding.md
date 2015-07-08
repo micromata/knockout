@@ -11,14 +11,8 @@ The `text` binding causes the associated DOM element to display the text value o
 Typically this is useful with elements like `<span>` or `<em>` that traditionally display text, but technically you can use it with any element.
 
 ### Example
-    Today's message is: <span data-bind="text: myMessage"></span>
+<live-example params='id: "text-binding"'></
 
-    ```javascript
-        var viewModel = {
-            myMessage: ko.observable() // Initially blank
-        };
-        viewModel.myMessage("Hello, world!"); // Text appears
-    ```
 
 ### Parameters
 
@@ -40,22 +34,17 @@ If you want to detemine text programmatically, one option is to create a [comput
 
 For example,
 
-    The item is <span data-bind="text: priceRating"></span> today.
-
-    ```javascript
-        var viewModel = {
-            price: ko.observable(24.95)
-        };
-        viewModel.priceRating = ko.computed(function() {
-            return this.price() > 50 ? "expensive" : "affordable";
-        }, viewModel);
-    ```
+<live-example params='id: text-computed'></live-example>
 
 Now, the text will switch between "expensive" and "affordable" as needed whenever `price` changes.
 
 Alternatively, you don't need to create a computed observable if you're doing something simple like this. You can pass an arbitrary JavaScript expression to the `text` binding. For example,
 
-    The item is <span data-bind="text: price() > 50 ? 'expensive' : 'affordable'"></span> today.
+```
+  The item is
+  <span data-bind="text: price() > 50 ? 'expensive' : 'affordable'"></span>
+  today.
+```
 
 This has exactly the same result, without requiring the `priceRating` computed observable.
 
@@ -63,7 +52,9 @@ This has exactly the same result, without requiring the `priceRating` computed o
 
 Since this binding sets your text value using a text node, it's safe to set any string value without risking HTML or script injection. For example, if you wrote:
 
-    viewModel.myMessage("<i>Hello, world!</i>");
+```javascript
+viewModel.myMessage("<i>Hello, world!</i>");
+```
 
 ... this would *not* render as italic text, but would render as literal text with visible angle brackets.
 
@@ -73,15 +64,19 @@ If you need to set HTML content in this manner, see [the html binding](html-bind
 
 Sometimes you may want to set text using Knockout without including an extra element for the `text` binding. For example, you're not allowed to include other elements within an `option` element, so the following will not work.
 
-    <select data-bind="foreach: items">
-        <option>Item <span data-bind="text: name"></span></option>
-    </select>
+```
+<select data-bind="foreach: items">
+    <option>Item <span data-bind="text: name"></span></option>
+</select>
+```
 
 To handle this, you can use the *containerless syntax*, which is based on comment tags.
 
-    <select data-bind="foreach: items">
-        <option>Item <!--ko text: name--><!--/ko--></option>
-    </select>
+```
+<select data-bind="foreach: items">
+  <option>Item <!--ko text: name--><!--/ko--></option>
+</select>
+```
 
 The `<!--ko-->` and `<!--/ko-->` comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.
 
@@ -89,7 +84,7 @@ The `<!--ko-->` and `<!--/ko-->` comments act as start/end markers, defining a "
 
 IE 6 has a strange quirk whereby it sometimes ignores whitespace that immediately follows an empty span. This has nothing directly to do with Knockout, but in case you do want to write:
 
-    Welcome, <span data-bind="text: userName"></span> to our web site.
+    Welcome, `<span data-bind="text: userName"></span>` to our web site.
 
 ... and IE 6 renders no whitespace before the words `to our web site`, you can avoid the problem by putting any text into the `<span>`, e.g.:
 

@@ -109,6 +109,7 @@ gulp.task("make:examples", function () {
   gulp.src(config.examples.src)
     .pipe(plugins.yaml(config.examples.settings))
     .pipe(plugins.jsoncombine(config.examples.filename, function (data) {
+      _.each(data, function (v, k) { v.id = k })
       return new Buffer(JSON.stringify(data))
     }))
     .pipe(gulp.dest(config.examples.dest))

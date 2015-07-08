@@ -1,0 +1,8 @@
+name: text binding
+html: |-
+  Today's message is: <span data-bind="text: myMessage"></span>
+javascript: |-
+  var viewModel = {
+      myMessage: ko.observable() // Initially blank
+  };
+  viewModel.myMessage("Hello, world!"); // Text appears
