@@ -5,7 +5,8 @@ class Example {
     var debounce = { timeout: 500, method: "notifyWhenChangesStop" }
     this.javascript = ko.observable(state.javascript)
       .extend({rateLimit: debounce})
-    this.html = ko.observable(state.html).extend({rateLimit: debounce})
+    this.html = ko.observable(state.html)
+      .extend({rateLimit: debounce})
     this.css = state.css || ''
   }
 }

@@ -29,7 +29,7 @@ function setupEditor(element, language, exampleName) {
     wrap: true
   })
   session.setMode(`ace/mode/${language}`)
-  editor.on('change', () => example[language](editor.getValue()))
+  editor.on('change', function () { example[language](editor.getValue()) })
   example[language].subscribe(function (v) {
     if (editor.getValue() !== v) {
       editor.setValue(v)
@@ -73,7 +73,7 @@ ko.bindingHandlers.result = {
 
     function resetElement() {
       if (element.children[0]) {
-        ko.cleanNode(element)
+        ko.cleanNode(element.children[0])
       }
       $e.empty().append(`<div class='example ${example.css}'>`)
     }
@@ -84,7 +84,7 @@ ko.bindingHandlers.result = {
         .html(`<div class='error'>Error: ${msg}</div>`)
     }
 
-    var subs = ko.computed(function () {
+    function refresh() {
       var script = example.javascript()
       var html = example.html()
 
@@ -110,24 +110,26 @@ ko.bindingHandlers.result = {
         return
       }
       // Stub ko.applyBindings
-      ko.applyBindings = function (e, n) {
-        ko._applyBindings(e, n || element.children[0])
+      ko.applyBindings = function (e) {
+        // We ignore the `node` argument in favour of the examples' node.
+        ko._applyBindings(e, element.children[0])
       }
 
       try {
         resetElement()
-        $(element.children[0]).html(example.html())
+        $(element.children[0]).html(html)
         new Function('node', script)(element.children[0])
       } catch(e) {
         onError(e)
       }
-
       ko.applyBindings = ko._applyBindings
+    }
+
+    ko.computed({
+      disposeWhenNodeIsRemoved: element,
+      read: refresh
     })
 
-    ko.utils.domNodeDisposal.addDisposeCallback(
-      element, () => subs.dispose()
-    )
     return {controlsDescendantBindings: true}
   }
 }
