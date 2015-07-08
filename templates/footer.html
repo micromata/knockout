@@ -12,7 +12,13 @@
       </ul>
     </div>
     <div class='pure-u-1 pure-u-sm-2-5'>
-      <h4>Link to CDN</h4>
+      <h4>Get it</h4>
+      <h5>Bower</h5>
+      <code>$ bower install knockoutjs</code>
+
+      <h5>npm</h5>
+      <code>$ npm install knockout</code>
+
       {{# foreach: cdn }}
         <div>
           <h5>
@@ -20,22 +26,16 @@
             &emsp;
             <em>{{ version }}</em>
           </h5>
-          <table class='pure-table'>
-            <tr>
-              <td>
-                <a href='{{ min }}'>
-                  <i class='fa fa-fw fa-code'></i>
-                  Minified
-                </a>
-              </td>
-              <td>
-                <a href='{{ debug }}'>
-                  <i class='fa fa-fw fa-file-code-o'></i>
-                  Debug
-                </a>
-              </td>
-            </tr>
-          </table>
+          <div>
+            <a href='{{ min }}'>
+              <i class='fa fa-fw fa-code'></i>
+              Minified
+            </a>
+            <a href='{{ debug }}'>
+              <i class='fa fa-fw fa-file-code-o'></i>
+              Debug
+            </a>
+          </div>
         </div>
       {{/ foreach }}
     </div>

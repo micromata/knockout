@@ -1494,8 +1494,13 @@ a:hover {
   color: #ff6228;
 }
 code {
-  font-size: medium;
-  background-color: #d1cdcd;
+  font-size: small;
+  color: #f18b61;
+  background-color: #073642;
+  padding: 0px 2px;
+}
+pre code {
+  display: block;
 }
 input[type=search] {
   border-radius: 25px;
@@ -1505,7 +1510,7 @@ input[type=search] {
 input[type=search]:focus {
   background-color: #adf4fe;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   table thead {
     display: none;
   }
@@ -1522,6 +1527,9 @@ input[type=search]:focus {
   }
   table tbody tr td:first-child .plugin-owner {
     text-align: left;
+  }
+  .ace_gutter {
+    display: none;
   }
 }
 .pull-right {
@@ -1563,19 +1571,10 @@ input[type=search]:focus {
           transition: 1s 0.4s;
 }
 .header {
-  height: 34px;
-  position: fixed;
-  top: 0;
   width: 100%;
   padding-top: 5px;
-  background-color: white;
-  opacity: 0.85;
-  -webkit-transition: 0.25s;
-          transition: 0.25s;
-  z-index: 250;
-}
-.header:hover {
-  opacity: 0.95;
+  border-bottom: 1px solid #aaa;
+  min-height: 32px;
 }
 .header a {
   font-size: 1.1em;
@@ -1594,7 +1593,6 @@ input[type=search]:focus {
   list-style: none;
 }
 .main {
-  margin-top: 34px;
   min-height: 60%;
   min-height: calc(100vh - 180px);
 }

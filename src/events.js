@@ -14,7 +14,11 @@ function isLocal(anchor) {
 //
 function onAnchorClick(evt) {
   if (!isLocal(this)) { return true }
-  $root.open(evt.target.getAttribute('href'))
+  try {
+    $root.open(evt.target.getAttribute('href'))
+  } catch(e) {
+    console.log(`Error/${evt.target.getAttribute('href')}`, e)
+  }
   history.pushState(null, null, this.href)
   document.title = `Knockout.js – ${$(this).text()}`
   return false

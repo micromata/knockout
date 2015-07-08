@@ -57,6 +57,7 @@ function getExamples() {
   )
 }
 
+
 function getPlugins() {
   return Promise.resolve($.ajax({
     url: 'build/plugins.json',
@@ -74,7 +75,7 @@ function applyBindings() {
 
 
 function pageLoaded() {
-  window.$root.body("intro")
+  window.$root.open(location.hash || "#intro")
 }
 
 

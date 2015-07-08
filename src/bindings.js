@@ -26,6 +26,7 @@ function setupEditor(element, language, exampleName) {
     }
   })
   editor.setValue(example[language]())
+  editor.clearSelection()
   ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
   return editor
 }
@@ -53,6 +54,36 @@ ko.bindingHandlers['edit-html'] = {
     // })
   }
 }
+
+
+ko.bindingHandlers.highlight = {
+  init: function (element, va) {
+    var $e = $(element)
+    var language = va()
+    if (language !== 'html' && language !== 'javascript') {
+      console.error("A language should be specified.", element)
+      return
+    }
+    var content = $e.html()
+    $e.empty()
+    var editor = ace.edit(element)
+    var session = editor.getSession()
+    editor.setTheme(`ace/theme/${languageThemeMap[language]}`)
+    editor.setOptions({
+      highlightActiveLine: true,
+      useSoftTabs: true,
+      tabSize: 2,
+      minLines: 3,
+      maxLines: 15,
+      readOnly: true
+    })
+    session.setMode(`ace/mode/${language}`)
+    editor.setValue(content)
+    editor.clearSelection()
+    ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
+  }
+}
+
 
 ko.bindingHandlers.result = {
   init: function (element, va) {

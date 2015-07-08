@@ -37,8 +37,14 @@ a {
 }
 
 code {
-  font-size: medium;
-  background-color: #d1cdcd;
+  font-size: small;
+  color: #f18b61;
+  background-color: #073642;
+  padding: 0px 2px;
+
+  pre & {
+    display: block;
+  }
 }
 
 input[type=search] {
@@ -54,7 +60,7 @@ input[type=search] {
 // see e.g.
 //    http://codepen.io/dudleystorey/pen/Geprd
 //    http://exisweb.net/responsive-table-plugins-and-patterns
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   table {
     thead {
       display: none;
@@ -76,7 +82,13 @@ input[type=search] {
       }
     }
   }
+
+  // Hide line numbers and syntax errors
+  .ace_gutter {
+    display: none;
+  }
 }
+
 
 // helpers
 .pull-right {
@@ -123,22 +135,11 @@ input[type=search] {
 }
 
 
-@header-height: 34px;
-
 .header {
-  height: @header-height;
-  position: fixed;
-  top: 0;
   width: 100%;
   padding-top: 5px;
-  background-color: white;
-  opacity: 0.85;
-  transition: 0.25s;
-  z-index: 250;
-
-  &:hover {
-    opacity: 0.95;
-  }
+  border-bottom: 1px solid #aaa;
+  min-height: 32px;
 
   a {
     font-size: 1.1em;
@@ -164,7 +165,6 @@ input[type=search] {
 
 
 .main {
-  margin-top: @header-height;
   min-height: 60%;
   min-height: calc(~"100vh - 180px");
 }

@@ -17,17 +17,20 @@ window.links = [
     icon: "fa-stack-overflow"},
   { href: 'https://gitter.im/knockout/knockout',
     title: "Gitter",
-    icon: "fa-comments-o"}
+    icon: "fa-comments-o"},
+  { href: 'legacy/',
+    title: "Legacy website",
+    icon: "fa fa-history"}
 ]
 
 
 window.cdn = [
-  { name: "Microsoft",
+  { name: "Microsoft CDN",
     version: "3.3.0",
     min: "http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js",
     debug: "http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.debug.js"
   },
-  { name: "CloudFlare",
+  { name: "CloudFlare CDN",
     version: "3.3.0",
     min: "https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-debug.js",
     debug: "https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"

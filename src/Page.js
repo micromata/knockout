@@ -1,13 +1,25 @@
-/*global Page*/
+/*global Page, Documentation, marked*/
 /*eslint no-unused-vars: 0*/
+
+var markedOptions = {
+  highlight: function (code, lang) {
+    if (lang) {
+      return `<div data-bind='highlight: "${lang.toLowerCase()}"'>${code}</div>`
+    }
+    return code
+  }
+}
 
 class Page {
   constructor() {
+    // Main body template id
     this.body = ko.observable()
 
+    // footer links/cdn
     this.links = window.links
     this.cdn = window.cdn
 
+    // plugins
     this.pluginRepos = ko.observableArray()
     this.sortedPluginRepos = this.pluginRepos
       .filter(this.pluginFilter.bind(this))
@@ -16,10 +28,27 @@ class Page {
     this.pluginSort = ko.observable()
     this.pluginsLoaded = ko.observable(false).extend({rateLimit: 15})
     this.pluginNeedle = ko.observable().extend({rateLimit: 200})
+
+    // documentation
+    this.documentation = Documentation.links
   }
 
   open(pinpoint) {
-    this.body(pinpoint.replace("#", ""))
+    var pp = pinpoint.replace("#", "")
+    var node = document.getElementById(pp)
+    var mdNode, mdNodeId
+    if (node.getAttribute('data-markdown') !== null) {
+      mdNodeId = `${pp}--md`
+      mdNode = document.getElementById(mdNodeId)
+      if (!mdNode) {
+        var htmlStr = marked(node.innerHTML, markedOptions)
+        $(`<template id='${mdNodeId}'>${htmlStr}</template>`)
+          .appendTo(document.body)
+      }
+      this.body(mdNodeId)
+    } else {
+      this.body(pp)
+    }
   }
 
   registerPlugins(plugins) {
