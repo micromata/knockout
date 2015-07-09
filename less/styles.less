@@ -2,17 +2,66 @@
 @import (inline) "../node_modules/purecss/build/pure.css";
 @import (inline) "../node_modules/purecss/build/grids-responsive-min.css";
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
+
+// Fonts
+@font-face {
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Lato Regular'),
+		local('Lato-Regular'),
+		/* from http://fonts.gstatic.com/s/lato/v11/9k-RPmcnxYEPm8CNFsH2gg.woff */
+		url('../fonts/Lato_400.woff') format('woff'),
+		/* from http://fonts.gstatic.com/s/lato/v11/v0SdcGFAl2aezM9Vq_aFTQ.ttf */
+		url('../fonts/Lato_400.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local('Lato Bold'),
+		local('Lato-Bold'),
+		/* from http://fonts.gstatic.com/s/lato/v11/wkfQbvfT_02e2IWO3yYueQ.woff */
+		url('../fonts/Lato_700.woff') format('woff'),
+		/* from http://fonts.gstatic.com/s/lato/v11/DvlFBScY1r-FMtZSYIYoYw.ttf */
+		url('../fonts/Lato_700.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Lato';
+	font-style: italic;
+	font-weight: 400;
+	src:
+		local('Lato Italic'),
+		local('Lato-Italic'),
+		/* from http://fonts.gstatic.com/s/lato/v11/oUan5VrEkpzIazlUe5ieaA.woff */
+		url('../fonts/Lato_400italic.woff') format('woff'),
+		/* from http://fonts.gstatic.com/s/lato/v11/LqowQDslGv4DmUBAfWa2Vw.ttf */
+		url('../fonts/Lato_400italic.ttf') format('truetype');
+}
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+  font-family: "Lato", sans-serif;
+}
+
+@monospace-font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 
 // colors
 @active-color: rgb(255, 98, 40);
 @link-color: rgb(50, 34, 230);
+
 
 // tags
 body {
   padding: 16px;
   font-family: 'Lato', sans-serif;
   font-size: 18px;
+}
+
+pre {
+  font: @monospace-font;
 }
 
 h4 {
@@ -37,6 +86,7 @@ a {
 }
 
 code {
+  font: @monospace-font;
   font-size: small;
   color: #586E75;
   background-color: #FDF6E3;
@@ -185,7 +235,8 @@ live-example {
 }
 
 
-.ace_editor {
+div.ace_editor {
+  font: @monospace-font;
   height: 200px;
   border-radius: 6px;
 }

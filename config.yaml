@@ -19,8 +19,14 @@ appcache:
     build/examples.json
     build/plugins.json
     images/hourglass.gif
-    https://fonts.googleapis.com/css?family=Lato:400,700,400italic
-    //maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css
+
+    # Fonts
+    fonts/Lato_400.woff
+    fonts/Lato_700.woff
+    fonts/Lato_400italic.woff
+    bower_components/fontawesome/css/font-awesome.min.css
+    bower_components/fontawesome/fonts/fontawesome-webfont.woff
+    bower_components/fontawesome/fonts/fontawesome-webfont.woff2
 
     # Ace -- these to-be Workers need to be available in separate
     # scripts.
