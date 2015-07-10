@@ -13,11 +13,16 @@ function isLocal(anchor) {
 // https://github.com/devote/HTML5-History-API
 //
 function onAnchorClick(evt) {
+  // Ignore clicks on things outside this page
   if (!isLocal(this)) { return true }
+
+  // Ignore clicks on an element in an example.
   if ($(evt.target).parents("live-example").length !== 0) {
-    // click on an element in an example.
     return true
   }
+  // Ignore clicks on links that may have e.g. data-bind=click: ...
+  // (e.g. open jsFiddle)
+  if (!evt.target.hash) { return true }
   try {
     $root.open(evt.target.getAttribute('href'))
   } catch(e) {

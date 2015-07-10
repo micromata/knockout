@@ -28,4 +28,4 @@ javascript: |-
     };
   }
 
-  ko.applyBindings(new TicketsViewModel(), node);
+  ko.applyBindings(new TicketsViewModel());

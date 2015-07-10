@@ -17,4 +17,4 @@ javascript: |-
       hasCellphone : ko.observable(false),
       cellphoneNumber: ""
   };
-  ko.applyBindings(viewModel, node)
+  ko.applyBindings(viewModel)

@@ -85,24 +85,12 @@ ko.bindingHandlers.result = {
     }
 
     function refresh() {
-      var script = example.javascript()
+      var script = example.finalJavascript()
       var html = example.html()
 
-      if (!script) {
-        onError("The script is empty.")
+      if (script instanceof Error) {
+        onError(script)
         return
-      }
-
-      if (script.indexOf('ko.applyBindings(') === -1) {
-        if (script.indexOf(' viewModel =') !== -1) {
-          // Insert the ko.applyBindings, for convenience.
-          example.javascript(
-            script + "\nko.applyBindings(viewModel, node)"
-          )
-        } else {
-          onError("ko.applyBindings(view, node) is not called")
-          return
-        }
       }
 
       if (!html) {
