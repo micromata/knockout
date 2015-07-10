@@ -14,20 +14,22 @@ Likewise, assuming it's an *observable* array on your view model, then whenever 
 Note: To control which element in a single-select drop-down list is selected, you can use [the `value` binding](value-binding.html) instead.
 
 ### Example
-    <p>
-        Choose some countries you'd like to visit:
-        <select data-bind="options: availableCountries, selectedOptions: chosenCountries" size="5" multiple="true"></select>
-    </p>
+```html
+<p>
+    Choose some countries you'd like to visit:
+    <select data-bind="options: availableCountries, selectedOptions: chosenCountries" size="5" multiple="true"></select>
+</p>
+```
 
-    ```javascript
-        var viewModel = {
-            availableCountries : ko.observableArray(['France', 'Germany', 'Spain']),
-            chosenCountries : ko.observableArray(['Germany']) // Initially, only Germany is selected
-        };
+```javascript
+var viewModel = {
+    availableCountries : ko.observableArray(['France', 'Germany', 'Spain']),
+    chosenCountries : ko.observableArray(['Germany']) // Initially, only Germany is selected
+};
 
-        // ... then later ...
-        viewModel.chosenCountries.push('France'); // Now France is selected too
-    ```
+// ... then later ...
+viewModel.chosenCountries.push('France'); // Now France is selected too
+```
 
 ### Parameters
 

@@ -18,12 +18,16 @@ Excerpt From [Writing Modular JavaScript With AMD, CommonJs & ES Harmony](http:/
 
 ### Loading Knockout.js and a ViewModel class via RequireJs
 
-In the `head` block add a `script` tag with `type="text/javascript" data-main="scripts/init.js" src="scripts/require.js"`
-
-### in the `body` tag
 ```html
-<p>First name: <input data-bind="value: firstName" /></p>
-<p>First name capitalized: <strong data-bind="text: firstNameCaps"></strong></p>
+<html>
+    <head>
+        <script type="text/javascript" data-main="scripts/init.js" src="scripts/require.js"></script>
+    </head>
+    <body>
+        <p>First name: <input data-bind="value: firstName" /></p>
+        <p>First name capitalized: <strong data-bind="text: firstNameCaps"></strong></p>
+    </body>
+</html>
 ```
 
 #### scripts/init.js
@@ -56,8 +60,8 @@ Documentation on Binding Handlers in general can be found [here](http://knockout
 ```javascript
 define(['knockout-x.y.z'], function(ko){
   ko.bindingHandlers.hasFocus = {
-      init: function(element, valueAccessor) { ... },
-      update: function(element, valueAccessor) { ... }
+      init: function(element, valueAccessor) { /* ... */ },
+      update: function(element, valueAccessor) { /* ... */ }
   }
 });
 ```
@@ -78,7 +82,7 @@ Include the module in the list of dependencies for your view model:
 ```javascript
 define(['knockout-x.y.z', 'customBindingHandlers/hasFocus'], function(ko) {
     return function appViewModel(){
-        ...
+        /* ... */
         // Add an editingName observable
         this.editingName = ko.observable();
     };

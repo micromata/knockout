@@ -95,9 +95,28 @@ gulp.task("make:templates", function () {
     .pipe(gulp.dest(config.templates.dest))
 })
 
+var emap = {
+  '<': '&lt;',
+  '&': '&amp;'
+}
+
+function escape(html) {
+  return html.replace(/[<&]/g, function (chr) { return emap[chr] })
+}
+
+
+var markedOptions = {
+  highlight: function (code, lang) {
+    return "<div data-bind='highlight: \"" + lang + "\"'>" +
+      escape(code) + "</div>"
+  }
+}
+
+
 gulp.task("make:markdown", function () {
   gulp.src(config.markdown.src)
     .pipe(plugins.frontMatter())
+    .pipe(plugins.marked(markedOptions))
     .pipe(plugins.header(config.markdown.header))
     .pipe(plugins.footer(config.markdown.footer))
     .pipe(plugins.concat(config.markdown.filename))

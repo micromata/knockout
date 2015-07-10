@@ -1,19 +1,12 @@
 /*global Page, Documentation, marked*/
 /*eslint no-unused-vars: 0*/
 
-var markedOptions = {
-  highlight: function (code, lang) {
-    if (lang) {
-      return `<div data-bind='highlight: "${lang.toLowerCase()}"'>${code}</div>`
-    }
-    return code
-  }
-}
 
 class Page {
   constructor() {
     // Main body template id
     this.body = ko.observable()
+    this.title = ko.observable()
 
     // footer links/cdn
     this.links = window.links
@@ -50,21 +43,8 @@ class Page {
     var pp = pinpoint.replace("#", "")
     var node = document.getElementById(pp)
     var mdNode, mdNodeId
-    if (node.getAttribute('data-markdown') !== null) {
-      mdNodeId = `${pp}--md`
-      mdNode = document.getElementById(mdNodeId)
-      if (!mdNode) {
-        var htmlStr = marked(node.innerHTML, markedOptions)
-        var title = node.getAttribute('data-title')
-        if (title) { htmlStr = `<h1>${title}</h1>${htmlStr}` }
-
-        $(`<template id='${mdNodeId}'>${htmlStr}</template>`)
-          .appendTo(document.body)
-      }
-      this.body(mdNodeId)
-    } else {
-      this.body(pp)
-    }
+    this.title(node.getAttribute('data-title') || '')
+    this.body(pp)
     $(window).scrollTop(0)
   }
 

@@ -134,6 +134,17 @@ ko.bindingHandlers.result = {
   }
 }
 
+var emap = {
+  '&amp;': '&',
+  '&lt;': '<'
+}
+
+function unescape(str) {
+  return str.replace(
+    /&amp;|&lt;/g,
+    function (ent) { return emap[ent]}
+  )
+}
 
 
 ko.bindingHandlers.highlight = {
@@ -144,7 +155,7 @@ ko.bindingHandlers.highlight = {
       console.error("A language should be specified.", element)
       return
     }
-    var content = (language === 'html' ? $e.html() : $e.text())
+    var content = unescape($e.text())
     $e.empty()
     var editor = ace.edit(element)
     var session = editor.getSession()

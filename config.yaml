@@ -53,13 +53,13 @@ markdown:
   dest: build/
   filename: markdown.html
   header: >
-    <script type='text/x-markdown' id='<%=path.basename(file.path, '.md')%>' data-markdown
+    <template id='<%=path.basename(file.path, '.html')%>'
       data-kind='<%= file.frontMatter.kind %>'
       data-title='<%= file.frontMatter.title %>'
       data-cat='<%= file.frontMatter.cat %>'
       data-subcat='<%= file.frontMatter.subCat %>'>
   footer: >
-    </script>
+    </template>
 
 # Javascript libraries
 libs.js:
