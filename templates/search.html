@@ -1,0 +1,14 @@
+<template id='search'>
+  <h1>Searching for <em>“{{query}}”</em></h1>
+
+  <ul data-bind='foreach: results'>
+    <li>
+      <a href='{{ link }}' data-bind='on.click: $parent.query("")'>{{ title }}</a>
+    </li>
+  </ul>
+  {{# ifnot: search.results }}
+  <p>
+    <em>Nothing found.</em>
+  </p>
+  {{/ ifnot }}
+</template>

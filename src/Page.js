@@ -4,15 +4,15 @@
 
 class Page {
   constructor() {
-    // Main body template id
+    // --- Main body template id ---
     this.body = ko.observable()
     this.title = ko.observable()
 
-    // footer links/cdn
+    // --- footer links/cdn ---
     this.links = window.links
     this.cdn = window.cdn
 
-    // plugins
+    // --- plugins ---
     this.pluginRepos = ko.observableArray()
     this.sortedPluginRepos = this.pluginRepos
       .filter(this.pluginFilter.bind(this))
@@ -22,7 +22,7 @@ class Page {
     this.pluginsLoaded = ko.observable(false).extend({rateLimit: 15})
     this.pluginNeedle = ko.observable().extend({rateLimit: 200})
 
-    // documentation
+    // --- documentation ---
     this.docCatMap = new Map()
     Documentation.all.forEach(function (doc) {
       var cat = Documentation.categoriesMap[doc.category]
@@ -44,6 +44,9 @@ class Page {
     this.docCats = Object.keys(Documentation.categoriesMap)
       .sort()
       .map(function (v) { return Documentation.categoriesMap[v] })
+
+    // --- searching ---
+    this.search = new Search()
   }
 
   open(pinpoint) {

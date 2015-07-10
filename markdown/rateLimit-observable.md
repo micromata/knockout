@@ -1,6 +1,6 @@
 ---
 kind: documentation
-title: Rate-limiting observable notifications
+title: The "rateLimit" extender
 cat: 2
 ---
 

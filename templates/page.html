@@ -1,10 +1,13 @@
 <template id='page'>
   {{# template: 'header' /}}
 
-  <div class='main' data-bind='if: body'>
-    <h1>{{ title }}</h1>
-    {{# template: body /}}
-  </div>
+  {{# template: {name: "search", data: search, if: search.query } /}}
+  {{# ifnot: search.query }}
+    <div class='main' data-bind='if: body'>
+      <h1>{{ title }}</h1>
+      {{# template: body /}}
+    </div>
+  {{/ ifnot }}
 
   {{# template: 'footer' /}}
 </template>

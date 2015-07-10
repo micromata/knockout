@@ -1,13 +1,11 @@
 <!--     /templates/api.html    -->
-<template id='api'>
+<template id='api' data-title='Application Programming Interface'>
   <h1>API</h1>
-  
+
 </template>
 
 <!--     /templates/docs.html    -->
-<template id='docs'>
-  <h1>Documentation</h1>
-
+<template id='docs' data-title='Documentation'>
   <div class='docs-list'>
     {{# foreach: docCats }}
       <h2>{{ $data }} </h2>
@@ -75,13 +73,18 @@
     <a href='#api'>API</a>
 
     <a href='#plugins'>Plugins</a>
+
+    <div class='text-right'>
+      <i class='fa fa-search'></i>
+      <input type='search' data-bind='textInput: search.query' placeholder='Search'/>
+    </div>
   </div>
 </template>
 
 <!--     /templates/intro.html    -->
-<template id='intro'>
+<template id='intro' data-title='Introduction'>
 
-  <h1>Key Concepts</h1>
+  <h2>Key Concepts</h2>
   <div class='pure-g'>
     <div class='pure-u-sm-2-24'>&nbsp;</div>
     <div class='pure-u-1 pure-u-sm-5-24'>
@@ -162,10 +165,13 @@
 <template id='page'>
   {{# template: 'header' /}}
 
-  <div class='main' data-bind='if: body'>
-    <h1>{{ title }}</h1>
-    {{# template: body /}}
-  </div>
+  {{# template: {name: "search", data: search, if: search.query } /}}
+  {{# ifnot: search.query }}
+    <div class='main' data-bind='if: body'>
+      <h1>{{ title }}</h1>
+      {{# template: body /}}
+    </div>
+  {{/ ifnot }}
 
   {{# template: 'footer' /}}
 </template>
@@ -225,8 +231,27 @@
   </div>
 </template>
 
+<!--     /templates/search.html    -->
+<template id='search'>
+  <h1>Searching for <em>“{{query}}”</em></h1>
+
+  <ul data-bind='foreach: results'>
+    <li>
+      <a href='{{ link }}' data-bind='on.click: $parent.query("")'>{{ title }}</a>
+    </li>
+  </ul>
+  {{# ifnot: search.results }}
+  <p>
+    <em>Nothing found.</em>
+  </p>
+  {{/ ifnot }}
+</template>
+
 <!--     /templates/updating-appcache.html    -->
 <template id='updating-appcache'>
-  This page has been updated. Everything will reload automatically
-  when the latest version has finished downloading.
+  <p>
+    <i class='fa fa-4x fa-spin fa-spinner'></i>
+    This page has been updated. Everything will reload automatically
+    when the latest version has finished downloading.
+  </p>
 </template>
