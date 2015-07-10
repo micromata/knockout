@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "ifnot" binding
-cat: Bindings
+title: ifnot
+cat: 4
 subCat: Control flow
 ---
 

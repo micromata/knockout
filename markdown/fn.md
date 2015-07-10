@@ -1,7 +1,7 @@
 ---
 title: Adding custom functions using "fn"
 kind: documentation
-cat: Further techniques
+cat: 2
 ---
   Occasionally, you may find opportunities to streamline your code by attaching new functionality to Knockout's core value types. You can define custom functions on any of the following types:
 

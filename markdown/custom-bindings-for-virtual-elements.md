@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Creating custom bindings that support virtual elements
-cat: Custom Bindings
+cat: 3
 ---
 
 *Note: This is an advanced technique, typically used only when creating libraries of reusable bindings. It's not something you'll normally need to do when building applications with Knockout.*

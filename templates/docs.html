@@ -1,10 +1,12 @@
 <template id='docs'>
   <h1>Documentation</h1>
 
-  {{# foreach: docCats }}
-    <h2>{{ $data }} </h2>
-    <ul data-bind='foreach: $root.docCatMap.get($data)'>
-      <li><a href='#{{ template }}'>{{ title }}</a>
-    </ul>
-  {{/ foreach }}
+  <div class='docs-list'>
+    {{# foreach: docCats }}
+      <h2>{{ $data }} </h2>
+      <ul data-bind='foreach: $root.docCatMap.get($data)'>
+        <li><a href='#{{ template }}'>{{ title }}</a>
+      </ul>
+    {{/ foreach }}
+  </div>
 </template>

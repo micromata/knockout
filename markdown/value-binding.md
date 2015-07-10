@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "value" binding
-cat: Bindings
+title: value
+cat: 4
 subCat: Working with form fields
 ---
 

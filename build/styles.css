@@ -1552,33 +1552,14 @@ live-example h3 {
   margin-bottom: 0px;
   text-align: center;
 }
-@media screen and (max-width: 500px) {
-  table thead {
-    display: none;
-  }
-  table td {
-    display: block;
-    padding: .6rem;
-  }
-  table tbody td:before {
-    content: attr(data-th);
-    display: inline-block;
-    width: 6.24rem;
-    text-align: right;
-    padding-right: 0.24rem;
-  }
-  table tbody tr td:first-child .plugin-owner {
-    text-align: left;
-  }
-  .ace_gutter {
-    display: none;
-  }
-}
 .pull-right {
   float: right;
 }
 .text-center {
   text-align: center;
+}
+.text-right {
+  text-align: right;
 }
 .headline {
   font-size: 4em;
@@ -1638,10 +1619,19 @@ live-example h3 {
   min-height: 60%;
   min-height: calc(100vh - 180px);
 }
-div.ace_editor {
-  font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-  height: 200px;
-  border-radius: 6px;
+.docs-list ul {
+  -webkit-columns: 2;
+     -moz-columns: 2;
+          columns: 2;
+  -webkit-column-rule: 1px dotted #CCC;
+     -moz-column-rule: 1px dotted #CCC;
+          column-rule: 1px dotted #CCC;
+}
+.docs-list li {
+  list-style: none;
+  border-bottom: 1px dotted #CCC;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
 }
 .error {
   padding: 1em;
@@ -1673,4 +1663,36 @@ div.ace_editor {
   display: block;
   font-style: italic;
   font-size: 0.95em;
+}
+div.ace_editor {
+  font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  height: 200px;
+  border-radius: 6px;
+}
+@media screen and (max-width: 500px) {
+  table thead {
+    display: none;
+  }
+  table td {
+    display: block;
+    padding: .6rem;
+  }
+  table tbody td:before {
+    content: attr(data-th);
+    display: inline-block;
+    width: 6.24rem;
+    text-align: right;
+    padding-right: 0.24rem;
+  }
+  table tbody tr td:first-child .plugin-owner {
+    text-align: left;
+  }
+  .docs-list ul {
+    -webkit-columns: 1;
+       -moz-columns: 1;
+            columns: 1;
+  }
+  .ace_gutter {
+    display: none;
+  }
 }

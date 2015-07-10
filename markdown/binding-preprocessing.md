@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Extending the binding syntax using preprocessing
-cat: Further techniques
+cat: 5
 ---
 
 *Note: This is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It's not something you'll normally need to do when building applications with Knockout.*

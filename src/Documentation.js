@@ -8,6 +8,14 @@ class Documentation {
   }
 }
 
+Documentation.categoriesMap = {
+  1: "Getting started",
+  2: "Observables",
+  3: "About Bindings",
+  4: "Bindings included",
+  5: "Further information"
+}
+
 Documentation.fromNode = function (i, node) {
   return new Documentation(
     node.getAttribute('id'),

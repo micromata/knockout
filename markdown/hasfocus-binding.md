@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "hasFocus" binding
-cat: Bindings
+title: hasFocus
+cat: 4
 subCat: Working with form fields
 ---
 

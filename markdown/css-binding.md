@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "css" binding
-cat: Bindings
+title: css
+cat: 4
 subCat: Controlling text and appearance
 ---
 

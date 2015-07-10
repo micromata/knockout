@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "foreach" binding
-cat: Bindings
+title: foreach
+cat: 4
 subCat: Control flow
 ---
 

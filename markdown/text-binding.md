@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "text" binding
-cat: Bindings
+title: text
+cat: 4
 subCat: Controlling text and appearance
 ---
 

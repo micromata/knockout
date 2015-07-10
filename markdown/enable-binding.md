@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "enable" binding
-cat: Bindings
+title: enable
+cat: 4
 subCat: Working with form fields
 ---
 

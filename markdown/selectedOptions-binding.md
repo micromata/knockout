@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "selectedOptions" binding
-cat: Bindings
+title: selectedOptions
+cat: 4
 subCat: Working with form fields
 ---
 

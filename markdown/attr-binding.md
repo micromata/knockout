@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "attr" binding
-cat: Bindings
+title: attr
+cat: 4
 subCat: Controlling text and appearance
 ---
 

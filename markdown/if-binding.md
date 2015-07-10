@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "if" binding
-cat: Bindings
+title: if
+cat: 4
 subCat: Control flow
 ---
 

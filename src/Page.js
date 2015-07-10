@@ -25,18 +25,25 @@ class Page {
     // documentation
     this.docCatMap = new Map()
     Documentation.all.forEach(function (doc) {
-      var docList = this.docCatMap.get(doc.category)
+      var cat = Documentation.categoriesMap[doc.category]
+      var docList = this.docCatMap.get(cat)
       if (!docList) {
         docList = []
-        this.docCatMap.set(doc.category, docList)
+        this.docCatMap.set(cat, docList)
       }
       docList.push(doc)
     }, this)
 
-    this.docCats = []
-    for (var cat of this.docCatMap.keys()) {
-      this.docCats.push(cat)
+    // Sort the documentation items
+    function sorter(a, b) {
+      return a.title < b.title ? -1 : a.title === b.title ? 0 : 1
     }
+    for (var list of this.docCatMap.values()) { list.sort(sorter) }
+
+    // docCats: A sorted list of the documentation sections
+    this.docCats = Object.keys(Documentation.categoriesMap)
+      .sort()
+      .map(function (v) { return Documentation.categoriesMap[v] })
   }
 
   open(pinpoint) {

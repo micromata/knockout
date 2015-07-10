@@ -3,7 +3,7 @@
 
 var EXTERNAL_INCLUDES = [
   "http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.debug.js",
-  "https://rawgit.com/mbest/knockout.punches/v0.5.1/knockout.punches.js"
+  "https://cdn.rawgit.com/mbest/knockout.punches/v0.5.1/knockout.punches.js"
 ]
 
 class LiveExampleComponent {

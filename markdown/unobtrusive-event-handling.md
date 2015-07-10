@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Using unobtrusive event handlers
-cat: Further techniques
+cat: 5
 ---
 
 In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:

@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "html" binding
-cat: Bindings
+title: html
+cat: 4
 subCat: Controlling text and appearance
 ---
 

@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Rate-limiting observable notifications
-cat: Further techniques
+cat: 2
 ---
 
 *Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the [`throttle` extender](throttle-extender.html) provides similar functionality.*
@@ -17,11 +17,13 @@ The `rateLimit` extender can be applied to any type of observable, including [ob
 
 `rateLimit` supports two parameter formats:
 
-    // Shorthand: Specify just a timeout in milliseconds
-    someObservableOrComputed.extend({ rateLimit: 500 });
+```javascript
+// Shorthand: Specify just a timeout in milliseconds
+someObservableOrComputed.extend({ rateLimit: 500 });
 
-    // Longhand: Specify timeout and/or method
-    someObservableOrComputed.extend({ rateLimit: { timeout: 500, method: "notifyWhenChangesStop" } });
+// Longhand: Specify timeout and/or method
+someObservableOrComputed.extend({ rateLimit: { timeout: 500, method: "notifyWhenChangesStop" } });
+```
 
 The `method` option controls when notifications fire, and accepts the following values:
 
@@ -33,19 +35,25 @@ The `method` option controls when notifications fire, and accepts the following 
 
 Consider the observables in the following code:
 
-    var name = ko.observable('Bert');
+```javascript
+var name = ko.observable('Bert');
 
-    var upperCaseName = ko.computed(function() {
-        return name().toUpperCase();
-    });
+var upperCaseName = ko.computed(function() {
+    return name().toUpperCase();
+});
+```
 
 Normally, if you change `name` as follows:
 
-    name('The New Bert');
+```javascript
+name('The New Bert');
+```
 
 ... then `upperCaseName` will be recomputed immediately, before your next line of code runs. But if you instead define `name` using `rateLimit` as follows:
 
-    var name = ko.observable('Bert').extend({ rateLimit: 500 });
+```javascript
+var name = ko.observable('Bert').extend({ rateLimit: 500 });
+```
 
 ... then `upperCaseName` will not be recomputed immediately when `name` changes---instead, `name` will wait for 500 milliseconds (half a second) before notifying its new value to `upperCaseName`, which will then recompute its value. No matter how many times `name` is changed during those 500 ms, `upperCaseName` will only be updated once with the most recent value.
 
@@ -55,73 +63,50 @@ In this live example, there's an `instantaneousValue` observable that reacts imm
 
 Try it:
 
-{% capture live_example_view %}
-<p>Type stuff here: <input data-bind='value: instantaneousValue,
-    valueUpdate: ["input", "afterkeydown"]' /></p>
-<p>Current delayed value: <b data-bind='text: delayedValue'> </b></p>
-
-<div data-bind="visible: loggedValues().length > 0">
-    <h3>Stuff you have typed:</h3>
-    <ul data-bind="foreach: loggedValues">
-        <li data-bind="text: $data"></li>
-    </ul>
-</div>
-{% endcapture %}
-
-{% capture live_example_viewmodel %}
-function AppViewModel() {
-    this.instantaneousValue = ko.observable();
-    this.delayedValue = ko.computed(this.instantaneousValue)
-        .extend({ rateLimit: { method: "notifyWhenChangesStop", timeout: 400 } });
-
-    // Keep a log of the throttled values
-    this.loggedValues = ko.observableArray([]);
-    this.delayedValue.subscribe(function (val) {
-        if (val !== '')
-            this.loggedValues.push(val);
-    }, this);
-}
-
-ko.applyBindings(new AppViewModel());
-{% endcapture %}
-{% include live-example-minimal.html %}
+<live-example params='id: "rate-limit"'></live-example>
 
 ### Example 3: Avoiding multiple Ajax requests
 
 The following model represents data that you could render as a paged grid:
 
-    function GridViewModel() {
-        this.pageSize = ko.observable(20);
-        this.pageIndex = ko.observable(1);
-        this.currentPageData = ko.observableArray();
+```javascript
+function GridViewModel() {
+    this.pageSize = ko.observable(20);
+    this.pageIndex = ko.observable(1);
+    this.currentPageData = ko.observableArray();
 
-        // Query /Some/Json/Service whenever pageIndex or pageSize changes,
-        // and use the results to update currentPageData
-        ko.computed(function() {
-            var params = { page: this.pageIndex(), size: this.pageSize() };
-            $.getJSON('/Some/Json/Service', params, this.currentPageData);
-        }, this);
-    }
+    // Query /Some/Json/Service whenever pageIndex or pageSize changes,
+    // and use the results to update currentPageData
+    ko.computed(function() {
+        var params = { page: this.pageIndex(), size: this.pageSize() };
+        $.getJSON('/Some/Json/Service', params, this.currentPageData);
+    }, this);
+}
+```
 
 Because the computed observable evaluates both `pageIndex` and `pageSize`, it becomes dependent on both of them. So, this code will use jQuery's [`$.getJSON` function](http://api.jquery.com/jQuery.getJSON/) to reload `currentPageData` when a `GridViewModel` is first instantiated *and* whenever the `pageIndex` or `pageSize` properties are later changed.
 
 This is very simple and elegant (and it's trivial to add yet more observable query parameters that also trigger a refresh automatically whenever they change), but there is a potential efficiency problem. Suppose you add the following function to `GridViewModel` that changes both `pageIndex` and `pageSize`:
 
-    this.setPageSize = function(newPageSize) {
-        // Whenever you change the page size, we always reset the page index to 1
-        this.pageSize(newPageSize);
-        this.pageIndex(1);
-    }
+```javascript
+this.setPageSize = function(newPageSize) {
+    // Whenever you change the page size, we always reset the page index to 1
+    this.pageSize(newPageSize);
+    this.pageIndex(1);
+}
+```
 
 The problem is that this will cause *two* Ajax requests: the first one will start when you update `pageSize`, and the second one will start immediately afterwards when you update `pageIndex`. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.
 
 When applied to a computed observable, the `rateLimit` extender will also avoid excess evaluation of the computed function. Using a short rate-limit timeout (e.g., 0 milliseconds) ensures that any sequence of synchronous changes to dependencies will trigger just *one* re-evaluation of your computed observable. For example:
 
-    ko.computed(function() {
-        // This evaluation logic is exactly the same as before
-        var params = { page: this.pageIndex(), size: this.pageSize() };
-        $.getJSON('/Some/Json/Service', params, this.currentPageData);
-    }, this).extend({ rateLimit: 0 });
+```javascript
+ko.computed(function() {
+    // This evaluation logic is exactly the same as before
+    var params = { page: this.pageIndex(), size: this.pageSize() };
+    $.getJSON('/Some/Json/Service', params, this.currentPageData);
+}, this).extend({ rateLimit: 0 });
+```
 
 Now you can change `pageIndex` and `pageSize` as many times as you like, and the Ajax call will only happen once after you release your thread back to the JavaScript runtime.
 
@@ -135,9 +120,11 @@ When the value of any observable is primitive (a number, string, boolean, or nul
 
 If you want to ensure that the subscribers are always notified of an update, even if the value is the same, you would use the `notify` extender in addition to `rateLimit`:
 
-    myViewModel.fullName = ko.computed(function() {
-        return myViewModel.firstName() + " " + myViewModel.lastName();
-    }).extend({ notify: 'always', rateLimit: 500 });
+```javascript
+myViewModel.fullName = ko.computed(function() {
+    return myViewModel.firstName() + " " + myViewModel.lastName();
+}).extend({ notify: 'always', rateLimit: 500 });
+```
 
 ## Comparison with the throttle extender
 

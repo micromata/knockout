@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Animated transitions
-cat: Further techniques
+cat: 5
 ---
 
 This example shows two ways to animate transitions:

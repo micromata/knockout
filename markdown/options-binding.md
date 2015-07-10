@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "options" binding
-cat: Bindings
+title: options
+cat: 4
 subCat: Working with form fields
 ---
 

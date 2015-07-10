@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "with" binding
-cat: Bindings
+title: with
+cat: 4
 subCat: Control flow
 ---
 

@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Observable Arrays
-cat: Observables
+cat: 2
 ---
 
 If you want to detect and respond to changes on one object, you'd use [observables](observables.html). If you want to detect and respond to changes of a *collection of things*, use an `observableArray`. This is useful in many scenarios where you're displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.

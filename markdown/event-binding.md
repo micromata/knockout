@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "event" binding
-cat: Bindings
+title: event
+cat: 4
 subCat: Working with form fields
 ---
 

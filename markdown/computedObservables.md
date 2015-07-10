@@ -1,31 +1,38 @@
 ---
 kind: documentation
 title: Computed Observables
-cat: Observables
+cat: 2
 ---
 
 What if you've got an [observable](observables.html) for `firstName`, and another for `lastName`, and you want to display the full name? That's where *computed observables* come in - these are functions that are dependent on one or more other observables, and will automatically update whenever any of these dependencies change.
 
 For example, given the following view model class,
 
-    function AppViewModel() {
-        this.firstName = ko.observable('Bob');
-        this.lastName = ko.observable('Smith');
-    }
+
+```javascript
+function AppViewModel() {
+    this.firstName = ko.observable('Bob');
+    this.lastName = ko.observable('Smith');
+}
+```
 
 ... you could add a computed observable to return the full name:
 
-    function AppViewModel() {
-        // ... leave firstName and lastName unchanged ...
+```javascript
+function AppViewModel() {
+    // ... leave firstName and lastName unchanged ...
 
-        this.fullName = ko.computed(function() {
-            return this.firstName() + " " + this.lastName();
-        }, this);
-    }
+    this.fullName = ko.computed(function() {
+        return this.firstName() + " " + this.lastName();
+    }, this);
+}
+```
 
 Now you could bind UI elements to it, e.g.:
 
-    The name is <span data-bind="text: fullName"></span>
+```html
+The name is <span data-bind="text: fullName"></span>
+```
 
 ... and they will be updated whenever `firstName` or `lastName` changes (your evaluator function will be called once each time any of its dependencies change, and whatever value you return will be passed on to the observers such as UI elements or other computed observables).
 
@@ -39,15 +46,17 @@ In case you're wondering what the second parameter to `ko.computed` is (the bit 
 
 There's a popular convention for avoiding the need to track `this` altogether: if your viewmodel's constructor copies a reference to `this` into a different variable (traditionally called `self`), you can then use `self` throughout your viewmodel and don't have to worry about it being redefined to refer to something else. For example:
 
-    function AppViewModel() {
-        var self = this;
+```javascript
+function AppViewModel() {
+    var self = this;
 
-        self.firstName = ko.observable('Bob');
-        self.lastName = ko.observable('Smith');
-        self.fullName = ko.computed(function() {
-            return self.firstName() + " " + self.lastName();
-        });
-    }
+    self.firstName = ko.observable('Bob');
+    self.lastName = ko.observable('Smith');
+    self.fullName = ko.computed(function() {
+        return self.firstName() + " " + self.lastName();
+    });
+}
+```
 
 Because `self` is captured in the function's closure, it remains available and consistent in any nested functions, such as the `ko.computed` evaluator. This convention is even more useful when it comes to event handlers, as you'll see in many of the [live examples](../examples/).
 
@@ -66,16 +75,20 @@ Then, changes to `items` or `selectedIndexes` will ripple through the chain of c
 
 When a computed observable returns a primitive value (a number, string, boolean, or null), the dependencies of the observable are normally only notified if the value actually changed. However, it is possible to use the built-in `notify` [extender](extenders.html) to ensure that a computed observable's subscribers are always notified on an update, even if the value is the same. You would apply the extender like this:
 
-    myViewModel.fullName = ko.computed(function() {
-        return myViewModel.firstName() + " " + myViewModel.lastName();
-    }).extend({ notify: 'always' });
+```javascript
+myViewModel.fullName = ko.computed(function() {
+    return myViewModel.firstName() + " " + myViewModel.lastName();
+}).extend({ notify: 'always' });
+```
 
 ### Delaying and/or suppressing change notifications
 
 Normally, a computed observable updates and notifies its subscribers immediately, as soon as its dependencies change. But if a computed observable has many dependencies or involves expensive updates, you may get better performance by limiting or delaying the computed observable's updates and notifications. This is accomplished using the [`rateLimit` extender](rateLimit-observable.html) like this:
 
-    // Ensure updates no more than once per 50-millisecond period
-    myViewModel.fullName.extend({ rateLimit: 50 });
+```javascript
+// Ensure updates no more than once per 50-millisecond period
+myViewModel.fullName.extend({ rateLimit: 50 });
+```
 
 # Writeable computed observables
 
@@ -89,32 +102,36 @@ You can then use your writeable computed observable exactly like a regular obser
 
 Going back to the classic "first name + last name = full name" example, you can turn things back-to-front: make the `fullName` computed observable writeable, so that the user can directly edit the full name, and their supplied value will be parsed and mapped back to the underlying `firstName` and `lastName` observables:
 
-    function MyViewModel() {
-        this.firstName = ko.observable('Planet');
-        this.lastName = ko.observable('Earth');
+```javascript
+function MyViewModel() {
+    this.firstName = ko.observable('Planet');
+    this.lastName = ko.observable('Earth');
 
-        this.fullName = ko.computed({
-            read: function () {
-                return this.firstName() + " " + this.lastName();
-            },
-            write: function (value) {
-                var lastSpacePos = value.lastIndexOf(" ");
-                if (lastSpacePos > 0) { // Ignore values with no space character
-                    this.firstName(value.substring(0, lastSpacePos)); // Update "firstName"
-                    this.lastName(value.substring(lastSpacePos + 1)); // Update "lastName"
-                }
-            },
-            owner: this
-        });
-    }
+    this.fullName = ko.computed({
+        read: function () {
+            return this.firstName() + " " + this.lastName();
+        },
+        write: function (value) {
+            var lastSpacePos = value.lastIndexOf(" ");
+            if (lastSpacePos > 0) { // Ignore values with no space character
+                this.firstName(value.substring(0, lastSpacePos)); // Update "firstName"
+                this.lastName(value.substring(lastSpacePos + 1)); // Update "lastName"
+            }
+        },
+        owner: this
+    });
+}
 
-    ko.applyBindings(new MyViewModel());
+ko.applyBindings(new MyViewModel());
+```
 
 In this example, the `write` callback handles incoming values by splitting the incoming text into "firstName" and "lastName" components, and writing those values back to the underlying observables. You can bind this view model to your DOM in the obvious way, as follows:
 
-    <p>First name: <span data-bind="text: firstName"></span></p>
-    <p>Last name: <span data-bind="text: lastName"></span></p>
-    <h2>Hello, <input data-bind="value: fullName"/>!</h2>
+```html
+<p>First name: <span data-bind="text: firstName"></span></p>
+<p>Last name: <span data-bind="text: lastName"></span></p>
+<h2>Hello, <input data-bind="value: fullName"/>!</h2>
+```
 
 This is the exact opposite of the [Hello World](../examples/helloWorld.html) example, in that here the first and last names are not editable, but the combined full name is editable.
 
@@ -124,27 +141,31 @@ The preceding view model code demonstrates the *single parameter syntax* for ini
 
 Sometimes you might want to represent a data point on the screen in a different format from its underlying storage. For example, you might want to store a price as a raw float value, but let the user edit it with a currency symbol and fixed number of decimal places. You can use a writeable computed observable to represent the formatted price, mapping incoming values back to the underlying float value:
 
-    function MyViewModel() {
-        this.price = ko.observable(25.99);
+```javascript
+function MyViewModel() {
+    this.price = ko.observable(25.99);
 
-        this.formattedPrice = ko.computed({
-            read: function () {
-                return '$' + this.price().toFixed(2);
-            },
-            write: function (value) {
-                // Strip out unwanted characters, parse as float, then write the raw data back to the underlying "price" observable
-                value = parseFloat(value.replace(/[^\.\d]/g, ""));
-                this.price(isNaN(value) ? 0 : value); // Write to underlying storage
-            },
-            owner: this
-        });
-    }
+    this.formattedPrice = ko.computed({
+        read: function () {
+            return '$' + this.price().toFixed(2);
+        },
+        write: function (value) {
+            // Strip out unwanted characters, parse as float, then write the raw data back to the underlying "price" observable
+            value = parseFloat(value.replace(/[^\.\d]/g, ""));
+            this.price(isNaN(value) ? 0 : value); // Write to underlying storage
+        },
+        owner: this
+    });
+}
 
-    ko.applyBindings(new MyViewModel());
+ko.applyBindings(new MyViewModel());
+```
 
 It's trivial to bind the formatted price to a text box:
 
-    <p>Enter bid price: <input data-bind="value: formattedPrice"/></p>
+```html
+<p>Enter bid price: <input data-bind="value: formattedPrice"/></p>
+```
 
 Now, whenever the user enters a new price, the text box immediately updates to show it formatted with the currency symbol and two decimal places, no matter what format they entered the value in. This gives a great user experience, because the user sees how the software has understood their data entry as a price. They know they can't enter more than two decimal places, because if they try to, the additional decimal places are immediately removed. Similarly, they can't enter negative values, because the `write` callback strips off any minus sign.
 
@@ -154,30 +175,34 @@ Example 1 showed how a writeable computed observable can effectively *filter* it
 
 Taking this a step further, you could also toggle an `isValid` flag depending on whether the latest input was satisfactory, and display a message in the UI accordingly. There's an easier way of doing validation (explained below), but first consider the following view model, which demonstrates the mechanism:
 
-    function MyViewModel() {
-        this.acceptedNumericValue = ko.observable(123);
-        this.lastInputWasValid = ko.observable(true);
+```javascript
+function MyViewModel() {
+    this.acceptedNumericValue = ko.observable(123);
+    this.lastInputWasValid = ko.observable(true);
 
-        this.attemptedValue = ko.computed({
-            read: this.acceptedNumericValue,
-            write: function (value) {
-                if (isNaN(value))
-                    this.lastInputWasValid(false);
-                else {
-                    this.lastInputWasValid(true);
-                    this.acceptedNumericValue(value); // Write to underlying storage
-                }
-            },
-            owner: this
-        });
-    }
+    this.attemptedValue = ko.computed({
+        read: this.acceptedNumericValue,
+        write: function (value) {
+            if (isNaN(value))
+                this.lastInputWasValid(false);
+            else {
+                this.lastInputWasValid(true);
+                this.acceptedNumericValue(value); // Write to underlying storage
+            }
+        },
+        owner: this
+    });
+}
 
-    ko.applyBindings(new MyViewModel());
+ko.applyBindings(new MyViewModel());
+```
 
 ... with the following DOM elements:
 
-    <p>Enter a numeric value: <input data-bind="value: attemptedValue"/></p>
-    <div data-bind="visible: !lastInputWasValid()">That's not a number!</div>
+```html
+<p>Enter a numeric value: <input data-bind="value: attemptedValue"/></p>
+<div data-bind="visible: !lastInputWasValid()">That's not a number!</div>
+```
 
 Now, `acceptedNumericValue` will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating `acceptedNumericValue`.
 
@@ -204,13 +229,15 @@ Knockout's automatic dependency tracking normally does exactly what you want. Bu
 
 In the example below, a computed observable is used to reload an observable named `currentPageData` using Ajax with data from two other observable properties. The computed observable will update whenever `pageIndex` changes, but it ignores changes to `selectedItem` because it is accessed using `peek`. In this case, the user might want to use the current value of `selectedItem` only for tracking purposes when a new set of data is loaded.
 
-    ko.computed(function() {
-        var params = {
-            page: this.pageIndex(),
-            selected: this.selectedItem.peek()
-        };
-        $.getJSON('/Some/Json/Service', params, this.currentPageData);
-    }, this);
+```javascript
+ko.computed(function() {
+    var params = {
+        page: this.pageIndex(),
+        selected: this.selectedItem.peek()
+    };
+    $.getJSON('/Some/Json/Service', params, this.currentPageData);
+}, this);
+```
 
 Note: If you just want to prevent a computed observable from updating too often, see the [`rateLimit` extender](rateLimit-observable.html).
 
@@ -224,11 +251,13 @@ So what does Knockout do if you have a cycle in your dependency graph? It avoids
 
 In some scenarios, it is useful to programmatically determine if you are dealing with a computed observable. Knockout provides a utility function, `ko.isComputed` to help with this situation. For example, you might want to exclude computed observables from data that you are sending back to the server.
 
-    for (var prop in myObject) {
-      if (myObject.hasOwnProperty(prop) && !ko.isComputed(myObject[prop])) {
-          result[prop] = myObject[prop];
-      }
-    }
+```javascript
+for (var prop in myObject) {
+  if (myObject.hasOwnProperty(prop) && !ko.isComputed(myObject[prop])) {
+      result[prop] = myObject[prop];
+  }
+}
+```
 
 Additionally, Knockout provides similar functions that can operate on observables and computed observables:
 
@@ -279,16 +308,21 @@ During the execution of a computed observable's evaluator function, you can acce
 
 Example:
 
-    var myComputed = ko.computed(function() {
-        // ... Omitted: read some data that might be observable ...
+```javascript
+var myComputed = ko.computed(function() {
+    // ... Omitted: read some data that might be observable ...
 
-        // Now let's inspect ko.computedContext
-        var isFirstEvaluation = ko.computedContext.isInitial(),
-            dependencyCount = ko.computedContext.getDependenciesCount(),
-        console.log("Evaluating " + (isFirstEvaluation ? "for the first time" : "again"));
-        console.log("By now, this computed has " + dependencyCount + " dependencies");
+    // Now let's inspect ko.computedContext
+    var isFirstEvaluation = ko.computedContext.isInitial(),
+        dependencyCount = ko.computedContext.getDependenciesCount(),
+    console.log("Evaluating " + (isFirstEvaluation ? "for the first time" : "again"));
+    console.log("By now, this computed has " + dependencyCount + " dependencies");
 
-        // ... Omitted: return the result ...
-    });
+    // ... Omitted: return the result ...
+});
+```
 
 These facilities are typically useful only in advanced scenarios, for example when your computed observable's primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.
+
+
+*Note: Computed observables were once called "dependent observables", but have since been renamed i.e. `ko.dependentObservable === ko.computed`*

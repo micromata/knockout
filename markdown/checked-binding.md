@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "checked" binding
-cat: Bindings
+title: checked
+cat: 4
 subCat: Working with form fields
 ---
 

@@ -1,6 +1,7 @@
 ---
 kind: documentation
 title: External links and tutorials
+cat: 5
 ---
 
 See these external pages for more examples of using Knockout with other technologies:
@@ -11,5 +12,5 @@ See these external pages for more examples of using Knockout with other technolo
  * [Knockout+WebSockets](http://github.com/carlhoerberg/knockout-websocket-example) --- Carl Hörberg combines Knockout, Sinatra, SQLite, and WebSockets to implement realtime forms collaboration
  * [Wiki - Recipes](https://github.com/SteveSanderson/knockout/wiki/Recipes) --- User contributed recipes and examples
  * [Wiki - Plugins](https://github.com/SteveSanderson/knockout/wiki/Plugins) --- User contributed list of plugins
- 
+
 *Still collecting links for this list - if you want to see your blog post here, [tell us](http://groups.google.com/group/knockoutjs) about it*

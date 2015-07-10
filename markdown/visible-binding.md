@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "visible" binding
-cat: Bindings
+title: visible
+cat: 4
 subCat: Controlling text and appearance
 ---
 

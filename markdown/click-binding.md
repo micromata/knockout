@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "click" binding
-cat: Bindings
+title: click
+cat: 4
 subCat: Working with form fields
 ---
 

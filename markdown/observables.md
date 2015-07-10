@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Observables
-cat: Observables
+cat: 2
 ---
 
 Knockout is built around three core features:

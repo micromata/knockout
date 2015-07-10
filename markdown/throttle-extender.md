@@ -1,9 +1,10 @@
 ---
 kind: documentation
 title: The "throttle" extender
+cat: 2
 ---
 
-*Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the [`rateLimit` extender](rateLimit-observable.html) for similar functionality.*
+*Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the [`rateLimit` extender](#rateLimit-observable) for similar functionality.*
 
 Normally, [computed observables](computedObservables.html) are re-evaluated *synchronously*, as soon as each of their dependencies change. The `throttle` extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update *asychronously*.
 
@@ -32,7 +33,7 @@ Normally, if you update `name` as follows:
 
     var upperCaseName = ko.computed(function() {
         return name().toUpperCase();
-    }).extend({ throttle: 500 });    
+    }).extend({ throttle: 500 });
 
 ... then `upperCaseName` would not be recomputed immediately when `name` changes --- instead, it would wait for 500 milliseconds (half a second) before recomputing its value and then notifying any associated UI. Each time `name` changes, that timeout is reset back to zero, so the re-evaluation only occurs once `name` has stopped changing for at least half a second.
 
@@ -101,7 +102,7 @@ This is very simple and elegant (and it's trivial to add yet more observable que
 
 The problem is that this will cause *two* simultaneous Ajax requests: the first one will start when you update `pageSize`, and the second one will start immediately afterwards when you update `pageIndex`. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.
 
-Throttling is an elegant solution. You can add an arbitrarily short but nonzero throttle timeout (e.g., 1 millisecond), and then any sequence of synchronous changes to dependencies will only trigger *one* re-evaluation of your computed observable. For example, 
+Throttling is an elegant solution. You can add an arbitrarily short but nonzero throttle timeout (e.g., 1 millisecond), and then any sequence of synchronous changes to dependencies will only trigger *one* re-evaluation of your computed observable. For example,
 
         ko.computed(function() {
             // This evaluation logic is exactly the same as before

@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "uniqueName" binding
-cat: Bindings
+title: uniqueName
+cat: 4
 subCat: Working with form fields
 ---
 

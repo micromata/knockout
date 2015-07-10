@@ -121,40 +121,6 @@ live-example {
   }
 }
 
-// responsive tables
-// see e.g.
-//    http://codepen.io/dudleystorey/pen/Geprd
-//    http://exisweb.net/responsive-table-plugins-and-patterns
-@media screen and (max-width: 500px) {
-  table {
-    thead {
-      display: none;
-    }
-    td {
-      display: block;
-      padding: .6rem;
-    }
-    tbody td:before {
-      content: attr(data-th);
-      display: inline-block;
-      width: 6.24rem;
-      text-align: right;
-      padding-right: 0.24rem;
-    }
-    tbody tr td:first-child {
-      .plugin-owner {
-        text-align: left;
-      }
-    }
-  }
-
-  // Hide line numbers and syntax errors
-  .ace_gutter {
-    display: none;
-  }
-}
-
-
 // helpers
 .pull-right {
   float: right;
@@ -164,6 +130,9 @@ live-example {
   text-align: center;
 }
 
+.text-right {
+	text-align: right;
+}
 
 // semantic
 .headline {
@@ -234,11 +203,17 @@ live-example {
   min-height: calc(~"100vh - 180px");
 }
 
-
-div.ace_editor {
-  font: @monospace-font;
-  height: 200px;
-  border-radius: 6px;
+.docs-list {
+	ul {
+		columns: 2;
+		column-rule: 1px dotted #CCC;
+	}
+	li {
+		list-style: none;
+		border-bottom: 1px dotted #CCC;
+		padding-bottom: 3px;
+		margin-bottom: 3px;
+	}
 }
 
 
@@ -283,4 +258,52 @@ div.ace_editor {
   font-size: 0.95em;
 
 
+}
+
+// Amendind 3rd party styles.
+div.ace_editor {
+  font: @monospace-font;
+  height: 200px;
+  border-radius: 6px;
+}
+
+
+// responsive layout
+//
+// see e.g.
+//    http://codepen.io/dudleystorey/pen/Geprd
+//    http://exisweb.net/responsive-table-plugins-and-patterns
+@media screen and (max-width: 500px) {
+  table {
+    thead {
+      display: none;
+    }
+    td {
+      display: block;
+      padding: .6rem;
+    }
+    tbody td:before {
+      content: attr(data-th);
+      display: inline-block;
+      width: 6.24rem;
+      text-align: right;
+      padding-right: 0.24rem;
+    }
+    tbody tr td:first-child {
+      .plugin-owner {
+        text-align: left;
+      }
+    }
+  }
+
+	.docs-list {
+		ul {
+			columns: 1;
+		}
+	}
+
+  // Hide line numbers and syntax errors
+  .ace_gutter {
+    display: none;
+  }
 }

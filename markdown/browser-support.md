@@ -1,7 +1,7 @@
 ---
 kind: documentation
 title: Browser support
-cat: More information
+cat: 1
 ---
 
 Knockout is tested on the following browsers:

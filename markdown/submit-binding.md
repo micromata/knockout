@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "submit" binding
-cat: Bindings
+title: submit
+cat: 4
 subCat: Working with form fields
 ---
 

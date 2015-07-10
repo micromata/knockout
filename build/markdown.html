@@ -1,7 +1,7 @@
 <template id='amd-loading'
   data-kind='documentation'
   data-title='Asynchronous Module Definition (AMD) With RequireJs'
-  data-cat='Further techniques'
+  data-cat='5'
   data-subcat=''>
 <h3 id="overview-of-amd">Overview of AMD</h3>
 <p>Excerpt From <a href="http://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJs &amp; ES Harmony</a>:</p>
@@ -74,7 +74,7 @@ define(['knockout-x.y.z'], function(ko) {
 <template id='animated'
   data-kind='documentation'
   data-title='Animated transitions'
-  data-cat='Further techniques'
+  data-cat='5'
   data-subcat=''>
 <p>This example shows two ways to animate transitions:</p>
 <ul>
@@ -89,8 +89,8 @@ define(['knockout-x.y.z'], function(ko) {
 
 <template id='attr-binding'
   data-kind='documentation'
-  data-title='The "attr" binding'
-  data-cat='Bindings'
+  data-title='attr'
+  data-cat='4'
   data-subcat='Controlling text and appearance'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>attr</code> binding provides a generic way to set the value of any attribute for the associated DOM element.  This is useful, for example, when you need to set the <code>title</code> attribute of an element, the <code>src</code> of an <code>img</code> tag, or the <code>href</code> of a link based on values in your view model, with the attribute value being updated automatically whenever the corresponding model property changes.</p>
@@ -121,7 +121,7 @@ define(['knockout-x.y.z'], function(ko) {
 <template id='binding-context'
   data-kind='documentation'
   data-title='Binding context'
-  data-cat='Bindings'
+  data-cat='3'
   data-subcat=''>
 <p>A <em>binding context</em> is an object that holds data that you can reference from your bindings. While applying bindings, Knockout automatically creates and manages a hierarchy of binding contexts. The root level of the hierarchy refers to the <code>viewModel</code> parameter you supplied to <code>ko.applyBindings(viewModel)</code>. Then, each time you use a control flow binding such as <a href="with-binding.html"><code>with</code></a> or <a href="foreach-binding.html"><code>foreach</code></a>, that creates a child binding context that refers to the nested view model data.</p>
 <p>Bindings contexts offer the following special properties that you can reference in any binding:</p>
@@ -179,7 +179,7 @@ define(['knockout-x.y.z'], function(ko) {
 <template id='binding-preprocessing'
   data-kind='documentation'
   data-title='Extending the binding syntax using preprocessing'
-  data-cat='Further techniques'
+  data-cat='5'
   data-subcat=''>
 <p><em>Note: This is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.</p>
@@ -269,8 +269,8 @@ define(['knockout-x.y.z'], function(ko) {
 
 <template id='binding-syntax'
   data-kind='documentation'
-  data-title='The data-bind syntax'
-  data-cat='Bindings'
+  data-title='The "data-bind" syntax'
+  data-cat='2'
   data-subcat=''>
 <p>Knockout&#39;s declarative binding system provides a concise and powerful way to link data to the UI. It&#39;s generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout&#39;s binding system.</p>
 <h3 id="binding-syntax">Binding syntax</h3>
@@ -323,7 +323,7 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 <template id='browser-support'
   data-kind='documentation'
   data-title='Browser support'
-  data-cat='More information'
+  data-cat='1'
   data-subcat=''>
 <p>Knockout is tested on the following browsers:</p>
 <ul>
@@ -343,8 +343,8 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 
 <template id='checked-binding'
   data-kind='documentation'
-  data-title='The "checked" binding'
-  data-cat='Bindings'
+  data-title='checked'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>checked</code> binding links a checkable form control &mdash; i.e., a checkbox (<code>&lt;input type=&#39;checkbox&#39;&gt;</code>) or a radio button (<code>&lt;input type=&#39;radio&#39;&gt;</code>) &mdash; with a property on your view model.</p>
@@ -444,8 +444,8 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 
 <template id='click-binding'
   data-kind='documentation'
-  data-title='The "click" binding'
-  data-cat='Bindings'
+  data-title='click'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>click</code> binding adds an event handler so that your chosen JavaScript function will be invoked when the associated DOM element is clicked. This is most commonly used with elements like <code>button</code>, <code>input</code>, and <code>a</code>, but actually works with any visible DOM element.</p>
@@ -507,31 +507,34 @@ with <code>this</code> being redefined to mean something else in event handlers 
 <template id='computedObservables'
   data-kind='documentation'
   data-title='Computed Observables'
-  data-cat='Observables'
+  data-cat='2'
   data-subcat=''>
 <p>What if you&#39;ve got an <a href="observables.html">observable</a> for <code>firstName</code>, and another for <code>lastName</code>, and you want to display the full name? That&#39;s where <em>computed observables</em> come in - these are functions that are dependent on one or more other observables, and will automatically update whenever any of these dependencies change.</p>
 <p>For example, given the following view model class,</p>
-<pre><code><div data-bind='highlight: "undefined"'>function AppViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function AppViewModel() {
     this.firstName = ko.observable('Bob');
     this.lastName = ko.observable('Smith');
 }</div>
-</code></pre><p>... you could add a computed observable to return the full name:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function AppViewModel() {
+</code></pre>
+<p>... you could add a computed observable to return the full name:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function AppViewModel() {
     // ... leave firstName and lastName unchanged ...
 
     this.fullName = ko.computed(function() {
         return this.firstName() + " " + this.lastName();
     }, this);
 }</div>
-</code></pre><p>Now you could bind UI elements to it, e.g.:</p>
-<pre><code><div data-bind='highlight: "undefined"'>The name is &lt;span data-bind="text: fullName">&lt;/span></div>
-</code></pre><p>... and they will be updated whenever <code>firstName</code> or <code>lastName</code> changes (your evaluator function will be called once each time any of its dependencies change, and whatever value you return will be passed on to the observers such as UI elements or other computed observables).</p>
+</code></pre>
+<p>Now you could bind UI elements to it, e.g.:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>The name is &lt;span data-bind="text: fullName">&lt;/span></div>
+</code></pre>
+<p>... and they will be updated whenever <code>firstName</code> or <code>lastName</code> changes (your evaluator function will be called once each time any of its dependencies change, and whatever value you return will be passed on to the observers such as UI elements or other computed observables).</p>
 <h3 id="managing-this-">Managing &#39;this&#39;</h3>
 <p><em>Beginners may wish to skip this section - as long as you follow the same coding patterns as the examples, you won&#39;t need to know or care about it!</em></p>
 <p>In case you&#39;re wondering what the second parameter to <code>ko.computed</code> is (the bit where we passed <code>this</code> in the preceding code), that defines the value of <code>this</code> when evaluating the computed observable. Without passing it in, it would not have been possible to refer to <code>this.firstName()</code> or <code>this.lastName()</code>. Experienced JavaScript coders will regard this as obvious, but if you&#39;re still getting to know JavaScript it might seem strange. (Languages like C# and Java never expect the programmer to set a value for <code>this</code>, but JavaScript does, because its functions themselves aren&#39;t part of any object by default.)</p>
 <h4 id="a-popular-convention-that-simplifies-things">A popular convention that simplifies things</h4>
 <p>There&#39;s a popular convention for avoiding the need to track <code>this</code> altogether: if your viewmodel&#39;s constructor copies a reference to <code>this</code> into a different variable (traditionally called <code>self</code>), you can then use <code>self</code> throughout your viewmodel and don&#39;t have to worry about it being redefined to refer to something else. For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function AppViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function AppViewModel() {
     var self = this;
 
     self.firstName = ko.observable('Bob');
@@ -540,7 +543,8 @@ with <code>this</code> being redefined to mean something else in event handlers 
         return self.firstName() + " " + self.lastName();
     });
 }</div>
-</code></pre><p>Because <code>self</code> is captured in the function&#39;s closure, it remains available and consistent in any nested functions, such as the <code>ko.computed</code> evaluator. This convention is even more useful when it comes to event handlers, as you&#39;ll see in many of the <a href="../examples/">live examples</a>.</p>
+</code></pre>
+<p>Because <code>self</code> is captured in the function&#39;s closure, it remains available and consistent in any nested functions, such as the <code>ko.computed</code> evaluator. This convention is even more useful when it comes to event handlers, as you&#39;ll see in many of the <a href="../examples/">live examples</a>.</p>
 <h3 id="dependency-chains-just-work">Dependency chains just work</h3>
 <p>Of course, you can create whole chains of computed observables if you wish. For example, you might have:</p>
 <ul>
@@ -552,20 +556,22 @@ with <code>this</code> being redefined to mean something else in event handlers 
 <p>Then, changes to <code>items</code> or <code>selectedIndexes</code> will ripple through the chain of computed observables, which in turn updates any UI bound to them. Very tidy and elegant.</p>
 <h3 id="forcing-computed-observables-to-always-notify-subscribers">Forcing computed observables to always notify subscribers</h3>
 <p>When a computed observable returns a primitive value (a number, string, boolean, or null), the dependencies of the observable are normally only notified if the value actually changed. However, it is possible to use the built-in <code>notify</code> <a href="extenders.html">extender</a> to ensure that a computed observable&#39;s subscribers are always notified on an update, even if the value is the same. You would apply the extender like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>myViewModel.fullName = ko.computed(function() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>myViewModel.fullName = ko.computed(function() {
     return myViewModel.firstName() + " " + myViewModel.lastName();
 }).extend({ notify: 'always' });</div>
-</code></pre><h3 id="delaying-and-or-suppressing-change-notifications">Delaying and/or suppressing change notifications</h3>
+</code></pre>
+<h3 id="delaying-and-or-suppressing-change-notifications">Delaying and/or suppressing change notifications</h3>
 <p>Normally, a computed observable updates and notifies its subscribers immediately, as soon as its dependencies change. But if a computed observable has many dependencies or involves expensive updates, you may get better performance by limiting or delaying the computed observable&#39;s updates and notifications. This is accomplished using the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a> like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Ensure updates no more than once per 50-millisecond period
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Ensure updates no more than once per 50-millisecond period
 myViewModel.fullName.extend({ rateLimit: 50 });</div>
-</code></pre><h1 id="writeable-computed-observables">Writeable computed observables</h1>
+</code></pre>
+<h1 id="writeable-computed-observables">Writeable computed observables</h1>
 <p><em>Beginners may wish to skip this section - writeable computed observables are fairly advanced and are not necessary in most situations</em></p>
 <p>As you&#39;ve learned, computed observables have a value that is computed from other observables. In that sense, computed observables are normally <em>read-only</em>. What may seem surprising, then, is that it is possible to make computed observables <em>writeable</em>. You just need to supply your own callback function that does something sensible with written values.</p>
 <p>You can then use your writeable computed observable exactly like a regular observable, with your own custom logic intercepting all reads and writes. This is a powerful feature with a wide range of possible uses. Just like observables, you can write values to multiple observable or computed observable properties on a model object using <em>chaining syntax</em>. For example, <code>myViewModel.fullName(&#39;Joe Smith&#39;).age(50)</code>.</p>
 <h3 id="example-1-decomposing-user-input">Example 1: Decomposing user input</h3>
 <p>Going back to the classic &quot;first name + last name = full name&quot; example, you can turn things back-to-front: make the <code>fullName</code> computed observable writeable, so that the user can directly edit the full name, and their supplied value will be parsed and mapped back to the underlying <code>firstName</code> and <code>lastName</code> observables:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function MyViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function MyViewModel() {
     this.firstName = ko.observable('Planet');
     this.lastName = ko.observable('Earth');
 
@@ -585,15 +591,17 @@ myViewModel.fullName.extend({ rateLimit: 50 });</div>
 }
 
 ko.applyBindings(new MyViewModel());</div>
-</code></pre><p>In this example, the <code>write</code> callback handles incoming values by splitting the incoming text into &quot;firstName&quot; and &quot;lastName&quot; components, and writing those values back to the underlying observables. You can bind this view model to your DOM in the obvious way, as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>First name: &lt;span data-bind="text: firstName">&lt;/span>&lt;/p>
+</code></pre>
+<p>In this example, the <code>write</code> callback handles incoming values by splitting the incoming text into &quot;firstName&quot; and &quot;lastName&quot; components, and writing those values back to the underlying observables. You can bind this view model to your DOM in the obvious way, as follows:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>First name: &lt;span data-bind="text: firstName">&lt;/span>&lt;/p>
 &lt;p>Last name: &lt;span data-bind="text: lastName">&lt;/span>&lt;/p>
 &lt;h2>Hello, &lt;input data-bind="value: fullName"/>!&lt;/h2></div>
-</code></pre><p>This is the exact opposite of the <a href="../examples/helloWorld.html">Hello World</a> example, in that here the first and last names are not editable, but the combined full name is editable.</p>
+</code></pre>
+<p>This is the exact opposite of the <a href="../examples/helloWorld.html">Hello World</a> example, in that here the first and last names are not editable, but the combined full name is editable.</p>
 <p>The preceding view model code demonstrates the <em>single parameter syntax</em> for initializing computed observables. See the <a href="#computed_observable_reference">computed observable reference</a> below for the full list of available options.</p>
 <h3 id="example-2-a-value-converter">Example 2: A value converter</h3>
 <p>Sometimes you might want to represent a data point on the screen in a different format from its underlying storage. For example, you might want to store a price as a raw float value, but let the user edit it with a currency symbol and fixed number of decimal places. You can use a writeable computed observable to represent the formatted price, mapping incoming values back to the underlying float value:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function MyViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function MyViewModel() {
     this.price = ko.observable(25.99);
 
     this.formattedPrice = ko.computed({
@@ -610,13 +618,15 @@ ko.applyBindings(new MyViewModel());</div>
 }
 
 ko.applyBindings(new MyViewModel());</div>
-</code></pre><p>It&#39;s trivial to bind the formatted price to a text box:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Enter bid price: &lt;input data-bind="value: formattedPrice"/>&lt;/p></div>
-</code></pre><p>Now, whenever the user enters a new price, the text box immediately updates to show it formatted with the currency symbol and two decimal places, no matter what format they entered the value in. This gives a great user experience, because the user sees how the software has understood their data entry as a price. They know they can&#39;t enter more than two decimal places, because if they try to, the additional decimal places are immediately removed. Similarly, they can&#39;t enter negative values, because the <code>write</code> callback strips off any minus sign.</p>
+</code></pre>
+<p>It&#39;s trivial to bind the formatted price to a text box:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Enter bid price: &lt;input data-bind="value: formattedPrice"/>&lt;/p></div>
+</code></pre>
+<p>Now, whenever the user enters a new price, the text box immediately updates to show it formatted with the currency symbol and two decimal places, no matter what format they entered the value in. This gives a great user experience, because the user sees how the software has understood their data entry as a price. They know they can&#39;t enter more than two decimal places, because if they try to, the additional decimal places are immediately removed. Similarly, they can&#39;t enter negative values, because the <code>write</code> callback strips off any minus sign.</p>
 <h3 id="example-3-filtering-and-validating-user-input">Example 3: Filtering and validating user input</h3>
 <p>Example 1 showed how a writeable computed observable can effectively <em>filter</em> its incoming data by choosing not to write certain values back to the underlying observables if they don&#39;t meet some criteria. It ignored full name values that didn&#39;t include a space.</p>
 <p>Taking this a step further, you could also toggle an <code>isValid</code> flag depending on whether the latest input was satisfactory, and display a message in the UI accordingly. There&#39;s an easier way of doing validation (explained below), but first consider the following view model, which demonstrates the mechanism:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function MyViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function MyViewModel() {
     this.acceptedNumericValue = ko.observable(123);
     this.lastInputWasValid = ko.observable(true);
 
@@ -635,10 +645,12 @@ ko.applyBindings(new MyViewModel());</div>
 }
 
 ko.applyBindings(new MyViewModel());</div>
-</code></pre><p>... with the following DOM elements:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Enter a numeric value: &lt;input data-bind="value: attemptedValue"/>&lt;/p>
+</code></pre>
+<p>... with the following DOM elements:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Enter a numeric value: &lt;input data-bind="value: attemptedValue"/>&lt;/p>
 &lt;div data-bind="visible: !lastInputWasValid()">That's not a number!&lt;/div></div>
-</code></pre><p>Now, <code>acceptedNumericValue</code> will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating <code>acceptedNumericValue</code>.</p>
+</code></pre>
+<p>Now, <code>acceptedNumericValue</code> will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating <code>acceptedNumericValue</code>.</p>
 <p><strong>Note:</strong> For such trivial requirements as validating that an input is numeric, this technique is overkill. It would be far easier just to use jQuery Validation and its <code>number</code> class on the <code>&lt;input&gt;</code> element. Knockout and jQuery Validation work together nicely, as demonstrated on the <a href="../examples/gridEditor.html">grid editor</a> example. However, the preceding example demonstrates a more general mechanism for filtering and validating with custom logic to control what kind of user feedback appears, which may be of use if your scenario is more complex than jQuery Validation handles natively.</p>
 <h1 id="how-dependency-tracking-works">How dependency tracking works</h1>
 <p><em>Beginners don&#39;t need to know about this, but more advanced developers will want to know why we keep making all these claims about KO automatically tracking dependencies and updating the right parts of the UI...</em></p>
@@ -654,25 +666,27 @@ ko.applyBindings(new MyViewModel());</div>
 <h3 id="controlling-dependencies-using-peek">Controlling dependencies using peek</h3>
 <p>Knockout&#39;s automatic dependency tracking normally does exactly what you want. But you might sometimes need to control which observables will update your computed observable, especially if the computed observable performs some sort of action, such as making an Ajax request. The <code>peek</code> function lets you access an observable or computed observable without creating a dependency.</p>
 <p>In the example below, a computed observable is used to reload an observable named <code>currentPageData</code> using Ajax with data from two other observable properties. The computed observable will update whenever <code>pageIndex</code> changes, but it ignores changes to <code>selectedItem</code> because it is accessed using <code>peek</code>. In this case, the user might want to use the current value of <code>selectedItem</code> only for tracking purposes when a new set of data is loaded.</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.computed(function() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function() {
     var params = {
         page: this.pageIndex(),
         selected: this.selectedItem.peek()
     };
     $.getJSON('/Some/Json/Service', params, this.currentPageData);
 }, this);</div>
-</code></pre><p>Note: If you just want to prevent a computed observable from updating too often, see the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a>.</p>
+</code></pre>
+<p>Note: If you just want to prevent a computed observable from updating too often, see the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a>.</p>
 <h3 id="note-why-circular-dependencies-aren-t-meaningful">Note: Why circular dependencies aren&#39;t meaningful</h3>
 <p>Computed observables are supposed to map a set of observable inputs into a single observable output. As such, it doesn&#39;t make sense to include cycles in your dependency chains. Cycles would <em>not</em> be analogous to recursion; they would be analogous to having two spreadsheet cells that are computed as functions of each other. It would lead to an infinite evaluation loop.</p>
 <p>So what does Knockout do if you have a cycle in your dependency graph? It avoids infinite loops by enforcing the following rule: <strong>Knockout will not restart evaluation of a computed while it is already evaluating</strong>. This is very unlikely to affect your code. It&#39;s relevant in two situations: when two computed observables are dependent on each other (possible only if one or both use the <code>deferEvaluation</code> option), or when a computed observable writes to another observable on which it has a dependency (either directly or via a dependency chain). If you need to use one of these patterns and want to entirely avoid the circular dependency, you can use the <code>peek</code> function described above.</p>
 <h1 id="determining-if-a-property-is-a-computed-observable">Determining if a property is a computed observable</h1>
 <p>In some scenarios, it is useful to programmatically determine if you are dealing with a computed observable. Knockout provides a utility function, <code>ko.isComputed</code> to help with this situation. For example, you might want to exclude computed observables from data that you are sending back to the server.</p>
-<pre><code><div data-bind='highlight: "undefined"'>for (var prop in myObject) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>for (var prop in myObject) {
   if (myObject.hasOwnProperty(prop) &amp;&amp; !ko.isComputed(myObject[prop])) {
       result[prop] = myObject[prop];
   }
 }</div>
-</code></pre><p>Additionally, Knockout provides similar functions that can operate on observables and computed observables:</p>
+</code></pre>
+<p>Additionally, Knockout provides similar functions that can operate on observables and computed observables:</p>
 <ul>
 <li><code>ko.isObservable</code> - returns true for observables, observable arrays, and all computed observables.</li>
 <li><code>ko.isWriteableObservable</code> - returns true for observable, observable arrays, and writeable computed observables.</li>
@@ -723,7 +737,7 @@ ko.applyBindings(new MyViewModel());</div>
 </li>
 </ul>
 <p>Example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var myComputed = ko.computed(function() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var myComputed = ko.computed(function() {
     // ... Omitted: read some data that might be observable ...
 
     // Now let's inspect ko.computedContext
@@ -734,13 +748,15 @@ ko.applyBindings(new MyViewModel());</div>
 
     // ... Omitted: return the result ...
 });</div>
-</code></pre><p>These facilities are typically useful only in advanced scenarios, for example when your computed observable&#39;s primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
+</code></pre>
+<p>These facilities are typically useful only in advanced scenarios, for example when your computed observable&#39;s primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
+<p><em>Note: Computed observables were once called &quot;dependent observables&quot;, but have since been renamed i.e. <code>ko.dependentObservable === ko.computed</code></em></p>
 </template>
 
 <template id='css-binding'
   data-kind='documentation'
-  data-title='The "css" binding'
-  data-cat='Bindings'
+  data-title='css'
+  data-cat='4'
   data-subcat='Controlling text and appearance'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>css</code> binding adds or removes one or more named CSS classes to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative.</p>
@@ -807,7 +823,7 @@ ko.applyBindings(new MyViewModel());</div>
 <template id='custom-bindings-controlling-descendant-bindings'
   data-kind='documentation'
   data-title='Creating custom bindings that control descendant bindings'
-  data-cat='Custom Bindings'
+  data-cat='3'
   data-subcat=''>
 <p><em>Note: This is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>By default, bindings only affect the element to which they are applied. But what if you want to affect all descendant elements too? This is possible. Your binding can tell Knockout <em>not</em> to bind descendants at all, and then your custom binding can do whatever it likes to bind them in a different way.</p>
@@ -883,7 +899,7 @@ ko.applyBindings(new MyViewModel());</div>
 <template id='custom-bindings-disposal'
   data-kind='documentation'
   data-title='Custom disposal logic'
-  data-cat='Custom Bindings'
+  data-cat='3'
   data-subcat=''>
 <p>In a typical Knockout application, DOM elements are dynamically added and removed, for example using the <a href="template-binding.html"><code>template</code></a> binding or via control-flow bindings (<a href="if-binding.html"><code>if</code></a>, <a href="ifnot-binding.html"><code>ifnot</code></a>, <a href="with-binding.html"><code>with</code></a>, and <a href="foreach-binding.html"><code>foreach</code></a>). When creating a custom binding, it is often desirable to add clean-up logic that runs when an element associated with your custom binding is removed by Knockout.</p>
 <h3 id="registering-a-callback-on-the-disposal-of-an-element">Registering a callback on the disposal of an element</h3>
@@ -913,7 +929,7 @@ ko.applyBindings(new MyViewModel());</div>
 <template id='custom-bindings-for-virtual-elements'
   data-kind='documentation'
   data-title='Creating custom bindings that support virtual elements'
-  data-cat='Custom Bindings'
+  data-cat='3'
   data-subcat=''>
 <p><em>Note: This is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>Knockout&#39;s <em>control flow bindings</em> (e.g., <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>) can be applied not only to regular DOM elements, but also to &quot;virtual&quot; DOM elements defined by a special comment-based syntax. For example:</p>
@@ -1009,7 +1025,7 @@ ko.applyBindings(new MyViewModel());</div>
 <template id='custom-bindings'
   data-kind='documentation'
   data-title='Creating custom bindings'
-  data-cat='Custom Bindings'
+  data-cat='3'
   data-subcat=''>
 <p>You&#39;re not limited to using the built-in bindings like <code>click</code>, <code>value</code>, and so on --- you can create your own ones. This is how to control how observables interact with DOM elements, and gives you a lot of flexibility to encapsulate sophisticated behaviors in an easy-to-reuse way.</p>
 <p>For example, you can create interactive components like grids, tabsets, and so on, in the form of custom bindings (see the <a href="../examples/grid.html">grid example</a>).</p>
@@ -1127,19 +1143,10 @@ ko.applyBindings(new MyViewModel());</div>
 </code></pre><p>... then see <a href="custom-bindings-for-virtual-elements.html">the documentation for virtual elements</a>.</p>
 </template>
 
-<template id='dependentObservables'
-  data-kind='documentation'
-  data-title='Dependent Observables'
-  data-cat=''
-  data-subcat=''>
-<p>Since Knockout 2.0, dependent observables are now called <em>computed observables</em>. You can find documentation for them <a href="computedObservables.html">here</a>.</p>
-<p>Note that this rename does not cause any backward compatibility problems. At runtime, <code>ko.dependentObservable</code> refers to the same function as <code>ko.computed</code>, so your existing code will continue to work just fine.</p>
-</template>
-
 <template id='disable-binding'
   data-kind='documentation'
-  data-title='The "disable" binding'
-  data-cat='Bindings'
+  data-title='disable'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>disable</code> binding causes the associated DOM element to be disabled only when the parameter value is <code>true</code>. This is useful with form elements like <code>input</code>, <code>select</code>, and <code>textarea</code>.</p>
@@ -1148,8 +1155,8 @@ ko.applyBindings(new MyViewModel());</div>
 
 <template id='enable-binding'
   data-kind='documentation'
-  data-title='The "enable" binding'
-  data-cat='Bindings'
+  data-title='enable'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>enable</code> binding causes the associated DOM element to be enabled only when the parameter value is <code>true</code>. This is useful with form elements like <code>input</code>, <code>select</code>, and <code>textarea</code>.</p>
@@ -1180,8 +1187,8 @@ ko.applyBindings(new MyViewModel());</div>
 
 <template id='event-binding'
   data-kind='documentation'
-  data-title='The "event" binding'
-  data-cat='Bindings'
+  data-title='event'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>event</code> binding allows you to add an event handler for a specified event so that your chosen JavaScript function will be invoked when that event is triggered for the associated DOM element. This can be used to bind to any event, such as <code>keypress</code>, <code>mouseover</code> or <code>mouseout</code>.</p>
@@ -1292,7 +1299,7 @@ ko.applyBindings(viewModel);</div>
 <template id='extenders'
   data-kind='documentation'
   data-title='Using extenders to augment observables'
-  data-cat='Further techniques'
+  data-cat='2'
   data-subcat=''>
 <p>Knockout observables provide the basic features necessary to support reading/writing values and notifying subscribers when that value changes. In some cases, though, you may wish to add additional functionality to an observable. This might include adding additional properties to the observable or intercepting writes by placing a writeable computed observable in front of the observable. Knockout extenders provide an easy and flexible way to do this type of augmentation to an observable.</p>
 <h3 id="how-to-create-an-extender">How to create an extender</h3>
@@ -1404,7 +1411,7 @@ return target;</div>
 <template id='fn'
   data-kind='documentation'
   data-title='Adding custom functions using "fn"'
-  data-cat='Further techniques'
+  data-cat='2'
   data-subcat=''>
 <p>  Occasionally, you may find opportunities to streamline your code by attaching new functionality to Knockout&#39;s core value types. You can define custom functions on any of the following types:</p>
 <p>  TODO: HIERARCHY
@@ -1494,8 +1501,8 @@ ko.applyBindings(new AppViewModel());</div>
 
 <template id='foreach-binding'
   data-kind='documentation'
-  data-title='The "foreach" binding'
-  data-cat='Bindings'
+  data-title='foreach'
+  data-cat='4'
   data-subcat='Control flow'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>foreach</code> binding duplicates a section of markup for each entry in an array, and binds each copy of that markup to the corresponding array item. This is especially useful for rendering lists or tables.</p>
@@ -1625,8 +1632,8 @@ removing corresponding sections of markup in the DOM.</p>
 
 <template id='hasfocus-binding'
   data-kind='documentation'
-  data-title='The "hasFocus" binding'
-  data-cat='Bindings'
+  data-title='hasFocus'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>hasFocus</code> binding links a DOM element&#39;s focus state with a viewmodel property. It is a two-way binding, so:</p>
@@ -1691,8 +1698,8 @@ this.edit = function() { this.editing(true) }</div>
 
 <template id='html-binding'
   data-kind='documentation'
-  data-title='The "html" binding'
-  data-cat='Bindings'
+  data-title='html'
+  data-cat='4'
   data-subcat='Controlling text and appearance'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>html</code> binding causes the associated DOM element to display the HTML specified by your parameter.</p>
@@ -1727,8 +1734,8 @@ this.edit = function() { this.editing(true) }</div>
 
 <template id='if-binding'
   data-kind='documentation'
-  data-title='The "if" binding'
-  data-cat='Bindings'
+  data-title='if'
+  data-cat='4'
   data-subcat='Control flow'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>if</code> binding causes a section of markup to appear in your document (and to have its <code>data-bind</code> attributes applied), only if a specified expression evaluates to <code>true</code> (or a <code>true</code>-ish value such as a non-<code>null</code> object or nonempty string).</p>
@@ -1800,8 +1807,8 @@ ko.applyBindings({
 
 <template id='ifnot-binding'
   data-kind='documentation'
-  data-title='The "ifnot" binding'
-  data-cat='Bindings'
+  data-title='ifnot'
+  data-cat='4'
   data-subcat='Control flow'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>ifnot</code> binding is exactly the same as <a href="if-binding.html">the <code>if</code> binding</a>, except that it inverts the result of whatever expression you pass to it. For more details, see documentation for <a href="if-binding.html">the <code>if</code> binding</a>.</p>
@@ -1817,15 +1824,27 @@ ko.applyBindings({
 <template id='installation'
   data-kind='documentation'
   data-title='Installation'
-  data-cat=''
+  data-cat='1'
   data-subcat=''>
-<p>Download and installation instructions <a href="../downloads/index.html">have moved here</a>.</p>
+<p>Simply reference the JavaScript file using a <code>&lt;script&gt;</code> tag somewhere on your HTML pages. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;script type='text/javascript' src='knockout-3.1.0.js'>&lt;/script></div>
+</code></pre>
+<p>Change the <code>src</code> attribute to match the location where you put
+the download file, or use one of the Content Delivery Networks at
+the footer of this page.</p>
+<p>You can also get Knockout over <em>bower</em>:</p>
+<pre><code><div data-bind='highlight: "undefined"'>bower install knockoutjs</div>
+</code></pre><p>and <em>npm</em>:</p>
+<pre><code><div data-bind='highlight: "undefined"'>npm install knockout</div>
+</code></pre><p>Next, if you are new to Knockout, you can get started with
+<a href="http://learn.knockoutjs.com">interactive tutorials</a>, or explore
+ the <a href="#docs">documentation</a>.</p>
 </template>
 
 <template id='introduction'
   data-kind='documentation'
   data-title='Introduction'
-  data-cat='Getting Started'
+  data-cat='1'
   data-subcat=''>
 <p>Knockout is a JavaScript library that helps you to create rich, responsive display and editor user interfaces with a clean underlying data model. Any time you have sections of UI that update dynamically (e.g., changing depending on the user&#39;s actions or when an external data source changes), KO can help you implement it more simply and maintainably.</p>
 <p>Headline features:</p>
@@ -1860,7 +1879,7 @@ ko.applyBindings({
 <template id='json-data'
   data-kind='documentation'
   data-title='Loading and Saving JSON data'
-  data-cat='Further techniques'
+  data-cat='5'
   data-subcat=''>
 <p>Knockout allows you to implement sophisticated client-side interactivity, but almost all web applications also need to exchange data with the server, or at least to serialize the data for local storage. The most convenient way to exchange or store data is in <a href="http://json.org/">JSON format</a> - the format that the majority of Ajax applications use today.</p>
 <h3 id="loading-or-saving-data">Loading or Saving Data</h3>
@@ -1931,7 +1950,7 @@ viewModel.pets(parsed.pets);</div>
 <template id='links'
   data-kind='documentation'
   data-title='External links and tutorials'
-  data-cat=''
+  data-cat='5'
   data-subcat=''>
 <p>See these external pages for more examples of using Knockout with other technologies:</p>
 <ul>
@@ -1948,7 +1967,7 @@ viewModel.pets(parsed.pets);</div>
 <template id='observableArrays'
   data-kind='documentation'
   data-title='Observable Arrays'
-  data-cat='Observables'
+  data-cat='2'
   data-subcat=''>
 <p>If you want to detect and respond to changes on one object, you&#39;d use <a href="observables.html">observables</a>. If you want to detect and respond to changes of a <em>collection of things</em>, use an <code>observableArray</code>. This is useful in many scenarios where you&#39;re displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.</p>
 <h3 id="example">Example</h3>
@@ -2024,7 +2043,7 @@ myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 <template id='observables'
   data-kind='documentation'
   data-title='Observables'
-  data-cat='Observables'
+  data-cat='2'
   data-subcat=''>
 <p>Knockout is built around three core features:</p>
 <ol>
@@ -2115,8 +2134,8 @@ myViewModel.personName.extend({ rateLimit: 50 });</div>
 
 <template id='options-binding'
   data-kind='documentation'
-  data-title='The "options" binding'
-  data-cat='Bindings'
+  data-title='options'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>options</code> binding controls what options should appear in a drop-down list (i.e., a <code>&lt;select&gt;</code> element) or multi-select list (e.g., <code>&lt;select size=&#39;6&#39;&gt;</code>). This binding cannot be used with anything other than <code>&lt;select&gt;</code> elements.</p>
@@ -2263,10 +2282,11 @@ myViewModel.personName.extend({ rateLimit: 50 });</div>
 
 <template id='plugins-mapping'
   data-kind='documentation'
-  data-title='Mapping'
-  data-cat=''
+  data-title='The Mapping Plugin'
+  data-cat='5'
   data-subcat=''>
-<p>Knockout is designed to allow you to use arbitrary JavaScript objects as view models. As long as some of your view model&#39;s properties are <a href="observables.html">observables</a>, you can use KO to bind to them to your UI, and the UI will be updated automatically whenever the observable properties change. </p>
+<p><em>Note: The mapping plugin is no longer being maintained.</em></p>
+<p>Knockout is designed to allow you to use arbitrary JavaScript objects as view models. As long as some of your view model&#39;s properties are <a href="observables.html">observables</a>, you can use KO to bind to them to your UI, and the UI will be updated automatically whenever the observable properties change.</p>
 <p>Most applications need to fetch data from a backend server. Since the server doesn&#39;t have any concept of observables, it will just supply a plain JavaScript object (usually serialized as JSON). The mapping plugin gives you a straightforward way to map that plain JavaScript object into a view model with the appropriate observables. This is an alternative to manually writing your own JavaScript code that constructs a view model based on some data you&#39;ve fetched from the server.</p>
 <p>{% capture plugin_download_link %}</p>
 <ul>
@@ -2441,7 +2461,7 @@ ko.mapping.defaultOptions().observe = ["onlyObserveThis"];</div>
 </code></pre><p>The arrays <code>ignore</code> and <code>include</code> still work as normal. The array <code>copy</code> can be used for efficiency to copy array or object properties including children. If an array or object property is not specified in <code>copy</code> or <code>observe</code> then it is recursively mapped:</p>
 <pre><code><div data-bind='highlight: "undefined"'>var data = {
     a: "a",
-    b: [{ b1: "v1" }, { b2: "v2" }] 
+    b: [{ b1: "v1" }, { b2: "v2" }]
 };
 
 var result = ko.mapping.fromJS(data, { observe: "a" });
@@ -2449,24 +2469,24 @@ var result2 = ko.mapping.fromJS(data, { observe: "a", copy: "b" }); //will be fa
 </code></pre><p>Both <code>result</code> and <code>result2</code> will be:</p>
 <pre><code><div data-bind='highlight: "undefined"'>{
     a: observable("a"),
-    b: [{ b1: "v1" }, { b2: "v2" }] 
+    b: [{ b1: "v1" }, { b2: "v2" }]
 }</div>
 </code></pre><p>Drilling down into arrays/objects works but copy and observe can conflict:</p>
 <pre><code><div data-bind='highlight: "undefined"'>var data = {
     a: "a",
-    b: [{ b1: "v1" }, { b2: "v2" }] 
+    b: [{ b1: "v1" }, { b2: "v2" }]
 };
 var result = ko.mapping.fromJS(data, { observe: "b[0].b1"});
 var result2 = ko.mapping.fromJS(data, { observe: "b[0].b1", copy: "b" });</div>
 </code></pre><p>The <code>result</code> will be:</p>
 <pre><code><div data-bind='highlight: "undefined"'>{
     a: "a",
-    b: [{ b1: observable("v1") }, { b2: "v2" }] 
+    b: [{ b1: observable("v1") }, { b2: "v2" }]
 }</div>
 </code></pre><p>While <code>result2</code> will be:</p>
 <pre><code><div data-bind='highlight: "undefined"'>{
     a: "a",
-    b: [{ b1: "v1" }, { b2: "v2" }] 
+    b: [{ b1: "v1" }, { b2: "v2" }]
 }</div>
 </code></pre><h6 id="specifying-the-update-target">Specifying the update target</h6>
 <p>If, like in the example above, you are performing the mapping inside of a class, you would like to have <code>this</code> as the target of your mapping operation. The third parameter to <code>ko.mapping.fromJS</code> indicates the target. For example,</p>
@@ -2509,7 +2529,7 @@ result.mappedRemove({ id : 2 });</div>
 <template id='rateLimit-observable'
   data-kind='documentation'
   data-title='Rate-limiting observable notifications'
-  data-cat='Further techniques'
+  data-cat='2'
   data-subcat=''>
 <p><em>Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the <a href="throttle-extender.html"><code>throttle</code> extender</a> provides similar functionality.</em></p>
 <p>Normally, an <a href="observables.html">observable</a> that is changed notifies its subscribers immediately, so that any computed observables or bindings that depend on the observable are updated synchronously. The <code>rateLimit</code> extender, however, causes an observable to suppress and delay change notifications for a specified period of time. A rate-limited observable therefore updates dependencies asynchronously.</p>
@@ -2520,12 +2540,13 @@ result.mappedRemove({ id : 2 });</div>
 </ul>
 <h3 id="applying-the-ratelimit-extender">Applying the rateLimit extender</h3>
 <p><code>rateLimit</code> supports two parameter formats:</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Shorthand: Specify just a timeout in milliseconds
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Shorthand: Specify just a timeout in milliseconds
 someObservableOrComputed.extend({ rateLimit: 500 });
 
 // Longhand: Specify timeout and/or method
 someObservableOrComputed.extend({ rateLimit: { timeout: 500, method: "notifyWhenChangesStop" } });</div>
-</code></pre><p>The <code>method</code> option controls when notifications fire, and accepts the following values:</p>
+</code></pre>
+<p>The <code>method</code> option controls when notifications fire, and accepts the following values:</p>
 <ol>
 <li><p><code>notifyAtFixedRate</code> --- <strong>Default value if not otherwise specified</strong>. The notification happens after the specified period of time from the first change to the observable (either initially or since the previous notification).</p>
 </li>
@@ -2534,49 +2555,26 @@ someObservableOrComputed.extend({ rateLimit: { timeout: 500, method: "notifyWhen
 </ol>
 <h3 id="example-1-the-basics">Example 1: The basics</h3>
 <p>Consider the observables in the following code:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var name = ko.observable('Bert');
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var name = ko.observable('Bert');
 
 var upperCaseName = ko.computed(function() {
     return name().toUpperCase();
 });</div>
-</code></pre><p>Normally, if you change <code>name</code> as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>name('The New Bert');</div>
-</code></pre><p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you instead define <code>name</code> using <code>rateLimit</code> as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var name = ko.observable('Bert').extend({ rateLimit: 500 });</div>
-</code></pre><p>... then <code>upperCaseName</code> will not be recomputed immediately when <code>name</code> changes---instead, <code>name</code> will wait for 500 milliseconds (half a second) before notifying its new value to <code>upperCaseName</code>, which will then recompute its value. No matter how many times <code>name</code> is changed during those 500 ms, <code>upperCaseName</code> will only be updated once with the most recent value.</p>
+</code></pre>
+<p>Normally, if you change <code>name</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>name('The New Bert');</div>
+</code></pre>
+<p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you instead define <code>name</code> using <code>rateLimit</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var name = ko.observable('Bert').extend({ rateLimit: 500 });</div>
+</code></pre>
+<p>... then <code>upperCaseName</code> will not be recomputed immediately when <code>name</code> changes---instead, <code>name</code> will wait for 500 milliseconds (half a second) before notifying its new value to <code>upperCaseName</code>, which will then recompute its value. No matter how many times <code>name</code> is changed during those 500 ms, <code>upperCaseName</code> will only be updated once with the most recent value.</p>
 <h3 id="example-2-doing-something-when-the-user-stops-typing">Example 2: Doing something when the user stops typing</h3>
 <p>In this live example, there&#39;s an <code>instantaneousValue</code> observable that reacts immediately when you press a key. This is then wrapped inside a <code>delayedValue</code> computed observable that&#39;s configured to notify only when changes stop for at least 400 milliseconds, using the <code>notifyWhenChangesStop</code> rate-limit method.</p>
 <p>Try it:</p>
-<p>{% capture live_example_view %}</p>
-<p>Type stuff here: <input data-bind='value: instantaneousValue,
-    valueUpdate: ["input", "afterkeydown"]' /></p>
-<p>Current delayed value: <b data-bind='text: delayedValue'> </b></p>
-
-<p><div data-bind="visible: loggedValues().length > 0">
-    <h3>Stuff you have typed:</h3>
-    <ul data-bind="foreach: loggedValues">
-        <li data-bind="text: $data"></li>
-    </ul>
-</div>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-function AppViewModel() {
-    this.instantaneousValue = ko.observable();
-    this.delayedValue = ko.computed(this.instantaneousValue)
-        .extend({ rateLimit: { method: &quot;notifyWhenChangesStop&quot;, timeout: 400 } });</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Keep a log of the throttled values
-this.loggedValues = ko.observableArray([]);
-this.delayedValue.subscribe(function (val) {
-    if (val !== '')
-        this.loggedValues.push(val);
-}, this);</div>
-</code></pre><p>}</p>
-<p>ko.applyBindings(new AppViewModel());
-{% endcapture %}
-{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "rate-limit"'></live-example></p>
 <h3 id="example-3-avoiding-multiple-ajax-requests">Example 3: Avoiding multiple Ajax requests</h3>
 <p>The following model represents data that you could render as a paged grid:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function GridViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function GridViewModel() {
     this.pageSize = ko.observable(20);
     this.pageIndex = ko.observable(1);
     this.currentPageData = ko.observableArray();
@@ -2588,30 +2586,34 @@ this.delayedValue.subscribe(function (val) {
         $.getJSON('/Some/Json/Service', params, this.currentPageData);
     }, this);
 }</div>
-</code></pre><p>Because the computed observable evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery&#39;s <a href="http://api.jquery.com/jQuery.getJSON/"><code>$.getJSON</code> function</a> to reload <code>currentPageData</code> when a <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
+</code></pre>
+<p>Because the computed observable evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery&#39;s <a href="http://api.jquery.com/jQuery.getJSON/"><code>$.getJSON</code> function</a> to reload <code>currentPageData</code> when a <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
 <p>This is very simple and elegant (and it&#39;s trivial to add yet more observable query parameters that also trigger a refresh automatically whenever they change), but there is a potential efficiency problem. Suppose you add the following function to <code>GridViewModel</code> that changes both <code>pageIndex</code> and <code>pageSize</code>:</p>
-<pre><code><div data-bind='highlight: "undefined"'>this.setPageSize = function(newPageSize) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.setPageSize = function(newPageSize) {
     // Whenever you change the page size, we always reset the page index to 1
     this.pageSize(newPageSize);
     this.pageIndex(1);
 }</div>
-</code></pre><p>The problem is that this will cause <em>two</em> Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
+</code></pre>
+<p>The problem is that this will cause <em>two</em> Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
 <p>When applied to a computed observable, the <code>rateLimit</code> extender will also avoid excess evaluation of the computed function. Using a short rate-limit timeout (e.g., 0 milliseconds) ensures that any sequence of synchronous changes to dependencies will trigger just <em>one</em> re-evaluation of your computed observable. For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.computed(function() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function() {
     // This evaluation logic is exactly the same as before
     var params = { page: this.pageIndex(), size: this.pageSize() };
     $.getJSON('/Some/Json/Service', params, this.currentPageData);
 }, this).extend({ rateLimit: 0 });</div>
-</code></pre><p>Now you can change <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once after you release your thread back to the JavaScript runtime.</p>
+</code></pre>
+<p>Now you can change <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once after you release your thread back to the JavaScript runtime.</p>
 <h2 id="special-consideration-for-computed-observables">Special consideration for computed observables</h2>
 <p>For a computed observable, the rate-limit timer is triggered when one of the computed observable&#39;s dependencies change instead of when its value changes. The computed observable is not re-evaluated until its value is actually needed---after the timeout period when the change notification should happen, or when the computed observable value is accessed directly. If you need to access the value of the computed&#39;s most recent evaluation, you can do so with the <code>peek</code> method.</p>
 <h2 id="forcing-rate-limited-observables-to-always-notify-subscribers">Forcing rate-limited observables to always notify subscribers</h2>
 <p>When the value of any observable is primitive (a number, string, boolean, or null), the dependents of the observable are by default notified only when it is set to a value that is actually different from before. So, primitive-valued rate-limited observables notify only when their value is actually different at the end of the timeout period. In other words, if a primitive-valued rate-limited observable is changed to a new value and then changed back to the original value before the timeout period ends, no notification will happen.</p>
 <p>If you want to ensure that the subscribers are always notified of an update, even if the value is the same, you would use the <code>notify</code> extender in addition to <code>rateLimit</code>:</p>
-<pre><code><div data-bind='highlight: "undefined"'>myViewModel.fullName = ko.computed(function() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>myViewModel.fullName = ko.computed(function() {
     return myViewModel.firstName() + " " + myViewModel.lastName();
 }).extend({ notify: 'always', rateLimit: 500 });</div>
-</code></pre><h2 id="comparison-with-the-throttle-extender">Comparison with the throttle extender</h2>
+</code></pre>
+<h2 id="comparison-with-the-throttle-extender">Comparison with the throttle extender</h2>
 <p>If you&#39;d like to migrate code from using the deprecated <code>throttle</code> extender, you should note the following ways that the <code>rateLimit</code> extender is different from the <code>throttle</code> extender.</p>
 <p>When using <code>rateLimit</code>:</p>
 <ol>
@@ -2624,8 +2626,8 @@ this.delayedValue.subscribe(function (val) {
 
 <template id='selectedOptions-binding'
   data-kind='documentation'
-  data-title='The "selectedOptions" binding'
-  data-cat='Bindings'
+  data-title='selectedOptions'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>selectedOptions</code> binding controls which elements in a multi-select list are currently selected. This is intended to be used in conjunction with a <code>&lt;select&gt;</code> element and the <code>options</code> binding.</p>
@@ -2666,8 +2668,8 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 
 <template id='style-binding'
   data-kind='documentation'
-  data-title='The "style" binding'
-  data-cat='Bindings'
+  data-title='style'
+  data-cat='4'
   data-subcat='Controlling text and appearance'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>style</code> binding adds or removes one or more style values to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative, or to set the width of a bar to match a numerical value that changes.</p>
@@ -2712,8 +2714,8 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 
 <template id='submit-binding'
   data-kind='documentation'
-  data-title='The "submit" binding'
-  data-cat='Bindings'
+  data-title='submit'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>submit</code> binding adds an event handler so that your chosen JavaScript function will be invoked when the associated DOM element is submitted. Typically you will only want to use this on <code>form</code> elements.</p>
@@ -2761,8 +2763,8 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 
 <template id='template-binding'
   data-kind='documentation'
-  data-title='The "template" binding'
-  data-cat='Bindings'
+  data-title='template'
+  data-cat='4'
   data-subcat='Rendering templates'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>template</code> binding populates the associated DOM element with the results of rendering a template. Templates are a simple and convenient way to build sophisticated UI structures - possibly with repeating or nested blocks - as a function of your view model data.</p>
@@ -2978,8 +2980,8 @@ Here are the participants:
 
 <template id='text-binding'
   data-kind='documentation'
-  data-title='The "text" binding'
-  data-cat='Bindings'
+  data-title='text'
+  data-cat='4'
   data-subcat='Controlling text and appearance'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>text</code> binding causes the associated DOM element to display the text value of your parameter.</p>
@@ -3038,9 +3040,9 @@ Here are the participants:
 <template id='throttle-extender'
   data-kind='documentation'
   data-title='The "throttle" extender'
-  data-cat=''
+  data-cat='2'
   data-subcat=''>
-<p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
+<p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
 <p>Normally, <a href="computedObservables.html">computed observables</a> are re-evaluated <em>synchronously</em>, as soon as each of their dependencies change. The <code>throttle</code> extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update <em>asychronously</em>.</p>
 <p>The main uses cases for throttling are:</p>
 <ul>
@@ -3060,7 +3062,7 @@ var upperCaseName = ko.computed(function() {
 </code></pre><p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you had instead defined <code>upperCaseName</code> using <code>throttle</code> as follows:</p>
 <pre><code><div data-bind='highlight: "undefined"'>var upperCaseName = ko.computed(function() {
     return name().toUpperCase();
-}).extend({ throttle: 500 });    </div>
+}).extend({ throttle: 500 });</div>
 </code></pre><p>... then <code>upperCaseName</code> would not be recomputed immediately when <code>name</code> changes --- instead, it would wait for 500 milliseconds (half a second) before recomputing its value and then notifying any associated UI. Each time <code>name</code> changes, that timeout is reset back to zero, so the re-evaluation only occurs once <code>name</code> has stopped changing for at least half a second.</p>
 <h3 id="example-2-doing-something-when-the-user-stops-typing">Example 2: Doing something when the user stops typing</h3>
 <p>In this live example, there&#39;s an <code>instantaneousValue</code> observable that reacts immediately when you press a key. This is then wrapped inside a <code>throttledValue</code> computed observable that&#39;s configured to react only when you stop typing for at least 400 milliseconds.</p>
@@ -3113,7 +3115,7 @@ this.throttledValue.subscribe(function (val) {
     this.pageIndex(1);
 }</div>
 </code></pre><p>The problem is that this will cause <em>two</em> simultaneous Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
-<p>Throttling is an elegant solution. You can add an arbitrarily short but nonzero throttle timeout (e.g., 1 millisecond), and then any sequence of synchronous changes to dependencies will only trigger <em>one</em> re-evaluation of your computed observable. For example, </p>
+<p>Throttling is an elegant solution. You can add an arbitrarily short but nonzero throttle timeout (e.g., 1 millisecond), and then any sequence of synchronous changes to dependencies will only trigger <em>one</em> re-evaluation of your computed observable. For example,</p>
 <pre><code><div data-bind='highlight: "undefined"'>    ko.computed(function() {
         // This evaluation logic is exactly the same as before
         var params = { page: this.pageIndex(), size: this.pageSize() };
@@ -3124,8 +3126,8 @@ this.throttledValue.subscribe(function (val) {
 
 <template id='uniqueName-binding'
   data-kind='documentation'
-  data-title='The "uniqueName" binding'
-  data-cat='Bindings'
+  data-title='uniqueName'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>uniqueName</code> binding ensures that the associated DOM element has a nonempty <code>name</code> attribute. If the DOM element did not have a <code>name</code> attribute, this binding gives it one and sets it to some unique string value.</p>
@@ -3156,7 +3158,7 @@ this.throttledValue.subscribe(function (val) {
 <template id='unobtrusive-event-handling'
   data-kind='documentation'
   data-title='Using unobtrusive event handlers'
-  data-cat='Further techniques'
+  data-cat='5'
   data-subcat=''>
 <p>In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:</p>
 <pre><code><div data-bind='highlight: "undefined"'>&lt;a href="#" data-bind="click: function() { viewModel.items.remove($data); }">
@@ -3252,8 +3254,8 @@ return false;</div>
 
 <template id='value-binding'
   data-kind='documentation'
-  data-title='The "value" binding'
-  data-cat='Bindings'
+  data-title='value'
+  data-cat='4'
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>value</code> binding links the associated DOM element&#39;s value with a property on your view model. This is typically useful with form elements such as <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> and <code>&lt;textarea&gt;</code>.</p>
@@ -3358,8 +3360,8 @@ return false;</div>
 
 <template id='visible-binding'
   data-kind='documentation'
-  data-title='The "visible" binding'
-  data-cat='Bindings'
+  data-title='visible'
+  data-cat='4'
   data-subcat='Controlling text and appearance'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>visible</code> binding causes the associated DOM element to become hidden or visible according to the value you pass to the binding.</p>
@@ -3412,8 +3414,8 @@ return false;</div>
 
 <template id='with-binding'
   data-kind='documentation'
-  data-title='The "with" binding'
-  data-cat='Bindings'
+  data-title='with'
+  data-cat='4'
   data-subcat='Control flow'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>with</code> binding creates a new <a href="binding-context.html">binding context</a>, so that descendant elements are bound in the context of a specified object.</p>

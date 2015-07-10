@@ -1,7 +1,7 @@
 ---
 kind: documentation
-title: The "template" binding
-cat: Bindings
+title: template
+cat: 4
 subCat: Rendering templates
 ---
 
