@@ -10,6 +10,9 @@ var _ = require('lodash')
 var fs = require('fs')
 var yaml = require('js-yaml')
 var request = require('request')
+var vmap = require('vinyl-map')
+var path = require('path')
+var opine = require('opine.js')
 global.path = require('path')
 
 Object.defineProperty(global, 'config', {
@@ -198,8 +201,21 @@ function updatePlugins(done) {
 gulp.task("update:plugins", updatePlugins)
 
 
-gulp.task("make:opine", function () {
+gulp.task("make:api", function () {
+  var opinIfy = vmap(function (buf, _path) {
+    var code = buf.toString()
+    var opJs = opine.rip(
+      code, path.relative("./koSrc", _path)
+    ).toJS()
+    return JSON.stringify(opJs)
+  })
 
+  gulp.src(config.api.src)
+    .pipe(opinIfy)
+    .pipe(plugins.concat(config.api.filename, {newLine: ','}))
+    .pipe(plugins.header("{\"api\": ["))
+    .pipe(plugins.footer("]}"))
+    .pipe(gulp.dest(config.api.dest))
 })
 
 

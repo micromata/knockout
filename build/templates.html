@@ -1,7 +1,29 @@
 <!--     /templates/api.html    -->
 <template id='api' data-title='Application Programming Interface'>
-  <h1>API</h1>
 
+  <table class='pure-table pure-table-horizontal pure-table-striped'>
+    <thead>
+      <tr>
+        <th>Identity</th>
+        <th>Purpose</th>
+        <th>Source</th>
+      </tr>
+    </thead>
+    <tbody data-bind='foreach: API.items'>
+      <tr>
+        <td>
+          <code>{{ name }}</code>
+        </td>
+        <td>{{ purpose }}</td>
+        <td>
+          {{ type }} at
+          <a href='{{ url }}'>
+            {{ source }}:{{ line }}
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <!--     /templates/docs.html    -->
@@ -189,7 +211,7 @@
 
 
 
-  <table class='pure-table pure-table-horizontal pure-table-striped' style='width: 100%'>
+  <table class='pure-table pure-table-horizontal pure-table-striped'>
     <thead>
       <tr>
         <th>Repository</th>

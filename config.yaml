@@ -108,6 +108,11 @@ examples:
   settings:
     safe: true
 
+# API
+api:
+  src: koSrc/**/*.js
+  filename: api.json
+  dest: build/
 
 # Plugins
 # ---

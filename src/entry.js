@@ -1,4 +1,4 @@
-/* global setupEvents, Example, Documentation */
+/* global setupEvents, Example, Documentation, APIs */
 
 function loadHtml(uri) {
   return Promise.resolve($.ajax(uri))
@@ -25,7 +25,6 @@ function loadTemplates() {
 function loadMarkdown() {
   return loadHtml("build/markdown.html")
 }
-
 function onApplicationUpdate() {
   location.reload()
 }
@@ -65,6 +64,19 @@ function getExamples() {
 }
 
 
+function loadAPI() {
+  return Promise.resolve($.ajax({
+    url: 'build/api.json',
+    dataType: 'json'
+  })).then((results) =>
+    results.api.forEach(function (apiFileList) {
+      // We essentially have to flatten the api (FIXME)
+      apiFileList.forEach(API.add)
+    })
+  )
+}
+
+
 function getPlugins() {
   return Promise.resolve($.ajax({
     url: 'build/plugins.json',
@@ -91,6 +103,7 @@ function start() {
     .then(() => Documentation.initialize())
     .then(applyBindings)
     .then(getExamples)
+    .then(loadAPI)
     .then(getPlugins)
     .then(setupEvents)
     .then(checkForApplicationUpdate)

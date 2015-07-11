@@ -1,0 +1,1 @@
+{"api": [[{"type":"function","name":"vtest","source":"test.js","line":1,"vars":{"description":"Run a test function","params":{"a":"function","b":"optional thisArg","c":"type of thing"}}}],[{"type":"var","name":"y","source":"x.js","line":1,"vars":{"description":123,"params":null}}]]}

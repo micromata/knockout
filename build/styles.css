@@ -1547,6 +1547,9 @@ pre code {
   border: 1px solid #aaa;
   border-radius: 5px;
 }
+a code {
+  color: #3222e6;
+}
 input[type=search] {
   border-radius: 25px;
   padding: 2px 0.62em;
@@ -1695,6 +1698,9 @@ div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   height: 200px;
   border-radius: 6px;
+}
+.pure-table {
+  width: 100%;
 }
 @media screen and (max-width: 500px) {
   table thead {
