@@ -1,0 +1,22 @@
+name: array change example
+html: |-
+  <ul data-bind='foreach: changes'>
+    <li data-bind='text: $data'>
+    </li>
+  </ul>
+
+
+javascript: |-
+  var myArray = ko.observableArray(["Alpha", "Beta", "Gamma"]);
+  var changes = ko.observableArray([])
+
+  myArray.subscribe(function(changeList) {
+    changes.push(JSON.stringify(changeList))
+  }, null, "arrayChange");
+
+  myArray.push("Delta");
+  myArray.pop();
+  myArray.splice(1, 2, "New value");
+  myArray.reverse();
+
+  ko.applyBindings({changes: changes})
