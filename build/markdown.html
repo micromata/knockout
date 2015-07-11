@@ -128,14 +128,17 @@ define(['knockout-x.y.z'], function(ko) {
 <ul>
 <li><p><code>$parent</code></p>
 <p>  This is the view model object in the parent context, the one immeditely outside the current context. In the root context, this is undefined. Example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>  &lt;h1 data-bind="text: name">&lt;/h1>
+</li>
+</ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;h1 data-bind="text: name">&lt;/h1>
 
-  &lt;div data-bind="with: manager">
-      &lt;!-- Now we're inside a nested binding context -->
-      &lt;span data-bind="text: name">&lt;/span> is the
-      manager of &lt;span data-bind="text: $parent.name">&lt;/span>
-  &lt;/div></div>
-</code></pre></li>
+&lt;div data-bind="with: manager">
+    &lt;!-- Now we're inside a nested binding context -->
+    &lt;span data-bind="text: name">&lt;/span> is the
+    manager of &lt;span data-bind="text: $parent.name">&lt;/span>
+&lt;/div></div>
+</code></pre>
+<ul>
 <li><p><code>$parents</code></p>
 <p>  This is an array representing all of the parent view models:</p>
 <p>  <code>$parents[0]</code> is the view model from the parent context (i.e., it&#39;s the same as <code>$parent</code>)</p>
@@ -148,10 +151,13 @@ define(['knockout-x.y.z'], function(ko) {
 </li>
 <li><p><code>$data</code></p>
 <p>  This is the view model object in the current context. In the root context, <code>$data</code> and <code>$root</code> are equivalent. Inside a nested binding context, this parameter will be set to the current data item (e.g., inside a <code>with: person</code> binding, <code>$data</code> will be set to <code>person</code>). <code>$data</code> is useful when you want to reference the viewmodel itself, rather than a property on the viewmodel. Example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>  &lt;ul data-bind="foreach: ['cats', 'dogs', 'fish']">
-      &lt;li>The value is &lt;span data-bind="text: $data">&lt;/span>&lt;/li>
-  &lt;/ul></div>
-</code></pre></li>
+</li>
+</ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind="foreach: ['cats', 'dogs', 'fish']">
+    &lt;li>The value is &lt;span data-bind="text: $data">&lt;/span>&lt;/li>
+&lt;/ul></div>
+</code></pre>
+<ul>
 <li><p><code>$index</code> (only available within <code>foreach</code> bindings)</p>
 <p>  This is the zero-based index of the current array entry being rendered by a <code>foreach</code> binding. Unlike the other binding context properties, <code>$index</code> is an observable and is updated whenever the index of the item changes (e.g., if items are added to or removed from the array).</p>
 </li>
@@ -169,44 +175,50 @@ define(['knockout-x.y.z'], function(ko) {
 </li>
 <li><p><code>$element</code></p>
 <p>  This is the element DOM object (for virtual elements, it will be the comment DOM object) of the current binding. This can be useful if a binding needs to access an attribute of the current element. Example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>  &lt;div id="item1" data-bind="text: $element.id">&lt;/div></div>
-</code></pre></li>
+</li>
 </ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div id="item1" data-bind="text: $element.id">&lt;/div></div>
+</code></pre>
 <h3 id="controlling-or-modifying-the-binding-context-in-custom-bindings">Controlling or modifying the binding context in custom bindings</h3>
-<p>Just like the built-in bindings <a href="with-binding.html"><code>with</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>, custom bindings can change the binding context for their descendant elements, or provide special properties by extending the binding context object. This is described in detail under <a href="custom-bindings-controlling-descendant-bindings.html">creating custom bindings that control descendant bindings</a>.</p>
+<p>Just like the built-in bindings <a href="#with-binding"><code>with</code></a> and <a href="#foreach-binding"><code>foreach</code></a>, custom bindings can change the binding context for their descendant elements, or provide special properties by extending the binding context object. This is described in detail under <a href="#custom-bindings-controlling-descendant-bindings">creating custom bindings that control descendant bindings</a>.</p>
 </template>
 
 <template id='binding-preprocessing'
   data-kind='documentation'
-  data-title='Extending the binding syntax using preprocessing'
-  data-cat='5'
+  data-title='Binding preprocessing'
+  data-cat='3'
   data-subcat=''>
-<p><em>Note: This is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
+<p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.</p>
 <h2 id="preprocessing-binding-strings">Preprocessing binding strings</h2>
 <p>You can hook into Knockout&#39;s logic for interpreting <code>data-bind</code> attributes by providing a <em>binding preprocessor</em> for a specific binding handler (such as <code>click</code>, <code>visible</code>, or any <a href="custom-bindings.html">custom binding handler</a>).</p>
 <p>To do this, attach a <code>preprocess</code> function to the binding handler:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.yourBindingHandler.preprocess = function(stringFromMarkup) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.yourBindingHandler.preprocess = function(stringFromMarkup) {
     // Return stringFromMarkup if you don't want to change anything, or return
     // some other string if you want Knockout to behave as if that was the
     // syntax provided in the original HTML
 }</div>
-</code></pre><p>See later on this page for an API reference.</p>
+</code></pre>
+<p>See later on this page for an API reference.</p>
 <h3 id="example-1-setting-a-default-value-for-a-binding">Example 1: Setting a default value for a binding</h3>
 <p>If you leave off the value of a binding, it&#39;s bound to <code>undefined</code> by default. If you want to have a different default value for a binding, you can do so with a preprocessor. For example, you can allow <code>uniqueName</code> to be bound without a value by making its default value <code>true</code>:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.uniqueName.preprocess = function(val) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.uniqueName.preprocess = function(val) {
     return val || 'true';
 }</div>
-</code></pre><p>Now you can bind it like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;input data-bind="value: someModelProperty, uniqueName" /></div>
-</code></pre><h3 id="example-2-binding-expressions-to-events">Example 2: Binding expressions to events</h3>
+</code></pre>
+<p>Now you can bind it like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;input data-bind="value: someModelProperty, uniqueName" /></div>
+</code></pre>
+<h3 id="example-2-binding-expressions-to-events">Example 2: Binding expressions to events</h3>
 <p>If you&#39;d like to be able to bind expressions to <code>click</code> events (rather than a function reference as Knockout expects), you can set up a preprocessor for the <code>click</code> handler to support this syntax:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.click.preprocess = function(val) {
-    return 'function($data,$event){ ' + val + ' }';
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.click.preprocess = function(val) {
+  return 'function($data,$event){ ' + val + ' }';
 }</div>
-</code></pre><p>Now you can bind <code>click</code> like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;button type="button" data-bind="click: myCount(myCount()+1)">Increment&lt;/button></div>
-</code></pre><h3 id="binding-preprocessor-reference">Binding preprocessor reference</h3>
+</code></pre>
+<p>Now you can bind <code>click</code> like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;button type="button" data-bind="click: myCount(myCount()+1)">Increment&lt;/button></div>
+</code></pre>
+<h3 id="binding-preprocessor-reference">Binding preprocessor reference</h3>
 <ul>
 <li><p><code>ko.bindingHandlers.&lt;name&gt;.preprocess(value, name, addBindingCallback)</code></p>
 <p>If defined, this function will be called for each <code>&lt;name&gt;</code> binding before the binding is evaluated.</p>
@@ -228,20 +240,21 @@ define(['knockout-x.y.z'], function(ko) {
 <h2 id="preprocessing-dom-nodes">Preprocessing DOM nodes</h2>
 <p>You can hook into Knockout&#39;s logic for traversing the DOM by providing a <em>node preprocessor</em>. This is a function that Knockout will call once for each DOM node that it walks over, both when the UI is first bound, and later when any new DOM subtrees are injected (e.g., via a <a href="foreach-binding.html"><code>foreach</code> binding</a>).</p>
 <p>To do this, define a <code>preprocessNode</code> function on your binding provider:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingProvider.instance.preprocessNode = function(node) {
-    // Use DOM APIs such as setAttribute to modify 'node' if you wish.
-    // If you want to leave 'node' in the DOM, return null or have no 'return' statement.
-    // If you want to replace 'node' with some other set of nodes,
-    //    - Use DOM APIs such as insertChild to inject the new nodes
-    //      immediately before 'node'
-    //    - Use DOM APIs such as removeChild to remove 'node' if required
-    //    - Return an array of any new nodes that you've just inserted
-    //      so that Knockout can apply any bindings to them
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  ko.bindingProvider.instance.preprocessNode = function(node) {
+  // Use DOM APIs such as setAttribute to modify 'node' if you wish.
+  // If you want to leave 'node' in the DOM, return null or have no 'return' statement.
+  // If you want to replace 'node' with some other set of nodes,
+  //    - Use DOM APIs such as insertChild to inject the new nodes
+  //      immediately before 'node'
+  //    - Use DOM APIs such as removeChild to remove 'node' if required
+  //    - Return an array of any new nodes that you've just inserted
+  //      so that Knockout can apply any bindings to them
 }</div>
-</code></pre><p>See later on this page for an API reference.</p>
+</code></pre>
+<p>See later on this page for an API reference.</p>
 <h3 id="example-3-virtual-template-elements">Example 3: Virtual template elements</h3>
 <p>If you commonly include template content using virtual elements, the normal syntax can feel a bit verbose. Using preprocessing, you can add a new template format that uses a single comment:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingProvider.instance.preprocessNode = function(node) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingProvider.instance.preprocessNode = function(node) {
     // Only react if this is a comment node of the form &lt;!-- template: ... -->
     if (node.nodeType == 8) {
         var match = node.nodeValue.match(/^\s*(template\s*:[\s\S]+)/);
@@ -257,9 +270,11 @@ define(['knockout-x.y.z'], function(ko) {
         }
     }
 }</div>
-</code></pre><p>Now you can include a template in your view like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- template: 'some-template' --></div>
-</code></pre><h3 id="preprocessing-reference">Preprocessing Reference</h3>
+</code></pre>
+<p>Now you can include a template in your view like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- template: 'some-template' --></div>
+</code></pre>
+<h3 id="preprocessing-reference">Preprocessing Reference</h3>
 <ul>
 <li><p><code>ko.bindingProvider.instance.preprocessNode(node)</code></p>
 <p>  If defined, this function will be called for each DOM node before bindings are processed. The function can modify, remove, or replace <code>node</code>. Any new nodes must be inserted immediately before <code>node</code>, and if any nodes were added or <code>node</code> was removed, the function must return an array of the new nodes that are now in the document in place of <code>node</code>.</p>
@@ -275,17 +290,19 @@ define(['knockout-x.y.z'], function(ko) {
 <p>Knockout&#39;s declarative binding system provides a concise and powerful way to link data to the UI. It&#39;s generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout&#39;s binding system.</p>
 <h3 id="binding-syntax">Binding syntax</h3>
 <p>A binding consists of two items, the binding <em>name</em> and <em>value</em>, separated by a colon. Here is an example of a single, simple binding:</p>
-<pre><code><div data-bind='highlight: "undefined"'>Today's message is: &lt;span data-bind="text: myMessage">&lt;/span></div>
-</code></pre><p>An element can include multiple bindings (related or unrelated), with each binding separated by a comma. Here are some examples:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- related bindings: valueUpdate is a parameter for value -->
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>Today's message is: &lt;span data-bind="text: myMessage">&lt;/span></div>
+</code></pre>
+<p>An element can include multiple bindings (related or unrelated), with each binding separated by a comma. Here are some examples:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- related bindings: valueUpdate is a parameter for value -->
 Your value: &lt;input data-bind="value: someValue, valueUpdate: 'afterkeydown'" />
 
 &lt;!-- unrelated bindings -->
 Cellphone: &lt;input data-bind="value: cellphoneNumber, enable: hasCellphone" /></div>
-</code></pre><p>The binding <em>name</em> should generally match a registered binding handler (either built-in or <a href="custom-bindings.html">custom</a>) or be a parameter for another binding. If the name matches neither of those, Knockout will ignore it (without any error or warning). So if a binding doesn&#39;t appear to work, first check that the name is correct.</p>
+</code></pre>
+<p>The binding <em>name</em> should generally match a registered binding handler (either built-in or <a href="custom-bindings.html">custom</a>) or be a parameter for another binding. If the name matches neither of those, Knockout will ignore it (without any error or warning). So if a binding doesn&#39;t appear to work, first check that the name is correct.</p>
 <h4 id="binding-values">Binding values</h4>
 <p>The binding <em>value</em> can be a single <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Values,_variables,_and_literals">value, variable, or literal</a> or almost any valid <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Expressions_and_Operators">JavaScript expression</a>. Here are examples of various binding values:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- variable (usually a property of the current view model -->
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- variable (usually a property of the current view model -->
 &lt;div data-bind="visible: shouldShowMessage">...&lt;/div>
 
 &lt;!-- comparison and conditional -->
@@ -299,10 +316,11 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 
 &lt;!-- object literal (with unquoted and quoted property names) -->
 &lt;div data-bind="with: {emotion: 'happy', 'facial-expression': 'smile'}">...&lt;/div></div>
-</code></pre><p>These examples show that the value can be just about any JavaScript expression. Even the comma is fine when it&#39;s enclosed in braces, brackets, or parentheses. When the value is an object literal, the object&#39;s property names must be valid JavaScript identifiers or be enclosed in quotes. If the binding value is an invalid expression or references an unknown variable, Knockout will output an error and stop processing bindings.</p>
+</code></pre>
+<p>These examples show that the value can be just about any JavaScript expression. Even the comma is fine when it&#39;s enclosed in braces, brackets, or parentheses. When the value is an object literal, the object&#39;s property names must be valid JavaScript identifiers or be enclosed in quotes. If the binding value is an invalid expression or references an unknown variable, Knockout will output an error and stop processing bindings.</p>
 <h4 id="whitespace">Whitespace</h4>
 <p>Bindings can include any amount of <em>whitespace</em> (spaces, tab, and newlines), so you&#39;re free to use it to arrange your bindings as you like. The following examples are all equivalent:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- no spaces -->
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- no spaces -->
 &lt;select data-bind="options:availableCountries,optionsText:'countryName',value:selectedCountry,optionsCaption:'Choose...'">&lt;/select>
 
 &lt;!-- some spaces -->
@@ -314,10 +332,12 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
     optionsText: 'countryName',
     value: selectedCountry,
     optionsCaption: 'Choose...'">&lt;/select></div>
-</code></pre><h4 id="skipping-the-binding-value">Skipping the binding value</h4>
+</code></pre>
+<h4 id="skipping-the-binding-value">Skipping the binding value</h4>
 <p>Starting with Knockout 3.0, you can specify bindings without a value, which will give the binding an <code>undefined</code> value. For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;span data-bind="text">Text that will be cleared when bindings are applied.&lt;/span></div>
-</code></pre><p>This ability is especially useful when paired with <a href="binding-preprocessing.html">binding preprocessing</a>, which can assign a default value for a binding.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;span data-bind="text">Text that will be cleared when bindings are applied.&lt;/span></div>
+</code></pre>
+<p>This ability is especially useful when paired with <a href="#binding-preprocessing">binding preprocessing</a>, which can assign a default value for a binding.</p>
 </template>
 
 <template id='browser-support'
@@ -351,53 +371,50 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 <p>When the user checks the associated form control, this updates the value on your view model. Likewise, when you update the value in your view model, this checks or unchecks the form control on screen.</p>
 <p>Note: For text boxes, drop-down lists, and all non-checkable form controls, use <a href="value-binding.html">the <code>value</code> binding</a> to read and write the element&#39;s value, not the <code>checked</code> binding.</p>
 <h3 id="example-with-checkbox">Example with checkbox</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  var viewModel = {
+    wantsSpam: ko.observable(true) // Initially checked
+  };
 
-```javascript
-    var viewModel = {
-        wantsSpam: ko.observable(true) // Initially checked
-    };
-
-    // ... then later ...
-    viewModel.wantsSpam(false); // The checkbox becomes unchecked
-```</div>
-</code></pre><h3 id="example-adding-checkboxes-bound-to-an-array">Example adding checkboxes bound to an array</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
+  // ... then later ...
+  viewModel.wantsSpam(false); // The checkbox becomes unchecked</div>
+</code></pre>
+<h3 id="example-adding-checkboxes-bound-to-an-array">Example adding checkboxes bound to an array</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
 &lt;div data-bind="visible: wantsSpam">
     Preferred flavors of spam:
     &lt;div>&lt;input type="checkbox" value="cherry" data-bind="checked: spamFlavors" /> Cherry&lt;/div>
     &lt;div>&lt;input type="checkbox" value="almond" data-bind="checked: spamFlavors" /> Almond&lt;/div>
     &lt;div>&lt;input type="checkbox" value="msg" data-bind="checked: spamFlavors" /> Monosodium Glutamate&lt;/div>
-&lt;/div>
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+  wantsSpam: ko.observable(true),
+  spamFlavors: ko.observableArray(["cherry","almond"]) // Initially checks the Cherry and Almond checkboxes
+};
 
-```javascript
-    var viewModel = {
-        wantsSpam: ko.observable(true),
-        spamFlavors: ko.observableArray(["cherry","almond"]) // Initially checks the Cherry and Almond checkboxes
-    };
-
-    // ... then later ...
-    viewModel.spamFlavors.push("msg"); // Now additionally checks the Monosodium Glutamate checkbox
-```</div>
-</code></pre><h3 id="example-adding-radio-buttons">Example adding radio buttons</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
+// ... then later ...
+viewModel.spamFlavors.push("msg"); // Now additionally checks the Monosodium Glutamate checkbox</div>
+</code></pre>
+<h3 id="example-adding-radio-buttons">Example adding radio buttons</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
 &lt;div data-bind="visible: wantsSpam">
     Preferred flavor of spam:
     &lt;div>&lt;input type="radio" name="flavorGroup" value="cherry" data-bind="checked: spamFlavor" /> Cherry&lt;/div>
     &lt;div>&lt;input type="radio" name="flavorGroup" value="almond" data-bind="checked: spamFlavor" /> Almond&lt;/div>
     &lt;div>&lt;input type="radio" name="flavorGroup" value="msg" data-bind="checked: spamFlavor" /> Monosodium Glutamate&lt;/div>
-&lt;/div>
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  var viewModel = {
+    wantsSpam: ko.observable(true),
+    spamFlavor: ko.observable("almond") // Initially selects only the Almond radio button
+  };
 
-```javascript
-    var viewModel = {
-        wantsSpam: ko.observable(true),
-        spamFlavor: ko.observable("almond") // Initially selects only the Almond radio button
-    };
-
-    // ... then later ...
-    viewModel.spamFlavor("msg"); // Now only Monosodium Glutamate is checked
-```</div>
-</code></pre><h3 id="parameters">Parameters</h3>
+  // ... then later ...
+  viewModel.spamFlavor("msg"); // Now only Monosodium Glutamate is checked</div>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
 <p>KO sets the element&#39;s checked state to match your parameter value. Any previous checked state will be overwritten. The way your parameter is interpreted depends on what type of element you&#39;re binding to:</p>
@@ -419,27 +436,24 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 <li><p><code>checkedValue</code></p>
 <p>If your binding also includes <code>checkedValue</code>, this defines the value used by the <code>checked</code> binding instead of the element&#39;s <code>value</code> attribute. This is useful if you want the value to be something other than a string (such as an integer or object), or you want the value set dynamically.</p>
 <p>In the following example, the item objects themselves (not their <code>itemName</code> strings) will be included in the <code>chosenItems</code> array when their corresponding checkboxes are checked:</p>
-<pre><code><div data-bind='highlight: "undefined"'>   &lt;!-- ko foreach: items -->
-       &lt;input type="checkbox" data-bind="checkedValue: $data, checked: $root.chosenItems" />
-       &lt;span data-bind="text: itemName">&lt;/span>
-   &lt;!-- /ko -->
-
-   ```javascript
-       var viewModel = {
-           items: ko.observableArray([
-               { itemName: 'Choice 1' },
-               { itemName: 'Choice 2' }
-           ]),
-           chosenItems: ko.observableArray()
-       };
-   ```</div>
-</code></pre><p>If your <code>checkedValue</code> parameter is an observable value, whenever the value changes and the element is currently checked, the binding will update the <code>checked</code> model property. For checkboxes, it will remove the old value from the array and add the new value. For radio buttons, it will just update the model value.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko foreach: items -->
+   &lt;input type="checkbox" data-bind="checkedValue: $data, checked: $root.chosenItems" />
+   &lt;span data-bind="text: itemName">&lt;/span>
+&lt;!-- /ko --></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>   var viewModel = {
+       items: ko.observableArray([
+           { itemName: 'Choice 1' },
+           { itemName: 'Choice 2' }
+       ]),
+       chosenItems: ko.observableArray()
+   };</div>
+</code></pre>
+<p>If your <code>checkedValue</code> parameter is an observable value, whenever the value changes and the element is currently checked, the binding will update the <code>checked</code> model property. For checkboxes, it will remove the old value from the array and add the new value. For radio buttons, it will just update the model value.</p>
 </li>
 </ul>
 </li>
 </ul>
-<h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
 </template>
 
 <template id='click-binding'
@@ -762,36 +776,35 @@ ko.applyBindings(new MyViewModel());</div>
 <p>The <code>css</code> binding adds or removes one or more named CSS classes to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative.</p>
 <p>(Note: If you don&#39;t want to apply a CSS class but instead want to assign a <code>style</code> attribute value directly, see <a href="style-binding.html">the style binding</a>.)</p>
 <h3 id="example-with-static-classes">Example with static classes</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="css: { profitWarning: currentProfit() &lt; 0 }">
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { profitWarning: currentProfit() &lt; 0 }">
    Profit Information
 &lt;/div>
 
 ```javascript
-    var viewModel = {
-        currentProfit: ko.observable(150000) // Positive value, so initially we don't apply the "profitWarning" class
-    };
-    viewModel.currentProfit(-50); // Causes the "profitWarning" class to be applied
-```</div>
-</code></pre><p>This will apply the CSS class <code>profitWarning</code> whenever the <code>currentProfit</code> value dips below zero, and remove that class whenever it goes above zero.</p>
+var viewModel = {
+    currentProfit: ko.observable(150000) // Positive value, so initially we don't apply the "profitWarning" class
+};
+viewModel.currentProfit(-50); // Causes the "profitWarning" class to be applied</div>
+</code></pre>
+<p>This will apply the CSS class <code>profitWarning</code> whenever the <code>currentProfit</code> value dips below zero, and remove that class whenever it goes above zero.</p>
 <h3 id="example-with-dynamic-classes">Example with dynamic classes</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="css: profitStatus">
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: profitStatus">
    Profit Information
-&lt;/div>
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    currentProfit: ko.observable(150000)
+};
 
-```javascript
-    var viewModel = {
-        currentProfit: ko.observable(150000)
-    };
+// Evalutes to a positive value, so initially we apply the "profitPositive" class
+viewModel.profitStatus = ko.computed(function() {
+    return this.currentProfit() &lt; 0 ? "profitWarning" : "profitPositive";
+}, viewModel);
 
-    // Evalutes to a positive value, so initially we apply the "profitPositive" class
-    viewModel.profitStatus = ko.computed(function() {
-        return this.currentProfit() &lt; 0 ? "profitWarning" : "profitPositive";
-    }, viewModel);
-
-    // Causes the "profitPositive" class to be removed and "profitWarning" class to be added
-    viewModel.currentProfit(-50);
-```</div>
-</code></pre><p>This will apply the CSS class <code>profitPositive</code> when the <code>currentProfit</code> value is positive, otherwise it will apply the <code>profitWarning</code> CSS class.</p>
+// Causes the "profitPositive" class to be removed and "profitWarning" class to be added
+viewModel.currentProfit(-50);</div>
+</code></pre>
+<p>This will apply the CSS class <code>profitPositive</code> when the <code>currentProfit</code> value is positive, otherwise it will apply the <code>profitWarning</code> CSS class.</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
@@ -813,32 +826,33 @@ ko.applyBindings(new MyViewModel());</div>
 </ul>
 <h3 id="note-applying-css-classes-whose-names-aren-t-legal-javascript-variable-names">Note: Applying CSS classes whose names aren&#39;t legal JavaScript variable names</h3>
 <p>If you want to apply the CSS class <code>my-class</code>, you <em>can&#39;t</em> write this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="css: { my-class: someValue }">...&lt;/div></div>
-</code></pre><p>... because <code>my-class</code> isn&#39;t a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="css: { 'my-class': someValue }">...&lt;/div></div>
-</code></pre><h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { my-class: someValue }">...&lt;/div></div>
+</code></pre>
+<p>... because <code>my-class</code> isn&#39;t a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { 'my-class': someValue }">...&lt;/div></div>
+</code></pre>
 </template>
 
 <template id='custom-bindings-controlling-descendant-bindings'
   data-kind='documentation'
-  data-title='Creating custom bindings that control descendant bindings'
+  data-title='Controlling descendant bindings'
   data-cat='3'
   data-subcat=''>
-<p><em>Note: This is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
+<p><em>Note: Creating custom bindings that control descendant binding is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>By default, bindings only affect the element to which they are applied. But what if you want to affect all descendant elements too? This is possible. Your binding can tell Knockout <em>not</em> to bind descendants at all, and then your custom binding can do whatever it likes to bind them in a different way.</p>
 <p>To do this, simply return <code>{ controlsDescendantBindings: true }</code> from your binding&#39;s <code>init</code> function.</p>
 <h3 id="example-controlling-whether-or-not-descendant-bindings-are-applied">Example: Controlling whether or not descendant bindings are applied</h3>
 <p>For a very simple example, here&#39;s a custom binding called <code>allowBindings</code> that allows descendant bindings to be applied only if its value is <code>true</code>. If the value is <code>false</code>, then <code>allowBindings</code> tells Knockout that it is responsible for descendant bindings so they won&#39;t be bound as usual.</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.allowBindings = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.allowBindings = {
     init: function(elem, valueAccessor) {
         // Let bindings proceed as normal *only if* my value is false
         var shouldAllowBindings = ko.unwrap(valueAccessor());
         return { controlsDescendantBindings: !shouldAllowBindings };
     }
 };</div>
-</code></pre><p>To see this take effect, here&#39;s a sample usage:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="allowBindings: true">
+</code></pre>
+<p>To see this take effect, here&#39;s a sample usage:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="allowBindings: true">
     &lt;!-- This will display Replacement, because bindings are applied -->
     &lt;div data-bind="text: 'Replacement'">Original&lt;/div>
 &lt;/div>
@@ -847,9 +861,10 @@ ko.applyBindings(new MyViewModel());</div>
     &lt;!-- This will display Original, because bindings are not applied -->
     &lt;div data-bind="text: 'Replacement'">Original&lt;/div>
 &lt;/div></div>
-</code></pre><h3 id="example-supplying-additional-values-to-descendant-bindings">Example: Supplying additional values to descendant bindings</h3>
+</code></pre>
+<h3 id="example-supplying-additional-values-to-descendant-bindings">Example: Supplying additional values to descendant bindings</h3>
 <p>Normally, bindings that use <code>controlsDescendantBindings</code> will also call <code>ko.applyBindingsToDescendants(someBindingContext, element)</code> to apply the descendant bindings against some modified <a href="binding-context.html">binding context</a>. For example, you could have a binding called <code>withProperties</code> that attaches some extra properties to the binding context that will then be available to all descendant bindings:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.withProperties = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.withProperties = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         // Make a modified binding context, with a extra properties, and apply it to descendant elements
         var innerBindingContext = bindingContext.extend(valueAccessor);
@@ -859,18 +874,20 @@ ko.applyBindings(new MyViewModel());</div>
         return { controlsDescendantBindings: true };
     }
 };</div>
-</code></pre><p>As you can see, binding contexts have an <code>extend</code> function that produces a clone with extra properties. The <code>extend</code> function accepts either an object with the properties to copy or a function that returns such an object. The function syntax is preferred so that future changes in the binding value are always updated in the binding context. This process doesn&#39;t affect the original binding context, so there is no danger of affecting sibling-level elements - it will only affect descendants.</p>
+</code></pre>
+<p>As you can see, binding contexts have an <code>extend</code> function that produces a clone with extra properties. The <code>extend</code> function accepts either an object with the properties to copy or a function that returns such an object. The function syntax is preferred so that future changes in the binding value are always updated in the binding context. This process doesn&#39;t affect the original binding context, so there is no danger of affecting sibling-level elements - it will only affect descendants.</p>
 <p>Here&#39;s an example of using the above custom binding:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="withProperties: { emotion: 'happy' }">
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="withProperties: { emotion: 'happy' }">
     Today I feel &lt;span data-bind="text: emotion">&lt;/span>. &lt;!-- Displays: happy -->
 &lt;/div>
 &lt;div data-bind="withProperties: { emotion: 'whimsical' }">
     Today I feel &lt;span data-bind="text: emotion">&lt;/span>. &lt;!-- Displays: whimsical -->
 &lt;/div></div>
-</code></pre><h3 id="example-adding-extra-levels-in-the-binding-context-hierarchy">Example: Adding extra levels in the binding context hierarchy</h3>
-<p>Bindings such as <a href="with-binding.html"><code>with</code></a> and <a href="foreach-binding.html"><code>foreach</code></a> create extra levels in the binding context hierarchy. This means that their descendants can access data at outer levels by using <code>$parent</code>, <code>$parents</code>, <code>$root</code>, or <code>$parentContext</code>.</p>
+</code></pre>
+<h3 id="example-adding-extra-levels-in-the-binding-context-hierarchy">Example: Adding extra levels in the binding context hierarchy</h3>
+<p>Bindings such as <a href="#with-binding"><code>with</code></a> and <a href="#foreach-binding"><code>foreach</code></a> create extra levels in the binding context hierarchy. This means that their descendants can access data at outer levels by using <code>$parent</code>, <code>$parents</code>, <code>$root</code>, or <code>$parentContext</code>.</p>
 <p>If you want to do this in custom bindings, then instead of using <code>bindingContext.extend()</code>, use <code>bindingContext.createChildContext(someData)</code>. This returns a new binding context whose viewmodel is <code>someData</code> and whose <code>$parentContext</code> is <code>bindingContext</code>. If you want, you can then extend the child context with extra properties using <code>ko.utils.extend</code>. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.withProperties = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.withProperties = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         // Make a modified binding context, with a extra properties, and apply it to descendant elements
         var childBindingContext = bindingContext.createChildContext(
@@ -885,15 +902,17 @@ ko.applyBindings(new MyViewModel());</div>
         return { controlsDescendantBindings: true };
     }
 };</div>
-</code></pre><p>This updated <code>withProperties</code> binding could now be used in a nested way, with each level of nesting able to access the parent level via <code>$parentContext</code>:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="withProperties: { displayMode: 'twoColumn' }">
+</code></pre>
+<p>This updated <code>withProperties</code> binding could now be used in a nested way, with each level of nesting able to access the parent level via <code>$parentContext</code>:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="withProperties: { displayMode: 'twoColumn' }">
     The outer display mode is &lt;span data-bind="text: displayMode">&lt;/span>.
     &lt;div data-bind="withProperties: { displayMode: 'doubleWidth' }">
         The inner display mode is &lt;span data-bind="text: displayMode">&lt;/span>, but I haven't forgotten
         that the outer display mode is &lt;span data-bind="text: $parentContext.displayMode">&lt;/span>.
     &lt;/div>
 &lt;/div></div>
-</code></pre><p>By modifying binding contexts and controlling descendant bindings, you have a powerful and advanced tool to create custom binding mechanisms of your own.</p>
+</code></pre>
+<p>By modifying binding contexts and controlling descendant bindings, you have a powerful and advanced tool to create custom binding mechanisms of your own.</p>
 </template>
 
 <template id='custom-bindings-disposal'
@@ -904,7 +923,7 @@ ko.applyBindings(new MyViewModel());</div>
 <p>In a typical Knockout application, DOM elements are dynamically added and removed, for example using the <a href="template-binding.html"><code>template</code></a> binding or via control-flow bindings (<a href="if-binding.html"><code>if</code></a>, <a href="ifnot-binding.html"><code>ifnot</code></a>, <a href="with-binding.html"><code>with</code></a>, and <a href="foreach-binding.html"><code>foreach</code></a>). When creating a custom binding, it is often desirable to add clean-up logic that runs when an element associated with your custom binding is removed by Knockout.</p>
 <h3 id="registering-a-callback-on-the-disposal-of-an-element">Registering a callback on the disposal of an element</h3>
 <p>To register a function to run when a node is removed, you can call <code>ko.utils.domNodeDisposal.addDisposeCallback(node, callback)</code>. As an example, suppose you create a custom binding to instantiate a widget. When the element with the binding is removed, you may want to call the <code>destroy</code> method of the widget:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.myWidget = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.myWidget = {
     init: function(element, valueAccessor) {
         var options = ko.unwrap(valueAccessor()),
             $el = $(element);
@@ -918,31 +937,34 @@ ko.applyBindings(new MyViewModel());</div>
         });
     }
 };</div>
-</code></pre><h3 id="overriding-the-clean-up-of-external-data">Overriding the clean-up of external data</h3>
+</code></pre>
+<h3 id="overriding-the-clean-up-of-external-data">Overriding the clean-up of external data</h3>
 <p>When removing an element, Knockout runs logic to clean up any data associated with the element. As part of this logic, Knockout calls jQuery&#39;s <code>cleanData</code> method if jQuery is loaded in your page. In advanced scenarios, you may want to prevent or customize how this data is removed in your application. Knockout exposes a function, <code>ko.utils.domNodeDisposal.cleanExternalData(node)</code>, that can be overridden to support custom logic. For example, to prevent <code>cleanData</code> from being called, an empty function could be used to replace the standard <code>cleanExternalData</code> implementation:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.utils.domNodeDisposal.cleanExternalData = function () {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.utils.domNodeDisposal.cleanExternalData = function () {
     // Do nothing. Now any jQuery data associated with elements will
     // not be cleaned up when the elements are removed from the DOM.
 };</div>
-</code></pre></template>
+</code></pre>
+</template>
 
 <template id='custom-bindings-for-virtual-elements'
   data-kind='documentation'
-  data-title='Creating custom bindings that support virtual elements'
+  data-title='Custom bindings and virtual elements'
   data-cat='3'
   data-subcat=''>
-<p><em>Note: This is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
+<p><em>Note: Creating custom bindings that support virtual elements is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>Knockout&#39;s <em>control flow bindings</em> (e.g., <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>) can be applied not only to regular DOM elements, but also to &quot;virtual&quot; DOM elements defined by a special comment-based syntax. For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
     &lt;li class="heading">My heading&lt;/li>
     &lt;!-- ko foreach: items -->
         &lt;li data-bind="text: $data">&lt;/li>
     &lt;!-- /ko -->
 &lt;/ul></div>
-</code></pre><p>Custom bindings can work with virtual elements too, but to enable this, you must explicitly tell Knockout that your binding understands virtual elements, by using the <code>ko.virtualElements.allowedBindings</code> API.</p>
+</code></pre>
+<p>Custom bindings can work with virtual elements too, but to enable this, you must explicitly tell Knockout that your binding understands virtual elements, by using the <code>ko.virtualElements.allowedBindings</code> API.</p>
 <h3 id="example">Example</h3>
 <p>To get started, here&#39;s a custom binding that randomises the order of DOM nodes:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.randomOrder = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.randomOrder = {
     init: function(elem, valueAccessor) {
         // Pull out each of the child elements into an array
         var childElems = [];
@@ -957,23 +979,27 @@ ko.applyBindings(new MyViewModel());</div>
         }
     }
 };</div>
-</code></pre><p>This works nicely with regular DOM elements. The following elements will be shuffled into a random order:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="randomOrder: true">
+</code></pre>
+<p>This works nicely with regular DOM elements. The following elements will be shuffled into a random order:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="randomOrder: true">
     &lt;div>First&lt;/div>
     &lt;div>Second&lt;/div>
     &lt;div>Third&lt;/div>
 &lt;/div></div>
-</code></pre><p>However, it does <em>not</em> work with virtual elements. If you try the following:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- ko randomOrder: true -->
-    &lt;div>First&lt;/div>
-    &lt;div>Second&lt;/div>
-    &lt;div>Third&lt;/div>
+</code></pre>
+<p>However, it does <em>not</em> work with virtual elements. If you try the following:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko randomOrder: true -->
+  &lt;div>First&lt;/div>
+  &lt;div>Second&lt;/div>
+  &lt;div>Third&lt;/div>
 &lt;!-- /ko --></div>
-</code></pre><p>... then you&#39;ll get the error <code>The binding &#39;randomOrder&#39; cannot be used with virtual elements</code>. Let&#39;s fix this. To make <code>randomOrder</code> usable with virtual elements, start by telling Knockout to allow it. Add the following:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.virtualElements.allowedBindings.randomOrder = true;</div>
-</code></pre><p>Now there won&#39;t be an error. However, it still won&#39;t work properly, because our <code>randomOrder</code> binding is coded using normal DOM API calls (<code>firstChild</code>, <code>appendChild</code>, etc.) which don&#39;t understand virtual elements. This is the reason why KO requires you to explicitly opt in to virtual element support: unless your custom binding is coded using virtual element APIs, it&#39;s not going to work properly!</p>
+</code></pre>
+<p>... then you&#39;ll get the error <code>The binding &#39;randomOrder&#39; cannot be used with virtual elements</code>. Let&#39;s fix this. To make <code>randomOrder</code> usable with virtual elements, start by telling Knockout to allow it. Add the following:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.virtualElements.allowedBindings.randomOrder = true;</div>
+</code></pre>
+<p>Now there won&#39;t be an error. However, it still won&#39;t work properly, because our <code>randomOrder</code> binding is coded using normal DOM API calls (<code>firstChild</code>, <code>appendChild</code>, etc.) which don&#39;t understand virtual elements. This is the reason why KO requires you to explicitly opt in to virtual element support: unless your custom binding is coded using virtual element APIs, it&#39;s not going to work properly!</p>
 <p>Let&#39;s update the code for <code>randomOrder</code>, this time using KO&#39;s virtual element APIs:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.randomOrder = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.randomOrder = {
     init: function(elem, valueAccessor) {
         // Build an array of child elements
         var child = ko.virtualElements.firstChild(elem),
@@ -992,7 +1018,8 @@ ko.applyBindings(new MyViewModel());</div>
         }
     }
 };</div>
-</code></pre><p>Notice how, instead of using APIs like <code>domElement.firstChild</code>, we&#39;re now using <code>ko.virtualElements.firstChild(domOrVirtualElement)</code>. The <code>randomOrder</code> binding will now correctly work with virtual elements, e.g., <code>&lt;!-- ko randomOrder: true --&gt;...&lt;!-- /ko --&gt;</code>.</p>
+</code></pre>
+<p>Notice how, instead of using APIs like <code>domElement.firstChild</code>, we&#39;re now using <code>ko.virtualElements.firstChild(domOrVirtualElement)</code>. The <code>randomOrder</code> binding will now correctly work with virtual elements, e.g., <code>&lt;!-- ko randomOrder: true --&gt;...&lt;!-- /ko --&gt;</code>.</p>
 <p>Also, <code>randomOrder</code> will still work with regular DOM elements, because all of the <code>ko.virtualElements</code> APIs are backwardly compatible with regular DOM elements.</p>
 <h3 id="virtual-element-apis">Virtual Element APIs</h3>
 <p>Knockout provides the following functions for working with virtual elements.</p>
@@ -1031,7 +1058,7 @@ ko.applyBindings(new MyViewModel());</div>
 <p>For example, you can create interactive components like grids, tabsets, and so on, in the form of custom bindings (see the <a href="../examples/grid.html">grid example</a>).</p>
 <h3 id="registering-your-binding">Registering your binding</h3>
 <p>To register a binding, add it as a subproperty of <code>ko.bindingHandlers</code>:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.yourBindingName = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.yourBindingName = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         // This will be called when the binding is first applied to an element
         // Set up any initial state, event handlers, etc. here
@@ -1042,9 +1069,11 @@ ko.applyBindings(new MyViewModel());</div>
         // Update the DOM element based on the supplied values here.
     }
 };</div>
-</code></pre><p>... and then you can use it on any number of DOM elements:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="yourBindingName: someValue"> &lt;/div></div>
-</code></pre><p>Note: you don&#39;t actually have to provide both <code>init</code> <em>and</em> <code>update</code> callbacks --- you can just provide one or the other if that&#39;s all you need.</p>
+</code></pre>
+<p>... and then you can use it on any number of DOM elements:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="yourBindingName: someValue"> &lt;/div></div>
+</code></pre>
+<p>Note: you don&#39;t actually have to provide both <code>init</code> <em>and</em> <code>update</code> callbacks --- you can just provide one or the other if that&#39;s all you need.</p>
 <h3 id="the-update-callback">The &quot;update&quot; callback</h3>
 <p>Whenever the associated observable changes, KO will call your <code>update</code> callback, passing the following parameters:</p>
 <ul>
@@ -1055,7 +1084,7 @@ ko.applyBindings(new MyViewModel());</div>
 <li><code>bindingContext</code> --- An object that holds the <a href="http://knockoutjs.com/documentation/binding-context.html">binding context</a> available to this element&#39;s bindings. This object includes special properties including <code>$parent</code>, <code>$parents</code>, and <code>$root</code> that can be used to access data that is bound against ancestors of this context.</li>
 </ul>
 <p>For example, you might have been controlling an element&#39;s visibility using the <code>visible</code> binding, but now you want to go a step further and animate the transition. You want elements to slide into and out of existence according to the value of an observable. You can do this by writing a custom binding that calls jQuery&#39;s <code>slideUp</code>/<code>slideDown</code> functions:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.slideVisible = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.slideVisible = {
     update: function(element, valueAccessor, allBindings) {
         // First get the latest data that we're bound to
         var value = valueAccessor();
@@ -1073,17 +1102,17 @@ ko.applyBindings(new MyViewModel());</div>
             $(element).slideUp(duration);   // Make the element invisible
     }
 };</div>
-</code></pre><p>Now you can use this binding as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="slideVisible: giftWrap, slideDuration:600">You have selected the option&lt;/div>
-&lt;label>&lt;input type="checkbox" data-bind="checked: giftWrap" /> Gift wrap&lt;/label>
-
-```javascript
-    var viewModel = {
-        giftWrap: ko.observable(true)
-    };
-    ko.applyBindings(viewModel);
-```</div>
-</code></pre><p>Of course, this is a lot of code at first glance, but once you&#39;ve created your custom bindings they can very easily be reused in many places.</p>
+</code></pre>
+<p>Now you can use this binding as follows:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="slideVisible: giftWrap, slideDuration:600">You have selected the option&lt;/div>
+&lt;label>&lt;input type="checkbox" data-bind="checked: giftWrap" /> Gift wrap&lt;/label></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    giftWrap: ko.observable(true)
+};
+ko.applyBindings(viewModel);</div>
+</code></pre>
+<p>Of course, this is a lot of code at first glance, but once you&#39;ve created your custom bindings they can very easily be reused in many places.</p>
 <h3 id="the-init-callback">The &quot;init&quot; callback</h3>
 <p>Knockout will call your <code>init</code> function once for each DOM element that you use the binding on. There are two main uses for <code>init</code>:</p>
 <ul>
@@ -1092,7 +1121,7 @@ ko.applyBindings(new MyViewModel());</div>
 </ul>
 <p>KO will pass exactly the same set of parameters that it passes to <a href="#the_update_callback">the <code>update</code> callback</a>.</p>
 <p>Continuing the previous example, you might want <code>slideVisible</code> to set the element to be instantly visible or invisible when the page first appears (without any animated slide), so that the animation only runs when the user changes the model state. You could do that as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.slideVisible = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.slideVisible = {
     init: function(element, valueAccessor) {
         var value = ko.unwrap(valueAccessor()); // Get the current value of the current property we're bound to
         $(element).toggle(value); // jQuery will hide/show the element depending on whether "value" or true or false
@@ -1101,11 +1130,12 @@ ko.applyBindings(new MyViewModel());</div>
         // Leave as before
     }
 };</div>
-</code></pre><p>This means that if <code>giftWrap</code> was defined with the initial state <code>false</code> (i.e., <code>giftWrap: ko.observable(false)</code>) then the associated DIV would initially be hidden, and then would slide into view when the user later checks the box.</p>
+</code></pre>
+<p>This means that if <code>giftWrap</code> was defined with the initial state <code>false</code> (i.e., <code>giftWrap: ko.observable(false)</code>) then the associated DIV would initially be hidden, and then would slide into view when the user later checks the box.</p>
 <h3 id="modifying-observables-after-dom-events">Modifying observables after DOM events</h3>
 <p>You&#39;ve already seen how to use <code>update</code> so that, when an observable changes, you can update an associated DOM element. But what about events in the other direction? When the user performs some action on a DOM element, you might want to updated an associated observable.</p>
 <p>You can use the <code>init</code> callback as a place to register an event handler that will cause changes to the associated observable. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.bindingHandlers.hasFocus = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.hasFocus = {
     init: function(element, valueAccessor) {
         $(element).focus(function() {
             var value = valueAccessor();
@@ -1124,23 +1154,24 @@ ko.applyBindings(new MyViewModel());</div>
             element.blur();
     }
 };</div>
-</code></pre><p>Now you can both read and write the &quot;focusedness&quot; of an element by binding it to an observable:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Name: &lt;input data-bind="hasFocus: editingName" />&lt;/p>
+</code></pre>
+<p>Now you can both read and write the &quot;focusedness&quot; of an element by binding it to an observable:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Name: &lt;input data-bind="hasFocus: editingName" />&lt;/p>
 
 &lt;!-- Showing that we can both read and write the focus state -->
 &lt;div data-bind="visible: editingName">You're editing the name&lt;/div>
-&lt;button data-bind="enable: !editingName(), click:function() { editingName(true) }">Edit name&lt;/button>
-
-```javascript
-    var viewModel = {
-        editingName: ko.observable()
-    };
-    ko.applyBindings(viewModel);
-```</div>
-</code></pre><h3 id="note-supporting-virtual-elements">Note: Supporting virtual elements</h3>
+&lt;button data-bind="enable: !editingName(), click:function() { editingName(true) }">Edit name&lt;/button></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    editingName: ko.observable()
+};
+ko.applyBindings(viewModel);</div>
+</code></pre>
+<h3 id="note-supporting-virtual-elements">Note: Supporting virtual elements</h3>
 <p>If you want a custom binding to be usable with Knockout&#39;s <em>virtual elements</em> syntax, e.g.:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- ko mybinding: somedata --> ... &lt;!-- /ko --></div>
-</code></pre><p>... then see <a href="custom-bindings-for-virtual-elements.html">the documentation for virtual elements</a>.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko mybinding: somedata --> ... &lt;!-- /ko --></div>
+</code></pre>
+<p>... then see <a href="#custom-bindings-for-virtual-elements">the documentation for virtual elements</a>.</p>
 </template>
 
 <template id='disable-binding'
@@ -1150,7 +1181,7 @@ ko.applyBindings(new MyViewModel());</div>
   data-subcat='Working with form fields'>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>disable</code> binding causes the associated DOM element to be disabled only when the parameter value is <code>true</code>. This is useful with form elements like <code>input</code>, <code>select</code>, and <code>textarea</code>.</p>
-<p>This is the mirror image of the <code>enable</code> binding. For more information, see <a href="enable-binding.html">documentation for the <code>enable</code> binding</a>, because <code>disable</code> works in exactly the same way except that it negates whatever parameter you pass to it.</p>
+<p>This is the mirror image of the <code>enable</code> binding. For more information, see <a href="#enable-binding">documentation for the <code>enable</code> binding</a>, because <code>disable</code> works in exactly the same way except that it negates whatever parameter you pass to it.</p>
 </template>
 
 <template id='enable-binding'
@@ -1178,10 +1209,11 @@ ko.applyBindings(new MyViewModel());</div>
 </ul>
 <h3 id="note-using-arbitrary-javascript-expressions">Note: Using arbitrary JavaScript expressions</h3>
 <p>You&#39;re not limited to referencing variables - you can reference arbitrary expressions to control an element&#39;s enabledness. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;button data-bind="enable: parseAreaCode(viewModel.cellphoneNumber()) != '555'">
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;button data-bind="enable: parseAreaCode(viewModel.cellphoneNumber()) != '555'">
     Do something
 &lt;/button></div>
-</code></pre><h3 id="dependencies">Dependencies</h3>
+</code></pre>
+<h3 id="dependencies">Dependencies</h3>
 <p>None, other than the core Knockout library.</p>
 </template>
 
@@ -1305,107 +1337,29 @@ ko.applyBindings(viewModel);</div>
 <h3 id="how-to-create-an-extender">How to create an extender</h3>
 <p>Creating an extender involves adding a function to the <code>ko.extenders</code> object. The function takes in the observable itself as the first argument and any options in the second argument. It can then either return the observable or return something new like a computed observable that uses the original observable in some way.</p>
 <p> This simple <code>logChange</code> extender subscribes to the observable and uses the console to write any changes along with a configurable message.</p>
-<pre><code><div data-bind='highlight: "undefined"'>ko.extenders.logChange = function(target, option) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.extenders.logChange = function(target, option) {
     target.subscribe(function(newValue) {
        console.log(option + ": " + newValue);
     });
     return target;
 };</div>
-</code></pre><p>You would use this extender by calling the <code>extend</code> function of an observable and passing an object that contains a <code>logChange</code> property.</p>
-<pre><code><div data-bind='highlight: "undefined"'>this.firstName = ko.observable("Bob").extend({logChange: "first name"});</div>
-</code></pre><p>If the <code>firstName</code> observable&#39;s value was changed to <code>Ted</code>, then the console would show <code>first name: Ted</code>.</p>
+</code></pre>
+<p>You would use this extender by calling the <code>extend</code> function of an observable and passing an object that contains a <code>logChange</code> property.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.firstName = ko.observable("Bob").extend({logChange: "first name"});</div>
+</code></pre>
+<p>If the <code>firstName</code> observable&#39;s value was changed to <code>Ted</code>, then the console would show <code>first name: Ted</code>.</p>
 <h3 id="live-example-1-forcing-input-to-be-numeric">Live Example 1: Forcing input to be numeric</h3>
 <p>This example creates an extender that forces writes to an observable to be numeric rounded to a configurable level of precision.  In this case, the extender will return a new writeable computed observable that will sit in front of the real observable intercepting writes.</p>
-<style type="text/css">
-   .error {  color: red; }
-   .error input { border: 1px solid red; }
-</style>
-
-<p>{% capture live_example_id %}numericFields{% endcapture %}
-{% capture live_example_view %}</p>
-<p><p><input data-bind="value: myNumberOne" /> (round to whole number)</p></p>
-<p><p><input data-bind="value: myNumberTwo" /> (round to two decimals)</p>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-ko.extenders.numeric = function(target, precision) {
-    //create a writeable computed observable to intercept writes to our observable
-    var result = ko.computed({
-        read: target,  //always return the original observables value
-        write: function(newValue) {
-            var current = target(),
-                roundingMultiplier = Math.pow(10, precision),
-                newValueAsNum = isNaN(newValue) ? 0 : parseFloat(+newValue),
-                valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;</p>
-<pre><code><div data-bind='highlight: "undefined"'>        //only write if it changed
-        if (valueToWrite !== current) {
-            target(valueToWrite);
-        } else {
-            //if the rounded value is the same, but a different value was written, force a notification for the current field
-            if (newValue !== current) {
-                target.notifySubscribers(valueToWrite);
-            }
-        }
-    }
-}).extend({ notify: 'always' });
-
-//initialize with current value to make sure it is rounded appropriately
-result(target());
-
-//return the new computed observable
-return result;</div>
-</code></pre><p>};</p>
-<p>function AppViewModel(one, two) {
-    this.myNumberOne = ko.observable(one).extend({ numeric: 0 });
-    this.myNumberTwo = ko.observable(two).extend({ numeric: 2 });
-}</p>
-<p>ko.applyBindings(new AppViewModel(221.2234, 123.4525));
-{% endcapture %}</p>
-<p>{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "extender-numeric"'></live-example></p>
 <p>Note that for this to automatically erase rejected values from the UI, it&#39;s necessary to use <code>.extend({ notify: &#39;always&#39; })</code> on the computed observable. Without this, it&#39;s possible for the user to enter an invalid <code>newValue</code> that when rounded gives an unchanged <code>valueToWrite</code>. Then, since the model value would not be changing, there would be no notification to update the textbox in the UI. Using <code>{ notify: &#39;always&#39; }</code> causes the textbox to refresh (erasing rejected values) even if the computed property has not changed value.</p>
 <h3 id="live-example-2-adding-validation-to-an-observable">Live Example 2: Adding validation to an observable</h3>
 <p>This example creates an extender that allows an observable to be marked as required. Instead of returning a new object, this extender simply adds additional sub-observables to the existing observable. Since observables are functions, they can actually have their own properties. However, when the view model is converted to JSON, the sub-observables will be dropped and we will simply be left with the value of our actual observable.  This is a nice way to add additional functionality that is only relevant for the UI and does not need to be sent back to the server.</p>
-<p>{% capture live_example_id %}requiredFields{% endcapture %}
-{% capture live_example_view %}</p>
-<p><p data-bind="css: { error: firstName.hasError }">
-    <input data-bind='value: firstName, valueUpdate: "afterkeydown"' />
-    <span data-bind='visible: firstName.hasError, text: firstName.validationMessage'> </span>
-</p></p>
-<p><p data-bind="css: { error: lastName.hasError }">
-    <input data-bind='value: lastName, valueUpdate: "afterkeydown"' />
-    <span data-bind='visible: lastName.hasError, text: lastName.validationMessage'> </span>
-</p>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-ko.extenders.required = function(target, overrideMessage) {
-    //add some sub-observables to our observable
-    target.hasError = ko.observable();
-    target.validationMessage = ko.observable();</p>
-<pre><code><div data-bind='highlight: "undefined"'>//define a function to do validation
-function validate(newValue) {
-   target.hasError(newValue ? false : true);
-   target.validationMessage(newValue ? "" : overrideMessage || "This field is required");
-}
-
-//initial validation
-validate(target());
-
-//validate whenever the value changes
-target.subscribe(validate);
-
-//return the original observable
-return target;</div>
-</code></pre><p>};</p>
-<p>function AppViewModel(first, last) {
-    this.firstName = ko.observable(first).extend({ required: &quot;Please enter a first name&quot; });
-    this.lastName = ko.observable(last).extend({ required: &quot;&quot; });
-}</p>
-<p>ko.applyBindings(new AppViewModel(&quot;Bob&quot;,&quot;Smith&quot;));
-{% endcapture %}</p>
-<p>{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "extender-validation"'></live-example></p>
 <h3 id="applying-multiple-extenders">Applying multiple extenders</h3>
 <p>More than one extender can be applied in a single call to the <code>.extend</code> method of an observable.</p>
-<pre><code><div data-bind='highlight: "undefined"'>this.firstName = ko.observable(first).extend({ required: "Please enter a first name", logChange: "first name" });</div>
-</code></pre><p>In this case, both the <code>required</code> and <code>logChange</code> extenders would be executed against our observable.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.firstName = ko.observable(first).extend({ required: "Please enter a first name", logChange: "first name" });</div>
+</code></pre>
+<p>In this case, both the <code>required</code> and <code>logChange</code> extenders would be executed against our observable.</p>
 </template>
 
 <template id='fn'
@@ -1486,7 +1440,6 @@ function AppViewModel() {
 
 ko.applyBindings(new AppViewModel());</div>
 </code></pre>
-<p>  {% include live-example-minimal.html %}</p>
 <h4 id="it-s-not-mandatory">It&#39;s not mandatory</h4>
 <p>  If you tend to filter observable arrays a lot, adding a <code>filterByProperty</code> globally to all observable arrays might make your code tidier. But if you only need to filter occasionally, you could instead choose <em>not</em> to attach to <code>ko.observableArray.fn</code>, and instead just construct <code>doneTasks</code> by hand as follows:</p>
 <pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.doneTasks = ko.computed(function() {
@@ -1644,41 +1597,10 @@ removing corresponding sections of markup in the DOM.</p>
 <p>This is useful if you&#39;re building sophisticated forms in which editable elements appear dynamically, and you would like to control where the user should start typing, or respond to the location of the caret.</p>
 <h3 id="example-1-the-basics">Example 1: The basics</h3>
 <p>This example simply displays a message if the textbox currently has focus, and uses a button to show that you can trigger focus programmatically.</p>
-<p>{% capture live_example_view %}</p>
-<p><input data-bind="hasFocus: isSelected" /></p>
-<p><button data-bind="click: setIsSelected">Focus programmatically</button>
-<span data-bind="visible: isSelected">The textbox has focus</span>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-var viewModel = {
-    isSelected: ko.observable(false),
-    setIsSelected: function() { this.isSelected(true) }
-};
-ko.applyBindings(viewModel);
-{% endcapture %}</p>
-<p>{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "hasfocus-binding"'></live-example></p>
 <h3 id="example-2-click-to-edit">Example 2: Click-to-edit</h3>
 <p>Because the <code>hasFocus</code> binding works in both directions (setting the associated value focuses or unfocuses the element; focusing or unfocusing the element sets the associated value), it&#39;s a convenient way to toggle an &quot;edit&quot; mode. In this example, the UI displays either a <code>&lt;span&gt;</code> or an <code>&lt;input&gt;</code> element depending on the model&#39;s <code>editing</code> property. Unfocusing the <code>&lt;input&gt;</code> element sets <code>editing</code> to <code>false</code>, so the UI switches out of &quot;edit&quot; mode.</p>
-<p>{% capture live_example_id %}click_to_edit{% endcapture %}
-{% capture live_example_view %}</p>
-<p><p>
-    Name:
-    <b data-bind="visible: !editing(), text: name, click: edit">&nbsp;</b>
-    <input data-bind="visible: editing, value: name, hasFocus: editing" />
-</p></p>
-<p><p><em>Click the name to edit it; click elsewhere to apply changes.</em></p>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-function PersonViewModel(name) {
-    // Data
-    this.name = ko.observable(name);
-    this.editing = ko.observable(false);</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Behaviors
-this.edit = function() { this.editing(true) }</div>
-</code></pre><p>}</p>
-<p>ko.applyBindings(new PersonViewModel(&quot;Bert Bertington&quot;));
-{% endcapture %}</p>
-<p>{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "hasfocus-edit"'></live-example></p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
@@ -1692,8 +1614,6 @@ this.edit = function() { this.editing(true) }</div>
 </ul>
 </li>
 </ul>
-<h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
 </template>
 
 <template id='html-binding'
@@ -1705,15 +1625,14 @@ this.edit = function() { this.editing(true) }</div>
 <p>The <code>html</code> binding causes the associated DOM element to display the HTML specified by your parameter.</p>
 <p>Typically this is useful when values in your view model are actually strings of HTML markup that you want to render.</p>
 <h3 id="example">Example</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="html: details">&lt;/div>
-
-```javascript
-    var viewModel = {
-        details: ko.observable() // Initially blank
-    };
-    viewModel.details("&lt;em>For further details, view the report &lt;a href='report.html'>here&lt;/a>.&lt;/em>"); // HTML content appears
-```</div>
-</code></pre><h3 id="parameters">Parameters</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="html: details">&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+  details: ko.observable() // Initially blank
+};
+viewModel.details("&lt;em>For further details, view the report &lt;a href='report.html'>here&lt;/a>.&lt;/em>"); // HTML content appears</div>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
 <p>KO clears the previous content and then sets the element&#39;s content to your parameter value using jQuery&#39;s <code>html</code> function or by parsing the string into HTML nodes and appending each node as a child of the element, if jQuery is not available.</p>
@@ -1728,8 +1647,6 @@ this.edit = function() { this.editing(true) }</div>
 </ul>
 <h3 id="note-about-html-encoding">Note: About HTML encoding</h3>
 <p>Since this binding sets your element&#39;s content using <code>innerHTML</code>, you should be careful not to use it with untrusted model values, because that might open the possibility of a script injection attack.  If you cannot guarantee that the content is safe to display (for example, if it is based on a different user&#39;s input that was stored in your database), then you can use <a href="text-binding.html">the text binding</a>, which will set the element&#39;s text value using <code>innerText</code> or <code>textContent</code> instead.</p>
-<h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
 </template>
 
 <template id='if-binding'
@@ -1742,38 +1659,26 @@ this.edit = function() { this.editing(true) }</div>
 <p><code>if</code> plays a similar role to <a href="visible-binding.html">the <code>visible</code> binding</a>. The difference is that, with <code>visible</code>, the contained markup always remains in the DOM and always has its <code>data-bind</code> attributes applied - the <code>visible</code> binding just uses CSS to toggle the container element&#39;s visiblity. The <code>if</code> binding, however, physically adds or removes the contained markup in your DOM, and only applies bindings to descendants if the expression is <code>true</code>.</p>
 <h3 id="example-1">Example 1</h3>
 <p>This example shows that the <code>if</code> binding can dynamically add and remove sections of markup as observable values change.</p>
-<p>{% capture live_example_view %}</p>
-<label><input type="checkbox" data-bind="checked: displayMessage" /> Display message</label>
-
-<p><div data-bind="if: displayMessage">Here is a message. Astonishing.</div>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-ko.applyBindings({
-    displayMessage: ko.observable(false)
-});
-{% endcapture %}</p>
-<p>{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "if-binding"'></live-example></p>
 <h3 id="example-2">Example 2</h3>
 <p>In the following example, the <code>&lt;div&gt;</code> element will be empty for &quot;Mercury&quot;, but populated for &quot;Earth&quot;. That&#39;s because Earth has a non-null <code>capital</code> property, whereas &quot;Mercury&quot; has <code>null</code> for that property.</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;ul data-bind="foreach: planets">
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind="foreach: planets">
     &lt;li>
         Planet: &lt;b data-bind="text: name"> &lt;/b>
         &lt;div data-bind="if: capital">
             Capital: &lt;b data-bind="text: capital.cityName"> &lt;/b>
         &lt;/div>
     &lt;/li>
-&lt;/ul>
-
-
-```javascript
-    ko.applyBindings({
-        planets: [
-            { name: 'Mercury', capital: null },
-            { name: 'Earth', capital: { cityName: 'Barnsley' } }
-        ]
-    });
-```</div>
-</code></pre><p>It&#39;s important to understand that the <code>if</code> binding really is vital to make this code work properly. Without it, there would be an error when trying to evaluate <code>capital.cityName</code> in the context of &quot;Mercury&quot; where <code>capital</code> is <code>null</code>. In JavaScript, you&#39;re not allowed to evaluate subproperties of <code>null</code> or <code>undefined</code> values.</p>
+&lt;/ul></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.applyBindings({
+    planets: [
+        { name: 'Mercury', capital: null },
+        { name: 'Earth', capital: { cityName: 'Barnsley' } }
+    ]
+});</div>
+</code></pre>
+<p>It&#39;s important to understand that the <code>if</code> binding really is vital to make this code work properly. Without it, there would be an error when trying to evaluate <code>capital.cityName</code> in the context of &quot;Mercury&quot; where <code>capital</code> is <code>null</code>. In JavaScript, you&#39;re not allowed to evaluate subproperties of <code>null</code> or <code>undefined</code> values.</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
@@ -1788,21 +1693,21 @@ ko.applyBindings({
 </ul>
 <h3 id="note-using-if-without-a-container-element">Note: Using &quot;if&quot; without a container element</h3>
 <p>Sometimes you may want to control the presence/absence of a section of markup <em>without</em> having any container element that can hold an <code>if</code> binding. For example, you might want to control whether a certain <code>&lt;li&gt;</code> element appears alongside siblings that always appear:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;ul>
-    &lt;li>This item always appears&lt;/li>
-    &lt;li>I want to make this item present/absent dynamically&lt;/li>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
+  &lt;li>This item always appears&lt;/li>
+  &lt;li>I want to make this item present/absent dynamically&lt;/li>
 &lt;/ul></div>
-</code></pre><p>In this case, you can&#39;t put <code>if</code> on the <code>&lt;ul&gt;</code> (because then it would affect the first <code>&lt;li&gt;</code> too), and you can&#39;t put any other container around the second <code>&lt;li&gt;</code> (because HTML doesn&#39;t allow extra containers within <code>&lt;ul&gt;</code>s).</p>
+</code></pre>
+<p>In this case, you can&#39;t put <code>if</code> on the <code>&lt;ul&gt;</code> (because then it would affect the first <code>&lt;li&gt;</code> too), and you can&#39;t put any other container around the second <code>&lt;li&gt;</code> (because HTML doesn&#39;t allow extra containers within <code>&lt;ul&gt;</code>s).</p>
 <p>To handle this, you can use the <em>containerless control flow syntax</em>, which is based on comment tags. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
     &lt;li>This item always appears&lt;/li>
     &lt;!-- ko if: someExpressionGoesHere -->
         &lt;li>I want to make this item present/absent dynamically&lt;/li>
     &lt;!-- /ko -->
 &lt;/ul></div>
-</code></pre><p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
-<h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
+</code></pre>
+<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
 </template>
 
 <template id='ifnot-binding'
@@ -1811,13 +1716,15 @@ ko.applyBindings({
   data-cat='4'
   data-subcat='Control flow'>
 <h3 id="purpose">Purpose</h3>
-<p>The <code>ifnot</code> binding is exactly the same as <a href="if-binding.html">the <code>if</code> binding</a>, except that it inverts the result of whatever expression you pass to it. For more details, see documentation for <a href="if-binding.html">the <code>if</code> binding</a>.</p>
+<p>The <code>ifnot</code> binding is exactly the same as <a href="#if-binding">the <code>if</code> binding</a>, except that it inverts the result of whatever expression you pass to it. For more details, see documentation for <a href="#if-binding">the <code>if</code> binding</a>.</p>
 <h3 id="note-ifnot-is-the-same-as-a-negated-if-">Note: &quot;ifnot&quot; is the same as a negated &quot;if&quot;</h3>
 <p>The following markup:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="ifnot: someProperty">...&lt;/div></div>
-</code></pre><p>... is equivalent to the following:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;div data-bind="if: !someProperty()">...&lt;/div></div>
-</code></pre><p>... assuming that <code>someProperty</code> is <em>observable</em> and hence you need to invoke it as a function to obtain the current value.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="ifnot: someProperty">...&lt;/div></div>
+</code></pre>
+<p>... is equivalent to the following:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="if: !someProperty()">...&lt;/div></div>
+</code></pre>
+<p>... assuming that <code>someProperty</code> is <em>observable</em> and hence you need to invoke it as a function to obtain the current value.</p>
 <p>The only reason to use <code>ifnot</code> instead of a negated <code>if</code> is just as a matter of taste: many developers feel that it looks tidier.</p>
 </template>
 
@@ -1869,10 +1776,12 @@ the footer of this page.</p>
 <p>As soon as your UI gets nontrivial and has a few overlapping behaviors, things can get tricky and expensive to maintain if you only use jQuery. Consider an example: you&#39;re displaying a list of items, stating the number of items in that list, and want to enable an &#39;Add&#39; button only when there are fewer than 5 items. jQuery doesn&#39;t have a concept of an underlying data model, so to get the number of items you have to infer it from the number of TRs in a table or the number of DIVs with a certain CSS class. Maybe the number of items is displayed in some SPAN, and you have to remember to update that SPAN&#39;s text when the user adds an item. You also must remember to disable the &#39;Add&#39; button when the number of TRs is 5. Later, you&#39;re asked also to implement a &#39;Delete&#39; button and you have to figure out which DOM elements to change whenever it&#39;s clicked.</p>
 <h3 id="how-is-knockout-different-">How is Knockout different?</h3>
 <p>It&#39;s much easier with KO. It lets you scale up in complexity without fear of introducing inconsistencies. Just represent your items as a JavaScript array, and then use a <code>foreach</code> binding to transform this array into a TABLE or set of DIVs. Whenever the array changes, the UI changes to match (you don&#39;t have to figure out how to inject new TRs or where to inject them). The rest of the UI stays in sync. For example, you can declaratively bind a SPAN to display the number of items as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>There are &lt;span data-bind="text: myItems().count">&lt;/span> items</div>
-</code></pre><p>That&#39;s it! You don&#39;t have to write code to update it; it updates on its own when the <code>myItems</code> array changes. Similarly, to make the &#39;Add&#39; button enable or disable depending on the number of items, just write:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;button data-bind="enable: myItems().count &lt; 5">Add&lt;/button></div>
-</code></pre><p>Later, when you&#39;re asked to implement the &#39;Delete&#39; functionality, you don&#39;t have to figure out what bits of the UI it has to interact with; you just make it alter the underlying data model.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>There are &lt;span data-bind="text: myItems().count">&lt;/span> items</div>
+</code></pre>
+<p>That&#39;s it! You don&#39;t have to write code to update it; it updates on its own when the <code>myItems</code> array changes. Similarly, to make the &#39;Add&#39; button enable or disable depending on the number of items, just write:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;button data-bind="enable: myItems().count &lt; 5">Add&lt;/button></div>
+</code></pre>
+<p>Later, when you&#39;re asked to implement the &#39;Delete&#39; functionality, you don&#39;t have to figure out what bits of the UI it has to interact with; you just make it alter the underlying data model.</p>
 <p>To summarise: KO doesn&#39;t compete with jQuery or similar low-level DOM APIs. KO provides a complementary, high-level way to link a data model to a UI. KO itself doesn&#39;t depend on jQuery, but you can certainly use jQuery at the same time, and indeed that&#39;s often useful if you want things like animated transitions.</p>
 </template>
 
@@ -1906,7 +1815,7 @@ $.post("/some/url", data, function(returnedData) {
 <li><code>ko.toJSON</code> --- this produces a JSON string representing your view model&#39;s data. Internally, it simply calls <code>ko.toJS</code> on your view model, and then uses the browser&#39;s native JSON serializer on the result. Note: for this to work on older browsers that have no native JSON serializer (e.g., IE 7 or earlier), you must also reference the <a href="https://github.com/douglascrockford/JSON-js/blob/master/json2.js"><code>json2.js</code></a> library.</li>
 </ul>
 <p>For example, define a view model as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var viewModel = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
     firstName : ko.observable("Bert"),
     lastName : ko.observable("Smith"),
     pets : ko.observableArray(["Cat", "Dog", "Fish"]),
@@ -1915,13 +1824,15 @@ $.post("/some/url", data, function(returnedData) {
 viewModel.hasALotOfPets = ko.computed(function() {
     return this.pets().length > 2
 }, viewModel)</div>
-</code></pre><p>This contains a mix of observables, computed observables, observable arrays, and plain values. You can convert it to a JSON string suitable for sending to the server using <code>ko.toJSON</code> as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var jsonData = ko.toJSON(viewModel);
+</code></pre>
+<p>This contains a mix of observables, computed observables, observable arrays, and plain values. You can convert it to a JSON string suitable for sending to the server using <code>ko.toJSON</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var jsonData = ko.toJSON(viewModel);
 
 // Result: jsonData is now a string equal to the following value
 // '{"firstName":"Bert","lastName":"Smith","pets":["Cat","Dog","Fish"],"type":"Customer","hasALotOfPets":true}'</div>
-</code></pre><p>Or, if you just want the plain JavaScript object graph <em>before</em> serialization, use <code>ko.toJS</code> as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var plainJs = ko.toJS(viewModel);
+</code></pre>
+<p>Or, if you just want the plain JavaScript object graph <em>before</em> serialization, use <code>ko.toJS</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var plainJs = ko.toJS(viewModel);
 
 // Result: plainJS is now a plain JavaScript object in which nothing is observable. It's just data.
 // The object is equivalent to the following:
@@ -1932,19 +1843,21 @@ viewModel.hasALotOfPets = ko.computed(function() {
 //      type: "Customer",
 //      hasALotOfPets: true
 //   }</div>
-</code></pre><p>Note that <code>ko.toJSON</code> accepts the same arguments as <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a>. For example, it can be useful to have a &quot;live&quot; representation of your view model data when debugging a Knockout application. To generate a nicely formatted display for this purpose, you can pass the <em>spaces</em> argument into <code>ko.toJSON</code> and bind against your view model like:</p>
+</code></pre>
+<p>Note that <code>ko.toJSON</code> accepts the same arguments as <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a>. For example, it can be useful to have a &quot;live&quot; representation of your view model data when debugging a Knockout application. To generate a nicely formatted display for this purpose, you can pass the <em>spaces</em> argument into <code>ko.toJSON</code> and bind against your view model like:</p>
 <pre><code><div data-bind='highlight: "undefined"'>&lt;pre data-bind="text: ko.toJSON($root, null, 2)">&lt;/pre></div>
 </code></pre><h3 id="updating-view-model-data-using-json">Updating View Model Data using JSON</h3>
 <p>If you&#39;ve loaded some data from the server and want to use it to update your view model, the most straightforward way is to do it yourself. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Load and parse the JSON
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Load and parse the JSON
 var someJSON = /* Omitted: fetch it from the server however you want */;
 var parsed = JSON.parse(someJSON);
 
 // Update view model properties
 viewModel.firstName(parsed.firstName);
 viewModel.pets(parsed.pets);</div>
-</code></pre><p>In many scenarios, this direct approach is the simplest and most flexible solution. Of course, as you update the properties on your view model, Knockout will take care of updating the visible UI to match it.</p>
-<p>However, many developers prefer to use a more conventions-based approach to updating their view models using incoming data without manually writing a line of code for every property to be updated. This can be beneficial if your view models have many properties, or deeply nested data structures, because it can greatly reduce the amount of manual mapping code you need to write. For more details about this technique, see <a href="plugins-mapping.html">the knockout.mapping plugin</a>.</p>
+</code></pre>
+<p>In many scenarios, this direct approach is the simplest and most flexible solution. Of course, as you update the properties on your view model, Knockout will take care of updating the visible UI to match it.</p>
+<p>However, many developers prefer to use a more conventions-based approach to updating their view models using incoming data without manually writing a line of code for every property to be updated. This can be beneficial if your view models have many properties, or deeply nested data structures, because it can greatly reduce the amount of manual mapping code you need to write. For more details about this technique, see <a href="#plugins-mapping">the knockout.mapping plugin</a>.</p>
 </template>
 
 <template id='links'
@@ -1969,26 +1882,29 @@ viewModel.pets(parsed.pets);</div>
   data-title='Observable Arrays'
   data-cat='2'
   data-subcat=''>
-<p>If you want to detect and respond to changes on one object, you&#39;d use <a href="observables.html">observables</a>. If you want to detect and respond to changes of a <em>collection of things</em>, use an <code>observableArray</code>. This is useful in many scenarios where you&#39;re displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.</p>
+<p>If you want to detect and respond to changes on one object, you&#39;d use <a href="#observables">observables</a>. If you want to detect and respond to changes of a <em>collection of things</em>, use an <code>observableArray</code>. This is useful in many scenarios where you&#39;re displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.</p>
 <h3 id="example">Example</h3>
-<pre><code><div data-bind='highlight: "undefined"'>var myObservableArray = ko.observableArray();    // Initially an empty array
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var myObservableArray = ko.observableArray();    // Initially an empty array
 myObservableArray.push('Some value');            // Adds the value and notifies observers</div>
-</code></pre><p>To see how you can bind the <code>observableArray</code> to a UI and let the user modify it, see <a href="../examples/simpleList.html">the simple list example</a>.</p>
+</code></pre>
+<p>To see how you can bind the <code>observableArray</code> to a UI and let the user modify it, see <a href="../examples/simpleList.html">the simple list example</a>.</p>
 <h3 id="key-point-an-observablearray-tracks-which-objects-are-in-the-array-not-the-state-of-those-objects">Key point: An observableArray tracks which objects are <em>in</em> the array, <em>not</em> the state of those objects</h3>
 <p>Simply putting an object into an <code>observableArray</code> doesn&#39;t make all of that object&#39;s properties themselves observable. Of course, you can make those properties observable if you wish, but that&#39;s an independent choice. An <code>observableArray</code> just tracks which objects it holds, and notifies listeners when objects are added or removed.</p>
 <h2 id="prepopulating-an-observablearray">Prepopulating an observableArray</h2>
 <p>If you want your observable array <strong>not</strong> to start empty, but to contain some initial items, pass those items as an array to the constructor. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>// This observable array initially contains three objects
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// This observable array initially contains three objects
 var anotherObservableArray = ko.observableArray([
-    { name: "Bungle", type: "Bear" },
-    { name: "George", type: "Hippo" },
-    { name: "Zippy", type: "Unknown" }
+  { name: "Bungle", type: "Bear" },
+  { name: "George", type: "Hippo" },
+  { name: "Zippy", type: "Unknown" }
 ]);</div>
-</code></pre><h2 id="reading-information-from-an-observablearray">Reading information from an observableArray</h2>
-<p>Behind the scenes, an <code>observableArray</code> is actually an <a href="observables.html">observable</a> whose value is an array (plus, <code>observableArray</code> adds some additional features described below). So, you can get the underlying JavaScript array by invoking the <code>observableArray</code> as a function with no parameters, just like any other observable. Then you can read information from that underlying array. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>alert('The length of the array is ' + myObservableArray().length);
+</code></pre>
+<h2 id="reading-information-from-an-observablearray">Reading information from an observableArray</h2>
+<p>Behind the scenes, an <code>observableArray</code> is actually an <a href="#observables">observable</a> whose value is an array (plus, <code>observableArray</code> adds some additional features described below). So, you can get the underlying JavaScript array by invoking the <code>observableArray</code> as a function with no parameters, just like any other observable. Then you can read information from that underlying array. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>alert('The length of the array is ' + myObservableArray().length);
 alert('The first element is ' + myObservableArray()[0]);</div>
-</code></pre><p>Technically you can use any of the native JavaScript array functions to operate on that underlying array, but normally there&#39;s a better alternative. KO&#39;s <code>observableArray</code> has equivalent functions of its own, and they&#39;re more useful because:</p>
+</code></pre>
+<p>Technically you can use any of the native JavaScript array functions to operate on that underlying array, but normally there&#39;s a better alternative. KO&#39;s <code>observableArray</code> has equivalent functions of its own, and they&#39;re more useful because:</p>
 <ol>
 <li>They work on all targeted browsers. (For example, the native JavaScript <code>indexOf</code> function doesn&#39;t work on IE 8 or earlier, but KO&#39;s <code>indexOf</code> works everywhere.)</li>
 <li>For functions that modify the contents of the array, such as <code>push</code> and <code>splice</code>, KO&#39;s methods automatically trigger the dependency tracking mechanism so that all registered listeners are notified of the change, and your UI is automatically updated.</li>
@@ -2035,10 +1951,11 @@ alert('The first element is ' + myObservableArray()[0]);</div>
 <p>So, what&#39;s this <code>_destroy</code> thing all about? It&#39;s only really interesting to Rails developers. The convention in Rails is that, when you pass into an action a JSON object graph, the framework can automatically convert it to an ActiveRecord object graph and then save it to your database. It knows which of the objects are already in your database, and issues the correct INSERT or UPDATE statements. To tell the framework to DELETE a record, you just mark it with <code>_destroy</code> set to <code>true</code>.</p>
 <p>Note that when KO renders a <code>foreach</code> binding, it automatically hides any objects marked with <code>_destroy</code> equal to <code>true</code>. So, you can have some kind of &quot;delete&quot; button that invokes the <code>destroy(someItem)</code> method on the array, and this will immediately cause the specified item to vanish from the visible UI. Later, when you submit the JSON object graph to Rails, that item will also be deleted from the database (while the other array items will be inserted or updated as usual).</p>
 <h2 id="delaying-and-or-suppressing-change-notifications">Delaying and/or suppressing change notifications</h2>
-<p>Normally, an <code>observableArray</code> notifies its subscribers immediately, as soon as it&#39;s changed. But if an <code>observableArray</code> is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying change notifications. This is accomplished using the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a> like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Ensure it notifies about changes no more than once per 50-millisecond period
+<p>Normally, an <code>observableArray</code> notifies its subscribers immediately, as soon as it&#39;s changed. But if an <code>observableArray</code> is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying change notifications. This is accomplished using the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> like this:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Ensure it notifies about changes no more than once per 50-millisecond period
 myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
-</code></pre></template>
+</code></pre>
+</template>
 
 <template id='observables'
   data-kind='documentation'
@@ -2065,11 +1982,12 @@ myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 </li>
 </ul>
 <p>To create a view model with KO, just declare any JavaScript object. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>var myViewModel = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var myViewModel = {
     personName: 'Bob',
     personAge: 123
 };</div>
-</code></pre><p>You can then create a very simple <em>view</em> of this view model using a declarative binding. For example, the following markup displays the <code>personName</code> value:</p>
+</code></pre>
+<p>You can then create a very simple <em>view</em> of this view model using a declarative binding. For example, the following markup displays the <code>personName</code> value:</p>
 <pre><code><div data-bind='highlight: "undefined"'>The name is &lt;span data-bind="text: personName">&lt;/span></div>
 </code></pre><h2 id="activating-knockout">Activating Knockout</h2>
 <p>The <code>data-bind</code> attribute isn&#39;t native to HTML, though it is perfectly OK (it&#39;s strictly compliant in HTML 5, and causes no problems with HTML 4 even though a validator will point out that it&#39;s an unrecognized attribute). But since the browser doesn&#39;t know what it means, you need to activate Knockout to make it take effect.</p>
@@ -2077,8 +1995,9 @@ myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 <pre><code><div data-bind='highlight: "undefined"'>ko.applyBindings(myViewModel);</div>
 </code></pre><p>You can either put the script block at the bottom of your HTML document, or you can put it at the top and wrap the contents in a DOM-ready handler such as <a href="http://api.jquery.com/jQuery/#jQuery3">jQuery&#39;s <code>$</code> function</a>.</p>
 <p>That does it! Now, your view will display as if you&#39;d written the following HTML:</p>
-<pre><code><div data-bind='highlight: "undefined"'>The name is &lt;span>Bob&lt;/span></div>
-</code></pre><p>In case you&#39;re wondering what the parameters to <code>ko.applyBindings</code> do,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>The name is &lt;span>Bob&lt;/span></div>
+</code></pre>
+<p>In case you&#39;re wondering what the parameters to <code>ko.applyBindings</code> do,</p>
 <ul>
 <li><p>The first parameter says what view model object you want to use with the declarative bindings it activates</p>
 </li>
@@ -2089,11 +2008,12 @@ myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 <h1 id="observables">Observables</h1>
 <p>OK, you&#39;ve seen how to create a basic view model and how to display one of its properties using a binding. But one of the key benefits of KO is that it updates your UI automatically when the view model changes. How can KO know when parts of your view model change? Answer: you need to declare your model properties as <em>observables</em>, because these are special JavaScript objects that can notify subscribers about changes, and can automatically detect dependencies.</p>
 <p>For example, rewrite the preceding view model object as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var myViewModel = {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var myViewModel = {
     personName: ko.observable('Bob'),
     personAge: ko.observable(123)
 };</div>
-</code></pre><p>You don&#39;t have to change the view at all - the same <code>data-bind</code> syntax will keep working. The difference is that it&#39;s now capable of detecting changes, and when it does, it will update the view automatically.</p>
+</code></pre>
+<p>You don&#39;t have to change the view at all - the same <code>data-bind</code> syntax will keep working. The difference is that it&#39;s now capable of detecting changes, and when it does, it will update the view automatically.</p>
 <h2 id="reading-and-writing-observables">Reading and writing observables</h2>
 <p>Not all browsers support JavaScript getters and setters (* cough * IE * cough *), so for compatibility, <code>ko.observable</code> objects are actually <em>functions</em>.</p>
 <ul>
@@ -2109,28 +2029,32 @@ myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 <h2 id="explicitly-subscribing-to-observables">Explicitly subscribing to observables</h2>
 <p><em>You won&#39;t normally need to set up subscriptions manually, so beginners should skip this section.</em></p>
 <p>For advanced users, if you want to register your own subscriptions to be notified of changes to observables, you can call their <code>subscribe</code> function. For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>myViewModel.personName.subscribe(function(newValue) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>myViewModel.personName.subscribe(function(newValue) {
     alert("The person's new name is " + newValue);
 });</div>
-</code></pre><p>The <code>subscribe</code> function is how many parts of KO work internally. Most of the time you don&#39;t need to use this, because the built-in bindings and templating system take care of managing subscriptions.</p>
+</code></pre>
+<p>The <code>subscribe</code> function is how many parts of KO work internally. Most of the time you don&#39;t need to use this, because the built-in bindings and templating system take care of managing subscriptions.</p>
 <p>The <code>subscribe</code> function accepts three parameters: <code>callback</code> is the function that is called whenever the notification happens, <code>target</code> (optional) defines the value of <code>this</code> in the callback function, and <code>event</code> (optional; default is <code>&quot;change&quot;</code>) is the name of the event to receive notification for.</p>
 <p>You can also terminate a subscription if you wish: first capture the return value as a variable, then you can call its <code>dispose</code> function, e.g.:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var subscription = myViewModel.personName.subscribe(function(newValue) { /* do stuff */ });
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var subscription = myViewModel.personName.subscribe(function(newValue) { /* do stuff */ });
 // ...then later...
 subscription.dispose(); // I no longer want notifications</div>
-</code></pre><p>If you want to be notified of the value of an observable before it is about to be changed, you can subscribe to the <code>beforeChange</code> event. For example:</p>
+</code></pre>
+<p>If you want to be notified of the value of an observable before it is about to be changed, you can subscribe to the <code>beforeChange</code> event. For example:</p>
 <pre><code><div data-bind='highlight: "undefined"'>myViewModel.personName.subscribe(function(oldValue) {
     alert("The person's previous name is " + oldValue);
 }, null, "beforeChange");</div>
 </code></pre><p>Note: Knockout does not guarantee that the <code>beforeChange</code> and <code>change</code> events will occur in pairs, since other parts of your code might raise either event individually. If you need to track the previous value of an observable, it&#39;s up to you to use a subscription to capture and track it.</p>
 <h2 id="forcing-observables-to-always-notify-subscribers">Forcing observables to always notify subscribers</h2>
 <p>When writing to an observable that contains a primitive value (a number, string, boolean, or null), the dependencies of the observable are normally only notified if the value actually changed. However, it is possible to use the built-in <code>notify</code> <a href="extenders.html">extender</a> to ensure that an observable&#39;s subscribers are always notified on a write, even if the value is the same. You would apply the extender to an observable like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>myViewModel.personName.extend({ notify: 'always' });</div>
-</code></pre><h2 id="delaying-and-or-suppressing-change-notifications">Delaying and/or suppressing change notifications</h2>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>myViewModel.personName.extend({ notify: 'always' });</div>
+</code></pre>
+<h2 id="delaying-and-or-suppressing-change-notifications">Delaying and/or suppressing change notifications</h2>
 <p>Normally, an observable notifies its subscribers immediately, as soon as it&#39;s changed. But if an observable is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying the observable&#39;s change notifications. This is accomplished using the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a> like this:</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Ensure it notifies about changes no more than once per 50-millisecond period
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Ensure it notifies about changes no more than once per 50-millisecond period
 myViewModel.personName.extend({ rateLimit: 50 });</div>
-</code></pre></template>
+</code></pre>
+</template>
 
 <template id='options-binding'
   data-kind='documentation'
@@ -2142,33 +2066,31 @@ myViewModel.personName.extend({ rateLimit: 50 });</div>
 <p>The value you assign should be an array (or observable array). The <code>&lt;select&gt;</code> element will then display one item for each item in your array.</p>
 <p>Note: For a multi-select list, to set which of the options are selected, or to read which of the options are selected, use <a href="selectedOptions-binding.html">the <code>selectedOptions</code> binding</a>. For a single-select list, you can also read and write the selected option using <a href="value-binding.html">the <code>value</code> binding</a>.</p>
 <h3 id="example-1-drop-down-list">Example 1: Drop-down list</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>
     Destination country:
     &lt;select data-bind="options: availableCountries">&lt;/select>
-&lt;/p>
+&lt;/p></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    // These are the initial options
+    availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
+};
 
-```javascript
-    var viewModel = {
-        // These are the initial options
-        availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
-    };
-
-    // ... then later ...
-    viewModel.availableCountries.push('China'); // Adds another option
-```</div>
-</code></pre><h3 id="example-2-multi-select-list">Example 2: Multi-select list</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>
+// ... then later ...
+viewModel.availableCountries.push('China'); // Adds another option</div>
+</code></pre>
+<h3 id="example-2-multi-select-list">Example 2: Multi-select list</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>
     Choose some countries you would like to visit:
     &lt;select data-bind="options: availableCountries" size="5" multiple="true">&lt;/select>
-&lt;/p>
-
-```javascript
-    var viewModel = {
-        availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
-    };
-```</div>
-</code></pre><h3 id="example-3-drop-down-list-representing-arbitrary-javascript-objects-not-just-strings">Example 3: Drop-down list representing arbitrary JavaScript objects, not just strings</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>
+&lt;/p></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
+};</div>
+</code></pre>
+<h3 id="example-3-drop-down-list-representing-arbitrary-javascript-objects-not-just-strings">Example 3: Drop-down list representing arbitrary JavaScript objects, not just strings</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>
     Your country:
     &lt;select data-bind="options: availableCountries,
                        optionsText: 'countryName',
@@ -2179,33 +2101,33 @@ myViewModel.personName.extend({ rateLimit: 50 });</div>
 &lt;div data-bind="visible: selectedCountry"> &lt;!-- Appears when you select something -->
     You have chosen a country with population
     &lt;span data-bind="text: selectedCountry() ? selectedCountry().countryPopulation : 'unknown'">&lt;/span>.
-&lt;/div>
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Constructor for an object with two properties
+var Country = function(name, population) {
+    this.countryName = name;
+    this.countryPopulation = population;
+};
 
-```javascript
-    // Constructor for an object with two properties
-    var Country = function(name, population) {
-        this.countryName = name;
-        this.countryPopulation = population;
-    };
-
-    var viewModel = {
-        availableCountries : ko.observableArray([
-            new Country("UK", 65000000),
-            new Country("USA", 320000000),
-            new Country("Sweden", 29000000)
-        ]),
-        selectedCountry : ko.observable() // Nothing selected by default
-    };
-```</div>
-</code></pre><h3 id="example-4-drop-down-list-representing-arbitrary-javascript-objects-with-displayed-text-computed-as-a-function-of-the-represented-item">Example 4: Drop-down list representing arbitrary JavaScript objects, with displayed text computed as a function of the represented item</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- Same as example 3, except the &lt;select> box expressed as follows: -->
+var viewModel = {
+    availableCountries : ko.observableArray([
+        new Country("UK", 65000000),
+        new Country("USA", 320000000),
+        new Country("Sweden", 29000000)
+    ]),
+    selectedCountry : ko.observable() // Nothing selected by default
+};</div>
+</code></pre>
+<h3 id="example-4-drop-down-list-representing-arbitrary-javascript-objects-with-displayed-text-computed-as-a-function-of-the-represented-item">Example 4: Drop-down list representing arbitrary JavaScript objects, with displayed text computed as a function of the represented item</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- Same as example 3, except the &lt;select> box expressed as follows: -->
 &lt;select data-bind="options: availableCountries,
                    optionsText: function(item) {
                        return item.countryName + ' (pop: ' + item.countryPopulation + ')'
                    },
                    value: selectedCountry,
                    optionsCaption: 'Choose...'">&lt;/select></div>
-</code></pre><p>Note that the only difference between examples 3 and 4 is the <code>optionsText</code> value.</p>
+</code></pre>
+<p>Note that the only difference between examples 3 and 4 is the <code>optionsText</code> value.</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
@@ -2256,27 +2178,26 @@ myViewModel.personName.extend({ rateLimit: 50 });</div>
 <li>The data item against which it is bound, or <code>undefined</code> for the caption element</li>
 </ol>
 <p>Here&#39;s an example that uses <code>optionsAfterRender</code> to add a <code>disable</code> binding to each option.</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;select size=3 data-bind="
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;select size=3 data-bind="
     options: myItems,
     optionsText: 'name',
     optionsValue: 'id',
     optionsAfterRender: setOptionDisable">
-&lt;/select>
-
-```javascript
-    var vm = {
-        myItems: [
-            { name: 'Item 1', id: 1, disable: ko.observable(false)},
-            { name: 'Item 3', id: 3, disable: ko.observable(true)},
-            { name: 'Item 4', id: 4, disable: ko.observable(false)}
-        ],
-        setOptionDisable: function(option, item) {
-            ko.applyBindingsToNode(option, {disable: item.disable}, item);
-        }
-    };
-    ko.applyBindings(vm);
-```</div>
-</code></pre><h3 id="dependencies">Dependencies</h3>
+&lt;/select></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var vm = {
+    myItems: [
+        { name: 'Item 1', id: 1, disable: ko.observable(false)},
+        { name: 'Item 3', id: 3, disable: ko.observable(true)},
+        { name: 'Item 4', id: 4, disable: ko.observable(false)}
+    ],
+    setOptionDisable: function(option, item) {
+        ko.applyBindingsToNode(option, {disable: item.disable}, item);
+    }
+};
+ko.applyBindings(vm);</div>
+</code></pre>
+<h3 id="dependencies">Dependencies</h3>
 <p>None, other than the core Knockout library.</p>
 </template>
 
@@ -2662,8 +2583,6 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 <h3 id="note-letting-the-user-select-from-arbitrary-javascript-objects">Note: Letting the user select from arbitrary JavaScript objects</h3>
 <p>In the example code above, the user can choose from an array of string values. You&#39;re <em>not</em> limited to providing strings - your <code>options</code> array can contain arbitrary JavaScript objects if you wish. See <a href="options-binding.html">the <code>options</code> binding</a> for details on how to control how arbitrary objects should be displayed in the list.</p>
 <p>In this scenario, the values you can read and write using <code>selectedOptions</code> are those objects themselves, <em>not</em> their textual representations. This leads to much cleaner and more elegant code in most cases. Your view model can imagine that the user chooses from an array of arbitrary objects, without having to care how those objects are mapped to an on-screen representation.</p>
-<h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
 </template>
 
 <template id='style-binding'
@@ -3033,8 +2952,6 @@ Here are the participants:
 </code></pre><p>... and IE 6 renders no whitespace before the words <code>to our web site</code>, you can avoid the problem by putting any text into the <code>&lt;span&gt;</code>, e.g.:</p>
 <pre><code><div data-bind='highlight: "undefined"'>Welcome, &lt;span data-bind="text: userName">&amp;nbsp;&lt;/span> to our web site.</div>
 </code></pre><p>Other browsers, and newer versions of IE, don&#39;t have this quirk.</p>
-<h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
 </template>
 
 <template id='throttle-extender'
@@ -3043,7 +2960,7 @@ Here are the participants:
   data-cat='2'
   data-subcat=''>
 <p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
-<p>Normally, <a href="computedObservables.html">computed observables</a> are re-evaluated <em>synchronously</em>, as soon as each of their dependencies change. The <code>throttle</code> extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update <em>asychronously</em>.</p>
+<p>Normally, <a href="#computedObservables">computed observables</a> are re-evaluated <em>synchronously</em>, as soon as each of their dependencies change. The <code>throttle</code> extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update <em>asychronously</em>.</p>
 <p>The main uses cases for throttling are:</p>
 <ul>
 <li>Making things respond after a certain delay</li>
@@ -3052,50 +2969,28 @@ Here are the participants:
 <p>You&#39;ll find examples of these below.</p>
 <h3 id="example-1-the-basics">Example 1: The basics</h3>
 <p>Consider the computed observable in the following code:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var name = ko.observable('Bert');
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var name = ko.observable('Bert');
 
 var upperCaseName = ko.computed(function() {
     return name().toUpperCase();
 });</div>
-</code></pre><p>Normally, if you update <code>name</code> as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>name('The New Bert');</div>
-</code></pre><p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you had instead defined <code>upperCaseName</code> using <code>throttle</code> as follows:</p>
-<pre><code><div data-bind='highlight: "undefined"'>var upperCaseName = ko.computed(function() {
+</code></pre>
+<p>Normally, if you update <code>name</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>name('The New Bert');</div>
+</code></pre>
+<p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you had instead defined <code>upperCaseName</code> using <code>throttle</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var upperCaseName = ko.computed(function() {
     return name().toUpperCase();
 }).extend({ throttle: 500 });</div>
-</code></pre><p>... then <code>upperCaseName</code> would not be recomputed immediately when <code>name</code> changes --- instead, it would wait for 500 milliseconds (half a second) before recomputing its value and then notifying any associated UI. Each time <code>name</code> changes, that timeout is reset back to zero, so the re-evaluation only occurs once <code>name</code> has stopped changing for at least half a second.</p>
+</code></pre>
+<p>... then <code>upperCaseName</code> would not be recomputed immediately when <code>name</code> changes --- instead, it would wait for 500 milliseconds (half a second) before recomputing its value and then notifying any associated UI. Each time <code>name</code> changes, that timeout is reset back to zero, so the re-evaluation only occurs once <code>name</code> has stopped changing for at least half a second.</p>
 <h3 id="example-2-doing-something-when-the-user-stops-typing">Example 2: Doing something when the user stops typing</h3>
 <p>In this live example, there&#39;s an <code>instantaneousValue</code> observable that reacts immediately when you press a key. This is then wrapped inside a <code>throttledValue</code> computed observable that&#39;s configured to react only when you stop typing for at least 400 milliseconds.</p>
 <p>Try it:</p>
-<p>{% capture live_example_view %}</p>
-<p>Type stuff here: <input data-bind='value: instantaneousValue, valueUpdate: "afterkeydown"' /></p>
-<p>Current throttled value: <b data-bind='text: throttledValue'> </b></p>
-
-<p><div data-bind="visible: loggedValues().length > 0">
-    <h3>Stuff you have typed:</h3>
-    <ul data-bind="foreach: loggedValues">
-        <li data-bind="text: $data"></li>
-    </ul>
-</div>
-{% endcapture %}</p>
-<p>{% capture live_example_viewmodel %}
-function AppViewModel() {
-    this.instantaneousValue = ko.observable();
-    this.throttledValue = ko.computed(this.instantaneousValue)
-                            .extend({ throttle: 400 });</p>
-<pre><code><div data-bind='highlight: "undefined"'>// Keep a log of the throttled values
-this.loggedValues = ko.observableArray([]);
-this.throttledValue.subscribe(function (val) {
-    if (val !== '')
-        this.loggedValues.push(val);
-}, this);</div>
-</code></pre><p>}</p>
-<p>ko.applyBindings(new AppViewModel());
-{% endcapture %}
-{% include live-example-minimal.html %}</p>
+<p><live-example params='id: "throttle-binding"'></live-example></p>
 <h3 id="example-3-avoiding-multiple-ajax-requests">Example 3: Avoiding multiple Ajax requests</h3>
 <p>The following model represents data that you could render as a paged grid:</p>
-<pre><code><div data-bind='highlight: "undefined"'>function GridViewModel() {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function GridViewModel() {
     this.pageSize = ko.observable(20);
     this.pageIndex = ko.observable(1);
     this.currentPageData = ko.observableArray();
@@ -3107,21 +3002,24 @@ this.throttledValue.subscribe(function (val) {
         $.getJSON('/Some/Json/Service', params, this.currentPageData);
     }, this);
 }</div>
-</code></pre><p>Because the <code>ko.computed</code> evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery&#39;s <a href="http://api.jquery.com/jQuery.getJSON/"><code>$.getJSON</code> function</a> to reload <code>currentPageData</code> when the <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
+</code></pre>
+<p>Because the <code>ko.computed</code> evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery&#39;s <a href="http://api.jquery.com/jQuery.getJSON/"><code>$.getJSON</code> function</a> to reload <code>currentPageData</code> when the <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
 <p>This is very simple and elegant (and it&#39;s trivial to add yet more observable query parameters that also trigger a refresh automatically whenever they change), but there is a potential efficiency problem. What if you want to change both <code>pageIndex</code> and <code>pageSize</code> at once? You might add the following function to <code>GridViewModel</code>:</p>
-<pre><code><div data-bind='highlight: "undefined"'>this.setPageSize = function(newPageSize) {
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.setPageSize = function(newPageSize) {
     // Whenever you change the page size, we always reset the page index to 1
     this.pageSize(newPageSize);
     this.pageIndex(1);
 }</div>
-</code></pre><p>The problem is that this will cause <em>two</em> simultaneous Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
+</code></pre>
+<p>The problem is that this will cause <em>two</em> simultaneous Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
 <p>Throttling is an elegant solution. You can add an arbitrarily short but nonzero throttle timeout (e.g., 1 millisecond), and then any sequence of synchronous changes to dependencies will only trigger <em>one</em> re-evaluation of your computed observable. For example,</p>
-<pre><code><div data-bind='highlight: "undefined"'>    ko.computed(function() {
-        // This evaluation logic is exactly the same as before
-        var params = { page: this.pageIndex(), size: this.pageSize() };
-        $.getJSON('/Some/Json/Service', params, this.currentPageData);
-    }, this).extend({ throttle: 1 });</div>
-</code></pre><p>Now you can update <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once at the end of that sequence. It doesn&#39;t matter if your thread continually makes changes for longer than 1 millisecond, because re-evaluation won&#39;t start until you release your thread back to the JavaScript runtime.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function() {
+    // This evaluation logic is exactly the same as before
+    var params = { page: this.pageIndex(), size: this.pageSize() };
+    $.getJSON('/Some/Json/Service', params, this.currentPageData);
+}, this).extend({ throttle: 1 });</div>
+</code></pre>
+<p>Now you can update <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once at the end of that sequence. It doesn&#39;t matter if your thread continually makes changes for longer than 1 millisecond, because re-evaluation won&#39;t start until you release your thread back to the JavaScript runtime.</p>
 </template>
 
 <template id='uniqueName-binding'
@@ -3257,21 +3155,15 @@ return false;</div>
   data-title='value'
   data-cat='4'
   data-subcat='Working with form fields'>
+<p><em>Note: The <code>textInput</code> binding can be used in many places instead of the <code>value</code> binding, providing broader support for many edge
+  cases and textInput update the observables on a per-character change (as opposed to the default of <code>blur</code> for the <code>value</code> binding).</em></p>
 <h3 id="purpose">Purpose</h3>
 <p>The <code>value</code> binding links the associated DOM element&#39;s value with a property on your view model. This is typically useful with form elements such as <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> and <code>&lt;textarea&gt;</code>.</p>
 <p>When the user edits the value in the associated form control, it updates the value on your view model. Likewise, when you update the value in your view model, this updates the value of the form control on screen.</p>
 <p>Note: If you&#39;re working with checkboxes or radio buttons, use <a href="checked-binding.html">the <code>checked</code> binding</a> to read and write your element&#39;s checked state, not the <code>value</code> binding.</p>
 <h3 id="example">Example</h3>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>Login name: &lt;input data-bind="value: userName" />&lt;/p>
-&lt;p>Password: &lt;input type="password" data-bind="value: userPassword" />&lt;/p>
-
-```javascript
-    var viewModel = {
-        userName: ko.observable(""),        // Initially blank
-        userPassword: ko.observable("abc"), // Prepopulate
-    };
-```</div>
-</code></pre><h3 id="parameters">Parameters</h3>
+<p><live-example params='id: "value-binding"'></live-example></p>
+<h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
 <p>KO sets the element&#39;s <code>value</code> property to your parameter value. Any previous value will be overwritten.</p>
@@ -3290,15 +3182,14 @@ return false;</div>
 <li><code>&quot;afterkeydown&quot;</code> - updates your view model as soon as the user begins typing a character. This works by catching the browser&#39;s <code>keydown</code> event and handling the event asynchronously.</li>
 </ul>
 <p>Of these options, <code>&quot;input&quot;</code> is the best choice if you want to keep your view model updated in real-time, and you only need to support reasonably modern browsers such as IE 9+ (whereas <code>&quot;afterkeydown&quot;</code> is a good choice for older browsers). For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>   &lt;p>Your value: &lt;input data-bind="value: someValue, valueUpdate: 'input'" />&lt;/p>
-   &lt;p>You have typed: &lt;span data-bind="text: someValue">&lt;/span>&lt;/p> &lt;!-- updates in real-time -->
-
-   ```javascript
-       var viewModel = {
-           someValue: ko.observable("edit me")
-       };
-   ```</div>
-</code></pre><ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Your value: &lt;input data-bind="value: someValue, valueUpdate: 'input'" />&lt;/p>
+&lt;p>You have typed: &lt;span data-bind="text: someValue">&lt;/span>&lt;/p> &lt;!-- updates in real-time --></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+   someValue: ko.observable("edit me")
+};</div>
+</code></pre>
+<ul>
 <li><p><code>valueAllowUnset</code></p>
 <p>See <a href="#using-valueallowunset-with-select-elements">Note 1</a> below. Note that <code>valueAllowUnset</code> is only applicable when using <code>value</code> to control selection on a <code>&lt;select&gt;</code> element. On other elements it has no effect.</p>
 </li>
@@ -3313,21 +3204,20 @@ return false;</div>
 <h4 id="using-valueallowunset-with-select-elements">Using <code>valueAllowUnset</code> with <code>&lt;select&gt;</code> elements</h4>
 <p>Normally, when you use the <code>value</code> binding on a <code>&lt;select&gt;</code> element, it means that you want the associated model value to describe which item in the <code>&lt;select&gt;</code> is selected. But what happens if you set the model value to something that has no corresponding entry in the list? The default behavior is for Knockout to overwrite your model value to reset it to whatever is already selected in the dropdown, thereby preventing the model and UI from getting out of sync.</p>
 <p>However, sometimes you might not want that behavior. If instead you want Knockout to allow your model observable to take values that have no corresponding entry in the <code>&lt;select&gt;</code>, then specify <code>valueAllowUnset: true</code>. In this case, whenever your model value cannot be represented in the <code>&lt;select&gt;</code>, then the <code>&lt;select&gt;</code> simply has no selected value at that time, which is visually represented by it being blank. When the user later selects an entry from the dropdown, this will be written to your model as usual. For example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;p>
-    Select a country:
-    &lt;select data-bind="options: countries,
-                       optionsCaption: 'Choose one...',
-                       value: selectedCountry,
-                       valueAllowUnset: true">&lt;/select>
-&lt;/p>
-
-```javascript
-    var viewModel = {
-        countries: ['Japan', 'Bolivia', 'New Zealand'],
-        selectedCountry: ko.observable('Latvia')
-    };
-```</div>
-</code></pre><p>In the above example, <code>selectedCountry</code> will retain the value <code>&#39;Latvia&#39;</code>, and the dropdown will be blank, because there is no corresponding option.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>  &lt;p>
+      Select a country:
+      &lt;select data-bind="options: countries,
+                         optionsCaption: 'Choose one...',
+                         value: selectedCountry,
+                         valueAllowUnset: true">&lt;/select>
+  &lt;/p></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  var viewModel = {
+    countries: ['Japan', 'Bolivia', 'New Zealand'],
+    selectedCountry: ko.observable('Latvia')
+  };</div>
+</code></pre>
+<p>In the above example, <code>selectedCountry</code> will retain the value <code>&#39;Latvia&#39;</code>, and the dropdown will be blank, because there is no corresponding option.</p>
 <p>If <code>valueAllowUnset</code> had not been enabled, then Knockout would have overwritten <code>selectedCountry</code> with <code>undefined</code>, so that it would match the value of the <code>&#39;Choose one...&#39;</code> caption entry.</p>
 <h3 id="note-2-updating-observable-and-non-observable-property-values">Note 2: Updating observable and non-observable property values</h3>
 <p>If you use <code>value</code> to link a form element to an observable property, KO is able to set up a 2-way binding so that changes to either affect the other.</p>
@@ -3339,23 +3229,20 @@ return false;</div>
 </li>
 </ul>
 <p>Example:</p>
-<pre><code><div data-bind='highlight: "undefined"'>&lt;!-- Two-way binding. Populates textbox; syncs both ways. -->
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- Two-way binding. Populates textbox; syncs both ways. -->
 &lt;p>First value: &lt;input data-bind="value: firstValue" />&lt;/p>
 
 &lt;!-- One-way binding. Populates textbox; syncs only from textbox to model. -->
 &lt;p>Second value: &lt;input data-bind="value: secondValue" />&lt;/p>
 
 &lt;!-- No binding. Populates textbox, but doesn't react to any changes. -->
-&lt;p>Third value: &lt;input data-bind="value: secondValue.length > 8" />&lt;/p>
-
-```javascript
-    var viewModel = {
-        firstValue: ko.observable("hello"), // Observable
-        secondValue: "hello, again"         // Not observable
-    };
-```</div>
-</code></pre><h3 id="dependencies">Dependencies</h3>
-<p>None, other than the core Knockout library.</p>
+&lt;p>Third value: &lt;input data-bind="value: secondValue.length > 8" />&lt;/p></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    firstValue: ko.observable("hello"), // Observable
+    secondValue: "hello, again"         // Not observable
+};</div>
+</code></pre>
 </template>
 
 <template id='visible-binding'

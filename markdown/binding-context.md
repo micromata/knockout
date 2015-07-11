@@ -12,13 +12,15 @@ Bindings contexts offer the following special properties that you can reference 
 
     This is the view model object in the parent context, the one immeditely outside the current context. In the root context, this is undefined. Example:
 
-        <h1 data-bind="text: name"></h1>
+```html
+<h1 data-bind="text: name"></h1>
 
-        <div data-bind="with: manager">
-            <!-- Now we're inside a nested binding context -->
-            <span data-bind="text: name"></span> is the
-            manager of <span data-bind="text: $parent.name"></span>
-        </div>
+<div data-bind="with: manager">
+    <!-- Now we're inside a nested binding context -->
+    <span data-bind="text: name"></span> is the
+    manager of <span data-bind="text: $parent.name"></span>
+</div>
+```
 
 * `$parents`
 
@@ -40,9 +42,11 @@ Bindings contexts offer the following special properties that you can reference 
 
     This is the view model object in the current context. In the root context, `$data` and `$root` are equivalent. Inside a nested binding context, this parameter will be set to the current data item (e.g., inside a `with: person` binding, `$data` will be set to `person`). `$data` is useful when you want to reference the viewmodel itself, rather than a property on the viewmodel. Example:
 
-        <ul data-bind="foreach: ['cats', 'dogs', 'fish']">
-            <li>The value is <span data-bind="text: $data"></span></li>
-        </ul>
+```html
+<ul data-bind="foreach: ['cats', 'dogs', 'fish']">
+    <li>The value is <span data-bind="text: $data"></span></li>
+</ul>
+```
 
 * `$index` (only available within `foreach` bindings)
 
@@ -66,8 +70,10 @@ The following special variables are also available in bindings, but are not part
 
     This is the element DOM object (for virtual elements, it will be the comment DOM object) of the current binding. This can be useful if a binding needs to access an attribute of the current element. Example:
 
-        <div id="item1" data-bind="text: $element.id"></div>
+```html
+<div id="item1" data-bind="text: $element.id"></div>
+```
 
 ### Controlling or modifying the binding context in custom bindings
 
-Just like the built-in bindings [`with`](with-binding.html) and [`foreach`](foreach-binding.html), custom bindings can change the binding context for their descendant elements, or provide special properties by extending the binding context object. This is described in detail under [creating custom bindings that control descendant bindings](custom-bindings-controlling-descendant-bindings.html).
+Just like the built-in bindings [`with`](#with-binding) and [`foreach`](#foreach-binding), custom bindings can change the binding context for their descendant elements, or provide special properties by extending the binding context object. This is described in detail under [creating custom bindings that control descendant bindings](#custom-bindings-controlling-descendant-bindings).

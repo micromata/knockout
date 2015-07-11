@@ -28,10 +28,12 @@ On this page, you'll learn about the first of these three. But before that, let'
 
 To create a view model with KO, just declare any JavaScript object. For example,
 
-    var myViewModel = {
-        personName: 'Bob',
-        personAge: 123
-    };
+```javascript
+var myViewModel = {
+    personName: 'Bob',
+    personAge: 123
+};
+```
 
 You can then create a very simple *view* of this view model using a declarative binding. For example, the following markup displays the `personName` value:
 
@@ -49,7 +51,9 @@ You can either put the script block at the bottom of your HTML document, or you 
 
 That does it! Now, your view will display as if you'd written the following HTML:
 
-    The name is <span>Bob</span>
+```html
+The name is <span>Bob</span>
+```
 
 In case you're wondering what the parameters to `ko.applyBindings` do,
 
@@ -65,10 +69,12 @@ OK, you've seen how to create a basic view model and how to display one of its p
 
 For example, rewrite the preceding view model object as follows:
 
-    var myViewModel = {
-        personName: ko.observable('Bob'),
-        personAge: ko.observable(123)
-    };
+```javascript
+var myViewModel = {
+    personName: ko.observable('Bob'),
+    personAge: ko.observable(123)
+};
+```
 
 You don't have to change the view at all - the same `data-bind` syntax will keep working. The difference is that it's now capable of detecting changes, and when it does, it will update the view automatically.
 
@@ -92,9 +98,11 @@ When you change the name value to `'Mary'` by calling `myViewModel.personName('M
 
 For advanced users, if you want to register your own subscriptions to be notified of changes to observables, you can call their `subscribe` function. For example:
 
-    myViewModel.personName.subscribe(function(newValue) {
-        alert("The person's new name is " + newValue);
-    });
+```javascript
+myViewModel.personName.subscribe(function(newValue) {
+    alert("The person's new name is " + newValue);
+});
+```
 
 The `subscribe` function is how many parts of KO work internally. Most of the time you don't need to use this, because the built-in bindings and templating system take care of managing subscriptions.
 
@@ -102,9 +110,11 @@ The `subscribe` function accepts three parameters: `callback` is the function th
 
 You can also terminate a subscription if you wish: first capture the return value as a variable, then you can call its `dispose` function, e.g.:
 
-    var subscription = myViewModel.personName.subscribe(function(newValue) { /* do stuff */ });
-    // ...then later...
-    subscription.dispose(); // I no longer want notifications
+```javascript
+var subscription = myViewModel.personName.subscribe(function(newValue) { /* do stuff */ });
+// ...then later...
+subscription.dispose(); // I no longer want notifications
+```
 
 If you want to be notified of the value of an observable before it is about to be changed, you can subscribe to the `beforeChange` event. For example:
 
@@ -118,11 +128,15 @@ Note: Knockout does not guarantee that the `beforeChange` and `change` events wi
 
 When writing to an observable that contains a primitive value (a number, string, boolean, or null), the dependencies of the observable are normally only notified if the value actually changed. However, it is possible to use the built-in `notify` [extender](extenders.html) to ensure that an observable's subscribers are always notified on a write, even if the value is the same. You would apply the extender to an observable like this:
 
-    myViewModel.personName.extend({ notify: 'always' });
+```javascript
+myViewModel.personName.extend({ notify: 'always' });
+```
 
 ## Delaying and/or suppressing change notifications
 
 Normally, an observable notifies its subscribers immediately, as soon as it's changed. But if an observable is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying the observable's change notifications. This is accomplished using the [`rateLimit` extender](rateLimit-observable.html) like this:
 
-    // Ensure it notifies about changes no more than once per 50-millisecond period
-    myViewModel.personName.extend({ rateLimit: 50 });
+```javascript
+// Ensure it notifies about changes no more than once per 50-millisecond period
+myViewModel.personName.extend({ rateLimit: 50 });
+```

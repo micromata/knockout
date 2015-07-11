@@ -44,7 +44,7 @@ ko.observableArray.fn.filterByProperty = function(propName, matchValue) {
 
   The following live example shows how you could use this:
 
-  ```javascript
+```javascript
 ko.observableArray.fn.filterByProperty = function(propName, matchValue) {
     return ko.computed(function() {
         var allItems = this(), matchingItems = [];
@@ -56,9 +56,9 @@ ko.observableArray.fn.filterByProperty = function(propName, matchValue) {
         return matchingItems;
     }, this);
 }
-  ```
+```
 
-  ```html
+```html
 <h3>All tasks (<span data-bind="text: tasks().length"> </span>)</h3>
 <ul data-bind="foreach: tasks">
     <li>
@@ -73,9 +73,9 @@ ko.observableArray.fn.filterByProperty = function(propName, matchValue) {
 <ul data-bind="foreach: doneTasks">
     <li data-bind="text: title"></li>
 </ul>
-  ```
+```
 
-  ```javascript
+```javascript
 function Task(title, done) {
     this.title = ko.observable(title);
     this.done = ko.observable(done);
@@ -92,15 +92,13 @@ function AppViewModel() {
 }
 
 ko.applyBindings(new AppViewModel());
-  ```
-
-  {% include live-example-minimal.html %}
+```
 
   #### It's not mandatory
 
   If you tend to filter observable arrays a lot, adding a `filterByProperty` globally to all observable arrays might make your code tidier. But if you only need to filter occasionally, you could instead choose *not* to attach to `ko.observableArray.fn`, and instead just construct `doneTasks` by hand as follows:
 
-  ```javascript
+```javascript
 this.doneTasks = ko.computed(function() {
     var all = this.tasks(), done = [];
     for (var i = 0; i < all.length; i++)
@@ -108,4 +106,4 @@ this.doneTasks = ko.computed(function() {
             done.push(all[i]);
     return done;
 }, this);
-  ```
+```

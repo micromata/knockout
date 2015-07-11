@@ -12,21 +12,25 @@ For example, you can create interactive components like grids, tabsets, and so o
 
 To register a binding, add it as a subproperty of `ko.bindingHandlers`:
 
-    ko.bindingHandlers.yourBindingName = {
-        init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            // This will be called when the binding is first applied to an element
-            // Set up any initial state, event handlers, etc. here
-        },
-        update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-            // This will be called once when the binding is first applied to an element,
-            // and again whenever the associated observable changes value.
-            // Update the DOM element based on the supplied values here.
-        }
-    };
+```javascript
+ko.bindingHandlers.yourBindingName = {
+    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        // This will be called when the binding is first applied to an element
+        // Set up any initial state, event handlers, etc. here
+    },
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        // This will be called once when the binding is first applied to an element,
+        // and again whenever the associated observable changes value.
+        // Update the DOM element based on the supplied values here.
+    }
+};
+```
 
 ... and then you can use it on any number of DOM elements:
 
-    <div data-bind="yourBindingName: someValue"> </div>
+```html
+<div data-bind="yourBindingName: someValue"> </div>
+```
 
 Note: you don't actually have to provide both `init` *and* `update` callbacks --- you can just provide one or the other if that's all you need.
 
@@ -42,36 +46,40 @@ Whenever the associated observable changes, KO will call your `update` callback,
 
 For example, you might have been controlling an element's visibility using the `visible` binding, but now you want to go a step further and animate the transition. You want elements to slide into and out of existence according to the value of an observable. You can do this by writing a custom binding that calls jQuery's `slideUp`/`slideDown` functions:
 
-    ko.bindingHandlers.slideVisible = {
-        update: function(element, valueAccessor, allBindings) {
-            // First get the latest data that we're bound to
-            var value = valueAccessor();
+```javascript
+ko.bindingHandlers.slideVisible = {
+    update: function(element, valueAccessor, allBindings) {
+        // First get the latest data that we're bound to
+        var value = valueAccessor();
 
-            // Next, whether or not the supplied model property is observable, get its current value
-            var valueUnwrapped = ko.unwrap(value);
+        // Next, whether or not the supplied model property is observable, get its current value
+        var valueUnwrapped = ko.unwrap(value);
 
-            // Grab some more data from another binding property
-            var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
+        // Grab some more data from another binding property
+        var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
 
-            // Now manipulate the DOM element
-            if (valueUnwrapped == true)
-                $(element).slideDown(duration); // Make the element visible
-            else
-                $(element).slideUp(duration);   // Make the element invisible
-        }
-    };
+        // Now manipulate the DOM element
+        if (valueUnwrapped == true)
+            $(element).slideDown(duration); // Make the element visible
+        else
+            $(element).slideUp(duration);   // Make the element invisible
+    }
+};
+```
 
 Now you can use this binding as follows:
 
-    <div data-bind="slideVisible: giftWrap, slideDuration:600">You have selected the option</div>
-    <label><input type="checkbox" data-bind="checked: giftWrap" /> Gift wrap</label>
+```html
+<div data-bind="slideVisible: giftWrap, slideDuration:600">You have selected the option</div>
+<label><input type="checkbox" data-bind="checked: giftWrap" /> Gift wrap</label>
+```
 
-    ```javascript
-        var viewModel = {
-            giftWrap: ko.observable(true)
-        };
-        ko.applyBindings(viewModel);
-    ```
+```javascript
+var viewModel = {
+    giftWrap: ko.observable(true)
+};
+ko.applyBindings(viewModel);
+  ```
 
 Of course, this is a lot of code at first glance, but once you've created your custom bindings they can very easily be reused in many places.
 
@@ -86,15 +94,17 @@ KO will pass exactly the same set of parameters that it passes to [the `update` 
 
 Continuing the previous example, you might want `slideVisible` to set the element to be instantly visible or invisible when the page first appears (without any animated slide), so that the animation only runs when the user changes the model state. You could do that as follows:
 
-    ko.bindingHandlers.slideVisible = {
-        init: function(element, valueAccessor) {
-            var value = ko.unwrap(valueAccessor()); // Get the current value of the current property we're bound to
-            $(element).toggle(value); // jQuery will hide/show the element depending on whether "value" or true or false
-        },
-        update: function(element, valueAccessor, allBindings) {
-            // Leave as before
-        }
-    };
+```javascript
+ko.bindingHandlers.slideVisible = {
+    init: function(element, valueAccessor) {
+        var value = ko.unwrap(valueAccessor()); // Get the current value of the current property we're bound to
+        $(element).toggle(value); // jQuery will hide/show the element depending on whether "value" or true or false
+    },
+    update: function(element, valueAccessor, allBindings) {
+        // Leave as before
+    }
+};
+```
 
 This means that if `giftWrap` was defined with the initial state `false` (i.e., `giftWrap: ko.observable(false)`) then the associated DIV would initially be hidden, and then would slide into view when the user later checks the box.
 
@@ -104,45 +114,51 @@ You've already seen how to use `update` so that, when an observable changes, you
 
 You can use the `init` callback as a place to register an event handler that will cause changes to the associated observable. For example,
 
-    ko.bindingHandlers.hasFocus = {
-        init: function(element, valueAccessor) {
-            $(element).focus(function() {
-                var value = valueAccessor();
-                value(true);
-            });
-            $(element).blur(function() {
-                var value = valueAccessor();
-                value(false);
-            });
-        },
-        update: function(element, valueAccessor) {
+```javascript
+ko.bindingHandlers.hasFocus = {
+    init: function(element, valueAccessor) {
+        $(element).focus(function() {
             var value = valueAccessor();
-            if (ko.unwrap(value))
-                element.focus();
-            else
-                element.blur();
-        }
-    };
+            value(true);
+        });
+        $(element).blur(function() {
+            var value = valueAccessor();
+            value(false);
+        });
+    },
+    update: function(element, valueAccessor) {
+        var value = valueAccessor();
+        if (ko.unwrap(value))
+            element.focus();
+        else
+            element.blur();
+    }
+};
+```
 
 Now you can both read and write the "focusedness" of an element by binding it to an observable:
 
-    <p>Name: <input data-bind="hasFocus: editingName" /></p>
+```html
+<p>Name: <input data-bind="hasFocus: editingName" /></p>
 
-    <!-- Showing that we can both read and write the focus state -->
-    <div data-bind="visible: editingName">You're editing the name</div>
-    <button data-bind="enable: !editingName(), click:function() { editingName(true) }">Edit name</button>
+<!-- Showing that we can both read and write the focus state -->
+<div data-bind="visible: editingName">You're editing the name</div>
+<button data-bind="enable: !editingName(), click:function() { editingName(true) }">Edit name</button>
+```
 
-    ```javascript
-        var viewModel = {
-            editingName: ko.observable()
-        };
-        ko.applyBindings(viewModel);
-    ```
+```javascript
+var viewModel = {
+    editingName: ko.observable()
+};
+ko.applyBindings(viewModel);
+```
 
 ### Note: Supporting virtual elements
 
 If you want a custom binding to be usable with Knockout's *virtual elements* syntax, e.g.:
 
-    <!-- ko mybinding: somedata --> ... <!-- /ko -->
+```html
+<!-- ko mybinding: somedata --> ... <!-- /ko -->
+```
 
-... then see [the documentation for virtual elements](custom-bindings-for-virtual-elements.html).
+... then see [the documentation for virtual elements](#custom-bindings-for-virtual-elements).

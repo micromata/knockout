@@ -1,4 +1,4 @@
-/*global Page, Documentation, marked*/
+/*global Page, Documentation, marked, Search*/
 /*eslint no-unused-vars: 0*/
 
 
@@ -36,7 +36,7 @@ class Page {
 
     // Sort the documentation items
     function sorter(a, b) {
-      return a.title < b.title ? -1 : a.title === b.title ? 0 : 1
+      return a.title.localeCompare(b.title)
     }
     for (var list of this.docCatMap.values()) { list.sort(sorter) }
 

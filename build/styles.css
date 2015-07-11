@@ -1495,13 +1495,26 @@ textarea,
 .pure-g [class*="pure-u"] {
   font-family: "Lato", sans-serif;
 }
+* {
+  box-sizing: border-box;
+}
 body {
   padding: 16px;
   font-family: 'Lato', sans-serif;
   font-size: 18px;
+  color: #666;
 }
 pre {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+h1 {
+  text-align: right;
+}
+h2 {
+  color: #822700;
+}
+h3 {
+  color: #c60505;
 }
 h4 {
   margin: 0px 1em 0px 0px;
@@ -1561,6 +1574,17 @@ live-example h3 {
 .text-right {
   text-align: right;
 }
+.pad {
+  padding: 0.35em;
+}
+.pad i,
+.pad h4 {
+  display: block;
+  text-align: center;
+}
+.pad h4 {
+  min-height: 5ex;
+}
 .headline {
   font-size: 4em;
   position: absolute;
@@ -1607,8 +1631,8 @@ live-example h3 {
   max-height: 26px;
 }
 .footer {
+  padding: 0.62em;
   margin-top: 25px;
-  height: 60px;
 }
 .footer .links {
   padding: 0px;
@@ -1632,6 +1656,9 @@ live-example h3 {
   border-bottom: 1px dotted #CCC;
   padding-bottom: 3px;
   margin-bottom: 3px;
+  -webkit-column-break-inside: avoid;
+     page-break-inside: avoid;
+          break-inside: avoid-column;
 }
 .error {
   padding: 1em;

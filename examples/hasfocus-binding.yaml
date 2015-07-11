@@ -1,0 +1,11 @@
+name: hasfocus binding
+html: |-
+  <input data-bind="hasFocus: isSelected" />
+  <button data-bind="click: setIsSelected">Focus programmatically</button>
+  <span data-bind="visible: isSelected">The textbox has focus</span>
+
+javascript: |-
+  var viewModel = {
+      isSelected: ko.observable(false),
+      setIsSelected: function() { this.isSelected(true) }
+  };

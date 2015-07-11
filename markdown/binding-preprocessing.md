@@ -1,10 +1,10 @@
 ---
 kind: documentation
-title: Extending the binding syntax using preprocessing
-cat: 5
+title: Binding preprocessing
+cat: 3
 ---
 
-*Note: This is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It's not something you'll normally need to do when building applications with Knockout.*
+*Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It's not something you'll normally need to do when building applications with Knockout.*
 
 Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.
 
@@ -14,11 +14,13 @@ You can hook into Knockout's logic for interpreting `data-bind` attributes by pr
 
 To do this, attach a `preprocess` function to the binding handler:
 
-    ko.bindingHandlers.yourBindingHandler.preprocess = function(stringFromMarkup) {
-        // Return stringFromMarkup if you don't want to change anything, or return
-        // some other string if you want Knockout to behave as if that was the
-        // syntax provided in the original HTML
-    }
+```javascript
+ko.bindingHandlers.yourBindingHandler.preprocess = function(stringFromMarkup) {
+    // Return stringFromMarkup if you don't want to change anything, or return
+    // some other string if you want Knockout to behave as if that was the
+    // syntax provided in the original HTML
+}
+```
 
 See later on this page for an API reference.
 
@@ -26,25 +28,33 @@ See later on this page for an API reference.
 
 If you leave off the value of a binding, it's bound to `undefined` by default. If you want to have a different default value for a binding, you can do so with a preprocessor. For example, you can allow `uniqueName` to be bound without a value by making its default value `true`:
 
-    ko.bindingHandlers.uniqueName.preprocess = function(val) {
-        return val || 'true';
-    }
+```javascript
+ko.bindingHandlers.uniqueName.preprocess = function(val) {
+    return val || 'true';
+}
+```
 
 Now you can bind it like this:
 
-    <input data-bind="value: someModelProperty, uniqueName" />
+```html
+<input data-bind="value: someModelProperty, uniqueName" />
+```
 
 ### Example 2: Binding expressions to events
 
 If you'd like to be able to bind expressions to `click` events (rather than a function reference as Knockout expects), you can set up a preprocessor for the `click` handler to support this syntax:
 
-    ko.bindingHandlers.click.preprocess = function(val) {
-        return 'function($data,$event){ ' + val + ' }';
-    }
+```javascript
+ko.bindingHandlers.click.preprocess = function(val) {
+  return 'function($data,$event){ ' + val + ' }';
+}
+```
 
 Now you can bind `click` like this:
 
-    <button type="button" data-bind="click: myCount(myCount()+1)">Increment</button>
+```html
+<button type="button" data-bind="click: myCount(myCount()+1)">Increment</button>
+```
 
 ### Binding preprocessor reference
 
@@ -74,16 +84,18 @@ You can hook into Knockout's logic for traversing the DOM by providing a *node p
 
 To do this, define a `preprocessNode` function on your binding provider:
 
-    ko.bindingProvider.instance.preprocessNode = function(node) {
-        // Use DOM APIs such as setAttribute to modify 'node' if you wish.
-        // If you want to leave 'node' in the DOM, return null or have no 'return' statement.
-        // If you want to replace 'node' with some other set of nodes,
-        //    - Use DOM APIs such as insertChild to inject the new nodes
-        //      immediately before 'node'
-        //    - Use DOM APIs such as removeChild to remove 'node' if required
-        //    - Return an array of any new nodes that you've just inserted
-        //      so that Knockout can apply any bindings to them
-    }
+```javascript
+  ko.bindingProvider.instance.preprocessNode = function(node) {
+  // Use DOM APIs such as setAttribute to modify 'node' if you wish.
+  // If you want to leave 'node' in the DOM, return null or have no 'return' statement.
+  // If you want to replace 'node' with some other set of nodes,
+  //    - Use DOM APIs such as insertChild to inject the new nodes
+  //      immediately before 'node'
+  //    - Use DOM APIs such as removeChild to remove 'node' if required
+  //    - Return an array of any new nodes that you've just inserted
+  //      so that Knockout can apply any bindings to them
+}
+```
 
 See later on this page for an API reference.
 
@@ -91,26 +103,30 @@ See later on this page for an API reference.
 
 If you commonly include template content using virtual elements, the normal syntax can feel a bit verbose. Using preprocessing, you can add a new template format that uses a single comment:
 
-    ko.bindingProvider.instance.preprocessNode = function(node) {
-        // Only react if this is a comment node of the form <!-- template: ... -->
-        if (node.nodeType == 8) {
-            var match = node.nodeValue.match(/^\s*(template\s*:[\s\S]+)/);
-            if (match) {
-                // Create a pair of comments to replace the single comment
-                var c1 = document.createComment("ko " + match[1]),
-                    c2 = document.createComment("/ko");
-                node.parentNode.insertBefore(c1, node);
-                node.parentNode.replaceChild(c2, node);
+```javascript
+ko.bindingProvider.instance.preprocessNode = function(node) {
+    // Only react if this is a comment node of the form <!-- template: ... -->
+    if (node.nodeType == 8) {
+        var match = node.nodeValue.match(/^\s*(template\s*:[\s\S]+)/);
+        if (match) {
+            // Create a pair of comments to replace the single comment
+            var c1 = document.createComment("ko " + match[1]),
+                c2 = document.createComment("/ko");
+            node.parentNode.insertBefore(c1, node);
+            node.parentNode.replaceChild(c2, node);
 
-                // Tell Knockout about the new nodes so that it can apply bindings to them
-                return [c1, c2];
-            }
+            // Tell Knockout about the new nodes so that it can apply bindings to them
+            return [c1, c2];
         }
     }
+}
+```
 
 Now you can include a template in your view like this:
 
-    <!-- template: 'some-template' -->
+```html
+<!-- template: 'some-template' -->
+```
 
 ### Preprocessing Reference
 

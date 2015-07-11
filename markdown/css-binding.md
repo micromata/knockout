@@ -11,37 +11,40 @@ The `css` binding adds or removes one or more named CSS classes to the associate
 (Note: If you don't want to apply a CSS class but instead want to assign a `style` attribute value directly, see [the style binding](style-binding.html).)
 
 ### Example with static classes
-    <div data-bind="css: { profitWarning: currentProfit() < 0 }">
-       Profit Information
-    </div>
+```html
+<div data-bind="css: { profitWarning: currentProfit() < 0 }">
+   Profit Information
+</div>
 
-    ```javascript
-        var viewModel = {
-            currentProfit: ko.observable(150000) // Positive value, so initially we don't apply the "profitWarning" class
-        };
-        viewModel.currentProfit(-50); // Causes the "profitWarning" class to be applied
-    ```
+```javascript
+var viewModel = {
+    currentProfit: ko.observable(150000) // Positive value, so initially we don't apply the "profitWarning" class
+};
+viewModel.currentProfit(-50); // Causes the "profitWarning" class to be applied
+```
 
 This will apply the CSS class `profitWarning` whenever the `currentProfit` value dips below zero, and remove that class whenever it goes above zero.
 
 ### Example with dynamic classes
-    <div data-bind="css: profitStatus">
-       Profit Information
-    </div>
+```html
+<div data-bind="css: profitStatus">
+   Profit Information
+</div>
+```
 
-    ```javascript
-        var viewModel = {
-            currentProfit: ko.observable(150000)
-        };
+```javascript
+var viewModel = {
+    currentProfit: ko.observable(150000)
+};
 
-        // Evalutes to a positive value, so initially we apply the "profitPositive" class
-        viewModel.profitStatus = ko.computed(function() {
-            return this.currentProfit() < 0 ? "profitWarning" : "profitPositive";
-        }, viewModel);
+// Evalutes to a positive value, so initially we apply the "profitPositive" class
+viewModel.profitStatus = ko.computed(function() {
+    return this.currentProfit() < 0 ? "profitWarning" : "profitPositive";
+}, viewModel);
 
-        // Causes the "profitPositive" class to be removed and "profitWarning" class to be added
-        viewModel.currentProfit(-50);
-    ```
+// Causes the "profitPositive" class to be removed and "profitWarning" class to be added
+viewModel.currentProfit(-50);
+```
 
 This will apply the CSS class `profitPositive` when the `currentProfit` value is positive, otherwise it will apply the `profitWarning` CSS class.
 
@@ -75,12 +78,12 @@ This will apply the CSS class `profitPositive` when the `currentProfit` value is
 
 If you want to apply the CSS class `my-class`, you *can't* write this:
 
-    <div data-bind="css: { my-class: someValue }">...</div>
+```html
+<div data-bind="css: { my-class: someValue }">...</div>
+```
 
 ... because `my-class` isn't a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,
 
-    <div data-bind="css: { 'my-class': someValue }">...</div>
-
-### Dependencies
-
-None, other than the core Knockout library.
+```html
+<div data-bind="css: { 'my-class': someValue }">...</div>
+```

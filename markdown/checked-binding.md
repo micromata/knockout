@@ -13,54 +13,61 @@ When the user checks the associated form control, this updates the value on your
 Note: For text boxes, drop-down lists, and all non-checkable form controls, use [the `value` binding](value-binding.html) to read and write the element's value, not the `checked` binding.
 
 ### Example with checkbox
-    <p>Send me spam: <input type="checkbox" data-bind="checked: wantsSpam" /></p>
 
-    ```javascript
-	    var viewModel = {
-			wantsSpam: ko.observable(true) // Initially checked
-	    };
+```html
+<p>Send me spam: <input type="checkbox" data-bind="checked: wantsSpam" /></p>
+```
 
-	    // ... then later ...
-	    viewModel.wantsSpam(false); // The checkbox becomes unchecked
-    ```
+```javascript
+  var viewModel = {
+	wantsSpam: ko.observable(true) // Initially checked
+  };
+
+  // ... then later ...
+  viewModel.wantsSpam(false); // The checkbox becomes unchecked
+```
 
 ### Example adding checkboxes bound to an array
-    <p>Send me spam: <input type="checkbox" data-bind="checked: wantsSpam" /></p>
-    <div data-bind="visible: wantsSpam">
-    	Preferred flavors of spam:
-    	<div><input type="checkbox" value="cherry" data-bind="checked: spamFlavors" /> Cherry</div>
-    	<div><input type="checkbox" value="almond" data-bind="checked: spamFlavors" /> Almond</div>
-    	<div><input type="checkbox" value="msg" data-bind="checked: spamFlavors" /> Monosodium Glutamate</div>
-    </div>
+```html
+<p>Send me spam: <input type="checkbox" data-bind="checked: wantsSpam" /></p>
+<div data-bind="visible: wantsSpam">
+	Preferred flavors of spam:
+	<div><input type="checkbox" value="cherry" data-bind="checked: spamFlavors" /> Cherry</div>
+	<div><input type="checkbox" value="almond" data-bind="checked: spamFlavors" /> Almond</div>
+	<div><input type="checkbox" value="msg" data-bind="checked: spamFlavors" /> Monosodium Glutamate</div>
+</div>
+```
 
-    ```javascript
-	    var viewModel = {
-			wantsSpam: ko.observable(true),
-			spamFlavors: ko.observableArray(["cherry","almond"]) // Initially checks the Cherry and Almond checkboxes
-	    };
+```javascript
+var viewModel = {
+  wantsSpam: ko.observable(true),
+  spamFlavors: ko.observableArray(["cherry","almond"]) // Initially checks the Cherry and Almond checkboxes
+};
 
-	    // ... then later ...
-	    viewModel.spamFlavors.push("msg"); // Now additionally checks the Monosodium Glutamate checkbox
-    ```
+// ... then later ...
+viewModel.spamFlavors.push("msg"); // Now additionally checks the Monosodium Glutamate checkbox
+```
 
 ### Example adding radio buttons
-    <p>Send me spam: <input type="checkbox" data-bind="checked: wantsSpam" /></p>
-    <div data-bind="visible: wantsSpam">
-    	Preferred flavor of spam:
-    	<div><input type="radio" name="flavorGroup" value="cherry" data-bind="checked: spamFlavor" /> Cherry</div>
-    	<div><input type="radio" name="flavorGroup" value="almond" data-bind="checked: spamFlavor" /> Almond</div>
-    	<div><input type="radio" name="flavorGroup" value="msg" data-bind="checked: spamFlavor" /> Monosodium Glutamate</div>
-    </div>
+```html
+<p>Send me spam: <input type="checkbox" data-bind="checked: wantsSpam" /></p>
+<div data-bind="visible: wantsSpam">
+	Preferred flavor of spam:
+	<div><input type="radio" name="flavorGroup" value="cherry" data-bind="checked: spamFlavor" /> Cherry</div>
+	<div><input type="radio" name="flavorGroup" value="almond" data-bind="checked: spamFlavor" /> Almond</div>
+	<div><input type="radio" name="flavorGroup" value="msg" data-bind="checked: spamFlavor" /> Monosodium Glutamate</div>
+</div>
+```
 
-    ```javascript
-	    var viewModel = {
-			wantsSpam: ko.observable(true),
-			spamFlavor: ko.observable("almond") // Initially selects only the Almond radio button
-	    };
+```javascript
+  var viewModel = {
+	wantsSpam: ko.observable(true),
+	spamFlavor: ko.observable("almond") // Initially selects only the Almond radio button
+  };
 
-	    // ... then later ...
-	    viewModel.spamFlavor("msg"); // Now only Monosodium Glutamate is checked
-    ```
+  // ... then later ...
+  viewModel.spamFlavor("msg"); // Now only Monosodium Glutamate is checked
+```
 
 ### Parameters
 
@@ -92,23 +99,20 @@ Note: For text boxes, drop-down lists, and all non-checkable form controls, use 
 
      In the following example, the item objects themselves (not their `itemName` strings) will be included in the `chosenItems` array when their corresponding checkboxes are checked:
 
-            <!-- ko foreach: items -->
-                <input type="checkbox" data-bind="checkedValue: $data, checked: $root.chosenItems" />
-                <span data-bind="text: itemName"></span>
-            <!-- /ko -->
-
-            ```javascript
-                var viewModel = {
-                    items: ko.observableArray([
-                        { itemName: 'Choice 1' },
-                        { itemName: 'Choice 2' }
-                    ]),
-                    chosenItems: ko.observableArray()
-                };
-            ```
+    ```html
+    <!-- ko foreach: items -->
+        <input type="checkbox" data-bind="checkedValue: $data, checked: $root.chosenItems" />
+        <span data-bind="text: itemName"></span>
+    <!-- /ko -->
+    ```
+    ```javascript
+        var viewModel = {
+            items: ko.observableArray([
+                { itemName: 'Choice 1' },
+                { itemName: 'Choice 2' }
+            ]),
+            chosenItems: ko.observableArray()
+        };
+    ```
 
      If your `checkedValue` parameter is an observable value, whenever the value changes and the element is currently checked, the binding will update the `checked` model property. For checkboxes, it will remove the old value from the array and add the new value. For radio buttons, it will just update the model value.
-
-### Dependencies
-
-None, other than the core Knockout library.

@@ -4,12 +4,14 @@ title: Observable Arrays
 cat: 2
 ---
 
-If you want to detect and respond to changes on one object, you'd use [observables](observables.html). If you want to detect and respond to changes of a *collection of things*, use an `observableArray`. This is useful in many scenarios where you're displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.
+If you want to detect and respond to changes on one object, you'd use [observables](#observables). If you want to detect and respond to changes of a *collection of things*, use an `observableArray`. This is useful in many scenarios where you're displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.
 
 ### Example
 
-    var myObservableArray = ko.observableArray();    // Initially an empty array
-    myObservableArray.push('Some value');            // Adds the value and notifies observers
+```javascript
+var myObservableArray = ko.observableArray();    // Initially an empty array
+myObservableArray.push('Some value');            // Adds the value and notifies observers
+```
 
 To see how you can bind the `observableArray` to a UI and let the user modify it, see [the simple list example](../examples/simpleList.html).
 
@@ -21,19 +23,23 @@ Simply putting an object into an `observableArray` doesn't make all of that obje
 
 If you want your observable array **not** to start empty, but to contain some initial items, pass those items as an array to the constructor. For example,
 
-    // This observable array initially contains three objects
-    var anotherObservableArray = ko.observableArray([
-        { name: "Bungle", type: "Bear" },
-        { name: "George", type: "Hippo" },
-        { name: "Zippy", type: "Unknown" }
-    ]);
+```javascript
+// This observable array initially contains three objects
+var anotherObservableArray = ko.observableArray([
+  { name: "Bungle", type: "Bear" },
+  { name: "George", type: "Hippo" },
+  { name: "Zippy", type: "Unknown" }
+]);
+```
 
 ## Reading information from an observableArray
 
-Behind the scenes, an `observableArray` is actually an [observable](observables.html) whose value is an array (plus, `observableArray` adds some additional features described below). So, you can get the underlying JavaScript array by invoking the `observableArray` as a function with no parameters, just like any other observable. Then you can read information from that underlying array. For example,
+Behind the scenes, an `observableArray` is actually an [observable](#observables) whose value is an array (plus, `observableArray` adds some additional features described below). So, you can get the underlying JavaScript array by invoking the `observableArray` as a function with no parameters, just like any other observable. Then you can read information from that underlying array. For example,
 
-    alert('The length of the array is ' + myObservableArray().length);
-    alert('The first element is ' + myObservableArray()[0]);
+```javascript
+alert('The length of the array is ' + myObservableArray().length);
+alert('The first element is ' + myObservableArray()[0]);
+```
 
 Technically you can use any of the native JavaScript array functions to operate on that underlying array, but normally there's a better alternative. KO's `observableArray` has equivalent functions of its own, and they're more useful because:
 
@@ -94,7 +100,9 @@ Note that when KO renders a `foreach` binding, it automatically hides any object
 
 ## Delaying and/or suppressing change notifications
 
-Normally, an `observableArray` notifies its subscribers immediately, as soon as it's changed. But if an `observableArray` is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying change notifications. This is accomplished using the [`rateLimit` extender](rateLimit-observable.html) like this:
+Normally, an `observableArray` notifies its subscribers immediately, as soon as it's changed. But if an `observableArray` is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying change notifications. This is accomplished using the [`rateLimit` extender](#rateLimit-observable) like this:
 
-    // Ensure it notifies about changes no more than once per 50-millisecond period
-    myViewModel.myObservableArray.extend({ rateLimit: 50 });
+```javascript
+// Ensure it notifies about changes no more than once per 50-millisecond period
+myViewModel.myObservableArray.extend({ rateLimit: 50 });
+```

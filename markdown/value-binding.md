@@ -5,6 +5,9 @@ cat: 4
 subCat: Working with form fields
 ---
 
+*Note: The `textInput` binding can be used in many places instead of the `value` binding, providing broader support for many edge
+  cases and textInput update the observables on a per-character change (as opposed to the default of `blur` for the `value` binding).*
+
 ### Purpose
 The `value` binding links the associated DOM element's value with a property on your view model. This is typically useful with form elements such as `<input>`, `<select>` and `<textarea>`.
 
@@ -13,15 +16,8 @@ When the user edits the value in the associated form control, it updates the val
 Note: If you're working with checkboxes or radio buttons, use [the `checked` binding](checked-binding.html) to read and write your element's checked state, not the `value` binding.
 
 ### Example
-    <p>Login name: <input data-bind="value: userName" /></p>
-    <p>Password: <input type="password" data-bind="value: userPassword" /></p>
 
-    ```javascript
-        var viewModel = {
-            userName: ko.observable(""),        // Initially blank
-            userPassword: ko.observable("abc"), // Prepopulate
-        };
-    ```
+<live-example params='id: "value-binding"'></live-example>
 
 ### Parameters
 
@@ -48,14 +44,16 @@ Note: If you're working with checkboxes or radio buttons, use [the `checked` bin
 
      Of these options, `"input"` is the best choice if you want to keep your view model updated in real-time, and you only need to support reasonably modern browsers such as IE 9+ (whereas `"afterkeydown"` is a good choice for older browsers). For example:
 
-            <p>Your value: <input data-bind="value: someValue, valueUpdate: 'input'" /></p>
-            <p>You have typed: <span data-bind="text: someValue"></span></p> <!-- updates in real-time -->
+    ```html
+    <p>Your value: <input data-bind="value: someValue, valueUpdate: 'input'" /></p>
+    <p>You have typed: <span data-bind="text: someValue"></span></p> <!-- updates in real-time -->
+    ```
 
-            ```javascript
-                var viewModel = {
-                    someValue: ko.observable("edit me")
-                };
-            ```
+    ```javascript
+    var viewModel = {
+        someValue: ko.observable("edit me")
+    };
+    ```
 
     * `valueAllowUnset`
 
@@ -73,20 +71,22 @@ Normally, when you use the `value` binding on a `<select>` element, it means tha
 
 However, sometimes you might not want that behavior. If instead you want Knockout to allow your model observable to take values that have no corresponding entry in the `<select>`, then specify `valueAllowUnset: true`. In this case, whenever your model value cannot be represented in the `<select>`, then the `<select>` simply has no selected value at that time, which is visually represented by it being blank. When the user later selects an entry from the dropdown, this will be written to your model as usual. For example:
 
-    <p>
-        Select a country:
-        <select data-bind="options: countries,
-                           optionsCaption: 'Choose one...',
-                           value: selectedCountry,
-                           valueAllowUnset: true"></select>
-    </p>
+  ```html
+  <p>
+      Select a country:
+      <select data-bind="options: countries,
+                         optionsCaption: 'Choose one...',
+                         value: selectedCountry,
+                         valueAllowUnset: true"></select>
+  </p>
+  ```
 
-    ```javascript
-        var viewModel = {
-            countries: ['Japan', 'Bolivia', 'New Zealand'],
-            selectedCountry: ko.observable('Latvia')
-        };
-    ```
+  ```javascript
+  var viewModel = {
+    countries: ['Japan', 'Bolivia', 'New Zealand'],
+    selectedCountry: ko.observable('Latvia')
+  };
+  ```
 
 In the above example, `selectedCountry` will retain the value `'Latvia'`, and the dropdown will be blank, because there is no corresponding option.
 
@@ -104,22 +104,20 @@ However, if you use `value` to link a form element to a *non*-observable propert
 
 Example:
 
-    <!-- Two-way binding. Populates textbox; syncs both ways. -->
-    <p>First value: <input data-bind="value: firstValue" /></p>
+```html
+<!-- Two-way binding. Populates textbox; syncs both ways. -->
+<p>First value: <input data-bind="value: firstValue" /></p>
 
-    <!-- One-way binding. Populates textbox; syncs only from textbox to model. -->
-    <p>Second value: <input data-bind="value: secondValue" /></p>
+<!-- One-way binding. Populates textbox; syncs only from textbox to model. -->
+<p>Second value: <input data-bind="value: secondValue" /></p>
 
-    <!-- No binding. Populates textbox, but doesn't react to any changes. -->
-    <p>Third value: <input data-bind="value: secondValue.length > 8" /></p>
+<!-- No binding. Populates textbox, but doesn't react to any changes. -->
+<p>Third value: <input data-bind="value: secondValue.length > 8" /></p>
+```
 
-    ```javascript
-        var viewModel = {
-            firstValue: ko.observable("hello"), // Observable
-            secondValue: "hello, again"         // Not observable
-        };
-    ```
-
-### Dependencies
-
-None, other than the core Knockout library.
+```javascript
+var viewModel = {
+    firstValue: ko.observable("hello"), // Observable
+    secondValue: "hello, again"         // Not observable
+};
+```

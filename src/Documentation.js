@@ -11,7 +11,7 @@ class Documentation {
 Documentation.categoriesMap = {
   1: "Getting started",
   2: "Observables",
-  3: "About Bindings",
+  3: "Bindings (“data-bind”)",
   4: "Bindings included",
   5: "Further information"
 }

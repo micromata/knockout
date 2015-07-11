@@ -13,73 +13,83 @@ The value you assign should be an array (or observable array). The `<select>` el
 Note: For a multi-select list, to set which of the options are selected, or to read which of the options are selected, use [the `selectedOptions` binding](selectedOptions-binding.html). For a single-select list, you can also read and write the selected option using [the `value` binding](value-binding.html).
 
 ### Example 1: Drop-down list
-    <p>
-        Destination country:
-        <select data-bind="options: availableCountries"></select>
-    </p>
 
-    ```javascript
-        var viewModel = {
-            // These are the initial options
-            availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
-        };
+```html
+<p>
+    Destination country:
+    <select data-bind="options: availableCountries"></select>
+</p>
+```
 
-        // ... then later ...
-        viewModel.availableCountries.push('China'); // Adds another option
-    ```
+```javascript
+var viewModel = {
+    // These are the initial options
+    availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
+};
+
+// ... then later ...
+viewModel.availableCountries.push('China'); // Adds another option
+```
 
 ### Example 2: Multi-select list
-    <p>
-        Choose some countries you would like to visit:
-        <select data-bind="options: availableCountries" size="5" multiple="true"></select>
-    </p>
+```html
+<p>
+    Choose some countries you would like to visit:
+    <select data-bind="options: availableCountries" size="5" multiple="true"></select>
+</p>
+```
 
-    ```javascript
-        var viewModel = {
-            availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
-        };
-    ```
+```javascript
+var viewModel = {
+    availableCountries: ko.observableArray(['France', 'Germany', 'Spain'])
+};
+```
 
 ### Example 3: Drop-down list representing arbitrary JavaScript objects, not just strings
-    <p>
-        Your country:
-        <select data-bind="options: availableCountries,
-                           optionsText: 'countryName',
-                           value: selectedCountry,
-                           optionsCaption: 'Choose...'"></select>
-    </p>
 
-    <div data-bind="visible: selectedCountry"> <!-- Appears when you select something -->
-        You have chosen a country with population
-        <span data-bind="text: selectedCountry() ? selectedCountry().countryPopulation : 'unknown'"></span>.
-    </div>
+```html
+<p>
+    Your country:
+    <select data-bind="options: availableCountries,
+                       optionsText: 'countryName',
+                       value: selectedCountry,
+                       optionsCaption: 'Choose...'"></select>
+</p>
 
-    ```javascript
-        // Constructor for an object with two properties
-        var Country = function(name, population) {
-            this.countryName = name;
-            this.countryPopulation = population;
-        };
+<div data-bind="visible: selectedCountry"> <!-- Appears when you select something -->
+    You have chosen a country with population
+    <span data-bind="text: selectedCountry() ? selectedCountry().countryPopulation : 'unknown'"></span>.
+</div>
+```
 
-        var viewModel = {
-            availableCountries : ko.observableArray([
-                new Country("UK", 65000000),
-                new Country("USA", 320000000),
-                new Country("Sweden", 29000000)
-            ]),
-            selectedCountry : ko.observable() // Nothing selected by default
-        };
-    ```
+```javascript
+// Constructor for an object with two properties
+var Country = function(name, population) {
+    this.countryName = name;
+    this.countryPopulation = population;
+};
+
+var viewModel = {
+    availableCountries : ko.observableArray([
+        new Country("UK", 65000000),
+        new Country("USA", 320000000),
+        new Country("Sweden", 29000000)
+    ]),
+    selectedCountry : ko.observable() // Nothing selected by default
+};
+```
 
 ### Example 4: Drop-down list representing arbitrary JavaScript objects, with displayed text computed as a function of the represented item
 
-    <!-- Same as example 3, except the <select> box expressed as follows: -->
-    <select data-bind="options: availableCountries,
-                       optionsText: function(item) {
-                           return item.countryName + ' (pop: ' + item.countryPopulation + ')'
-                       },
-                       value: selectedCountry,
-                       optionsCaption: 'Choose...'"></select>
+```html
+<!-- Same as example 3, except the <select> box expressed as follows: -->
+<select data-bind="options: availableCountries,
+                   optionsText: function(item) {
+                       return item.countryName + ' (pop: ' + item.countryPopulation + ')'
+                   },
+                   value: selectedCountry,
+                   optionsCaption: 'Choose...'"></select>
+```
 
 Note that the only difference between examples 3 and 4 is the `optionsText` value.
 
@@ -152,26 +162,28 @@ If you need to run some further custom logic on the generated `option` elements,
 
 Here's an example that uses `optionsAfterRender` to add a `disable` binding to each option.
 
-    <select size=3 data-bind="
-        options: myItems,
-        optionsText: 'name',
-        optionsValue: 'id',
-        optionsAfterRender: setOptionDisable">
-    </select>
+```html
+<select size=3 data-bind="
+    options: myItems,
+    optionsText: 'name',
+    optionsValue: 'id',
+    optionsAfterRender: setOptionDisable">
+</select>
+```
 
-    ```javascript
-        var vm = {
-            myItems: [
-                { name: 'Item 1', id: 1, disable: ko.observable(false)},
-                { name: 'Item 3', id: 3, disable: ko.observable(true)},
-                { name: 'Item 4', id: 4, disable: ko.observable(false)}
-            ],
-            setOptionDisable: function(option, item) {
-                ko.applyBindingsToNode(option, {disable: item.disable}, item);
-            }
-        };
-        ko.applyBindings(vm);
-    ```
+```javascript
+var vm = {
+    myItems: [
+        { name: 'Item 1', id: 1, disable: ko.observable(false)},
+        { name: 'Item 3', id: 3, disable: ko.observable(true)},
+        { name: 'Item 4', id: 4, disable: ko.observable(false)}
+    ],
+    setOptionDisable: function(option, item) {
+        ko.applyBindingsToNode(option, {disable: item.disable}, item);
+    }
+};
+ko.applyBindings(vm);
+```
 
 ### Dependencies
 

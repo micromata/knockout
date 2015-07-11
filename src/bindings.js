@@ -17,7 +17,6 @@ var readonlyThemeMap = {
 function setupEditor(element, language, exampleName) {
   var example = Example.get(ko.unwrap(exampleName))
   var editor = ace.edit(element)
-  editor.$blockScrolling = Infinity // hides error message
   var session = editor.getSession()
   editor.setTheme(`ace/theme/${languageThemeMap[language]}`)
   editor.setOptions({
@@ -106,7 +105,8 @@ ko.bindingHandlers.result = {
       try {
         resetElement()
         $(element.children[0]).html(html)
-        new Function('node', script)(element.children[0])
+        var fn = new Function('node', script)
+        ko.ignoreDependencies(fn, null, [element.children[0]])
       } catch(e) {
         onError(e)
       }
@@ -152,9 +152,9 @@ ko.bindingHandlers.highlight = {
       highlightActiveLine: false,
       useSoftTabs: true,
       tabSize: 2,
-      minLines: 3,
+      minLines: 1,
       wrap: true,
-      maxLines: 25,
+      maxLines: 35,
       readOnly: true
     })
     session.setMode(`ace/mode/${language}`)

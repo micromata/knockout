@@ -91,7 +91,3 @@ IE 6 has a strange quirk whereby it sometimes ignores whitespace that immediatel
     Welcome, <span data-bind="text: userName">&nbsp;</span> to our web site.
 
 Other browsers, and newer versions of IE, don't have this quirk.
-
-### Dependencies
-
-None, other than the core Knockout library.

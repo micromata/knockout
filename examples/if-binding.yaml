@@ -1,0 +1,13 @@
+name: if binding
+html: |-
+  <label>
+    <input type="checkbox" data-bind="checked: displayMessage" />
+    Display message
+  </label>
+
+  <div data-bind="if: displayMessage">Here is a message. Astonishing.</div>
+
+javascript: |-
+  ko.applyBindings({
+      displayMessage: ko.observable(false)
+  });

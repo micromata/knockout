@@ -50,7 +50,3 @@ viewModel.chosenCountries.push('France'); // Now France is selected too
 In the example code above, the user can choose from an array of string values. You're *not* limited to providing strings - your `options` array can contain arbitrary JavaScript objects if you wish. See [the `options` binding](options-binding.html) for details on how to control how arbitrary objects should be displayed in the list.
 
 In this scenario, the values you can read and write using `selectedOptions` are those objects themselves, *not* their textual representations. This leads to much cleaner and more elegant code in most cases. Your view model can imagine that the user chooses from an array of arbitrary objects, without having to care how those objects are mapped to an on-screen representation.
-
-### Dependencies
-
-None, other than the core Knockout library.
