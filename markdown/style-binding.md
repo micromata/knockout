@@ -11,16 +11,19 @@ The `style` binding adds or removes one or more style values to the associated D
 (Note: If you don't want to apply an explicit style value but instead want to assign a CSS class, see [the css binding](css-binding.html).)
 
 ### Example
-    <div data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black' }">
-       Profit Information
-    </div>
 
-    ```javascript
-        var viewModel = {
-            currentProfit: ko.observable(150000) // Positive value, so initially black
-        };
-        viewModel.currentProfit(-50); // Causes the DIV's contents to go red
-    ```
+```example
+name: Control Text & Appearance
+html: |-
+  <div data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black' }">
+     Profit Information
+  </div>
+javascript: |-
+  var viewModel = {
+      currentProfit: ko.observable(150000) // Positive value, so initially black
+  };
+  viewModel.currentProfit(-50); // Causes the DIV's contents to go red
+```
 
 This will set the element's `style.color` property to `red` whenever the `currentProfit` value dips below zero, and to `black` whenever it goes above zero.
 

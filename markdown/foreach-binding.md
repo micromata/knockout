@@ -53,8 +53,8 @@ But what if you want to refer to the array entry itself (not just one of its pro
 
 If you wanted, you could use `$data` as a prefix when referencing properties on each entry. For example, you could rewrite part of [Example 1](#example_1_iterating_over_an_array) as follows:
 
-```
-  <td data-bind="text: $data.firstName"></td>
+```html
+<td data-bind="text: $data.firstName"></td>
 ```
 
 ... but you don't have to, because `firstName` will be evaluated within the context of `$data` by default anyway.
@@ -65,7 +65,7 @@ As you can see from Example 2 above, it's possible to use `$index` to refer to t
 
 Similarly, you can use `$parent` to refer to data from outside the `foreach`, e.g.:
 
-```
+```html
 <h1 data-bind="text: blogPostTitle"></h1>
 <ul data-bind="foreach: likes">
     <li>
@@ -81,7 +81,7 @@ For more information about `$index` and other context properties such as `$paren
 
 As described in Note 1, you can refer to each array entry using the `$data` [context variable](binding-context.html). In some cases though, it may be useful to give the current item a more descriptive name using the `as` option like:
 
-```
+```html
 <ul data-bind="foreach: { data: people, as: 'person' }"></ul>
 ```
 
@@ -97,7 +97,7 @@ Tip: Remember to pass a *string literal value* to `as` (e.g., `as: 'category'`, 
 
 In some cases, you might want to duplicate a section of markup, but you don't have any container element on which to put a `foreach` binding. For example, you might want to generate the following:
 
-```
+```html
 <ul>
     <li class="header">Header item</li>
     <!-- The following are generated dynamically from an array -->
@@ -132,9 +132,9 @@ Sometimes you may want to mark an array entry as deleted, but without actually l
 By default, the `foreach` binding will skip over (i.e., hide) any array entries that are marked as destroyed. If you want to show destroyed entries, use the `includeDestroyed` option. For example,
 
 ```html
-  <div data-bind='foreach: { data: myArray, includeDestroyed: true }'>
-      ...
-  </div>
+<div data-bind='foreach: { data: myArray, includeDestroyed: true }'>
+    ...
+</div>
 ```
 
 ### Note 7: Post-processing or animating the generated DOM elements

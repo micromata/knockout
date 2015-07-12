@@ -40,10 +40,10 @@ Now, the text will switch between "expensive" and "affordable" as needed wheneve
 
 Alternatively, you don't need to create a computed observable if you're doing something simple like this. You can pass an arbitrary JavaScript expression to the `text` binding. For example,
 
-```
-  The item is
-  <span data-bind="text: price() > 50 ? 'expensive' : 'affordable'"></span>
-  today.
+```html
+The item is
+<span data-bind="text: price() > 50 ? 'expensive' : 'affordable'"></span>
+today.
 ```
 
 This has exactly the same result, without requiring the `priceRating` computed observable.
@@ -64,7 +64,7 @@ If you need to set HTML content in this manner, see [the html binding](html-bind
 
 Sometimes you may want to set text using Knockout without including an extra element for the `text` binding. For example, you're not allowed to include other elements within an `option` element, so the following will not work.
 
-```
+```html
 <select data-bind="foreach: items">
     <option>Item <span data-bind="text: name"></span></option>
 </select>
@@ -72,7 +72,7 @@ Sometimes you may want to set text using Knockout without including an extra ele
 
 To handle this, you can use the *containerless syntax*, which is based on comment tags.
 
-```
+```html
 <select data-bind="foreach: items">
   <option>Item <!--ko text: name--><!--/ko--></option>
 </select>
@@ -84,10 +84,14 @@ The `<!--ko-->` and `<!--/ko-->` comments act as start/end markers, defining a "
 
 IE 6 has a strange quirk whereby it sometimes ignores whitespace that immediately follows an empty span. This has nothing directly to do with Knockout, but in case you do want to write:
 
-    Welcome, `<span data-bind="text: userName"></span>` to our web site.
+```html
+Welcome, `<span data-bind="text: userName"></span>` to our web site.
+```
 
 ... and IE 6 renders no whitespace before the words `to our web site`, you can avoid the problem by putting any text into the `<span>`, e.g.:
 
-    Welcome, <span data-bind="text: userName">&nbsp;</span> to our web site.
+```html
+Welcome, <span data-bind="text: userName">&nbsp;</span> to our web site.
+```
 
 Other browsers, and newer versions of IE, don't have this quirk.

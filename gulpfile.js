@@ -4,6 +4,7 @@
 //
 /*eslint no-undef: 0*/
 
+require('colors')
 var gulp = require('gulp')
 var plugins = require('gulp-load-plugins')()
 var _ = require('lodash')
@@ -110,8 +111,21 @@ function escape(html) {
 
 var markedOptions = {
   highlight: function (code, lang) {
-    return "<div data-bind='highlight: \"" + lang + "\"'>" +
-      escape(code) + "</div>"
+    if (lang === 'html' || lang === 'javascript') {
+      return "<div data-bind='highlight: \"" + lang + "\"'>" +
+        escape(code) + "</div>"
+    } else if (lang === 'example') {
+      var params = yaml.safeLoad(code)
+      if (!params.html || !params.javascript) {
+        throw new Error("Example missing html or javascript\n:" + code.red)
+      }
+      console.log("EX", params)
+      return escape("<live-example params='inline: true'>" +
+        JSON.stringify(params) +
+        "</live-example>")
+    } else {
+      throw new Error("No language for code:\n" + code.red)
+    }
   }
 }
 
@@ -120,6 +134,7 @@ gulp.task("make:markdown", function () {
   gulp.src(config.markdown.src)
     .pipe(plugins.frontMatter())
     .pipe(plugins.marked(markedOptions))
+    .on('error', console.error)
     .pipe(plugins.header(config.markdown.header))
     .pipe(plugins.footer(config.markdown.footer))
     .pipe(plugins.concat(config.markdown.filename))

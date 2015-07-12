@@ -168,9 +168,11 @@ Alternatively, you can [override `getComponentNameForNode`](#controlling-custom-
 
 A custom element can have a regular `data-bind` attribute (in addition to any `params` attribute) if needed. For example,
 
-    <products-list params='category: chosenCategory'
-                   data-bind='visible: shouldShowProducts'>
-    </products-list>
+```html
+<products-list params='category: chosenCategory'
+               data-bind='visible: shouldShowProducts'>
+</products-list>
+```
 
 However, it does not make sense to use bindings that would modify the element's contents, such as the [`text`](text-binding.html) or [`template`](template-binding.html) bindings, since they would overwrite the template injected by your component.
 

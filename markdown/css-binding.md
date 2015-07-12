@@ -56,11 +56,14 @@ This will apply the CSS class `profitPositive` when the `currentProfit` value is
 
    You can set multiple CSS classes at once. For example, if your view model has a property called `isSevere`,
 
-       <div data-bind="css: { profitWarning: currentProfit() < 0, majorHighlight: isSevere }">
-
+    ```html
+    <div data-bind="css: { profitWarning: currentProfit() < 0, majorHighlight: isSevere }">
+    ```
    You can even set multiple CSS classes based on the same condition by wrapping the names in quotes like:
 
-       <div data-bind="css: { profitWarning: currentProfit() < 0, 'major highlight': isSevere }">
+    ```html
+    <div data-bind="css: { profitWarning: currentProfit() < 0, 'major highlight': isSevere }">
+    ```
 
    Non-boolean values are interpreted loosely as boolean. For example, `0` and `null` are treated as `false`, whereas `21` and non-`null` objects are treated as `true`.
 

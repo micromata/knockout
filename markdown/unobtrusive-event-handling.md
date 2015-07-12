@@ -6,9 +6,11 @@ cat: 5
 
 In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:
 
-    <a href="#" data-bind="click: function() { viewModel.items.remove($data); }">
-        remove
-    </a>
+```html
+<a href="#" data-bind="click: function() { viewModel.items.remove($data); }">
+    remove
+</a>
+```
 
 As an alternative, Knockout provides two helper functions that allow you to identify the data associated with a DOM element:
 
@@ -17,47 +19,47 @@ As an alternative, Knockout provides two helper functions that allow you to iden
 
 These helper functions can be used in event handlers that are attached unobtrusively using something like jQuery's `bind` or `click`. The above function could be attached to each link with a `remove` class like:
 
-    $(".remove").click(function () {
-        viewModel.items.remove(ko.dataFor(this));
-    });
+```javascript
+$(".remove").click(function () {
+    viewModel.items.remove(ko.dataFor(this));
+});
+```
 
 Better yet, this techinique could be used to support event delegation.  jQuery's `live/delegate/on` functions are an easy way to make this happen:
 
-    $(".remove").live("click", function() {
-        viewModel.items.remove(ko.dataFor(this));
-    });
+```javascript
+$(".remove").live("click", function() {
+    viewModel.items.remove(ko.dataFor(this));
+});
+```
 
 Now, a single event handler is attached at a higher level and handles clicks against any links with the `remove` class. This method has the added benefit of automatically handling additional links that are dynamically added to the document (perhaps as the result of an item being added to an observableArray).
 
 ### Live example: nested children
 
 This example shows "add" and "remove" links on multiple levels of parents and children with a single handler attached unobtrusively for each type of link.
-<style type="text/css">
+
+```example
+css: |-
    .liveExample a.add { font-size: .7em; color: #aaa; }
    .liveExample a.remove { font-size: .9em; }
-</style>
 
-{% capture live_example_view %}
-<ul id="people" data-bind='template: { name: "personTmpl", foreach: people }'>
-</ul>
-
-```javascript
-    <li>
-        <a class="remove" href="#"> x </a>
-        <span data-bind='text: name'></span>
-        <a class="add" href="#"> add child </a>
-        <ul data-bind='template: { name: "personTmpl", foreach: children }'></ul>
-    </li>
-```
-{% endcapture %}
-
-{% capture live_example_viewmodel %}
-var Person = function(name, children) {
+html: |-
+  <ul id="people" data-bind='template: { name: "personTmpl", foreach: people }'>
+  </ul>
+  <li>
+      <a class="remove" href="#"> x </a>
+      <span data-bind='text: name'></span>
+      <a class="add" href="#"> add child </a>
+      <ul data-bind='template: { name: "personTmpl", foreach: children }'></ul>
+  </li>
+javascript: |-
+  var Person = function(name, children) {
     this.name = ko.observable(name);
     this.children = ko.observableArray(children || []);
-};
+  };
 
-var PeopleModel = function() {
+  var PeopleModel = function() {
     this.people = ko.observableArray([
         new Person("Bob", [
             new Person("Jan"),
@@ -81,12 +83,12 @@ var PeopleModel = function() {
     this.addChild = function(name, parentArray) {
         parentArray.push(new Person(name));
     };
-};
+  };
 
-ko.applyBindings(new PeopleModel());
+  ko.applyBindings(new PeopleModel());
 
-//attach event handlers
-$("#people").delegate(".remove", "click", function() {
+  //attach event handlers
+  $("#people").delegate(".remove", "click", function() {
     //retrieve the context
     var context = ko.contextFor(this),
         parentArray = context.$parent.people || context.$parent.children;
@@ -95,9 +97,9 @@ $("#people").delegate(".remove", "click", function() {
     parentArray.remove(context.$data);
 
     return false;
-});
+  });
 
-$("#people").delegate(".add", "click", function() {
+  $("#people").delegate(".add", "click", function() {
     //retrieve the context
     var context = ko.contextFor(this),
         childName = context.$data.name() + " child",
@@ -107,9 +109,7 @@ $("#people").delegate(".add", "click", function() {
     context.$root.addChild(childName, parentArray);
 
     return false;
-});
-
-{% endcapture %}
-{% include live-example-minimal.html %}
+  });
+```
 
 No matter how nested the links become, the handler is always able to identify and operate on the appropriate data. Using this techinique, we can avoid the overhead of attaching handlers to each individual link and can keep the markup clean and concise.

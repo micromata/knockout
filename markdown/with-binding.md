@@ -14,21 +14,23 @@ Of course, you can arbitrarily nest `with` bindings along with the other control
 
 Here is a very basic example of switching the binding context to a child object. Notice that in the `data-bind` attributes, it is *not* necessary to prefix `latitude` or `longitude` with `coords.`, because the binding context is switched to `coords`.
 
+```example
+html: |-
     <h1 data-bind="text: city"> </h1>
     <p data-bind="with: coords">
         Latitude: <span data-bind="text: latitude"> </span>,
         Longitude: <span data-bind="text: longitude"> </span>
     </p>
 
-    ```javascript
-        ko.applyBindings({
-            city: "London",
-            coords: {
-                latitude:  51.5001524,
-                longitude: -0.1262362
-            }
-        });
-    ```
+javascript: |-
+    ko.applyBindings({
+        city: "London",
+        coords: {
+            latitude:  51.5001524,
+            longitude: -0.1262362
+        }
+    });
+```
 
 ### Example 2
 
@@ -37,51 +39,46 @@ This interactive example demonstrates that:
  * The `with` binding will dynamically add or remove descendant elements depending on whether the associated value is `null`/`undefined` or not
  * If you want to access data/functions from parent binding contexts, you can use [special context properties such as `$parent` and `root`](binding-context.html).
 
-Try it out:
+```example
+html: |-
+  <form data-bind="submit: getTweets">
+      Twitter account:
+      <input data-bind="value: twitterName" />
+      <button type="submit">Get tweets</button>
+  </form>
 
-{% capture live_example_view %}
-<form data-bind="submit: getTweets">
-    Twitter account:
-    <input data-bind="value: twitterName" />
-    <button type="submit">Get tweets</button>
-</form>
+  <div data-bind="with: resultData">
+      <h3>Recent tweets fetched at <span data-bind="text: retrievalDate"> </span></h3>
+      <ol data-bind="foreach: topTweets">
+          <li data-bind="text: text"></li>
+      </ol>
 
-<div data-bind="with: resultData">
-    <h3>Recent tweets fetched at <span data-bind="text: retrievalDate"> </span></h3>
-    <ol data-bind="foreach: topTweets">
-        <li data-bind="text: text"></li>
-    </ol>
+      <button data-bind="click: $parent.clearResults">Clear tweets</button>
+  </div>
+javascript: |-
+  function AppViewModel() {
+      var self = this;
+      self.twitterName = ko.observable('@example');
+      self.resultData = ko.observable(); // No initial value
 
-    <button data-bind="click: $parent.clearResults">Clear tweets</button>
-</div>
-{% endcapture %}
+      self.getTweets = function() {
+          var name = self.twitterName(),
+              simulatedResults = [
+                  { text: name + ' What a nice day.' },
+                  { text: name + ' Building some cool apps.' },
+                  { text: name + ' Just saw a famous celebrity eating lard. Yum.' }
+              ];
 
-{% capture live_example_viewmodel %}
-function AppViewModel() {
-    var self = this;
-    self.twitterName = ko.observable('@example');
-    self.resultData = ko.observable(); // No initial value
+          self.resultData({ retrievalDate: new Date(), topTweets: simulatedResults });
+      }
 
-    self.getTweets = function() {
-        var name = self.twitterName(),
-            simulatedResults = [
-                { text: name + ' What a nice day.' },
-                { text: name + ' Building some cool apps.' },
-                { text: name + ' Just saw a famous celebrity eating lard. Yum.' }
-            ];
+      self.clearResults = function() {
+          self.resultData(undefined);
+      }
+  }
 
-        self.resultData({ retrievalDate: new Date(), topTweets: simulatedResults });
-    }
-
-    self.clearResults = function() {
-        self.resultData(undefined);
-    }
-}
-
-ko.applyBindings(new AppViewModel());
-{% endcapture %}
-
-{% include live-example-minimal.html %}
+  ko.applyBindings(new AppViewModel());
+```
 
 ### Parameters
 
@@ -103,18 +100,16 @@ Just like other control flow elements such as [`if`](if-binding.html) and [`fore
 
 Example:
 
-    <ul>
-        <li>Header element</li>
-        <!-- ko with: outboundFlight -->
-            ...
-        <!-- /ko -->
-        <!-- ko with: inboundFlight -->
-            ...
-        <!-- /ko -->
-    </ul>
+```html
+<ul>
+    <li>Header element</li>
+    <!-- ko with: outboundFlight -->
+        ...
+    <!-- /ko -->
+    <!-- ko with: inboundFlight -->
+        ...
+    <!-- /ko -->
+</ul>
+```
 
 The `<!-- ko -->` and `<!-- /ko -->` comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.
-
-### Dependencies
-
-None, other than the core Knockout library.

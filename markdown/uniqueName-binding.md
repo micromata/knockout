@@ -15,7 +15,10 @@ You won't need to use this often. It's only useful in a few rare cases, e.g.:
   * IE 6 does not allow radio buttons to be checked if they don't have a `name` attribute. Most of the time this is irrelevant because your radio button elements *will* have name attributes to put them into mutually-exclusive groups. However, just in case you didn't add a `name` attribute because it's unnecessary in your case, KO will internally use `uniqueName` on those elements to ensure they can be checked.
 
 ### Example
-    <input data-bind="value: someModelProperty, uniqueName: true" />
+
+```html
+<input data-bind="value: someModelProperty, uniqueName: true" />
+```
 
 ### Parameters
 

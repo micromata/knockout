@@ -11,18 +11,20 @@ The `submit` binding adds an event handler so that your chosen JavaScript functi
 When you use the `submit` binding on a form, Knockout will prevent the browser's default submit action for that form. In other words, the browser will call your handler function but will *not* submit the form to the server. This is a useful default because when you use the `submit` binding, it's normally because you're using the form as an interface to your view model, not as a regular HTML form. If you *do* want to let the form submit like a normal HTML form, just return `true` from your `submit` handler.
 
 ### Example
-    <form data-bind="submit: doSomething">
-        ... form contents go here ...
-        <button type="submit">Submit</button>
-    </form>
 
-    ```javascript
-        var viewModel = {
-            doSomething : function(formElement) {
-                // ... now do something
-            }
-        };
-    ```
+```example
+html: |-
+  <form data-bind="submit: doSomething">
+      ... form contents go here ...
+      <button type="submit">Submit</button>
+  </form>
+javascript: |-
+  var viewModel = {
+      doSomething : function(formElement) {
+          // ... now do something
+      }
+  };
+```
 
 As illustrated in this example, KO passes the form element as a parameter to your submit handler function. You can ignore that parameter if you want, or there are various ways you might want to use it, for example:
 
@@ -50,8 +52,4 @@ Instead of using `submit` on the form, you *could* use `click` on the submit but
 
 ### Notes
 
-For information about how to pass additional parameters to your submit handler function, or how to control the `this` handle when invoking functions that aren't on your view model, see the notes relating to the [click binding](click-binding.html). All the notes on that page apply to `submit` handlers too.
-
-### Dependencies
-
-None, other than the core Knockout library.
+For information about how to pass additional parameters to your submit handler function, or how to control the `this` handle when invoking functions that aren't on your view model, see the notes relating to the [click binding](#click-binding). All the notes on that page apply to `submit` handlers too.

@@ -37,7 +37,9 @@ var myViewModel = {
 
 You can then create a very simple *view* of this view model using a declarative binding. For example, the following markup displays the `personName` value:
 
-    The name is <span data-bind="text: personName"></span>
+```html
+The name is <span data-bind="text: personName"></span>
+```
 
 ## Activating Knockout
 
@@ -45,7 +47,9 @@ The `data-bind` attribute isn't native to HTML, though it is perfectly OK (it's 
 
 To activate Knockout, add the following line to a `<script>` block:
 
-    ko.applyBindings(myViewModel);
+```javascript
+ko.applyBindings(myViewModel);
+```
 
 You can either put the script block at the bottom of your HTML document, or you can put it at the top and wrap the contents in a DOM-ready handler such as [jQuery's `$` function](http://api.jquery.com/jQuery/#jQuery3).
 
@@ -118,9 +122,11 @@ subscription.dispose(); // I no longer want notifications
 
 If you want to be notified of the value of an observable before it is about to be changed, you can subscribe to the `beforeChange` event. For example:
 
-    myViewModel.personName.subscribe(function(oldValue) {
-        alert("The person's previous name is " + oldValue);
-    }, null, "beforeChange");
+```javascript
+myViewModel.personName.subscribe(function(oldValue) {
+    alert("The person's previous name is " + oldValue);
+}, null, "beforeChange");
+```
 
 Note: Knockout does not guarantee that the `beforeChange` and `change` events will occur in pairs, since other parts of your code might raise either event individually. If you need to track the previous value of an observable, it's up to you to use a subscription to capture and track it.
 

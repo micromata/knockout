@@ -10,17 +10,21 @@ Knockout allows you to implement sophisticated client-side interactivity, but al
 
 Knockout doesn't force you to use any one particular technique to load or save data. You can use whatever mechanism is a convenient fit for your chosen server-side technology. The most commonly-used mechanism is jQuery's Ajax helper methods, such as [`getJSON`](http://api.jquery.com/jQuery.getJSON/), [`post`](http://api.jquery.com/jQuery.post/), and [`ajax`](http://api.jquery.com/jQuery.ajax/). You can fetch data from the server:
 
-    $.getJSON("/some/url", function(data) {
-    	// Now use this data to update your view models,
-    	// and Knockout will update your UI automatically
-    })
+  ```javascript
+  $.getJSON("/some/url", function(data) {
+  	// Now use this data to update your view models,
+  	// and Knockout will update your UI automatically
+  })
+  ```
 
 ... or you can send data to the server:
 
-	var data = /* Your data in JSON format - see below */;
-	$.post("/some/url", data, function(returnedData) {
-		// This callback is executed if the post was successful
-	})
+```javascript
+var data = /* Your data in JSON format - see below */;
+$.post("/some/url", data, function(returnedData) {
+	// This callback is executed if the post was successful
+})
+```
 
 Or, if you don't want to use jQuery, you can use any other mechanism for loading or saving JSON data. So, all Knockout needs to help you do is:
 
@@ -77,8 +81,9 @@ var plainJs = ko.toJS(viewModel);
 
 Note that `ko.toJSON` accepts the same arguments as [JSON.stringify](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/JSON/stringify). For example, it can be useful to have a "live" representation of your view model data when debugging a Knockout application. To generate a nicely formatted display for this purpose, you can pass the *spaces* argument into `ko.toJSON` and bind against your view model like:
 
-    <pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
-
+```html
+<pre data-bind="text: ko.toJSON($root, null, 2)"></pre>
+```
 
 ### Updating View Model Data using JSON
 

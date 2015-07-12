@@ -37,25 +37,25 @@ There are two main ways of using templates:
 Normally, when you're using control flow bindings (`foreach`, `with`, `if`, etc.), there's no need to give names to your templates: they are defined implicitly
 and anonymously by the markup inside your DOM element. But if you want to, you can factor out templates into a separate element and then reference them by name:
 
-    <h2>Participants</h2>
-    Here are the participants:
-    <div data-bind="template: { name: 'person-template', data: buyer }"></div>
-    <div data-bind="template: { name: 'person-template', data: seller }"></div>
+```example
+html: |-
+  <h2>Participants</h2>
+  Here are the participants:
+  <div data-bind="template: { name: 'person-template', data: buyer }"></div>
+  <div data-bind="template: { name: 'person-template', data: seller }"></div>
 
+  <template id='person-template'>
+      <h3 data-bind="text: name"></h3>
+      <p>Credits: <span data-bind="text: credits"></span></p>
+  </template>
 
-    #### id='person-template'
-    ```html
-        <h3 data-bind="text: name"></h3>
-        <p>Credits: <span data-bind="text: credits"></span></p>
-    ```
-
-    ```javascript
-         function MyViewModel() {
-             this.buyer = { name: 'Franklin', credits: 250 };
-             this.seller = { name: 'Mario', credits: 5800 };
-         }
-         ko.applyBindings(new MyViewModel());
-    ```
+javascript: |-
+     function MyViewModel() {
+         this.buyer = { name: 'Franklin', credits: 250 };
+         this.seller = { name: 'Mario', credits: 5800 };
+     }
+     ko.applyBindings(new MyViewModel());
+```
 
 In this example, the `person-template` markup is used twice: once for `buyer`, and once for `seller`. Notice that the template markup is wrapped in a `script type="text/html"` ---
 the dummy `type` attribute is necessary to ensure that the markup is not executed as JavaScript, and Knockout does not attempt to apply
@@ -67,31 +67,33 @@ It's not very often that you'll need to use named templates, but on occasion it 
 
 If you want the equivalent of a `foreach` binding, but using a named template, you can do so in the natural way:
 
-    <h2>Participants</h2>
-    Here are the participants:
-    <div data-bind="template: { name: 'person-template', foreach: people }"></div>
-
-
-    #### id='person-template'
-    ```javascript
-        <h3 data-bind="text: name"></h3>
-        <p>Credits: <span data-bind="text: credits"></span></p>
-    ```
-
-     function MyViewModel() {
-         this.people = [
-             { name: 'Franklin', credits: 250 },
-             { name: 'Mario', credits: 5800 }
-         ]
-     }
-     ko.applyBindings(new MyViewModel());
+```example
+html: |-
+  <h2>Participants</h2>
+  Here are the participants:
+  <div data-bind="template: { name: 'person-template', foreach: people }"></div>
+  <script id='person-template' type='text/x-knockout'>
+    <h3 data-bind="text: name"></h3>
+    <p>Credits: <span data-bind="text: credits"></span></p>
+  </script>
+javascript: |-
+  function MyViewModel() {
+    this.people = [
+      { name: 'Franklin', credits: 250 },
+      { name: 'Mario', credits: 5800 }
+    ]
+  }
+  ko.applyBindings(new MyViewModel());
+```
 
 This gives the same result as embedding an anonymous template directly inside the element to which you use `foreach`, i.e.:
 
-    <div data-bind="foreach: people">
-        <h3 data-bind="text: name"></h3>
-        <p>Credits: <span data-bind="text: credits"></span></p>
-    </div>
+```html
+<div data-bind="foreach: people">
+    <h3 data-bind="text: name"></h3>
+    <p>Credits: <span data-bind="text: credits"></span></p>
+</div>
+```
 
 ### Note 3: Using "as" to give an alias to "foreach" items
 
@@ -99,46 +101,45 @@ When nesting `foreach` templates, it's often useful to refer to items at higher 
 
 A simpler and more elegant option, however, is to use `as` to declare a name for your iteration variables. For example:
 
-    <ul data-bind="template: { name: 'employeeTemplate',
-                                      foreach: employees,
-                                      as: 'employee' }"></ul>
+```html
+<ul data-bind="template: { name: 'employeeTemplate',
+                                  foreach: employees,
+                                  as: 'employee' }"></ul>
+```
 
 Notice the string value `'employee'` associated with `as`. Now anywhere inside this `foreach` loop, bindings in your child templates will be able to refer to `employee` to access the employee object being rendered.
 
 This is mainly useful if you have multiple levels of nested `foreach` blocks, because it gives you an unambiguous way to refer to any named item declared at a higher level in the hierarchy. Here's a complete example, showing how `season` can be referenced while rendering a `month`:
 
-    <ul data-bind="template: { name: 'seasonTemplate', foreach: seasons, as: 'season' }"></ul>
+```example
+html: |-
+  <ul data-bind="template: { name: 'seasonTemplate', foreach: seasons, as: 'season' }"></ul>
+  <!--  (Note that you can, and probably should, use the `template` binding for newer browsers) -->
+  <template>
+    <li>
+        <strong data-bind="text: name"></strong>
+        <ul data-bind="template: { name: 'monthTemplate', foreach: months, as: 'month' }"></ul>
+    </li>
+  </template>
+  <script id='monthTemplate'>
+    <li>
+        <span data-bind="text: month"></span>
+        is in
+        <span data-bind="text: season.name"></span>
+    </li>
+  </script>
 
-
-    #### id='seasonTemplate'
-    ```javascript
-        <li>
-            <strong data-bind="text: name"></strong>
-            <ul data-bind="template: { name: 'monthTemplate', foreach: months, as: 'month' }"></ul>
-        </li>
-    ```
-
-
-    #### id='monthTemplate'
-    ```javascript
-        <li>
-            <span data-bind="text: month"></span>
-            is in
-            <span data-bind="text: season.name"></span>
-        </li>
-    ```
-
-    ```javascript
-        var viewModel = {
-            seasons: ko.observableArray([
-                { name: 'Spring', months: [ 'March', 'April', 'May' ] },
-                { name: 'Summer', months: [ 'June', 'July', 'August' ] },
-                { name: 'Autumn', months: [ 'September', 'October', 'November' ] },
-                { name: 'Winter', months: [ 'December', 'January', 'February' ] }
-            ])
-        };
-        ko.applyBindings(viewModel);
-    ```
+javascript: |-
+  var viewModel = {
+      seasons: ko.observableArray([
+          { name: 'Spring', months: [ 'March', 'April', 'May' ] },
+          { name: 'Summer', months: [ 'June', 'July', 'August' ] },
+          { name: 'Autumn', months: [ 'September', 'October', 'November' ] },
+          { name: 'Winter', months: [ 'December', 'January', 'February' ] }
+      ])
+  };
+  ko.applyBindings(viewModel);
+```
 
 Tip: Remember to pass a *string literal value* to as (e.g., `as: 'season'`, *not* `as: season`), because you are giving a name for a new variable, not reading the value of a variable that already exists.
 
@@ -150,16 +151,20 @@ Generally, the best way to perform such post-processing on DOM elements is to wr
 
 Pass a function reference (either a function literal, or give the name of a function on your view model), and Knockout will invoke it immediately after rendering or re-rendering your template. If you're using `foreach`, Knockout will invoke your `afterRender` callback for each item added to your observable array. For example,
 
-    <div data-bind='template: { name: "personTemplate",
-                                data: myData,
-                                afterRender: myPostProcessingLogic }'> </div>
+```html
+  <div data-bind='template: { name: "personTemplate",
+                              data: myData,
+                              afterRender: myPostProcessingLogic }'> </div>
+```
 
 ... and define a corresponding function on your view model (i.e., the object that contains `myData`):
 
-    viewModel.myPostProcessingLogic = function(elements) {
-        // "elements" is an array of DOM nodes just rendered by the template
-        // You can add custom post-processing logic here
-    }
+```javascript
+viewModel.myPostProcessingLogic = function(elements) {
+    // "elements" is an array of DOM nodes just rendered by the template
+    // You can add custom post-processing logic here
+}
+```
 
 If you are using `foreach` and only want to be notified about elements that are specifically being added or are being removed, you can use `afterAdd` and `beforeRemove` instead. For details, see documentation for the [`foreach` binding](foreach-binding.html).
 
@@ -169,33 +174,36 @@ If you have multiple named templates, you can pass an observable for the `name` 
 
 For example,
 
+```example
+html: |-
     <ul data-bind='template: { name: displayMode,
                                foreach: employees }'> </ul>
+javascript: |-
+    var viewModel = {
+        employees: ko.observableArray([
+            { name: "Kari", active: ko.observable(true) },
+            { name: "Brynn", active: ko.observable(false) },
+            { name: "Nora", active: ko.observable(false) }
+        ]),
+        displayMode: function(employee) {
+            // Initially "Kari" uses the "active" template, while the others use "inactive"
+            return employee.active() ? "active" : "inactive";
+        }
+    };
 
-    ```javascript
-        var viewModel = {
-            employees: ko.observableArray([
-                { name: "Kari", active: ko.observable(true) },
-                { name: "Brynn", active: ko.observable(false) },
-                { name: "Nora", active: ko.observable(false) }
-            ]),
-            displayMode: function(employee) {
-                // Initially "Kari" uses the "active" template, while the others use "inactive"
-                return employee.active() ? "active" : "inactive";
-            }
-        };
-
-        // ... then later ...
-        viewModel.employees()[1].active(true); // Now "Brynn" is also rendered using the "active" template.
-    ```
+    // ... then later ...
+    viewModel.employees()[1].active(true); // Now "Brynn" is also rendered using the "active" template.
+```
 
 If your function references observable values, then the binding will update whenever any of those values change.  This will cause the data to be re-rendered using the appropriate template.
 
 If your function accepts a second parameter, then it will receive the entire [binding context](binding-context.html). You can then access `$parent` or any other [binding context](binding-context.html) variable when dynamically choosing a template. For example, you could amend the preceding code snippet as follows:
 
-    displayMode: function(employee, bindingContext) {
-        // Now return a template name string based on properties of employee or bindingContext
-    }
+```javascript
+displayMode: function(employee, bindingContext) {
+    // Now return a template name string based on properties of employee or bindingContext
+}
+```
 
 ### Note 6: Using jQuery.tmpl, an external string-based template engine
 
@@ -203,34 +211,33 @@ In the vast majority of cases, Knockout's native templating and the `foreach`, `
 
 By default, Knockout comes with support for [jquery.tmpl](http://api.jquery.com/jquery.tmpl/). To use it, you need to reference the following libraries, in this order:
 
-    <!-- First jQuery -->     script src="http://code.jquery.com/jquery-1.7.1.min.js"
-    <!-- Then jQuery.tmpl --> script src="jquery.tmpl.js"
-    <!-- Then Knockout -->    script src="knockout-x.y.z.js"
+```html
+<!-- First jQuery -->     script src="http://code.jquery.com/jquery-1.7.1.min.js"
+<!-- Then jQuery.tmpl --> script src="jquery.tmpl.js"
+<!-- Then Knockout -->    script src="knockout-x.y.z.js"
+```
 
 Then, you can use jQuery.tmpl syntax in your templates. For example,
 
-    <h1>People</h1>
-    <div data-bind="template: 'peopleList'"></div>
-
-
-    #### id='peopleList'
-    ```javascript
-        {{'{{'}}each people}}
-            <p>
-                <b>${name}</b> is ${age} years old
-            </p>
-        {{'{{'}}/each}}
-    ```
-
-    ```javascript
-        var viewModel = {
-            people: ko.observableArray([
-                { name: 'Rod', age: 123 },
-                { name: 'Jane', age: 125 },
-            ])
-        }
-        ko.applyBindings(viewModel);
-    ```
+```example
+html: |-
+  <h1>People</h1>
+  <div data-bind="template: 'peopleList'"></div>
+  <template id='peopleList'>
+    <!-- FIXME -->
+      <p data-bind='foreach: $data'>
+          <b>${name}</b> is ${age} years old
+      </p>
+  </template>
+javascript: |-
+    var viewModel = {
+        people: ko.observableArray([
+            { name: 'Rod', age: 123 },
+            { name: 'Jane', age: 125 },
+        ])
+    }
+    ko.applyBindings(viewModel);
+```
 
 This works because `{{'{{'}}each ...}}` and `${ ... }` are jQuery.tmpl syntaxes. What's more, it's trivial to nest templates: because you can use data-bind attributes from inside a template, you can simply put a `data-bind="template: ..."` inside a template to render a nested one.
 
@@ -240,15 +247,15 @@ Please note that, as of December 2011, jQuery.tmpl is no longer under active dev
 
 The [Underscore.js template engine](http://documentcloud.github.com/underscore/#template) by default uses ERB-style delimiters (`<%= ... %>`). Here's how the preceding example's template might look with Underscore:
 
-
-    #### id='peopleList'
-    ```javascript
-        <% _.each(people(), function(person) { %>
-            <li>
-                <b><%= person.name %></b> is <%= person.age %> years old
-            </li>
-        <% }) %>
-    ```
+```html
+<script id='peopleList'>
+    <% _.each(people(), function(person) { %>
+        <li>
+            <b><%= person.name %></b> is <%= person.age %> years old
+        </li>
+    <% }) %>
+</script>
+```
 
 Here's [a simple implementation of integrating Underscore templates with Knockout](http://jsfiddle.net/rniemeyer/NW5Vn/). The integration code is just 16 lines long, but it's enough to support Knockout `data-bind` attributes (and hence nested templates) and Knockout [binding context](binding-context.html) variables (`$parent`, `$root`, etc.).
 

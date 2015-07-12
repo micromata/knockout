@@ -9,17 +9,20 @@ subCat: Controlling text and appearance
 The `visible` binding causes the associated DOM element to become hidden or visible according to the value you pass to the binding.
 
 ### Example
-    <div data-bind="visible: shouldShowMessage">
-	    You will see this message only when "shouldShowMessage" holds a true value.
-    </div>
 
-    ```javascript
-	    var viewModel = {
-			shouldShowMessage: ko.observable(true) // Message initially visible
-	    };
-	    viewModel.shouldShowMessage(false); // ... now it's hidden
-	    viewModel.shouldShowMessage(true); // ... now it's visible again
-    ```
+```example
+html: |-
+  <div data-bind="visible: shouldShowMessage">
+    You will see this message only when "shouldShowMessage" holds a true value.
+  </div>
+
+javascript: |-
+  var viewModel = {
+	shouldShowMessage: ko.observable(true) // Message initially visible
+  };
+  viewModel.shouldShowMessage(false); // ... now it's hidden
+  viewModel.shouldShowMessage(true); // ... now it's visible again
+```
 
 ### Parameters
 
@@ -43,17 +46,14 @@ You can also use a JavaScript function or arbitrary JavaScript expression as the
 
 For example,
 
-    <div data-bind="visible: myValues().length > 0">
-	    You will see this message only when 'myValues' has at least one member.
-    </div>
-
-    ```javascript
-	    var viewModel = {
-			myValues: ko.observableArray([]) // Initially empty, so message hidden
-	    };
-	    viewModel.myValues.push("some value"); // Now visible
-    ```
-
-### Dependencies
-
-None, other than the core Knockout library.
+```example
+html: |-
+  <div data-bind="visible: myValues().length > 0">
+    You will see this message only when 'myValues' has at least one member.
+  </div>
+javascript: |-
+  var viewModel = {
+	myValues: ko.observableArray([]) // Initially empty, so message hidden
+  };
+  viewModel.myValues.push("some value"); // Now visible
+```

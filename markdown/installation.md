@@ -16,15 +16,11 @@ the footer of this page.
 
 You can also get Knockout over *bower*:
 
-```
-bower install knockoutjs
-```
+> $ bower install knockoutjs
 
 and *npm*:
 
-```
-npm install knockout
-```
+> $ npm install knockout
 
 Next, if you are new to Knockout, you can get started with
 [interactive tutorials](http://learn.knockoutjs.com), or explore
