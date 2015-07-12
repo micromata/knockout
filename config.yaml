@@ -24,6 +24,9 @@ appcache:
     images/hourglass.gif
 
     # Fonts
+    # We only include .woff because any browser that supports the
+    # manifest will also support woff.
+    fonts/Cherry_Swash.woff
     fonts/Lato_400.woff
     fonts/Lato_700.woff
     fonts/Lato_400italic.woff

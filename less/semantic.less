@@ -1,0 +1,139 @@
+
+// semantic
+.headline {
+  font-size: 4em;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translate(0, -50%);
+  text-align: center;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .logo {
+    width: 80%;
+  }
+
+  .bound & {
+    z-index: -1;
+    opacity: 0;
+    transition: 1s;
+  }
+}
+
+.page {
+  opacity: 0;
+  .bound & {
+    opacity: 1;
+    transition: 1s 0.4s;
+  }
+}
+
+
+.header {
+  width: 100%;
+  padding-top: 5px;
+  border-bottom: 1px solid #aaa;
+  min-height: 32px;
+  font-family: @title-font-family;
+
+  a {
+    font-size: 1.1em;
+    padding: 4px 0.5em;
+  }
+
+  img {
+    max-height: 26px;
+  }
+}
+
+
+.footer {
+	padding: 0.62em;
+  margin-top: 25px;
+
+  .links {
+    padding: 0px;
+    line-height: 1.45em;
+    list-style: none;
+  }
+}
+
+
+.main {
+  min-height: 60%;
+  min-height: calc(~"100vh - 180px");
+}
+
+.docs-list {
+	ul {
+		columns: 2;
+		column-rule: 1px dotted #CCC;
+	}
+	li {
+		list-style: none;
+		border-bottom: 1px dotted #CCC;
+		padding-bottom: 3px;
+		margin-bottom: 3px;
+		break-inside: avoid-column;
+	}
+}
+
+
+.error {
+  padding: 1em;
+  border: 1px solid rgb(113, 11, 29);
+  color: rgb(113, 11, 29);
+  border-radius: 12px;
+}
+
+.example {
+  padding: 10px 1em;
+  box-shadow: inset -2px -2px 6px rgb(255, 193, 74),
+              inset 2px 2px 6px #8f7b29;
+  background-color: #e2b84c;
+  min-height: 50px;
+  border-radius: 5px;
+  width: 90%;
+  margin: 0px auto;
+}
+
+.example-centered {
+  text-align: center;
+}
+
+
+.plugin-extras {
+  color: #aaa;
+  font-size: 0.95em;
+}
+
+
+.plugin-repo {
+  text-align: right;
+  line-height: 1.25em;
+}
+
+
+.plugin-owner {
+  display: block;
+  font-style: italic;
+  font-size: 0.95em;
+
+
+}
+
+// Amendind 3rd party styles.
+div.ace_editor {
+  font: @monospace-font;
+  height: 200px;
+  border-radius: 6px;
+}
+
+.pure-table {
+	width: 100%;
+}

@@ -1,0 +1,42 @@
+
+
+
+// responsive layout
+//
+// see e.g.
+//    http://codepen.io/dudleystorey/pen/Geprd
+//    http://exisweb.net/responsive-table-plugins-and-patterns
+@media screen and (max-width: 500px) {
+  table {
+    thead {
+      display: none;
+    }
+    td {
+      display: block;
+      padding: .6rem;
+    }
+    tbody td:before {
+      content: attr(data-th);
+      display: inline-block;
+      width: 6.24rem;
+      text-align: right;
+      padding-right: 0.24rem;
+    }
+    tbody tr td:first-child {
+      .plugin-owner {
+        text-align: left;
+      }
+    }
+  }
+
+	.docs-list {
+		ul {
+			columns: 1;
+		}
+	}
+
+  // Hide line numbers and syntax errors
+  .ace_gutter {
+    display: none;
+  }
+}
