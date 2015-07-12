@@ -1,0 +1,33 @@
+name: component markdown example
+javascript: |-
+    ko.components.register('my-special-list', {
+        template: { element: 'my-special-list-template' },
+        viewModel: function(params) {
+            this.myItems = params.items;
+        }
+    });
+
+    ko.applyBindings({
+        someArrayOfPeople: ko.observableArray([
+            { name: 'Lewis', age: 56 },
+            { name: 'Hathaway', age: 34 }
+        ])
+    });
+html: |-
+    <!-- This could be in a separate file -->
+    <template id="my-special-list-template">
+        <h3>Here is a special list</h3>
+
+        <ul data-bind="foreach: { data: myItems, as: 'myItem' }">
+            <li>
+                <h4>Here is another one of my special items</h4>
+                <!-- ko template: { nodes: $componentTemplateNodes, data: myItem } --><!-- /ko -->
+            </li>
+        </ul>
+    </template>
+
+    <my-special-list params="items: someArrayOfPeople">
+        <!-- Look, I'm putting markup inside a custom element -->
+        The person <em data-bind="text: name"></em>
+        is <em data-bind="text: age"></em> years old.
+    </my-special-list>

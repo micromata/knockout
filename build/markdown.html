@@ -543,6 +543,1199 @@ with <code>this</code> being redefined to mean something else in event handlers 
 <p>Normally, in this case <code>myButtonHandler</code> would be called first, then the click event would bubble up to <code>myDivHandler</code>.  However, the <code>clickBubble</code> binding that we added with a value of <code>false</code> prevents the event from making it past <code>myButtonHandler</code>.</p>
 </template>
 
+<template id='component-binding'
+  data-kind='documentation'
+  data-title='component'
+  data-cat='4'
+  data-subcat='Components'>
+<p>The <code>component</code> binding injects a specified <a href="component-overview.html">component</a> into an element, and optionally passes parameters to it.</p>
+<ul>
+<li>[Table of contents injected here]
+{:toc}</li>
+</ul>
+<h3 id="live-example">Live example</h3>
+<p><live-example params='id: "component-binding"'></live-example></p>
+<p>Note: In more realistic cases, you would typically load component viewmodels and templates from external files, instead of hardcoding them into the registration. See <a href="#component-overview">an example</a> and <a href="#component-registration">registration documentation</a>.</p>
+<h3 id="api">API</h3>
+<p>There are two ways to use the <code>component</code> binding:</p>
+<ul>
+<li><p><strong>Shorthand syntax</strong></p>
+<p>If you pass just a string, it is interpreted as a component name. The named component is then injected without supplying any parameters to it. Example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='component: "my-component"'>&lt;/div></div>
+</code></pre>
+<p>The shorthand value can also be observable. In this case, if it changes, the <code>component</code> binding will <a href="#disposal-and-memory-management">dispose</a> the old component instance, and inject the newly-referenced component. Example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='component: observableWhoseValueIsAComponentName'>&lt;/div></div>
+</code></pre>
+</li>
+<li><p><strong>Full syntax</strong></p>
+<p>To supply parameters to the component, pass an object with the following properties:</p>
+<ul>
+<li><code>name</code> --- the name of the component to inject. Again, this can be observable.</li>
+<li><code>params</code> --- an object that will be passed on to the component. Typically this is a key-value object containing multiple parameters, and is typically received by the component&#39;s viewmodel constructor.</li>
+</ul>
+<p>Example:</p>
+</li>
+</ul>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='component: {
+    name: "shopping-cart",
+    params: { mode: "detailed-list", items: productsList }
+  }'>&lt;/div></div>
+</code></pre>
+<p>Note that whenever a component is removed (either because the <code>name</code> observable changed, or because an enclosing control-flow binding removed the entire element), the removed component is <a href="#disposal-and-memory-management">disposed</a></p>
+<h3 id="component-lifecycle">Component lifecycle</h3>
+<p>When a <code>component</code> binding injects a component,</p>
+<ol>
+<li><p><strong>Your component loaders are asked to supply the viewmodel factory and template</strong></p>
+<ul>
+<li>Multiple component loaders may be consulted, until the first one recognises the component name and supplies a viewmodel/template. This process only takes place <strong>once per component type</strong>, since Knockout caches the resulting definitions in memory.</li>
+<li>The default component loader supplies viewmodels/templates based on <a href="#component-registration">what you have registered</a>. If applicable, this is the phase where it requests any specified AMD modules from your AMD loader.</li>
+</ul>
+<p>Normally, this is an <em>asynchronous</em> process. It may involve requests to the server. For API consistency, Knockout by default ensures that the loading process completes as an asynchronous callback even if the component is already loaded and cached in memory. For more about this, and how to allow synchronous loading, see <a href="#component-registration">Controlling synchronous/asynchronous loading</a>.</p>
+</li>
+<li><p><strong>The component template is cloned and injected into the container element</strong></p>
+<p>Any existing content is removed and discarded.</p>
+</li>
+<li><p><strong>If the component has a viewmodel, it is instantiated</strong></p>
+<p>If the viewmodel is given as a constructor function, this means Knockout calls <code>new YourViewModel(params)</code>.</p>
+<p>If the viewmodel is given as a <code>createViewModel</code> factory function, Knockout calls <code>createViewModel(params, componentInfo)</code>, where <code>componentInfo.element</code> is the element into which the not-yet-bound template has already been injected.</p>
+<p>This phase always completes synchronously (constructors and factory functions are not allowed to be asynchronous), since it occurs <em>every time a component is instantiated</em> and performance would be unacceptable if it involved waiting for network requests.</p>
+</li>
+<li><p><strong>The viewmodel is bound to the view</strong></p>
+<p>Or, if the component has no viewmodel, then the view is bound to any <code>params</code> you&#39;ve supplied to the <code>component</code> binding.</p>
+</li>
+<li><p><strong>The component is active</strong></p>
+<p>Now the component is operating, and can remain on-screen for as long as needed.</p>
+<p>If any of the parameters passed to the component is observable, then the component can of course observe any changes, or even write back modified values. This is how it can communicate cleanly with its parent, without tightly coupling the component code to any parent that uses it.</p>
+</li>
+<li><p><strong>The component is torn down, and the viewmodel is disposed</strong></p>
+<p>If the <code>component</code> binding&#39;s <code>name</code> value changes observably, or if an enclosing control-flow binding causes the container element to be removed, then any <code>dispose</code> function on the viewmodel is called just before the container element is removed from the DOM. See also: <a href="#disposal-and-memory-management">disposal and memory management</a>.</p>
+<p>Note: If the user navigates to an entirely different web page, browsers do this without asking any code running in the page to clean up. So in this case no <code>dispose</code> functions will be invoked. This is OK because the browser will automatically release the memory used by all objects that were in use.</p>
+</li>
+</ol>
+<h3 id="note-template-only-components">Note: Template-only components</h3>
+<p>Components usually have viewmodels, but they don&#39;t necessarily have to. A component can specify just a template.</p>
+<p>In this case, the object to which the component&#39;s view is bound is the <code>params</code> object that you passed to the <code>component</code> binding. Example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>ko.components.register('special-offer', {
+    template: '&lt;div class="offer-box" data-bind="text: productName">&lt;/div>'
+});</div>
+</code></pre>
+<p>... can be injected with:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='component: {
+     name: "special-offer-callout",
+     params: { productName: someProduct.name }
+}'>&lt;/div></div>
+</code></pre>
+<p>... or, more conveniently, as a <a href="#component-custom-elements">custom element</a>:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;special-offer params='productName: someProduct.name'>&lt;/special-offer></div>
+</code></pre>
+<h3 id="note-using-component-without-a-container-element">Note: Using <code>component</code> without a container element</h3>
+<p>Sometimes you may want to inject a component into a view without using an extra container element. You can do this using <em>containerless control flow syntax</em>, which is based on comment tags. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko component: "message-editor" -->
+&lt;!-- /ko --></div>
+</code></pre>
+<p>... or passing parameters:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko component: {
+    name: "message-editor",
+    params: { initialText: "Hello, world!", otherParam: 123 }
+} -->
+&lt;!-- /ko --></div>
+</code></pre>
+<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<h3 id="note-passing-markup-to-components">Note: Passing markup to components</h3>
+<p>The element you attach a <code>component</code> binding to may contain further markup. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="component: { name: 'my-special-list', params: { items: someArrayOfPeople } }">
+    &lt;!-- Look, here's some arbitrary markup. By default it gets stripped out
+         and is replaced by the component output. -->
+    The person &lt;em data-bind="text: name">&lt;/em>
+    is &lt;em data-bind="text: age">&lt;/em> years old.
+&lt;/div></div>
+</code></pre>
+<p>Although the DOM nodes in this element will be stripped out and not bound by default, they are not lost. Instead, they are supplied to the component (in this case, <code>my-special-list</code>), which can include them in its output however it wishes.</p>
+<p>This is useful if you want to build components that represent &quot;container&quot; UI elements, such as grids, lists, dialogs, or tab sets, which need to inject and bind arbitrary markup into a common structure. See <a href="#component-custom-elements.html">a complete example for custom elements</a>, which also works without custom elements using the syntax shown above.</p>
+<h3 id="disposal-and-memory-management">Disposal and memory management</h3>
+<p>Optionally, your viewmodel class may have a <code>dispose</code> function. If implemented, Knockout will call this whenever the component is being torn down and removed from the DOM (e.g., because the corresponding item was removed from a <code>foreach</code>, or an <code>if</code> binding has become <code>false</code>).</p>
+<p>You must use <code>dispose</code> to release any resources that aren&#39;t inherently garbage-collectable. For example:</p>
+<ul>
+<li><code>setInterval</code> callbacks will continue to fire until explicitly cleared.<ul>
+<li>Use <code>clearInterval(handle)</code> to stop them, otherwise your viewmodel might be held in memory.</li>
+</ul>
+</li>
+<li><code>ko.computed</code> properties continue to receive notifications from their dependencies until explicitly disposed.<ul>
+<li>If a dependency is on an external object, then be sure to use <code>.dispose()</code> on the computed property, otherwise it (and possibly also your viewmodel) will be held in memory. Alternatively, consider using a <a href="#computed-pure"><em>pure</em> computed</a> to avoid the need for manual disposal.</li>
+</ul>
+</li>
+<li><strong>Subscriptions</strong> to observables continue to fire until explicitly disposed.<ul>
+<li>If you have subscribed to an external observable, be sure to use <code>.dispose()</code> on the subscription, otherwise the callback (and possibly also your viewmodel) will be held in memory.</li>
+</ul>
+</li>
+<li>Manually-created <strong>event handlers</strong> on external DOM elements, if created inside a <code>createViewModel</code> function (or even inside a regular component viewmodel, although to fit the MVVM pattern you shouldn&#39;t) must be removed.<ul>
+<li>Of course, you don&#39;t have to worry about releasing any event handlers created by standard Knockout bindings in your view, as KO automatically unregisters them when the elements are removed.</li>
+</ul>
+</li>
+</ul>
+<p>For example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var someExternalObservable = ko.observable(123);
+
+function SomeComponentViewModel() {
+    this.myComputed = ko.computed(function() {
+        return someExternalObservable() + 1;
+    }, this);
+
+    this.myPureComputed = ko.pureComputed(function() {
+        return someExternalObservable() + 2;
+    }, this);
+
+    this.mySubscription = someExternalObservable.subscribe(function(val) {
+        console.log('The external observable changed to ' + val);
+    }, this);
+
+    this.myIntervalHandle = window.setInterval(function() {
+        console.log('Another second passed, and the component is still alive.');
+    }, 1000);
+}
+
+SomeComponentViewModel.prototype.dispose = function() {
+    this.myComputed.dispose();
+    this.mySubscription.dispose();
+    window.clearInterval(this.myIntervalHandle);
+    // this.myPureComputed doesn't need to be manually disposed.
+}
+
+ko.components.register('your-component-name', {
+    viewModel: SomeComponentViewModel,
+    template: 'some template'
+});</div>
+</code></pre>
+<p>It isn&#39;t strictly necessary to dispose computeds and subscriptions that only depend on properties of the same viewmodel object, since this creates only a circular reference which JavaScript garbage collectors know how to release. However, to avoid having to remember which things need disposal, you may prefer to use <code>pureComputed</code> wherever possible, and explicitly dispose all other computeds/subscriptions whether technically necessary or not.</p>
+</template>
+
+<template id='component-custom-elements'
+  data-kind='documentation'
+  data-title='Custom Component Elements'
+  data-cat='3'
+  data-subcat='Components'>
+<p>Custom elements provide a convenient way of injecting <a href="#component-overview">components</a> into your views.</p>
+<ul>
+<li>[Table of contents injected here]
+{:toc}</li>
+</ul>
+<h3 id="introduction">Introduction</h3>
+<p>Custom elements are a syntactical alternative to the <a href="component-binding.html"><code>component</code> binding</a> (and in fact, custom elements make use of a component binding behind the scenes).</p>
+<p>For example, instead of writing this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='component: { name: "flight-deals", params: { from: "lhr", to: "sfo" } }'>&lt;/div></div>
+</code></pre>
+<p>... you can write:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;flight-deals params='from: "lhr", to: "sfo"'>&lt;/flight-deals></div>
+</code></pre>
+<p>This allows for a very modern, <a href="http://www.w3.org/TR/components-intro/">WebComponents</a>-like way to organize your code, while retaining support for even very old browsers (see <a href="#note-custom-elements-and-internet-explorer-6-to-8">custom elements and IE 6 to 8</a>).</p>
+<h3 id="example">Example</h3>
+<p>This example declares a component, and then injects two instances of it into a view. See the source code below.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;live-example params='id: "component-custom-element"'>&lt;/live-example></div>
+</code></pre>
+<p>Note: In more realistic cases, you would typically load component viewmodels and templates from external files, instead of hardcoding them into the registration. See <a href="#component-overview.html#example-loading-the-likedislike-widget-from-external-files-on-demand">an example</a> and <a href="#component-registration">registration documentation</a>.</p>
+<h3 id="passing-parameters">Passing parameters</h3>
+<p>As you have seen in the examples above, you can use a <code>params</code> attribute to supply parameters to the component viewmodel. The contents of the <code>params</code> attribute are interpreted like a JavaScript object literal (just like a <code>data-bind</code> attribute), so you can pass arbitrary values of any type. Example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;unrealistic-component
+    params='stringValue: "hello",
+            numericValue: 123,
+            boolValue: true,
+            objectValue: { a: 1, b: 2 },
+            dateValue: new Date(),
+            someModelProperty: myModelValue,
+            observableSubproperty: someObservable().subprop'>
+&lt;/unrealistic-component></div>
+</code></pre>
+<h4 id="communication-between-parent-and-child-components">Communication between parent and child components</h4>
+<p>If you refer to model properties in a <code>params</code> attribute, then you are of course referring to the properties on the viewmodel outside the component (the &#39;parent&#39; or &#39;host&#39; viewmodel), since the component itself is not instantiated yet. In the above example, <code>myModelValue</code> would be a property on the parent viewmodel, and would be received by the child component viewmodel&#39;s constructor as <code>params.someModelProperty</code>.</p>
+<p>This is how you can pass properties from a parent viewmodel to a child component. If the properties themselves are observable, then the parent viewmodel will be able to observe and react to any new values inserted into them by the child component.</p>
+<h4 id="passing-observable-expressions">Passing observable expressions</h4>
+<p>In the following example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;some-component
+    params='simpleExpression: 1 + 1,
+            simpleObservable: myObservable,
+            observableExpression: myObservable() + 1'>
+&lt;/some-component></div>
+</code></pre>
+<p>... the component viewmodel&#39;s <code>params</code> parameter will contain three values:</p>
+<ul>
+<li><p><code>simpleExpression</code></p>
+<ul>
+<li><p>This will be the numeric value <code>2</code>. It will not be an observable or computed value, since there are no observables involved.</p>
+<p>In general, if a parameter&#39;s evaluation does not involve evaluating an observable (in this case, the value did not involve observables at all), then the value is passed literally. If the value was an object, then the child component could mutate it, but since it&#39;s not observable the parent would not know the child had done so.</p>
+</li>
+</ul>
+</li>
+<li><p><code>simpleObservable</code></p>
+<ul>
+<li><p>This will be the <a href="observables.html"><code>ko.observable</code></a> instance declared on the parent viewmodel as <code>myObservable</code>. It is not a wrapper --- it&#39;s the actual same instance as referenced by the parent. So if the child viewmodel writes to this observable, the parent viewmodel will receive that change.</p>
+<p>In general, if a parameter&#39;s evaluation does not involve evaluating an observable (in this case, the observable was simply passed without evaluating it), then the value is passed literally.</p>
+</li>
+</ul>
+</li>
+<li><p><code>observableExpression</code></p>
+<ul>
+<li><p>This one is trickier. The expression itself, when evaluated, reads an observable. That observable&#39;s value could change over time, so the expression result could change over time.</p>
+<p>To ensure that the child component can react to changes in the expression value, Knockout <strong>automatically upgrades this parameter to a computed property</strong>. So, the child component will be able to read <code>params.observableExpression()</code> to get the current value, or use <code>params.observableExpression.subscribe(...)</code>, etc.</p>
+<p>In general, with custom elements, if a parameter&#39;s evaluation involves evaluating an observable, then Knockout automatically constructs a <code>ko.computed</code> value to give the expression&#39;s result, and supplies that to the component.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>In summary, the general rule is:</p>
+<ol>
+<li>If a parameter&#39;s evaluation <strong>does not</strong> involve evaluating an observable/computed, it is passed literally.</li>
+<li>If a parameter&#39;s evaluation <strong>does</strong> involve evaluating one or more observables/computeds, it is passed as a computed property so that you can react to changes in the parameter value.</li>
+</ol>
+<h3 id="passing-markup-into-components">Passing markup into components</h3>
+<p>Sometimes you may want to create a component that receives markup and uses it as part of its output. For example, you may want to build a &quot;container&quot; UI element such as a grid, list, dialog, or tab set that can receive and bind arbitrary markup inside itself.</p>
+<p>Consider a special list component that can be invoked as follows:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;my-special-list params="items: someArrayOfPeople">
+    &lt;!-- Look, I'm putting markup inside a custom element -->
+    The person &lt;em data-bind="text: name">&lt;/em>
+    is &lt;em data-bind="text: age">&lt;/em> years old.
+&lt;/my-special-list></div>
+</code></pre>
+<p>By default, the DOM nodes inside <code>&lt;my-special-list&gt;</code> will be stripped out (without being bound to any viewmodel) and replaced by the component&#39;s output. However, those DOM nodes aren&#39;t lost: they are remembered, and are supplied to the component in two ways:</p>
+<ul>
+<li>As an array, <code>$componentTemplateNodes</code>, available to any binding expression in the component&#39;s template (i.e., as a <a href="binding-context.html">binding context</a> property). Usually this is the most convenient way to use the supplied markup. See the example below.</li>
+<li>As an array, <code>componentInfo.templateNodes</code>, passed to its <a href="component-registration.html#a-createviewmodel-factory-function"><code>createViewModel</code> function</a></li>
+</ul>
+<p>The component can then choose to use the supplied DOM nodes as part of its output however it wishes, such as by using <code>template: { nodes: $componentTemplateNodes }</code> on any element in the component&#39;s template.</p>
+<p>For example, the <code>my-special-list</code> component&#39;s template can reference <code>$componentTemplateNodes</code> so that its output includes the supplied markup. Here&#39;s the complete working example:</p>
+<p><live-example params='id: "component-markdown-example"'></live-example></p>
+<p>This &quot;special list&quot; example does nothing more than insert a heading above each list item. But the same technique can be used to create sophisticated grids, dialogs, tab sets, and so on, since all that is needed for such UI elements is common UI markup (e.g., to define the grid or dialog&#39;s heading and borders) wrapped around arbitrary supplied markup.</p>
+<p>This technique is also possible when using components <em>without</em> custom elements, i.e., <a href="component-binding.html#note-passing-markup-to-components">passing markup when using the <code>component</code> binding directly</a>.</p>
+<h3 id="controlling-custom-element-tag-names">Controlling custom element tag names</h3>
+<p>By default, Knockout assumes that your custom element tag names correspond exactly to the names of components registered using <code>ko.components.register</code>. This convention-over-configuration strategy is ideal for most applications.</p>
+<p>If you want to have different custom element tag names, you can override <code>getComponentNameForNode</code> to control this. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.getComponentNameForNode = function(node) {
+    var tagNameLower = node.tagName &amp;&amp; node.tagName.toLowerCase();
+
+    if (ko.components.isRegistered(tagNameLower)) {
+        // If the element's name exactly matches a preregistered
+        // component, use that component
+        return tagNameLower;
+    } else if (tagNameLower === "special-element") {
+        // For the element &lt;special-element>, use the component
+        // "MySpecialComponent" (whether or not it was preregistered)
+        return "MySpecialComponent";
+    } else {
+        // Treat anything else as not representing a component
+        return null;
+    }
+}</div>
+</code></pre>
+<p>You can use this technique if, for example, you want to control which subset of registered components may be used as custom elements.</p>
+<h3 id="registering-custom-elements-registering-custom-elements-">Registering custom elements {#registering-custom-elements}</h3>
+<p>If you are using the default component loader, and hence are registering your components using <code>ko.components.register</code>, then there is nothing extra you need to do. Components registered this way are immediately available for use as custom elements.</p>
+<p>If you have implemented a <a href="component-loaders.html">custom component loader</a>, and are not using <code>ko.components.register</code>, then you need to tell Knockout about any element names you wish to use as custom elements. To do this, simply call <code>ko.components.register</code> - you don&#39;t need to specify any configuration, since your custom component loader won&#39;t be using the configuration anyway. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-custom-element', { /* No config needed */ });</div>
+</code></pre>
+<p>Alternatively, you can <a href="#controlling-custom-element-tag-names">override <code>getComponentNameForNode</code></a> to control dynamically which elements map to which component names, independently of preregistration.</p>
+<h3 id="note-combining-custom-elements-with-regular-bindings">Note: Combining custom elements with regular bindings</h3>
+<p>A custom element can have a regular <code>data-bind</code> attribute (in addition to any <code>params</code> attribute) if needed. For example,</p>
+<pre><code><div data-bind='highlight: "undefined"'>&lt;products-list params='category: chosenCategory'
+               data-bind='visible: shouldShowProducts'>
+&lt;/products-list></div>
+</code></pre><p>However, it does not make sense to use bindings that would modify the element&#39;s contents, such as the <a href="text-binding.html"><code>text</code></a> or <a href="template-binding.html"><code>template</code></a> bindings, since they would overwrite the template injected by your component.</p>
+<p>Knockout will prevent the use of any bindings that use <a href="custom-bindings-controlling-descendant-bindings.html"><code>controlsDescendantBindings</code></a>, because this also would clash with the component when trying to bind its viewmodel to the injected template. Therefore if you want to use a control flow binding such as <code>if</code> or <code>foreach</code>, then you must wrap it around your custom element rather than using it directly on the custom element, e.g.,:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko if: someCondition -->
+    &lt;products-list>&lt;/products-list>
+&lt;!-- /ko --></div>
+</code></pre>
+<p>or:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind='foreach: allProducts'>
+    &lt;product-details params='product: $data'>&lt;/product-details>
+&lt;/ul></div>
+</code></pre>
+<h3 id="note-custom-elements-cannot-be-self-closing">Note: Custom elements cannot be self-closing</h3>
+<p>You must write <code>&lt;my-custom-element&gt;&lt;/my-custom-element&gt;</code>, and <strong>not</strong> <code>&lt;my-custom-element /&gt;</code>. Otherwise, your custom element is not closed and subsequent elements will be parsed as child elements.</p>
+<p>This is a limitation of the HTML specification and is outside the scope of what Knockout can control. HTML parsers, following the HTML specification, <a href="http://dev.w3.org/html5/spec-author-view/syntax.html#syntax-start-tag">ignore any self-closing slashes</a> (except on a small number of special &quot;foreign elements&quot;, which are hardcoded into the parser). HTML is not the same as XML.</p>
+<h3 id="note-custom-elements-and-internet-explorer-6-to-8">Note: Custom elements and Internet Explorer 6 to 8</h3>
+<p>Knockout tries hard to spare developers the pain of dealing with cross-browser compatiblity issues, especially those relating to older browsers! Even though custom elements provide a very modern style of web development, they still work on all commonly-encountered browsers:</p>
+<ul>
+<li>HTML5-era browsers, which includes <strong>Internet Explorer 9</strong> and later, automatically allow for custom elements with no difficulties.</li>
+<li><strong>Internet Explorer 6 to 8</strong> also supports custom elements, <em>but only if they are registered before the HTML parser encounters any of those elements</em>.</li>
+</ul>
+<p>IE 6-8&#39;s HTML parser will discard any unrecognized elements. To ensure it doesn&#39;t throw out your custom elements, you must do one of the following:</p>
+<ul>
+<li>Ensure you call <code>ko.components.register(&#39;your-component&#39;)</code> <em>before</em> the HTML parser sees any <code>&lt;your-component&gt;</code> elements</li>
+<li>Or, at least call <code>document.createElement(&#39;your-component&#39;)</code> <em>before</em> the HTML parser sees any <code>&lt;your-component&gt;</code> elements. You can ignore the result of the <code>createElement</code> call --- all that matters is that you have called it.</li>
+</ul>
+<p>For example, if you structure your page like this, then everything will be OK:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!DOCTYPE html>
+&lt;html>
+    &lt;body>
+        &lt;script src='some-script-that-registers-components.js'>&lt;/script>
+
+        &lt;my-custom-element>&lt;/my-custom-element>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<p>If you&#39;re working with AMD, then you might prefer a structure like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!DOCTYPE html>
+&lt;html>
+    &lt;body>
+        &lt;script>
+            // Since the components aren't registered until the AMD module
+            // loads, which is asynchronous, the following prevents IE6-8's
+            // parser from discarding the custom element
+            document.createElement('my-custom-element');
+        &lt;/script>
+
+        &lt;script src='require.js' data-main='app/startup'>&lt;/script>
+
+        &lt;my-custom-element>&lt;/my-custom-element>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<p>Or if you really don&#39;t like the hackiness of the <code>document.createElement</code> call, then you could use a <a href="component-binding.html"><code>component</code> binding</a> for your top-level component instead of a custom element. As long as all other components are registered before your <code>ko.applyBindings</code> call, they can be used as custom elements on IE6-8 without futher trouble:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!DOCTYPE html>
+&lt;html>
+    &lt;body>
+        &lt;!-- The startup module registers all other KO components before calling
+             ko.applyBindings(), so they are OK as custom elements on IE6-8 -->
+        &lt;script src='require.js' data-main='app/startup'>&lt;/script>
+
+        &lt;div data-bind='component: "my-custom-element"'>&lt;/div>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<h3 id="advanced-accessing-raw-parameters">Advanced: Accessing <code>$raw</code> parameters</h3>
+<p>Consider the following unusual case, in which <code>useObservable1</code>, <code>observable1</code>, and <code>observable2</code> are all observables:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;some-component
+    params='myExpr: useObservable1() ? observable1 : observable2'>
+&lt;/some-component></div>
+</code></pre>
+<p>Since evaluating <code>myExpr</code> involves reading an observable (<code>useObservable1</code>), KO will supply the parameter to the component as a computed property.</p>
+<p>However, the value of the computed property is itself an observable. This would seem to lead to an awkward scenario, where reading its current value would involve double-unwrapping (i.e., <code>params.myExpr()()</code>, where the first parentheses give the value of the expression, and the second give the value of the resulting observable instance).</p>
+<p>This double-unwrapping would be ugly, inconvenient, and unexpected, so Knockout automatically sets up the generated computed property (<code>params.myExpr</code>) to unwrap its value for you. That is, the component can read <code>params.myExpr()</code> to get the value of whichever observable has been selected (<code>observable1</code> or <code>observable2</code>), without the need for double-unwrapping.</p>
+<p>In the unlikely event that you <em>don&#39;t</em> want the automatic unwrapping, because you want to access the <code>observable1</code>/<code>observable2</code> instances directly, you can read values from <code>params.$raw</code>. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function MyComponentViewModel(params) {
+    var currentObservableInstance = params.$raw.myExpr();
+
+    // Now currentObservableInstance is either observable1 or observable2
+    // and you would read its value with "currentObservableInstance()"
+}</div>
+</code></pre>
+<p>This should be a very unusual scenario, so normally you will not need to work with <code>$raw</code>.</p>
+</template>
+
+<template id='component-loaders'
+  data-kind='documentation'
+  data-title='Component loaders'
+  data-cat='3'
+  data-subcat='Components'>
+<p>Whenever you inject a <a href="component-overview.html">component</a> using the <a href="component-binding.html"><code>component</code> binding</a> or a <a href="component-custom-elements.html">custom element</a>, Knockout fetches that component&#39;s template and viewmodel using one or more <em>component loaders</em>. The job of a component loader is to asynchronously supply a template/viewmodel pair for any given component name.</p>
+<ul>
+<li>[Table of contents injected here]
+{:toc}</li>
+</ul>
+<h1 id="the-default-component-loader-default-component-loader-">The default component loader {#default-component-loader}</h1>
+<p>The built-in default component loader, <code>ko.components.defaultLoader</code>, is based around a central &quot;registry&quot; of component definitions. It relies on you explicitly registering a configuration for each component before you can use that component.</p>
+<p><a href="component-registration.html">Learn more about configuring and registering components with the default loader</a></p>
+<h1 id="component-loader-utility-functions">Component loader utility functions</h1>
+<p>The following functions read and write the default component loader&#39;s registry:</p>
+<ul>
+<li><p><code>ko.components.register(name, configuration)</code></p>
+<ul>
+<li>Registers a component. See: <a href="component-registration.html">full documentation</a>.</li>
+</ul>
+</li>
+<li><p><code>ko.components.isRegistered(name)</code></p>
+<ul>
+<li>Returns <code>true</code> if a component with the specified name is already registered; <code>false</code> otherwise.</li>
+</ul>
+</li>
+<li><p><code>ko.components.unregister(name)</code></p>
+<ul>
+<li>Removes the named component from the registry. Or if no such component was registered, does nothing.</li>
+</ul>
+</li>
+</ul>
+<p>The following functions work across the complete list of registered component loaders (not only the default loader):</p>
+<ul>
+<li><p><code>ko.components.get(name, callback)</code></p>
+<ul>
+<li>Consults each registered loader in turn (by default, that&#39;s just the default loader), to find the first one that supplies a viewmodel/template definition for the named component, then invokes <code>callback</code> to return than viewmodel/template declaration. Invokes <code>callback(null)</code> if none of the registered loaders know about this component.</li>
+</ul>
+</li>
+<li><p><code>ko.components.clearCachedDefinition(name)</code></p>
+<ul>
+<li>Normally, Knockout consults the loaders <em>once per component name</em>, then caches the resulting definition. This ensures that large numbers of components may be instantiated very quickly. If you want to clear the cache entry for a given component, call this, and then the loaders will be consulted again the next time that component is needed.</li>
+</ul>
+</li>
+</ul>
+<p>Also, since <code>ko.components.defaultLoader</code> is a component loader, it implements the following standard component loader functions. You can invoke these directly, e.g., as part of your implementation of a custom loader:</p>
+<ul>
+<li><code>ko.components.defaultLoader.getConfig(name, callback)</code></li>
+<li><code>ko.components.defaultLoader.loadComponent(name, componentConfig, callback)</code></li>
+<li><code>ko.components.defaultLoader.loadTemplate(name, templateConfig, callback)</code></li>
+<li><code>ko.components.defaultLoader.loadViewModel(name, viewModelConfig, callback)</code></li>
+</ul>
+<p>For documentation on these standard component loader functions, see <a href="#custom-component-loader">implementing a custom component loader</a>.</p>
+<h1 id="implementing-a-custom-component-loader-custom-component-loader-">Implementing a custom component loader {#custom-component-loader}</h1>
+<p>You might want to implement a custom component loader if you want to use naming conventions, rather than explicit registration, to load components. Or, if you want to use a third-party &quot;loader&quot; library to fetch component viewmodels or templates from external locations.</p>
+<h2 id="functions-you-can-implement">Functions you can implement</h2>
+<p>A custom component loader is simply an object whose properties are <strong>any combination</strong> of the following functions:</p>
+<h3 id="-getconfig-name-callback-"><code>getConfig(name, callback)</code></h3>
+<p><strong><em>Define this if:</em></strong> <em>you want to supply configurations programmatically based on names, e.g., to implement a naming convention.</em></p>
+<p>If declared, Knockout will call this function to obtain a configuration object for each component being instantiated.</p>
+<ul>
+<li>To supply a configuration, call <code>callback(componentConfig)</code>, where <code>componentConfig</code> is any object that can be understood by the <code>loadComponent</code> function on your loader or any other loader. The default loader simply supplies whatever object was registered using <code>ko.components.register</code>.</li>
+<li>For example, a <code>componentConfig</code> like <code>{ template: &#39;someElementId&#39;, viewModel: { require: &#39;myModule&#39; } }</code> can be understood and instantiated by the default loader.</li>
+<li>You are not limited to supplying configuration objects in any standard format. You can supply arbitrary objects as long as your <code>loadComponent</code> function understands them.</li>
+<li>If you do not want your loader to supply a configuration for the named component, then call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</li>
+</ul>
+<h3 id="-loadcomponent-name-componentconfig-callback-"><code>loadComponent(name, componentConfig, callback)</code></h3>
+<p><strong><em>Define this if:</em></strong> <em>you want to take control over how component configurations are interpreted, e.g., if you do not want to use the standard <code>viewModel</code>/<code>template</code> pair format.</em></p>
+<p>If declared, Knockout will call this function to convert a <code>componentConfig</code> object into a viewmodel/template pair.</p>
+<ul>
+<li><p>To supply a viewmodel/template pair, call <code>callback(result)</code>, where <code>result</code> is an object with the following properties:</p>
+<ul>
+<li><code>template</code> - <strong>Required.</strong> An array of DOM nodes</li>
+<li><code>createViewModel(params, componentInfo)</code> - <strong>Optional.</strong> A function that will later be called to supply a viewmodel object for each instance of this component</li>
+</ul>
+</li>
+<li><p>If you do not want your loader to supply a viewmodel/template pair for the given parameters, then call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</p>
+</li>
+</ul>
+<h3 id="-loadtemplate-name-templateconfig-callback-"><code>loadTemplate(name, templateConfig, callback)</code></h3>
+<p><strong><em>Define this if:</em></strong> <em>you want to use custom logic to supply DOM nodes for a given template configuration (e.g., using an ajax request to fetch a template by URL).</em></p>
+<p>The default component loader will call this function on any registered loaders that declare it, to convert the <code>template</code> part of a component configuration into an array of DOM nodes. The nodes are then cached and cloned for each instance of the component.</p>
+<p>The <code>templateConfig</code> value is simply the <code>template</code> property from any <code>componentConfig</code> object. For example, it may contain <code>&quot;some markup&quot;</code> or <code>{ element: &quot;someId&quot; }</code> or a custom format such as <code>{ loadFromUrl: &quot;someUrl.html&quot; }</code>.</p>
+<ul>
+<li><p>To supply an array of DOM nodes, call <code>callback(domNodeArray)</code>.</p>
+</li>
+<li><p>If you do not want your loader to supply a template for the given parameters (e.g., because it does not recognize the configuration format), call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</p>
+</li>
+</ul>
+<h3 id="-loadviewmodel-name-templateconfig-callback-"><code>loadViewModel(name, templateConfig, callback)</code></h3>
+<p><strong><em>Define this if:</em></strong> <em>you want to use custom logic to supply a viewmodel factory for a given viewmodel configuration (e.g., integrating with a third-party module loader or dependency injection system).</em></p>
+<p>The default component loader will call this function on any registered loaders that declare it, to convert the <code>viewModel</code> part of a component configuration into a <code>createViewModel</code> factory function. The function is then cached and called for each new instance of the component that needs a viewmodel.</p>
+<p>The <code>viewModelConfig</code> value is simply the <code>viewModel</code> property from any <code>componentConfig</code> object. For example, it may be a constructor function, or a custom format such as <code>{ myViewModelType: &#39;Something&#39;, options: {} }</code>.</p>
+<ul>
+<li><p>To supply a <code>createViewModel</code> function, call <code>callback(yourCreateViewModelFunction)</code>. The <code>createViewModel</code> function must accept parameters <code>(params, componentInfo)</code> and must synchronously return a new viewmodel instance each time it is called.</p>
+</li>
+<li><p>If you do not want your loader to supply a <code>createViewModel</code> function for the given parameters (e.g., because it does not recognize the configuration format), call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</p>
+</li>
+</ul>
+<h2 id="registering-custom-component-loaders">Registering custom component loaders</h2>
+<p>Knockout allows you to use multiple component loaders simultaneously. This is useful so that, for example, you can plug in loaders that implement different mechanisms (e.g., one might fetch templates from a backend server according to a naming convention; another might set up viewmodels using a dependency injection system) and have them work together.</p>
+<p>So, <code>ko.components.loaders</code> is an array containing all the loaders currently enabled. By default, this array contains just one item: <code>ko.components.defaultLoader</code>. To add additional loaders, simply insert them into the <code>ko.components.loaders</code> array.</p>
+<h2 id="controlling-precedence">Controlling precedence</h2>
+<p>If you want your custom loader to take precedence over the default loader (so it gets the first opportunity to supply configuration/values), then add it to the <em>beginning</em> of the array. If you want the default loader to take precedence (so your custom loader is only called for components not explicitly registered), then add it to the <em>end</em> of the array.</p>
+<p>Example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  // Adds myLowPriorityLoader to the end of the loaders array.
+  // It runs after other loaders, only if none of them returned a value.
+  ko.components.loaders.push(myLowPriorityLoader);
+
+  // Adds myHighPriorityLoader to the beginning of the loaders array.
+  // It runs before other loaders, getting the first chance to return values.
+  ko.components.loaders.unshift(myHighPriorityLoader)</div>
+</code></pre>
+<p>If required, you can remove <code>ko.components.defaultLoader</code> from the loaders array altogether.</p>
+<h2 id="sequence-of-calls">Sequence of calls</h2>
+<p>The first time Knockout needs to construct a component with a given name, it:</p>
+<ul>
+<li>Calls each of the registered loaders&#39; <code>getConfig</code> functions in turn, until the first one supplies a non-null <code>componentConfig</code>.</li>
+<li>Then, with this <code>componentConfig</code> object, calls each of the registered loaders&#39; <code>loadComponent</code> functions in turn, until the first one supplies a non-null <code>template</code>/<code>createViewModel</code> pair.</li>
+</ul>
+<p>When the default loader&#39;s <code>loadComponent</code> runs, it simultaneously:</p>
+<ul>
+<li><p>Calls each of the registered loaders&#39; <code>loadTemplate</code> functions in turn, until the first one supplies a non-null DOM array.</p>
+<ul>
+<li>The default loader itself has a <code>loadTemplate</code> function that resolves a range of template configuration formats into DOM arrays.</li>
+</ul>
+</li>
+<li><p>Calls each of the registered loaders&#39; <code>loadViewModel</code> functions in turn, until the first one supplies a non-null <code>createViewModel</code> function.</p>
+<ul>
+<li>The default loader itself has a <code>loadViewModel</code> function that resolves a range of viewmodel configuration formats into <code>createViewModel</code> functions.</li>
+</ul>
+</li>
+</ul>
+<p>Custom loaders can plug into any part of this process, so you can take control over supplying configurations, interpreting configurations, supplying DOM nodes, or supplying viewmodel factory functions. By putting custom loaders into a chosen order inside <code>ko.components.loaders</code>, you can control the priority order of different loading strategies.</p>
+<h1 id="example-1-a-component-loader-that-sets-up-naming-conventions">Example 1: A component loader that sets up naming conventions</h1>
+<p>To implement a naming convention, your custom component loader only needs to implement <code>getConfig</code>. For example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var namingConventionLoader = {
+    getConfig: function(name, callback) {
+        // 1. Viewmodels are classes corresponding to the component name.
+        //    e.g., my-component maps to MyApp.MyComponentViewModel
+        // 2. Templates are in elements whose ID is the component name
+        //    plus '-template'.
+        var viewModelConfig = MyApp[toPascalCase(name) + 'ViewModel'],
+            templateConfig = { element: name + '-template' };
+
+        callback({ viewModel: viewModelConfig, template: templateConfig });
+    }
+};
+
+function toPascalCase(dasherized) {
+    return dasherized.replace(/(^|-)([a-z])/g, function (g, m1, m2) { return m2.toUpperCase(); });
+}
+
+// Register it. Make it take priority over the default loader.
+ko.components.loaders.unshift(namingConventionLoader);</div>
+</code></pre>
+<p>Now this is registered, you can reference components with any name (without preregistering them), e.g.:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="component: 'my-component'">&lt;/div>
+
+&lt;!-- Declare template -->
+&lt;template id='my-component-template'>Hello World!&lt;/template>
+
+&lt;script>
+    // Declare viewmodel
+    window.MyApp = window.MyApp || {};
+    MyApp.MyComponentViewModel = function(params) {
+        // ...
+    }
+&lt;/script></div>
+</code></pre>
+<h1 id="example-2-a-component-loader-that-loads-external-files-using-custom-code">Example 2: A component loader that loads external files using custom code</h1>
+<p>If your custom loader implements <code>loadTemplate</code> and/or <code>loadViewModel</code>, then you can plug in custom code to the loading process. You can also use these functions to interpret custom configuration formats.</p>
+<p>For example, you might want to enable configuration formats like the following:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    template: { fromUrl: 'file.html', maxCacheAge: 1234 },
+    viewModel: { viaLoader: '/path/myvm.js' }
+});</div>
+</code></pre>
+<p>... and you can do so using custom loaders.</p>
+<p>The following custom loader will take care of loading templates configured with a <code>fromUrl</code> value:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var templateFromUrlLoader = {
+    loadTemplate: function(name, templateConfig, callback) {
+        if (templateConfig.fromUrl) {
+            // Uses jQuery's ajax facility to load the markup from a file
+            var fullUrl = '/templates/' + templateConfig.fromUrl + '?cacheAge=' + templateConfig.maxCacheAge;
+            $.get(fullUrl, function(markupString) {
+                // We need an array of DOM nodes, not a string.
+                // We can use the default loader to convert to the
+                // required format.
+                ko.components.defaultLoader.loadTemplate(name, markupString, callback);
+            });
+        } else {
+            // Unrecognized config format. Let another loader handle it.
+            callback(null);
+        }
+    }
+};
+
+// Register it
+ko.components.loaders.unshift(templateFromUrlLoader);</div>
+</code></pre>
+<p>... and the following custom loader will take care of loading viewmodels configured with a <code>viaLoader</code> value:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModelCustomLoader = {
+    loadViewModel: function(name, viewModelConfig, callback) {
+        if (viewModelConfig.viaLoader) {
+            // You could use arbitrary logic, e.g., a third-party
+            // code loader, to asynchronously supply the constructor.
+            // For this example, just use a hard-coded constructor function.
+            var viewModelConstructor = function(params) {
+                this.prop1 = 123;
+            };
+
+            // We need a createViewModel function, not a plain constructor.
+            // We can use the default loader to convert to the
+            // required format.
+            ko.components.defaultLoader.loadViewModel(name, viewModelConstructor, callback);
+        } else {
+            // Unrecognized config format. Let another loader handle it.
+            callback(null);
+        }
+    }
+};
+
+// Register it
+ko.components.loaders.unshift(viewModelCustomLoader);</div>
+</code></pre>
+<p>If you prefer, you could combine <code>templateFromUrlLoader</code> and <code>viewModelCustomLoader</code> into a single loader by putting the <code>loadTemplate</code> and <code>loadViewModel</code> functions on a single object. However it&#39;s quite nice to separate out these concerns, since their implementations are quite independent.</p>
+<h1 id="note-custom-component-loaders-and-custom-elements">Note: Custom component loaders and custom elements</h1>
+<p>If you are using a component loader to fetch components by a naming convention, and are <em>not</em> registering your components using <code>ko.components.register</code>, then those components will not automatically be usable as custom elements (because you haven&#39;t told Knockout that they even exist).</p>
+<p>See: <a href="component-custom-elements.html#registering-custom-elements">How to enable custom elements with names that don&#39;t correspond to explicitly registered components</a></p>
+<h1 id="note-integrating-with-browserify">Note: Integrating with browserify</h1>
+<p><a href="http://browserify.org/">Browserify</a> is a popular library for referencing JavaScript libraries with a Node-style synchronous <code>require</code> syntax. It&#39;s often considered as an alternative to an AMD loader such as require.js. However Browserify solves a rather different problem: synchronous build-time reference resolution, rather than asynchronous runtime reference resolution as handled by AMD.</p>
+<p>Since Browserify is a build-time tool, it doesn&#39;t really need any special integration with KO components, and there&#39;s no need to implement any kind of custom component loader to work with it. You can simply use Browserify&#39;s <code>require</code> statements to grab instances of your component viewmodels, then explicitly register them, e.g.:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Note that the following *only* works with Browserify - not with require.js,
+// since it relies on require() returning synchronously.
+
+ko.components.register('my-browserify-component', {
+    viewModel: require('myViewModel'),
+    template: require('fs').readFileSync(__dirname + '/my-template.html', 'utf8')
+});</div>
+</code></pre>
+<p>This uses the <a href="https://github.com/substack/brfs">brfs Browserify plugin</a> to automatically inline the <code>.html</code> file, so you would need to build the script file using a command similar to:</p>
+<ul>
+<li><code>npm install brfs</code></li>
+<li><code>browserify -t brfs main.js &gt; bundle.js</code></li>
+</ul>
+</template>
+
+<template id='component-overview'
+  data-kind='documentation'
+  data-title='Component Overview'
+  data-cat='3'
+  data-subcat='Components'>
+<p><strong>Components</strong> are a powerful, clean way of organizing your UI code into self-contained, reusable chunks. They:</p>
+<ul>
+<li>...can represent individual controls/widgets, or entire sections of your application</li>
+<li>...contain their own view, and usually (but optionally) their own viewmodel</li>
+<li>...can either be preloaded, or loaded asynchronously (on demand) via AMD or other module systems</li>
+<li>...can receive parameters, and optionally write back changes to them or invoke callbacks</li>
+<li>...can be composed together (nested) or inherited from other components</li>
+<li>...can easily be packaged for reuse across projects</li>
+<li>...let you define your own conventions/logic for configuration and loading</li>
+</ul>
+<p>This pattern is beneficial for large applications, because it <strong>simplifies development</strong> through clear organization and encapsulation, and helps to <strong>improve runtime performance</strong> by incrementally loading your application code and templates as needed.</p>
+<p><strong>Custom elements</strong> are an optional but convenient syntax for consuming components. Instead of needing placeholder <code>&lt;div&gt;</code>s into which components are injected with bindings, you can use more self-descriptive markup with custom element names (e.g., <code>&lt;voting-button&gt;</code> or <code>&lt;product-editor&gt;</code>). Knockout takes care to ensure compatibility even with old browsers such as IE 6.</p>
+<h3 id="example-a-like-dislike-widget">Example: A like/dislike widget</h3>
+<p>To get started, you can register a component using <code>ko.components.register</code> (technically, registration is optional, but it&#39;s the easiest way to get started). A component definition specifies a <code>viewModel</code> and <code>template</code>. For example:</p>
+<p><live-example params='id: "component-like"'></live-example></p>
+<p><strong>Normally, you&#39;d load the view model and template from external files</strong> instead of declaring them inline like this. We&#39;ll get to that later.</p>
+<p>Now, to use this component, you can reference it from any other view in your application, either using the <a href="#component-binding"><code>component</code> binding</a> or using a <a href="#component-custom-elements">custom element</a>. Here&#39;s a live example that uses it as a custom element:</p>
+<p><live-example params='id: "component-overview"'></live-example></p>
+<p>In this example, the component both displays and edits an observable property called <code>userRating</code> on the <code>Product</code> view model class.</p>
+<h3 id="example-loading-the-like-dislike-widget-from-external-files-on-demand">Example: Loading the like/dislike widget from external files, on demand</h3>
+<p>In most applications, you&#39;ll want to keep component view models and templates in external files. If you configure Knockout to fetch them via an AMD module loader such as <a href="http://requirejs.org/">require.js</a>, then they can either be preloaded (possibly bundled/minified), or incrementally loaded as needed.</p>
+<p>Here&#39;s an example configuration:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('like-or-dislike', {
+    viewModel: { require: 'files/component-like-widget' },
+    template: { require: 'text!files/component-like-widget.html' }
+});</div>
+</code></pre>
+<p><strong>Requirements</strong></p>
+<p>For this to work, the files <a href="files/component-like-widget.js"><code>files/component-like-widget.js</code></a> and <a href="files/component-like-widget.html"><code>files/component-like-widget.html</code></a> need to exist. Check them out (and <em>view source</em> on the <code>.html</code> one) - as you&#39;ll see, this is cleaner and more convenient that including the code inline in the definition.</p>
+<p>Also, you need to have referenced a suitable module loader library (such as <a href="http://requirejs.org/">require.js</a>) or implemented a <a href="component-loaders.html">custom component loader</a> that knows how to grab your files.</p>
+<p><strong>Using the component</strong></p>
+<p>Now <code>like-or-dislike</code> can be consumed in the same way as before, using either a <a href="#component-binding"><code>component</code> binding</a> or a <a href="#component-custom-elements">custom element</a>:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind="foreach: products">
+    &lt;li class="product">
+        &lt;strong data-bind="text: name">&lt;/strong>
+        &lt;like-or-dislike params="value: userRating">&lt;/like-or-dislike>
+    &lt;/li>
+&lt;/ul>
+&lt;button data-bind="click: addProduct">Add a product&lt;/button></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function Product(name, rating) {
+    this.name = name;
+    this.userRating = ko.observable(rating || null);
+}
+
+function MyViewModel() {
+    this.products = ko.observableArray(); // Start empty
+}
+
+MyViewModel.prototype.addProduct = function() {
+    var name = 'Product ' + (this.products().length + 1);
+    this.products.push(new Product(name));
+};
+
+ko.applyBindings(new MyViewModel());</div>
+</code></pre>
+<p>If you open your browser developer tools&#39; <strong>Network</strong> inspector before your first click on <em>Add product</em>, you&#39;ll see that the component&#39;s <code>.js</code>/<code>.html</code> files are fetched on demand when first required, and thereafter retained for reuse.</p>
+<h3 id="learn-more">Learn more</h3>
+<p>More more detailed information, see:</p>
+<ul>
+<li><a href="#component-registration">Defining and registering components</a></li>
+<li><a href="#component-binding">Using the <code>component</code> binding</a></li>
+<li><a href="#component-custom-elements">Using custom elements</a></li>
+<li><a href="#component-loaders">Advanced: Custom component loaders</a></li>
+</ul>
+</template>
+
+<template id='component-registration'
+  data-kind='documentation'
+  data-title='Component registration'
+  data-cat='3'
+  data-subcat='Components'>
+<p>For Knockout to be able to load and instantiate your components, you must register them using <code>ko.components.register</code>, providing a configuration as described here.</p>
+<p><em>Note: As an alternative, it&#39;s possible to implement a <a href="component-loaders.html">custom component loader</a> that fetches components by your own conventions instead of explicit configuration.</em></p>
+<ul>
+<li>[Table of contents injected here]
+{:toc}</li>
+</ul>
+<h2 id="registering-components-as-a-viewmodel-template-pair">Registering components as a viewmodel/template pair</h2>
+<p>You can register a component as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('some-component-name', {
+    viewModel: &lt;see below>,
+    template: &lt;see below>
+});</div>
+</code></pre>
+<ul>
+<li>The component <strong>name</strong> can be any nonempty string. It&#39;s recommended, but not mandatory, to use lowercase dash-separated strings (such as <code>your-component-name</code>) so that the component name is valid to use as a <a href="component-custom-elements.html">custom element</a> (such as <code>&lt;your-component-name&gt;</code>).</li>
+<li><code>viewModel</code> is optional, and can take any of <a href="#specifying-a-viewmodel">the <code>viewModel</code> formats described below</a>.</li>
+<li><code>template</code> is required, and can take any of <a href="#specifying-a-template">the <code>template</code> formats described below</a>.</li>
+</ul>
+<p>If no viewmodel is given, the component is treated as a simple block of HTML that will be bound to any parameters passed to the component.</p>
+<h3 id="specifying-a-viewmodel">Specifying a viewmodel</h3>
+<p>Viewmodels can be specified in any of the following forms:</p>
+<h4 id="a-constructor-function">A constructor function</h4>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function SomeComponentViewModel(params) {
+    // 'params' is an object whose key/value pairs are the parameters
+    // passed from the component binding or custom element.
+    this.someProperty = params.something;
+}
+
+SomeComponentViewModel.prototype.doSomething = function() { ... };
+
+ko.components.register('my-component', {
+    viewModel: SomeComponentViewModel,
+    template: ...
+});</div>
+</code></pre>
+<p>Knockout will invoke your constructor once for each instance of the component, producing a separate viewmodel object for each. Properties on the resulting object or its prototype chain (e.g., <code>someProperty</code> and <code>doSomething</code> in the example above) are available for binding in the component&#39;s view.</p>
+<h4 id="a-shared-object-instance">A shared object instance</h4>
+<p>If you want all instances of your component to share the same viewmodel object instance (which is not usually desirable):</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var sharedViewModelInstance = { ... };
+
+ko.components.register('my-component', {
+    viewModel: { instance: sharedViewModelInstance },
+    template: ...
+});</div>
+</code></pre>
+<p>Note that it&#39;s necessary to specify <code>viewModel: { instance: object }</code>, and not just <code>viewModel: object</code>. This differentiates from the other cases below.</p>
+<h4 id="a-createviewmodel-factory-function">A <code>createViewModel</code> factory function</h4>
+<p>If you want to run any setup logic on the associated element before it is bound to the viewmodel, or use arbitrary logic to decide which viewmodel class to instantiate:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    viewModel: {
+        createViewModel: function(params, componentInfo) {
+            // - 'params' is an object whose key/value pairs are the parameters
+            //   passed from the component binding or custom element
+            // - 'componentInfo.element' is the element the component is being
+            //   injected into. When createViewModel is called, the template has
+            //   already been injected into this element, but isn't yet bound.
+            // - 'componentInfo.templateNodes' is an array containing any DOM
+            //   nodes that have been supplied to the component. See below.
+
+            // Return the desired view model instance, e.g.:
+            return new MyViewModel(params);
+        }
+    },
+    template: ...
+});</div>
+</code></pre>
+<p>Note that, typically, it&#39;s best to perform direct DOM manipulation only through <a href="custom-bindings.html">custom bindings</a> rather than acting on <code>componentInfo.element</code> from inside <code>createViewModel</code>. This leads to more modular, reusable code.</p>
+<p>The <code>componentInfo.templateNodes</code> array is useful if you want to build a component that accepts arbitrary markup to influence its output (for example, a grid, list, dialog, or tab set that injects supplied markup into itself). For a complete example, see <a href="component-custom-elements.html#passing-markup-into-components">passing markup into components</a>.</p>
+<h4 id="an-amd-module-whose-value-describes-a-viewmodel">An AMD module whose value describes a viewmodel</h4>
+<p>If you have an AMD loader (such as <a href="http://requirejs.org/">require.js</a>) already in your page, then you can use it to fetch a viewmodel. For more details about how this works, see <a href="#how-knockout-loads-components-via-amd">how Knockout loads components via AMD</a> below. Example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+  viewModel: { require: 'some/module/name' },
+  template: ...
+});</div>
+</code></pre>
+<p>The returned AMD module object can be in any of the forms allowed for viewmodels. So, it can be a constructor function, e.g.:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// AMD module whose value is a component viewmodel constructor
+define(['knockout'], function(ko) {
+    function MyViewModel() {
+        // ...
+    }
+
+    return MyViewModel;
+});</div>
+</code></pre>
+<p>... or a shared object instance, e.g.:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// AMD module whose value is a shared component viewmodel instance
+define(['knockout'], function(ko) {
+    function MyViewModel() {
+        // ...
+    }
+
+    return { instance: new MyViewModel() };
+});</div>
+</code></pre>
+<p>... or a <code>createViewModel</code> function, e.g.:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// AMD module whose value is a 'createViewModel' function
+define(['knockout'], function(ko) {
+    function myViewModelFactory(params, componentInfo) {
+        // return something
+    }
+
+    return { createViewModel: myViewModelFactory };
+});</div>
+</code></pre>
+<p>... or even, though it&#39;s unlikely you&#39;d want to do this, a reference to a different AMD module, e.g.:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// AMD module whose value is a reference to a different AMD module,
+// which in turn can be in any of these formats
+define(['knockout'], function(ko) {
+    return { module: 'some/other/module' };
+});</div>
+</code></pre>
+<h3 id="specifying-a-template">Specifying a template</h3>
+<p>Templates can be specified in any of the following forms. The most commonly useful are <a href="#an-existing-element-id">existing element IDs</a> and <a href="#an-amd-module-whose-value-describes-a-template">AMD modules</a>.</p>
+<h4 id="an-existing-element-id">An existing element ID</h4>
+<p>For example, the following element:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;template id='my-component-template'>
+    &lt;h1 data-bind='text: title'>&lt;/h1>
+    &lt;button data-bind='click: doSomething'>Click me right now&lt;/button>
+&lt;/template></div>
+</code></pre>
+<p>... can be used as the template for a component by specifying its ID:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    template: { element: 'my-component-template' },
+    viewModel: ...
+});</div>
+</code></pre>
+<p>Note that only the nodes <em>inside</em> the specified element will be cloned into each instance of the component. The container element (in this example, the <code>&lt;template&gt;</code> element), will <em>not</em> be treated as part of the component template.</p>
+<p>You&#39;re not limited to using <code>&lt;template&gt;</code> elements, but these are convenient (on browsers that support them) since they don&#39;t get rendered on their own. Any other element type works too.</p>
+<h4 id="an-existing-element-instance">An existing element instance</h4>
+<p>If you have a reference to a DOM element in your code, you can use it as a container for template markup:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var elemInstance = document.getElementById('my-component-template');
+
+ko.components.register('my-component', {
+    template: { element: elemInstance },
+    viewModel: ...
+});</div>
+</code></pre>
+<p>Again, only the nodes <em>inside</em> the specified element will be cloned for use as the component&#39;s template.</p>
+<h4 id="a-string-of-markup">A string of markup</h4>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    template: '&lt;h1 data-bind="text: title">&lt;/h1>\
+               &lt;button data-bind="click: doSomething">Clickety&lt;/button>',
+    viewModel: ...
+});</div>
+</code></pre>
+<p>This is mainly useful when you&#39;re fetching the markup from somewhere programmatically (e.g., <a href="#a-recommended-amd-module-pattern">AMD - see below</a>), or as a build system output that packages components for distribution, since it&#39;s not very convenient to manually edit HTML as a JavaScript string literal.</p>
+<h4 id="an-array-of-dom-nodes">An array of DOM nodes</h4>
+<p>If you&#39;re building configurations programmatically and you have an array of DOM nodes, you can use them as a component template:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var myNodes = [
+    document.getElementById('first-node'),
+    document.getElementById('second-node'),
+    document.getElementById('third-node')
+];
+
+ko.components.register('my-component', {
+    template: myNodes,
+    viewModel: ...
+});</div>
+</code></pre>
+<p>In this case, all the specified nodes (and their descendants) will be cloned and concatenated into each copy of the component that gets instantiated.</p>
+<h4 id="a-document-fragment">A document fragment</h4>
+<p>If you&#39;re building configurations programmatically and you have a <code>DocumentFragment</code> object, you can use it as a component template:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    template: someDocumentFragmentInstance,
+    viewModel: ...
+});</div>
+</code></pre>
+<p>Since document fragments can have multiple top-level nodes, the <em>entire</em> document fragment (not just descendants of top-level nodes) is treated as the component template.</p>
+<h4 id="an-amd-module-whose-value-describes-a-template">An AMD module whose value describes a template</h4>
+<p>If you have an AMD loader (such as <a href="http://requirejs.org/">require.js</a>) already in your page, then you can use it to fetch a template. For more details about how this works, see <a href="#how-knockout-loads-components-via-amd">how Knockout loads components via AMD</a> below. Example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    template: { require: 'some/template' },
+    viewModel: ...
+});</div>
+</code></pre>
+<p>The returned AMD module object can be in any of the forms allowed for viewmodels. So, it can be a string of markup, e.g. fetched using <a href="http://requirejs.org/docs/api.html#text">require.js&#39;s text plugin</a>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    template: { require: 'text!path/my-html-file.html' },
+    viewModel: ...
+});</div>
+</code></pre>
+<p>... or any of the other forms described here, though it would be unusual for the others to be useful when fetching templates via AMD.</p>
+<h3 id="specifying-additional-component-options">Specifying additional component options</h3>
+<p>As well as (or instead of) <code>template</code> and <code>viewModel</code>, your component configuration object can have arbitrary other properties. This configuration object is made available to any <a href="component-loaders.html">custom component loader</a> you may be using.</p>
+<h4 id="controlling-synchronous-asynchronous-loading">Controlling synchronous/asynchronous loading</h4>
+<p>If your component configuration has a boolean <code>sync</code> property, Knockout uses this to determine whether the component is allowed to be loaded and injected synchronously. The default is <code>false</code> (i.e., forced to be asynchronous). For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    viewModel: { ... anything ... },
+    template: { ... anything ... },
+    sync: true // Injects synchronously if already loaded, otherwise still async
+});</div>
+</code></pre>
+<p><strong>Why is component loading normally forced to be asynchronous?</strong></p>
+<p>Normally, Knockout ensures that component loading, and hence component injection, always completes asynchronously, because <em>sometimes it has no choice but to be asynchronous</em> (e.g., because it involves a request to the server). It does this even if a particular component instance could be injected synchronously (e.g., because the component definition was already loaded). This always-asynchronous policy is a matter of consistency, and is a well-established convention inherited from other modern asynchronous JavaScript technologies, such as AMD. The convention is a safe default --- it mitigates potential bugs where a developer might not account for the possibility of a typically-asynchronous process sometimes completing synchronously or vice-versa.</p>
+<p><strong>Why would you ever enable synchronous loading?</strong></p>
+<p>If you want to change the policy for a particular component, you can specify <code>sync: true</code> on that component&#39;s configuration. Then it might load asynchronously on first use, followed by synchronously on all subsequent uses. If you do this, then you need to account for this changeable behavior in any code that waits for components to load.</p>
+<p>The benefit of <code>sync: true</code> is primarily that, if you&#39;re injecting a long list of copies of a certain component (e.g., inside a <code>foreach</code> binding), and if the component definition is already in memory due to previous usage, then all the new copies may be injected synchronously and cause only a single DOM reflow, which is preferable for performance especially on mobiles.</p>
+<h2 id="how-knockout-loads-components-via-amd">How Knockout loads components via AMD</h2>
+<p>When you load a viewmodel or template via <code>require</code> declarations, e.g.,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', {
+    viewModel: { require: 'some/module/name' },
+    template: { require: 'text!some-template.html' }
+});</div>
+</code></pre>
+<p>...all Knockout does is call <code>require([&#39;some/module/name&#39;], callback)</code> and <code>require([&#39;text!some-template.html&#39;], callback)</code>, and uses the asynchronously-returned objects as the viewmodel and template definitions. So,</p>
+<ul>
+<li><strong>This does not take a strict dependency on <a href="http://requirejs.org/">require.js</a></strong> or any other particular module loader. <em>Any</em> module loader that provides an AMD-style <code>require</code> API will do. If you want to integrate with a module loader whose API is different, you can implement a <a href="component-loaders.html">custom component loader</a>.</li>
+<li><strong>Knockout does not interpret the module name</strong> in any way - it merely passes it through to <code>require()</code>. So of course Knockout does not know or care about where your module files are loaded from. That&#39;s up to your AMD loader and how you&#39;ve configured it.</li>
+<li><strong>Knockout doesn&#39;t know or care whether your AMD modules are anonymous or not</strong>. Typically we find it&#39;s most convenient for components to be defined as anonymous modules, but that concern is entirely separate from KO.</li>
+</ul>
+<h4 id="amd-modules-are-loaded-only-on-demand">AMD modules are loaded only on demand</h4>
+<p>Knockout does not call <code>require([moduleName], ...)</code> until your component is being instantiated. This is how components get loaded on demand, not up front.</p>
+<p>For example, if your component is inside some other element with an <a href="if-binding.html"><code>if</code> binding</a> (or another control flow binding), then it will not cause the AMD module to be loaded until the <code>if</code> condition is true. Of course, if the AMD module was already loaded (e.g., in a preloaded bundle) then the <code>require</code> call will not trigger any additional HTTP requests, so you can control what is preloaded and what is loaded on demand.</p>
+<h2 id="registering-components-as-a-single-amd-module">Registering components as a single AMD module</h2>
+<p>For even better encapsulation, you can package a component into a single self-describing AMD module. Then you can reference a component as simply as:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-component', { require: 'some/module' });</div>
+</code></pre>
+<p>Notice that no viewmodel/template pair is specified. The AMD module itself can provide a viewmodel/template pair, using any of the definition formats listed above. For example, the file <code>some/module.js</code> could be declared as:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// AMD module 'some/module.js' encapsulating the configuration for a component
+define(['knockout'], function(ko) {
+    function MyComponentViewModel(params) {
+        this.personName = ko.observable(params.name);
+    }
+
+    return {
+        viewModel: MyComponentViewModel,
+        template: 'The name is &lt;strong data-bind="text: personName">&lt;/strong>'
+    };
+});</div>
+</code></pre>
+<h3 id="a-recommended-amd-module-pattern">A recommended AMD module pattern</h3>
+<p>What tends to be most useful in practice is creating AMD modules that have inline viewmodel classes, and explicitly take AMD dependencies on external template files.</p>
+<p>For example, if the following is in a file at <code>path/my-component.js</code>,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Recommended AMD module pattern for a Knockout component that:
+//  - Can be referenced with just a single 'require' declaration
+//  - Can be included in a bundle using the r.js optimizer
+define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
+    function MyComponentViewModel(params) {
+        // Set up properties, etc.
+    }
+
+    // Use prototype to declare any public methods
+    MyComponentViewModel.prototype.doSomething = function() { ... };
+
+    // Return component definition
+    return { viewModel: MyComponentViewModel, template: htmlString };
+});</div>
+</code></pre>
+<p>... and the template markup is in the file <code>path/my-component.html</code>, then you have these benefits:</p>
+<ul>
+<li>Applications can reference this trivially, i.e., <code>ko.components.register(&#39;my-component&#39;, { require: &#39;path/my-component&#39; });</code></li>
+<li>You only need two files for the component - a viewmodel (<code>path/my-component.js</code>) and a template (<code>path/my-component.html</code>) - which is a very natural arrangement during development.</li>
+<li>Since the dependency on the template is explicitly stated in the <code>define</code> call, this automatically works with the <a href="http://requirejs.org/docs/optimization.html"><code>r.js</code> optimizer</a> or similar bundling tools. The entire component - viewmodel plus template - can therefore trivially be included in a bundle file during a build step.<ul>
+<li>Note: Since the r.js optimizer is very flexible, it has a lot of options and can take some time to set up. You may want to start from a ready-made example of Knockout components being optimized through r.js, in which case see <a href="http://yeoman.io/">Yeoman</a> and the <a href="https://www.npmjs.org/package/generator-ko">generator-ko</a> generator. Blog post coming soon.</li>
+</ul>
+</li>
+</ul>
+</template>
+
+<template id='computed-dependency-tracking'
+  data-kind='documentation'
+  data-title='How dependency tracking works'
+  data-cat='2'
+  data-subcat='Components'>
+<p><em>Beginners don&#39;t need to know about this, but more advanced developers will want to know why we keep making all these claims about KO automatically tracking dependencies and updating the right parts of the UI...</em></p>
+<p>It&#39;s actually very simple and rather lovely. The tracking algorithm goes like this:</p>
+<ol>
+<li>Whenever you declare a computed observable, KO immediately invokes its evaluator function to get its initial value.</li>
+<li>While the evaluator function is running, KO sets up a subscription to any observables (including other computed observables) that the evaluator reads. The subscription callback is set to cause the evaluator to run again, looping the whole process back to step 1 (disposing of any old subscriptions that no longer apply).</li>
+<li>KO notifies any subscribers about the new value of your computed observable.</li>
+</ol>
+<p>So, Knockout doesn&#39;t just detect dependencies the first time the evaluator runs - it redetects them every time. This means, for example, that the dependencies can vary dynamically: dependency A could determine whether the computed observable also depend on B or C. Then, it will only be re-evaluated when either A or your current choice of B or C changes. You don&#39;t have to declare dependencies: they&#39;re determined at runtime from the code&#39;s execution.</p>
+<p>The other neat trick is that declarative bindings are simply implemented as computed observables. So, if a binding reads the value of an observable, that binding becomes dependent on that observable, which causes that binding to be re-evaluated if the observable changes.</p>
+<p><em>Pure</em> computed observables work slightly differently. For more details, see the documentation for <a href="computed-pure.html"><em>pure</em> computed observables</a>.</p>
+<h2 id="controlling-dependencies-using-peek">Controlling dependencies using peek</h2>
+<p>Knockout&#39;s automatic dependency tracking normally does exactly what you want. But you might sometimes need to control which observables will update your computed observable, especially if the computed observable performs some sort of action, such as making an Ajax request. The <code>peek</code> function lets you access an observable or computed observable without creating a dependency.</p>
+<p>In the example below, a computed observable is used to reload an observable named <code>currentPageData</code> using Ajax with data from two other observable properties. The computed observable will update whenever <code>pageIndex</code> changes, but it ignores changes to <code>selectedItem</code> because it is accessed using <code>peek</code>. In this case, the user might want to use the current value of <code>selectedItem</code> only for tracking purposes when a new set of data is loaded.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function() {
+    var params = {
+        page: this.pageIndex(),
+        selected: this.selectedItem.peek()
+    };
+    $.getJSON('/Some/Json/Service', params, this.currentPageData);
+}, this);</div>
+</code></pre>
+<p>Note: If you just want to prevent a computed observable from updating too often, see the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a>.</p>
+<h2 id="ignoring-dependencies-within-a-computed">Ignoring dependencies within a computed</h2>
+<p>The <code>ko.ignoreDependencies</code> function is available for scenarios where you want to execute code within a computed that should not contribute to that computed&#39;s dependencies. This is often useful in a custom binding when you want to call code that may access observables, but you do not want to re-trigger the binding based on changes to those observables.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.ignoreDependencies( callback, callbackTarget, callbackArgs );</div>
+</code></pre>
+<p>Example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.myBinding = {
+    update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var options = ko.unwrap(valueAccessor());
+        var value = ko.unwrap(options.value);
+        var afterUpdateHandler = options.afterUpdate;
+
+        // the developer supplied a function to call when this binding updates, but
+        // we don't really want to track any dependencies that would re-trigger this binding
+        if (typeof afterUpdateHandler === "function") {
+            ko.ignoreDependencies(afterUpdateHandler, viewModel, [value, color]);
+        }
+
+        $(element).somePlugin("value", value);
+    }
+}</div>
+</code></pre>
+<h2 id="note-why-circular-dependencies-aren-t-meaningful">Note: Why circular dependencies aren&#39;t meaningful</h2>
+<p>Computed observables are supposed to map a set of observable inputs into a single observable output. As such, it doesn&#39;t make sense to include cycles in your dependency chains. Cycles would <em>not</em> be analogous to recursion; they would be analogous to having two spreadsheet cells that are computed as functions of each other. It would lead to an infinite evaluation loop.</p>
+<p>So what does Knockout do if you have a cycle in your dependency graph? It avoids infinite loops by enforcing the following rule: <strong>Knockout will not restart evaluation of a computed while it is already evaluating</strong>. This is very unlikely to affect your code. It&#39;s relevant in two situations: when two computed observables are dependent on each other (possible only if one or both use the <code>deferEvaluation</code> option), or when a computed observable writes to another observable on which it has a dependency (either directly or via a dependency chain). If you need to use one of these patterns and want to entirely avoid the circular dependency, you can use the <code>peek</code> function described above.</p>
+</template>
+
+<template id='computed-pure'
+  data-kind='documentation'
+  data-title='Pure computed observables'
+  data-cat='2'
+  data-subcat='Components'>
+<p><em>Pure</em> computed observables, introduced in Knockout 3.2.0, provide performance and memory benefits over regular computed observables for most applications. This is because a <em>pure</em> computed observable doesn&#39;t maintain subscriptions to its dependencies when it has no subscribers itself. This feature:</p>
+<ul>
+<li><strong>Prevents memory leaks</strong> from computed observables that are no longer referenced in an application but whose dependencies still exist.</li>
+<li><strong>Reduces computation overhead</strong> by not re-calculating computed observables whose value isn&#39;t being observed.</li>
+</ul>
+<p>A <em>pure</em> computed observable automatically switches between two states based on whether it has <code>change</code> subscribers.</p>
+<ol>
+<li><p>Whenever it has <em>no</em> <code>change</code> subscribers, it is <strong><em>sleeping</em></strong>. When entering the <em>sleeping</em> state, it disposes all subscriptions to its dependencies. During this state, it will not subscribe to any observables accessed in the evaluator function (although it does keep track of them). If the computed observable&#39;s value is read while it is <em>sleeping</em>, it is automatically re-evaluated if any of its dependencies have changed.</p>
+</li>
+<li><p>Whenever it has <em>any</em> <code>change</code> subscribers, it is awake and <strong><em>listening</em></strong>. When entering the <em>listening</em> state, it immediately subscribes to any dependencies. In this state, it operates just like a regular computed observable, as described in <a href="computed-dependency-tracking.md">how dependency tracking works</a>.</p>
+</li>
+</ol>
+<h4 id="why-pure-pure-computed-function-defined-">Why &quot;pure&quot;? {#pure-computed-function-defined}</h4>
+<p>We&#39;ve borrowed the term from <a href="http://en.wikipedia.org/wiki/Pure_function">pure functions</a> because this feature is generally only applicable for computed observables whose evaluator is a <em>pure function</em> as follows:</p>
+<ol>
+<li>Evaluating the computed observable should not cause any side effects.</li>
+<li>The value of the computed observable shouldn&#39;t vary based on the number of evaluations or other &quot;hidden&quot; information. Its value should be based solely on the values of other observables in the application, which for the pure function definition, are considered its parameters.</li>
+</ol>
+<h4 id="syntax">Syntax</h4>
+<p>The standard method of defining a <em>pure</em> computed observable is to use <code>ko.pureComputed</code>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.fullName = ko.pureComputed(function() {
+    return this.firstName() + " " + this.lastName();
+}, this);</div>
+</code></pre>
+<p>Alternatively, you can use the <code>pure</code> option with <code>ko.computed</code>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.fullName = ko.computed(function() {
+    return this.firstName() + " " + this.lastName();
+}, this, { pure: true });</div>
+</code></pre>
+<p>For complete syntax, see the <a href="#computed-reference">computed observable reference</a>.</p>
+<h3 id="when-to-use-a-pure-computed-observable">When to use a <em>pure</em> computed observable</h3>
+<p>You can use the <em>pure</em> feature for any computed observable that follows the <a href="#pure-computed-function-defined"><em>pure function</em> guidelines</a>. You&#39;ll see the most benefit, though, when it is applied to application designs that involve persistent view models that are used and shared by temporary views and view models. Using <em>pure</em> computed observables in a persistent view model provides computation performance benefits. Using them in temporary view models provides memory management benefits.</p>
+<p>In the following example of a simple wizard interface, the <code>fullName</code> <em>pure</em> computed is only bound to the view during the final step and so is only updated when that step is active.</p>
+<p><live-example params='id: "pure-computed"'></live-example></p>
+<h3 id="when-not-to-use-a-pure-computed-observable">When <em>not</em> to use a <em>pure</em> computed observable</h3>
+<h4 id="side-effects">Side effects</h4>
+<p>You should not use the <em>pure</em> feature for a computed observable that is meant to perform an action when its dependencies change. Examples include:</p>
+<ul>
+<li><p>Using a computed observable to run a callback based on multiple observables.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function () {
+    var cleanData = ko.toJS(this);
+    myDataClient.update(cleanData);
+}, this);</div>
+</code></pre>
+</li>
+<li><p>In a binding&#39;s <code>init</code> function, using a computed observable to update the bound element.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed({
+    read: function () {
+        element.title = ko.unwrap(valueAccessor());
+    },
+    disposeWhenNodeIsRemoved: element
+});</div>
+</code></pre>
+</li>
+</ul>
+<p>The reason you shouldn&#39;t use a <em>pure</em> computed if the evaluator has important side effects is simply that the evaluator will not run whenever the computed has no active subscribers (and so is sleeping). If it&#39;s important for the evaluator to always run when dependencies change, use a <a href="computedObservables.html">regular computed</a> instead.</p>
+<h3 id="state-change-notifications">State-change notifications</h3>
+<p>A pure computed observable notifies an <code>awake</code> event (using its current value) whenever it enters the <em>listening</em> state and notifies an <code>asleep</code> event (using an <code>undefined</code> value) whevener it enter the <em>sleeping</em> state. You won&#39;t normally need to know about the internal state of your computed observables. But since the internal state can correspond to whether the computed observable is bound to the view or not, you might use that information to do some view-model initialization or cleanup.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  this.someComputedThatWillBeBound = ko.pureComputed(function () {
+      ...
+  }, this);
+
+  this.someComputedThatWillBeBound.subscribe(function () {
+      // do something when this is bound
+  }, this, "awake");
+
+  this.someComputedThatWillBeBound.subscribe(function () {
+      // do something when this is un-bound
+  }, this, "asleep");</div>
+</code></pre>
+<p>(The <code>awake</code> event also applies to normal computed observables created with the <code>deferEvaluation</code> option.)</p>
+</template>
+
+<template id='computed-reference'
+  data-kind='documentation'
+  data-title='Computed Observable Reference'
+  data-cat='3'
+  data-subcat='Components'>
+<p>The following documentation describes how to construct and work with computed observables.</p>
+<h2 id="constructing-a-computed-observable">Constructing a computed observable</h2>
+<p>A computed observable can be constructed using one of the following forms:</p>
+<ol>
+<li><p><code>ko.computed( evaluator [, targetObject, options] )</code> --- This form supports the most common case of creating a computed observable.</p>
+<ul>
+<li><code>evaluator</code> --- A function that is used to evaluate the computed observable&#39;s current value.</li>
+<li><code>targetObject</code> --- If given, defines the value of <code>this</code> whenever KO invokes your callback functions. See the section on <a href="computedObservables.html#managing-this">managing <code>this</code></a> for more information.</li>
+<li><code>options</code> --- An object with further properties for the computed observable. See the full list below.</li>
+</ul>
+</li>
+<li><p><code>ko.computed( options )</code> --- This single parameter form for creating a computed observable accepts a JavaScript object with any of the following properties.</p>
+<ul>
+<li><code>read</code> --- Required. A function that is used to evaluate the computed observable&#39;s current value.</li>
+<li><code>write</code> --- Optional. If given, makes the computed observable writable. This is a function that receives values that other code is trying to write to your computed observable. It&#39;s up to you to supply custom logic to handle the incoming values, typically by writing the values to some underlying observable(s).</li>
+<li><code>owner</code> --- Optional. If given, defines the value of <code>this</code> whenever KO invokes your <code>read</code> or <code>write</code> callbacks.</li>
+<li><code>pure</code> --- Optional. If this option is <code>true</code>, the computed observable will be set up as a <a href="computed-pure.html"><em>pure</em> computed observable</a>. This option is an alternative to the <code>ko.pureComputed</code> constructor.</li>
+<li><code>deferEvaluation</code> --- Optional. If this option is <code>true</code>, then the value of the computed observable will not be evaluated until something actually attempts to access its value or manually subscribes to it. By default, a computed observable has its value determined immediately during creation.</li>
+<li><code>disposeWhen</code> --- Optional. If given, this function is executed before each re-evaluation to determine if the computed observable should be disposed. A <code>true</code>-ish result will trigger disposal of the computed observable.</li>
+<li><code>disposeWhenNodeIsRemoved</code> --- Optional. If given, disposal of the computed observable will be triggered when the specified DOM node is removed by KO. This feature is used to dispose computed observables used in bindings when nodes are removed by the <code>template</code> and control-flow bindings.</li>
+</ul>
+</li>
+<li><p><code>ko.pureComputed( evaluator [, targetObject] )</code> --- Constructs a <a href="computed-pure.html"><em>pure</em> computed observable</a> using the given evaluator function and optional object to use for <code>this</code>. Unlike <code>ko.computed</code>, this method doesn&#39;t accept an <code>options</code> parameter.</p>
+</li>
+<li><p><code>ko.pureComputed( options )</code> --- Constructs a <em>pure</em> computed observable using an <code>options</code> object. This accepts the <code>read</code>, <code>write</code>, and <code>owner</code> options described above.</p>
+</li>
+</ol>
+<h2 id="using-a-computed-observable">Using a computed observable</h2>
+<p>A computed observable provides the following functions:</p>
+<ul>
+<li><code>dispose()</code> --- Manually disposes the computed observable, clearing all subscriptions to dependencies. This function is useful if you want to stop a computed observable from being updated or want to clean up memory for a computed observable that has dependencies on observables that won&#39;t be cleaned.</li>
+<li><code>extend(extenders)</code> --- Applies the given <a href="extenders.html">extenders</a> to the computed observable.</li>
+<li><code>getDependenciesCount()</code> --- Returns the current number of dependencies of the computed observable.</li>
+<li><code>getSubscriptionsCount( [event] )</code> --- Returns the current number of subscriptions (either from other computed observables or manual subscriptions) of the computed observable. Optionally, pass an event name (like <code>&quot;change&quot;</code>) to return just the count of subscriptions for that event.</li>
+<li><code>isActive()</code> --- Returns whether the computed observable may be updated in the future. A computed observable is inactive if it has no dependencies.</li>
+<li><code>peek()</code> --- Returns the current value of the computed observable without creating a dependency (see the section on <a href="computed-dependency-tracking.html#controlling-dependencies-using-peek"><code>peek</code></a>).</li>
+<li><code>subscribe( callback [,callbackTarget, event] )</code> --- Registers a <a href="observables.html#explicitly-subscribing-to-observables">manual subscription</a> to be notified of changes to the computed observable.</li>
+</ul>
+<h2 id="using-the-computed-context">Using the computed context</h2>
+<p>During the execution of a computed observable&#39;s evaluator function, you can access <code>ko.computedContext</code> to get information about the current computed property. It provides the following functions:</p>
+<ul>
+<li><p><code>isInitial()</code> --- A function that returns <code>true</code> if called during the first ever evaluation of the current computed observable, or <code>false</code> otherwise. For <em>pure</em> computed observables, <code>isInitial()</code> is always <code>undefined</code>.</p>
+</li>
+<li><p><code>getDependenciesCount()</code> --- Returns the number of dependencies of the computed observable detected so far during the current evaluation.</p>
+<ul>
+<li>Note: <code>ko.computedContext.getDependenciesCount()</code> is equivalent to calling <code>getDependenciesCount()</code> on the computed observable itself. The reason that it also exists on <code>ko.computedContext</code> is to provide a way of counting the dependencies during the first ever evaluation, before the computed observable has even finished being constructed.</li>
+</ul>
+</li>
+</ul>
+<p>Example:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var myComputed = ko.computed(function() {
+    // ... Omitted: read some data that might be observable ...
+
+    // Now let's inspect ko.computedContext
+    var isFirstEvaluation = ko.computedContext.isInitial(),
+        dependencyCount = ko.computedContext.getDependenciesCount(),
+    console.log("Evaluating " + (isFirstEvaluation ? "for the first time" : "again"));
+    console.log("By now, this computed has " + dependencyCount + " dependencies");
+
+    // ... Omitted: return the result ...
+});</div>
+</code></pre>
+<p>These facilities are typically useful only in advanced scenarios, for example when your computed observable&#39;s primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
+</template>
+
+<template id='computed-writable'
+  data-kind='documentation'
+  data-title='Writable computed observables'
+  data-cat='2'
+  data-subcat=''>
+<p><em>Beginners may wish to skip this section - writable computed observables are fairly advanced and are not necessary in most situations</em></p>
+<p>Normally, computed observables have a value that is computed from other observables and are therefore <em>read-only</em>. What may seem surprising, then, is that it is possible to make computed observables <em>writable</em>. You just need to supply your own callback function that does something sensible with written values.</p>
+<p>You can use a writable computed observable exactly like a regular observable, with your own custom logic intercepting all reads and writes. Just like observables, you can write values to multiple observable or computed observable properties on a model object using <em>chaining syntax</em>. For example, <code>myViewModel.fullName(&#39;Joe Smith&#39;).age(50)</code>.</p>
+<p>Writable computed observables are a powerful feature with a wide range of possible uses.</p>
+<h3 id="example-1-decomposing-user-input">Example 1: Decomposing user input</h3>
+<p>Going back to the classic &quot;first name + last name = full name&quot; example, you can turn things back-to-front: make the <code>fullName</code> computed observable writable, so that the user can directly edit the full name, and their supplied value will be parsed and mapped back to the underlying <code>firstName</code> and <code>lastName</code> observables. In this example, the <code>write</code> callback handles incoming values by splitting the incoming text into &quot;firstName&quot; and &quot;lastName&quot; components, and writing those values back to the underlying observables.</p>
+<p><live-example params='id: "computed-writable"'></live-example></p>
+<p>This is the exact opposite of the <a href="../examples/helloWorld.html">Hello World</a> example, in that here the first and last names are not editable, but the combined full name is editable.</p>
+<p>The preceding view model code demonstrates the <em>single parameter syntax</em> for initializing computed observables. See the <a href="computed-reference.html">computed observable reference</a> for the full list of available options.</p>
+<h3 id="example-2-selecting-deselecting-all-items">Example 2: Selecting/deselecting all items</h3>
+<p>When presenting the user with a list of selectable items, it is often useful to include a method to select or deselect all of the items. This can be represented quite intuitively with a boolean value that represents whether all items are selected. When set to <code>true</code> it will select all items, and when set to <code>false</code> it will deselect them.</p>
+<p><live-example params='id: "computed-writable-deselect"'></live-example></p>
+<h3 id="example-3-a-value-converter">Example 3: A value converter</h3>
+<p>Sometimes you might want to represent a data point on the screen in a different format than its underlying storage. For example, you might want to store a price as a raw float value, but let the user edit it with a currency symbol and fixed number of decimal places. You can use a writable computed observable to represent the formatted price, mapping incoming values back to the underlying float value:</p>
+<p><live-example params='id: "computed-writable-converter"'></live-example></p>
+<p>Now, whenever the user enters a new price, the text box immediately updates to show it formatted with the currency symbol and two decimal places, no matter what format they entered the value in. This gives a great user experience, because the user sees how the software has understood their data entry as a price. They know they can&#39;t enter more than two decimal places, because if they try to, the additional decimal places are immediately removed. Similarly, they can&#39;t enter negative values, because the <code>write</code> callback strips off any minus sign.</p>
+<h3 id="example-4-filtering-and-validating-user-input">Example 4: Filtering and validating user input</h3>
+<p>Example 1 showed how a writable computed observable can effectively <em>filter</em> its incoming data by choosing not to write certain values back to the underlying observables if they don&#39;t meet some criteria. It ignored full name values that didn&#39;t include a space.</p>
+<p>Taking this a step further, you could also toggle an <code>isValid</code> flag depending on whether the latest input was satisfactory, and display a message in the UI accordingly. There&#39;s an easier way of doing validation (explained below), but first consider the following example, which demonstrates the mechanism:</p>
+<p><live-example params='id: "computed-writable-filter"'></live-example></p>
+<p>Now, <code>acceptedNumericValue</code> will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating <code>acceptedNumericValue</code>.</p>
+<p><strong>Note:</strong> For such trivial requirements as validating that an input is numeric, this technique is overkill. It would be far easier just to use jQuery Validation and its <code>number</code> class on the <code>&lt;input&gt;</code> element. Knockout and jQuery Validation work together nicely, as demonstrated on the <a href="../examples/gridEditor.html">grid editor</a> example. However, the preceding example demonstrates a more general mechanism for filtering and validating with custom logic to control what kind of user feedback appears, which may be of use if your scenario is more complex than jQuery Validation handles natively.</p>
+</template>
+
 <template id='computedObservables'
   data-kind='documentation'
   data-title='Computed Observables'

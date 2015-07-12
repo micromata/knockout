@@ -13,7 +13,7 @@ appcache:
     #
     # Keep in mind that the max size for everything here may be
     # 5MB on many browsers.
-    #
+    # 
     # --- DO NOT EDIT ---
     index.html
     favicon.ico

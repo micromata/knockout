@@ -1,0 +1,22 @@
+name: component custom element example
+html: |-
+  <style type="text/css">
+      .liveExample h4 { margin-bottom: 0.3em; }
+      .liveExample h4:first-of-type { margin-top: 0; }
+  </style>
+  <h4>First instance, without parameters</h4>
+  <message-editor></message-editor>
+
+  <h4>Second instance, passing parameters</h4>
+  <message-editor params='initialText: "Hello, world!"'></message-editor>
+
+javascript: |-
+  ko.components.register('message-editor', {
+      viewModel: function(params) {
+          this.text = ko.observable(params.initialText || '');
+      },
+      template: 'Message: <input data-bind="value: text" /> '
+              + '(length: <span data-bind="text: text().length"></span>)'
+  });
+
+  ko.applyBindings();

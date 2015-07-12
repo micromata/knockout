@@ -1,0 +1,37 @@
+name: component overview
+html: |-
+  <style type="text/css">
+      .liveExample ul { margin: 0; }
+      .liveExample .product {
+          list-style-type: none;
+          background-color: rgba(0,0,0,0.1);
+          padding: 1em; border-radius: 1em;
+          min-height: 3.5em;
+      }
+      .liveExample .product + .product { margin-top: 1em;  }
+      .liveExample > button { margin: 0.5em 0; }
+  </style>
+  <script>{{ like_dislike_registration }}</script>
+
+      <ul data-bind="foreach: products">
+          <li class="product">
+              <strong data-bind="text: name"></strong>
+              <like-widget params="value: userRating"></like-widget>
+          </li>
+      </ul>
+
+javascript: |-
+      function Product(name, rating) {
+          this.name = name;
+          this.userRating = ko.observable(rating || null);
+      }
+
+      function MyViewModel() {
+          this.products = [
+              new Product('Garlic bread'),
+              new Product('Pain au chocolat'),
+              new Product('Seagull spaghetti', 'like') // This one was already 'liked'
+          ];
+      }
+
+      ko.applyBindings(new MyViewModel());

@@ -1,0 +1,32 @@
+name: writable computed example (select/deselect all)
+html: |-
+  <style type="text/css">
+      #select-all-items label { display: block; }
+      #select-all-items .heading { border-bottom: 1px solid black; }
+  </style>
+  <div class="heading">
+      <input type="checkbox" data-bind="checked: selectedAllProduce" title="Select all/none"/> Produce
+  </div>
+  <div data-bind="foreach: produce">
+      <label>
+          <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedProduce"/>
+          <span data-bind="text: $data"></span>
+      </label>
+  </div>
+javascript: |-
+    function MyViewModel() {
+        this.produce = [ 'Apple', 'Banana', 'Celery', 'Corn', 'Orange', 'Spinach' ];
+        this.selectedProduce = ko.observableArray([ 'Corn', 'Orange' ]);
+        this.selectedAllProduce = ko.pureComputed({
+            read: function () {
+                // Comparing length is quick and is accurate if only items from the
+                // main array are added to the selected array.
+                return this.selectedProduce().length === this.produce.length;
+            },
+            write: function (value) {
+                this.selectedProduce(value ? this.produce.slice(0) : []);
+            },
+            owner: this
+        });
+    }
+    ko.applyBindings(new MyViewModel());

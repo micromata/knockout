@@ -1,0 +1,28 @@
+name: computed writable example (filter)
+javascript: |-
+    function MyViewModel() {
+        this.acceptedNumericValue = ko.observable(123);
+        this.lastInputWasValid = ko.observable(true);
+
+        this.attemptedValue = ko.pureComputed({
+            read: this.acceptedNumericValue,
+            write: function (value) {
+                if (isNaN(value))
+                    this.lastInputWasValid(false);
+                else {
+                    this.lastInputWasValid(true);
+                    this.acceptedNumericValue(value); // Write to underlying storage
+                }
+            },
+            owner: this
+        });
+    }
+
+    ko.applyBindings(new MyViewModel());
+html: |-
+  <style type="text/css">
+    #validate-input .error { color: #A71500; font-weight: bold;  }
+  </style>
+  <div>Enter a numeric value: <input data-bind="textInput: attemptedValue"/></div>
+  <div class="error" data-bind="visible: !lastInputWasValid()">That's not a number!</div>
+  <div>(Accepted value: <span data-bind="text: acceptedNumericValue"></span>)</div>
