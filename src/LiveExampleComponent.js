@@ -21,11 +21,10 @@ class LiveExampleComponent {
   }
 
   openCommonSettings() {
-    var exId = ko.unwrap(this.example)
-    var ex = Example.get(exId)
+    var ex = this.example
     var dated = new Date().toLocaleString()
     var jsPrefix = `/**
- * Created from an example (${exId}) on the Knockout website
+ * Created from an example on the Knockout website
  * on ${new Date().toLocaleString()}
  **/
 
@@ -39,7 +38,7 @@ class LiveExampleComponent {
     return {
       html: ex.html(),
       js: jsPrefix + ex.finalJavascript(),
-      title: `From Knockout example (${exId})`,
+      title: `From Knockout example`,
       description: `Created on ${dated}`
     }
   }
