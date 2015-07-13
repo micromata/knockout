@@ -114,7 +114,10 @@ function start() {
     .then(setupEvents)
     .then(checkForApplicationUpdate)
     .then(pageLoaded)
-    .catch((err) => console.log("Loading:", err))
+    .catch(function (err) {
+      window.$root.body("error")
+      window.$root.errorMessage(err.message || err)
+    })
 }
 
 

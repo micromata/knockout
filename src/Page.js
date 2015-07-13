@@ -7,6 +7,7 @@ class Page {
     // --- Main body template id ---
     this.body = ko.observable()
     this.title = ko.observable()
+    this.body.subscribe(this.onBodyChange, this)
 
     // --- footer links/cdn ---
     this.links = window.links
@@ -48,17 +49,23 @@ class Page {
     // --- searching ---
     this.search = new Search()
 
+    // --- page loading status ---
     // applicationCache progress
     this.reloadProgress = ko.observable()
+
+    // page loading error
+    this.errorMessage = ko.observable()
   }
 
   open(pinpoint) {
     var pp = pinpoint.replace("#", "")
-    var node = document.getElementById(pp)
-    var mdNode, mdNodeId
-    this.title(node.getAttribute('data-title') || '')
     this.body(pp)
     $(window).scrollTop(0)
+  }
+
+  onBodyChange(templateId) {
+    var node = document.getElementById(templateId)
+    this.title(node.getAttribute('data-title') || '')
   }
 
   registerPlugins(plugins) {

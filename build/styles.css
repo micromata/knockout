@@ -1629,6 +1629,14 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   font-size: 0.9em;
   text-align: right;
 }
+.browser-version {
+  color: #804040;
+  font-style: italic;
+  font-size: 16px;
+  max-width: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
 div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   height: 200px;
