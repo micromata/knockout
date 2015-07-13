@@ -1621,11 +1621,13 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .plugin-repo {
   text-align: right;
   line-height: 1.25em;
+  vertical-align: top;
 }
 .plugin-owner {
   display: block;
   font-style: italic;
-  font-size: 0.95em;
+  font-size: 0.9em;
+  text-align: right;
 }
 div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;

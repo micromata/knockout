@@ -219,12 +219,6 @@
       <tr data-bind='with: $parent.pluginMap.get($data)'>
         <td class='plugin-repo'>
           <a href='{{ html_url }}'>{{ name }}</a>
-          <div class='plugin-owner'>
-            By
-            <a  href='{{ owner.html_url }}'>
-              {{ owner.login }}
-            </a>
-          </div>
         </td>
         <td>
           {{# template: "plugins-td" /}}
@@ -247,10 +241,16 @@
       {{/ if }}
     </div>
     <div class='pure-u-1 pure-u-sm-1-5 plugin-extras'>
-      <i class='fa fa-star'></i> {{ stargazers_count }}&ensp;
-      <i class='fa fa-code-fork'></i>{{ forks_count }}&ensp;
-      <i class='fa fa-exclamation-circle'></i> {{ open_issues_count }}
+      {{ stargazers_count }}<small><i class='fa fa-star'></i></small>
+      {{ forks_count }}<small><i class='fa fa-code-fork'></i></small>
+      {{ open_issues_count }}<small><i class='fa fa-exclamation-circle'></i></small>
     </div>
+  </div>
+  <div class='plugin-owner'>
+    By
+    <a  href='{{ owner.html_url }}'>
+      {{ owner.login }}
+    </a>
   </div>
 </template>
 
