@@ -13,7 +13,7 @@ appcache:
     #
     # Keep in mind that the max size for everything here may be
     # 5MB on many browsers.
-    # 
+    #
     # --- DO NOT EDIT ---
     index.html
     favicon.ico
@@ -34,9 +34,8 @@ appcache:
     fonts/Lato_400.woff
     fonts/Lato_700.woff
     fonts/Lato_400italic.woff
-    bower_components/fontawesome/css/font-awesome.min.css
-    bower_components/fontawesome/fonts/fontawesome-webfont.woff
-    bower_components/fontawesome/fonts/fontawesome-webfont.woff2
+    fonts/fontawesome-webfont.woff
+    fonts/fontawesome-webfont.woff2
 
     # Ace -- these to-be Workers need to be available in separate
     # scripts.

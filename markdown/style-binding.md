@@ -35,7 +35,9 @@ This will set the element's `style.color` property to `red` whenever the `curren
 
    You can set multiple style values at once. For example, if your view model has a property called `isSevere`,
 
-   `<div data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black', fontWeight: isSevere() ? 'bold' : '' }">...</div>`
+   ```html
+   <div data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black', fontWeight: isSevere() ? 'bold' : '' }">...</div>
+   ```
 
    If your parameter references an observable value, the binding will update the styles whenever the observable value changes. If the parameter doesn't reference an observable value, it will only set the styles once and will not update them later.
 
@@ -53,7 +55,3 @@ If you want to apply a `font-weight` or `text-decoration` style, or any other st
 * Don't write `{ text-decoration: someValue }`; do write `{ textDecoration: someValue }`
 
 See also: [a longer list of style names and their JavaScript equivalents](http://www.comptechdoc.org/independent/web/cgi/javamanual/javastyle.html)
-
-### Dependencies
-
-None, other than the core Knockout library.

@@ -14,6 +14,7 @@ body {
 
 pre {
   font: @monospace-font;
+  padding: 0px 1.618em;
 }
 
 h1 {
@@ -60,11 +61,12 @@ code {
   color: #586E75;
   background-color: #FDF6E3;
   padding: 0px 2px;
+  white-space: normal;
 
   pre & {
     display: block;
     background-color: transparent;
-    border: 1px solid #aaa;
+    border: 1px dashed #aaa;
     border-radius: 5px;
   }
 
@@ -84,10 +86,7 @@ input[type=search] {
 
 // custom elements
 live-example {
-  border: 1px dashed gray;
   display: block;
-  border-radius: 12px;
-  padding: 4px;
   white-space: normal;
   h3 {
     margin-bottom: 0px;
