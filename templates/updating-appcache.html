@@ -1,7 +1,12 @@
-<template id='updating-appcache'>
+<template id='updating-appcache' data-title=''>
   <p>
-    <i class='fa fa-4x fa-spin fa-spinner'></i>
     This page has been updated. Everything will reload automatically
     when the latest version has finished downloading.
   </p>
+  {{# if: reloadProgress }}
+    <progress max=1 value="{{ reloadProgress }}"></progress>
+  {{/ if }}
+  {{# ifnot: reloadProgress }}
+    <progress></progress>
+  {{/ if }}
 </template>

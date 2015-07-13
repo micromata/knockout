@@ -1704,6 +1704,10 @@ pre code {
 a code {
   color: #3222e6;
 }
+progress {
+  width: 100%;
+  height: 10px;
+}
 input[type=search] {
   border-radius: 25px;
   padding: 2px 0.62em;

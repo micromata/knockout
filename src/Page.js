@@ -47,6 +47,9 @@ class Page {
 
     // --- searching ---
     this.search = new Search()
+
+    // applicationCache progress
+    this.reloadProgress = ko.observable()
   }
 
   open(pinpoint) {

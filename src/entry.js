@@ -1,4 +1,4 @@
-/* global setupEvents, Example, Documentation, APIs */
+/* global setupEvents, Example, Documentation, API */
 
 function loadHtml(uri) {
   return Promise.resolve($.ajax(uri))
@@ -31,20 +31,26 @@ function onApplicationUpdate() {
 
 function checkForApplicationUpdate() {
   var ac = applicationCache
-  if (ac) {
-    switch (ac.status) {
-      case ac.UPDATEREADY:
-        onApplicationUpdate()
-        break
-      case ac.CHECKING:
-      case ac.OBSOLETE:
-      case ac.DOWNLOADING:
-        return new Promise(function () {
-          // This never resolves; it reloads the page when the
-          // update is complete.
-          window.$root.body("updating-appcache")
-          window.applicationCache.addEventListener('updateready', onApplicationUpdate)
-        })
+  if (!ac) { return Promise.resolve() }
+  switch (ac.status) {
+    case ac.UPDATEREADY:
+      onApplicationUpdate()
+      break
+    case ac.CHECKING:
+    case ac.OBSOLETE:
+    case ac.DOWNLOADING:
+      return new Promise(function () {
+        // This never resolves; it reloads the page when the
+        // update is complete.
+        window.$root.body("updating-appcache")
+        window.applicationCache.addEventListener('updateready', onApplicationUpdate)
+      })
+  }
+  ac.onprogress = function(evt) {
+    if (evt.lengthComputable) {
+      window.$root.reloadProgress(evt.loaded / evt.total)
+    } else {
+      window.$root.reloadProgress(false)
     }
   }
   return Promise.resolve()
