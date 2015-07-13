@@ -45,14 +45,16 @@ css: |-
    .liveExample a.remove { font-size: .9em; }
 
 html: |-
+  <script id="personTmpl" type="text/html">
+      <li>
+          <a class="remove" href="#"> x </a>
+          <span data-bind='text: name'></span>
+          <a class="add" href="#"> add child </a>
+          <ul data-bind='template: { name: "personTmpl", foreach: children }'></ul>
+      </li>
+  </script>
   <ul id="people" data-bind='template: { name: "personTmpl", foreach: people }'>
   </ul>
-  <li>
-      <a class="remove" href="#"> x </a>
-      <span data-bind='text: name'></span>
-      <a class="add" href="#"> add child </a>
-      <ul data-bind='template: { name: "personTmpl", foreach: children }'></ul>
-  </li>
 javascript: |-
   var Person = function(name, children) {
     this.name = ko.observable(name);

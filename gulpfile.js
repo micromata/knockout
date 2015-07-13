@@ -112,20 +112,22 @@ function escape(html) {
 var markedOptions = {
   highlight: function (code, lang) {
     if (lang === 'html' || lang === 'javascript') {
-      return "<div data-bind='highlight: \"" + lang + "\"'>" +
-        escape(code) + "</div>"
+      return "<div data-bind='highlight: \"" +
+        lang +
+        "\"'>" +
+        escape(code) +
+        "</div>"
     } else if (lang === 'example') {
       var params = yaml.safeLoad(code)
       if (!params.html || !params.javascript) {
         throw new Error("Example missing html or javascript\n:" + code.red)
       }
-      console.log("EX", params)
-      return escape("<live-example params='inline: true'>" +
-        JSON.stringify(params) +
-        "</live-example>")
-    } else {
-      throw new Error("No language for code:\n" + code.red)
+      return "<live-example params='base64: \"" +
+        new Buffer(JSON.stringify(params)).toString('base64') +
+        "\"'>" +
+        "</live-example>"
     }
+    throw new Error("No language for code:\n" + code.red)
   }
 }
 

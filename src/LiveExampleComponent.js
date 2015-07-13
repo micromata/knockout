@@ -8,7 +8,16 @@ var EXTERNAL_INCLUDES = [
 
 class LiveExampleComponent {
   constructor(params) {
-    this.example = params.id
+    if (params.id) {
+      this.example = Example.get(ko.unwrap(params.id))
+    }
+    if (params.base64) {
+      var opts =
+      this.example = new Example(JSON.parse(atob(params.base64)))
+    }
+    if (!this.example) {
+      throw new Error("Example must be provided by id or base64 parameter")
+    }
   }
 
   openCommonSettings() {

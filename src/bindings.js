@@ -15,7 +15,7 @@ var readonlyThemeMap = {
 }
 
 function setupEditor(element, language, exampleName) {
-  var example = Example.get(ko.unwrap(exampleName))
+  var example = ko.unwrap(exampleName)
   var editor = ace.edit(element)
   var session = editor.getSession()
   editor.setTheme(`ace/theme/${languageThemeMap[language]}`)
@@ -68,7 +68,7 @@ ko.bindingHandlers['edit-html'] = {
 ko.bindingHandlers.result = {
   init: function (element, va) {
     var $e = $(element)
-    var example = Example.get(ko.unwrap(va()))
+    var example = ko.unwrap(va())
 
     function resetElement() {
       if (element.children[0]) {
