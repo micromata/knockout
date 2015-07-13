@@ -252,8 +252,8 @@ gulp.task('watch', REMAKE_TASKS, function () {
 
 
 gulp.task('reload', function () {
-  gulp.src('ko.appcache')
-    .pipe(plugins.connect.reload())
+  // gulp.src('ko.appcache')
+  //   .pipe(plugins.connect.reload())
 })
 
 

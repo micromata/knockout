@@ -1,4 +1,5 @@
 /* global setupEvents, Example, Documentation, API */
+var appCacheUpdateCheckInterval = location.hostname === 'localhost' ? 2500 : (1000 * 60 * 15)
 
 function loadHtml(uri) {
   return Promise.resolve($.ajax(uri))
@@ -25,34 +26,28 @@ function loadTemplates() {
 function loadMarkdown() {
   return loadHtml("build/markdown.html")
 }
-function onApplicationUpdate() {
-  location.reload()
+
+
+function reCheckApplicationCache() {
+  var ac = applicationCache
+  if (ac.status === ac.IDLE) { ac.update() }
+  setTimeout(reCheckApplicationCache, appCacheUpdateCheckInterval)
 }
 
 function checkForApplicationUpdate() {
   var ac = applicationCache
   if (!ac) { return Promise.resolve() }
-  switch (ac.status) {
-    case ac.UPDATEREADY:
-      onApplicationUpdate()
-      break
-    case ac.CHECKING:
-    case ac.OBSOLETE:
-    case ac.DOWNLOADING:
-      return new Promise(function () {
-        // This never resolves; it reloads the page when the
-        // update is complete.
-        window.$root.body("updating-appcache")
-        window.applicationCache.addEventListener('updateready', onApplicationUpdate)
-      })
-  }
-  ac.onprogress = function(evt) {
+  reCheckApplicationCache()
+  ac.addEventListener('progress', function(evt) {
     if (evt.lengthComputable) {
       window.$root.reloadProgress(evt.loaded / evt.total)
     } else {
       window.$root.reloadProgress(false)
     }
-  }
+  }, false)
+  ac.addEventListener('updateready', function () {
+    window.$root.cacheIsUpdated(true)
+  })
   return Promise.resolve()
 }
 
@@ -104,20 +99,29 @@ function pageLoaded() {
 }
 
 
+var stateStep = 0
+function nextState() {
+  console.log(`Next state: ${stateStep++}`)
+  return Promise.resolve()
+}
+
+
 function start() {
-  Promise.all([loadTemplates(), loadMarkdown()])
-    .then(() => Documentation.initialize())
-    .then(applyBindings)
-    .then(getExamples)
-    .then(loadAPI)
-    .then(getPlugins)
-    .then(setupEvents)
-    .then(checkForApplicationUpdate)
-    .then(pageLoaded)
+  nextState()
+  Promise.all([loadTemplates(), loadMarkdown()]).then(nextState)
+    .then(Documentation.initialize).then(nextState)
+    .then(applyBindings).then(nextState)
+    .then(getExamples).then(nextState)
+    .then(loadAPI).then(nextState)
+    .then(getPlugins).then(nextState)
+    .then(setupEvents).then(nextState)
+    .then(checkForApplicationUpdate).then(nextState)
+    .then(pageLoaded).then(nextState)
     .catch(function (err) {
       window.$root.body("error")
       window.$root.errorMessage(err.message || err)
     })
+    .then(nextState)
 }
 
 

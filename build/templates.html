@@ -197,6 +197,21 @@
 
 <!--     /templates/page.html    -->
 <template id='page'>
+  {{# if: cacheIsUpdated }}
+    <div class='cache-update'>
+      <h5>This page has been updated.</h5>
+      <a class='pure-button'href='#' data-bind='on.click: location.reload()'>
+        <i class='fa fa-refresh'></i>
+        Click to reload
+      </a>
+      &ensp;
+      <a href='#' class='pure-button' data-bind='on.click: cacheIsUpdated(false)'>
+        Later ...
+      </a>
+      <progress max=1 value='{{ reloadProgress }}'></progress>
+    </div>
+  {{/ if }}
+
   {{# template: 'header' /}}
 
   {{# template: {name: "search", data: search, if: search.query } /}}
@@ -279,18 +294,4 @@
     <em>Nothing found.</em>
   </p>
   {{/ ifnot }}
-</template>
-
-<!--     /templates/updating-appcache.html    -->
-<template id='updating-appcache' data-title=''>
-  <p>
-    This page has been updated. Everything will reload automatically
-    when the latest version has finished downloading.
-  </p>
-  {{# if: reloadProgress }}
-    <progress max=1 value="{{ reloadProgress }}"></progress>
-  {{/ if }}
-  {{# ifnot: reloadProgress }}
-    <progress></progress>
-  {{/ if }}
 </template>

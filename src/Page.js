@@ -52,6 +52,7 @@ class Page {
     // --- page loading status ---
     // applicationCache progress
     this.reloadProgress = ko.observable()
+    this.cacheIsUpdated = ko.observable(false)
 
     // page loading error
     this.errorMessage = ko.observable()
