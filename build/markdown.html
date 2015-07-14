@@ -2272,6 +2272,25 @@ viewModel.currentProfit(-50);</div>
 </code></pre>
 <p>Notice how, instead of using APIs like <code>domElement.firstChild</code>, we&#39;re now using <code>ko.virtualElements.firstChild(domOrVirtualElement)</code>. The <code>randomOrder</code> binding will now correctly work with virtual elements, e.g., <code>&lt;!-- ko randomOrder: true --&gt;...&lt;!-- /ko --&gt;</code>.</p>
 <p>Also, <code>randomOrder</code> will still work with regular DOM elements, because all of the <code>ko.virtualElements</code> APIs are backwardly compatible with regular DOM elements.</p>
+<h3 id="tables-and-virtual-elements">Tables and Virtual Elements</h3>
+<p>In some browsers you must be careful about virtual elements inside <code>&lt;tbody&gt;</code> and <code>&lt;thead&gt;</code> tags, since they may be &quot;hoisted&quot; out. For example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;table>
+  &lt;!-- foreach: list  -->
+  &lt;tr>&lt;td> ... &lt;/td>&lt;/tr>
+  &lt;!-- /foreach -->
+&lt;/table></div>
+</code></pre>
+<p>may be interpreted by the browser as:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;table>
+  &lt;!-- foreach: list  -->
+  &lt;!-- /foreach -->
+  &lt;tbody>
+    &lt;tr>&lt;td> ... &lt;/td>&lt;/tr>
+  &lt;/tbody>
+&lt;/table></div>
+</code></pre>
+<p>Be mindful of using virtual elements inside tables.</p>
+<p>For more information on this caveat, see issue <a href="https://github.com/knockout/knockout/issues/1759">#1759</a>.</p>
 <h3 id="virtual-element-apis">Virtual Element APIs</h3>
 <p>Knockout provides the following functions for working with virtual elements.</p>
 <ul>
