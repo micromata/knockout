@@ -71,6 +71,14 @@ markdown:
   footer: >
     </template>
 
+# Sitemap
+sitemap:
+  files: a/*.html
+  settings:
+    siteUrl: http://brianmhunt.github.io/knockout/a/
+    fileName: sitemap.xml
+  dest: ./
+
 # Javascript libraries
 libs.js:
   dest: build/
@@ -89,7 +97,6 @@ libs.js:
     - bower_components/ace-builds/src/theme-solarized_light.js
     - bower_components/ace-builds/src/theme-tomorrow.js
     - bower_components/ace-builds/src/theme-monokai.js
-
 
 
 # Our JS application

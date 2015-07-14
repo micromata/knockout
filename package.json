@@ -20,6 +20,7 @@
     "gulp-load-plugins": "^0.10.0",
     "gulp-marked": "^1.0.0",
     "gulp-replace": "^0.5.3",
+    "gulp-sitemap": "^2.1.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.6",
     "gulp-yaml": "^0.2.4",

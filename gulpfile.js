@@ -46,7 +46,7 @@ gulp.task('eslint', function () {
 })
 
 
-gulp.task('make:appcache', _.throttle(makeAppcache, 100))
+gulp.task('make:appcache', _.debounce(makeAppcache, 500))
 
 
 gulp.task('make:libs', function () {
@@ -159,6 +159,13 @@ gulp.task('make:multipage', function () {
     .pipe(gulp.dest(config.multipage.dest))
 })
 
+//    Sitemap
+//
+gulp.task('make:sitemap', function () {
+  gulp.src(config.sitemap.files)
+    .pipe(plugins.sitemap(config.sitemap.settings))
+    .pipe(gulp.dest(config.sitemap.dest))
+})
 
 //      Examples
 //
@@ -255,17 +262,18 @@ gulp.task("make:api", function () {
 
 
 var REMAKE_TASKS = [
-  'make:templates', 'make:markdown', 'make:css', 'make:app', 'make:libs', 'make:examples', 'make:multipage'
+  'make:templates', 'make:markdown', 'make:css', 'make:app', 'make:libs', 'make:examples', 'make:multipage', 'make:sitemap'
 ]
 
 gulp.task('watch', REMAKE_TASKS, function () {
   gulp.watch(config.templates.src, ['make:templates'])
   gulp.watch(config.markdown.src, ['make:markdown', 'make:multipage'])
-  gulp.watch(['build/*'], ['make:appcache'])
   gulp.watch('less/**/*.less', ['make:css'])
   gulp.watch(config['app.js'].src, ['make:app'])
   gulp.watch(config.examples.src, ['make:examples'])
   gulp.watch('config.yaml', REMAKE_TASKS)
+  gulp.watch('ko.appcache', ['make:sitemap'])
+  gulp.watch(['build/*'], ['make:appcache'])
 })
 
 
