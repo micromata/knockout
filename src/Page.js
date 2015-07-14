@@ -51,8 +51,12 @@ class Page {
     this.errorMessage = ko.observable()
   }
 
+  pathToTemplate(path) {
+    return path.replace("/a/", "").replace(".html", "")
+  }
+
   open(pinpoint) {
-    this.body(pinpoint)
+    this.body(this.pathToTemplate(pinpoint))
     $(window).scrollTop(0)
     document.title = `Knockout.js – ${$(this).text()}`
   }

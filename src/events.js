@@ -22,8 +22,7 @@ function onAnchorClick(evt) {
   }
 
   try {
-    var pn = anchor.pathname
-    var templateId = pn.replace("/a/", "").replace(".html", "")
+    var templateId = $root.pathToTemplate(anchor.pathname)
     // If the template isn't found, presume a hard link
     if (!document.getElementById(templateId)) { return true }
     $root.open(templateId)
