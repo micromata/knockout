@@ -1,0 +1,66 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/html-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>html</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>html</code> binding causes the associated DOM element to display the HTML specified by your parameter.</p>
+<p>Typically this is useful when values in your view model are actually strings of HTML markup that you want to render.</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="html: details">&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+  details: ko.observable() // Initially blank
+};
+viewModel.details("&lt;em>For further details, view the report &lt;a href='report.html'>here&lt;/a>.&lt;/em>"); // HTML content appears</div>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>KO clears the previous content and then sets the element&#39;s content to your parameter value using jQuery&#39;s <code>html</code> function or by parsing the string into HTML nodes and appending each node as a child of the element, if jQuery is not available.</p>
+<p>If this parameter is an observable value, the binding will update the element&#39;s content whenever the value changes. If the parameter isn&#39;t observable, it will only set the element&#39;s content once and will not update it again later.</p>
+<p>If you supply something other than a number or a string (e.g., you pass an object or an array), the <code>innerHTML</code> will be equivalent to <code>yourParameter.toString()</code></p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-about-html-encoding">Note: About HTML encoding</h3>
+<p>Since this binding sets your element&#39;s content using <code>innerHTML</code>, you should be careful not to use it with untrusted model values, because that might open the possibility of a script injection attack.  If you cannot guarantee that the content is safe to display (for example, if it is based on a different user&#39;s input that was stored in your database), then you can use <a href="text-binding.html">the text binding</a>, which will set the element&#39;s text value using <code>innerText</code> or <code>textContent</code> instead.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

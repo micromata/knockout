@@ -1,0 +1,65 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/uniqueName-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>uniqueName</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>uniqueName</code> binding ensures that the associated DOM element has a nonempty <code>name</code> attribute. If the DOM element did not have a <code>name</code> attribute, this binding gives it one and sets it to some unique string value.</p>
+<p>You won&#39;t need to use this often. It&#39;s only useful in a few rare cases, e.g.:</p>
+<ul>
+<li><p>Other technologies may depend on the assumption that certain elements have names, even though names might be irrelevant when you&#39;re using KO. For example, <a href="http://docs.jquery.com/Plugins/validation">jQuery Validation</a> currently will only validate elements that have names. To use this with a Knockout UI, it&#39;s sometimes necessary to apply the <code>uniqueName</code> binding to avoid confusing jQuery Validation. See <a href="../examples/gridEditor.html">an example of using jQuery Validation with KO</a>.</p>
+</li>
+<li><p>IE 6 does not allow radio buttons to be checked if they don&#39;t have a <code>name</code> attribute. Most of the time this is irrelevant because your radio button elements <em>will</em> have name attributes to put them into mutually-exclusive groups. However, just in case you didn&#39;t add a <code>name</code> attribute because it&#39;s unnecessary in your case, KO will internally use <code>uniqueName</code> on those elements to ensure they can be checked.</p>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;input data-bind="value: someModelProperty, uniqueName: true" /></div>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>Pass <code>true</code> (or some value that evaluates as true) to enable the <code>uniqueName</code> binding, as in the preceding example.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="dependencies">Dependencies</h3>
+<p>None, other than the core Knockout library.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

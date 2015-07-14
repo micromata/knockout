@@ -1,0 +1,66 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/unobtrusive-event-handling.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Using unobtrusive event handlers</h1>
+<!-- /header -->
+<p>In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;a href="#" data-bind="click: function() { viewModel.items.remove($data); }">
+    remove
+&lt;/a></div>
+</code></pre>
+<p>As an alternative, Knockout provides two helper functions that allow you to identify the data associated with a DOM element:</p>
+<ul>
+<li><code>ko.dataFor(element)</code> - returns the data that was available for binding against the element</li>
+<li><code>ko.contextFor(element)</code> - returns the entire <a href="binding-context.html">binding context</a> that was available to the DOM element.</li>
+</ul>
+<p>These helper functions can be used in event handlers that are attached unobtrusively using something like jQuery&#39;s <code>bind</code> or <code>click</code>. The above function could be attached to each link with a <code>remove</code> class like:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>$(".remove").click(function () {
+    viewModel.items.remove(ko.dataFor(this));
+});</div>
+</code></pre>
+<p>Better yet, this techinique could be used to support event delegation.  jQuery&#39;s <code>live/delegate/on</code> functions are an easy way to make this happen:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>$(".remove").live("click", function() {
+    viewModel.items.remove(ko.dataFor(this));
+});</div>
+</code></pre>
+<p>Now, a single event handler is attached at a higher level and handles clicks against any links with the <code>remove</code> class. This method has the added benefit of automatically handling additional links that are dynamically added to the document (perhaps as the result of an item being added to an observableArray).</p>
+<h3 id="live-example-nested-children">Live example: nested children</h3>
+<p>This example shows &quot;add&quot; and &quot;remove&quot; links on multiple levels of parents and children with a single handler attached unobtrusively for each type of link.</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJjc3MiOiIubGl2ZUV4YW1wbGUgYS5hZGQgeyBmb250LXNpemU6IC43ZW07IGNvbG9yOiAjYWFhOyB9XG4ubGl2ZUV4YW1wbGUgYS5yZW1vdmUgeyBmb250LXNpemU6IC45ZW07IH0iLCJodG1sIjoiPHNjcmlwdCBpZD1cInBlcnNvblRtcGxcIiB0eXBlPVwidGV4dC9odG1sXCI+XG4gICAgPGxpPlxuICAgICAgICA8YSBjbGFzcz1cInJlbW92ZVwiIGhyZWY9XCIjXCI+IHggPC9hPlxuICAgICAgICA8c3BhbiBkYXRhLWJpbmQ9J3RleHQ6IG5hbWUnPjwvc3Bhbj5cbiAgICAgICAgPGEgY2xhc3M9XCJhZGRcIiBocmVmPVwiI1wiPiBhZGQgY2hpbGQgPC9hPlxuICAgICAgICA8dWwgZGF0YS1iaW5kPSd0ZW1wbGF0ZTogeyBuYW1lOiBcInBlcnNvblRtcGxcIiwgZm9yZWFjaDogY2hpbGRyZW4gfSc+PC91bD5cbiAgICA8L2xpPlxuPC9zY3JpcHQ+XG48dWwgaWQ9XCJwZW9wbGVcIiBkYXRhLWJpbmQ9J3RlbXBsYXRlOiB7IG5hbWU6IFwicGVyc29uVG1wbFwiLCBmb3JlYWNoOiBwZW9wbGUgfSc+XG48L3VsPiIsImphdmFzY3JpcHQiOiJ2YXIgUGVyc29uID0gZnVuY3Rpb24obmFtZSwgY2hpbGRyZW4pIHtcbiAgdGhpcy5uYW1lID0ga28ub2JzZXJ2YWJsZShuYW1lKTtcbiAgdGhpcy5jaGlsZHJlbiA9IGtvLm9ic2VydmFibGVBcnJheShjaGlsZHJlbiB8fCBbXSk7XG59O1xuXG52YXIgUGVvcGxlTW9kZWwgPSBmdW5jdGlvbigpIHtcbiAgdGhpcy5wZW9wbGUgPSBrby5vYnNlcnZhYmxlQXJyYXkoW1xuICAgICAgbmV3IFBlcnNvbihcIkJvYlwiLCBbXG4gICAgICAgICAgbmV3IFBlcnNvbihcIkphblwiKSxcbiAgICAgICAgICBuZXcgUGVyc29uKFwiRG9uXCIsIFtcbiAgICAgICAgICAgICAgbmV3IFBlcnNvbihcIlRlZFwiKSxcbiAgICAgICAgICAgICAgbmV3IFBlcnNvbihcIkJlblwiLCBbXG4gICAgICAgICAgICAgICAgICBuZXcgUGVyc29uKFwiSm9lXCIsIFtcbiAgICAgICAgICAgICAgICAgICAgICBuZXcgUGVyc29uKFwiQWxpXCIpLFxuICAgICAgICAgICAgICAgICAgICAgIG5ldyBQZXJzb24oXCJLZW5cIilcbiAgICAgICAgICAgICAgICAgIF0pXG4gICAgICAgICAgICAgIF0pLFxuICAgICAgICAgICAgICBuZXcgUGVyc29uKFwiRG91Z1wiKVxuICAgICAgICAgIF0pXG4gICAgICBdKSxcbiAgICAgIG5ldyBQZXJzb24oXCJBbm5cIiwgW1xuICAgICAgICAgIG5ldyBQZXJzb24oXCJFdmVcIiksXG4gICAgICAgICAgbmV3IFBlcnNvbihcIkhhbFwiKVxuICAgICAgXSlcbiAgXSk7XG5cbiAgdGhpcy5hZGRDaGlsZCA9IGZ1bmN0aW9uKG5hbWUsIHBhcmVudEFycmF5KSB7XG4gICAgICBwYXJlbnRBcnJheS5wdXNoKG5ldyBQZXJzb24obmFtZSkpO1xuICB9O1xufTtcblxua28uYXBwbHlCaW5kaW5ncyhuZXcgUGVvcGxlTW9kZWwoKSk7XG5cbi8vYXR0YWNoIGV2ZW50IGhhbmRsZXJzXG4kKFwiI3Blb3BsZVwiKS5kZWxlZ2F0ZShcIi5yZW1vdmVcIiwgXCJjbGlja1wiLCBmdW5jdGlvbigpIHtcbiAgLy9yZXRyaWV2ZSB0aGUgY29udGV4dFxuICB2YXIgY29udGV4dCA9IGtvLmNvbnRleHRGb3IodGhpcyksXG4gICAgICBwYXJlbnRBcnJheSA9IGNvbnRleHQuJHBhcmVudC5wZW9wbGUgfHwgY29udGV4dC4kcGFyZW50LmNoaWxkcmVuO1xuXG4gIC8vcmVtb3ZlIHRoZSBkYXRhIChjb250ZXh0LiRkYXRhKSBmcm9tIHRoZSBhcHByb3ByaWF0ZSBhcnJheSBvbiBpdHMgcGFyZW50IChjb250ZXh0LiRwYXJlbnQpXG4gIHBhcmVudEFycmF5LnJlbW92ZShjb250ZXh0LiRkYXRhKTtcblxuICByZXR1cm4gZmFsc2U7XG59KTtcblxuJChcIiNwZW9wbGVcIikuZGVsZWdhdGUoXCIuYWRkXCIsIFwiY2xpY2tcIiwgZnVuY3Rpb24oKSB7XG4gIC8vcmV0cmlldmUgdGhlIGNvbnRleHRcbiAgdmFyIGNvbnRleHQgPSBrby5jb250ZXh0Rm9yKHRoaXMpLFxuICAgICAgY2hpbGROYW1lID0gY29udGV4dC4kZGF0YS5uYW1lKCkgKyBcIiBjaGlsZFwiLFxuICAgICAgcGFyZW50QXJyYXkgPSBjb250ZXh0LiRkYXRhLnBlb3BsZSB8fCBjb250ZXh0LiRkYXRhLmNoaWxkcmVuO1xuXG4gIC8vYWRkIGEgY2hpbGQgdG8gdGhlIGFwcHJvcHJpYXRlIHBhcmVudCwgY2FsbGluZyBhIG1ldGhvZCBvZmYgb2YgdGhlIG1haW4gdmlldyBtb2RlbCAoY29udGV4dC4kcm9vdClcbiAgY29udGV4dC4kcm9vdC5hZGRDaGlsZChjaGlsZE5hbWUsIHBhcmVudEFycmF5KTtcblxuICByZXR1cm4gZmFsc2U7XG59KTsifQ=="'></live-example>
+</code></pre>
+<p>No matter how nested the links become, the handler is always able to identify and operate on the appropriate data. Using this techinique, we can avoid the overhead of attaching handlers to each individual link and can keep the markup clean and concise.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/foreach-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>foreach</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>foreach</code> binding duplicates a section of markup for each entry in an array, and binds each copy of that markup to the corresponding array item. This is especially useful for rendering lists or tables.</p>
+<p>Assuming your array is an <a href="observableArrays.html">observable array</a>, whenever you later add, remove, or re-order array entries, the binding will efficiently update the UI to match - inserting or removing more copies of the markup, or re-ordering existing DOM elements, without affecting any other DOM elements. This is far faster than regenerating the entire <code>foreach</code> output after each array change.</p>
+<p>Of course, you can arbitrarily nest any number of <code>foreach</code> bindings along with other control-flow bindings such as <code>if</code> and <code>with</code>.</p>
+<h3 id="example-1-iterating-over-an-array">Example 1: Iterating over an array</h3>
+<p>This example uses <code>foreach</code> to produce a read-only table with a row for each array entry.</p>
+<p><live-example params='id: "foreach"'></live-example></p>
+<p><em>Note: Table headers might disappear if the screen is small.</em></p>
+<h3 id="example-2-live-example-with-add-remove">Example 2: Live example with add/remove</h3>
+<p>The following example shows that, if your array is observable, then the UI will be kept in sync with changes to that array.</p>
+<p><live-example params='id: "foreach-people"'></live-example></p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>Pass the array that you wish to iterate over. The binding will output a section of markup for each entry.</p>
+<p>Alternatively, pass a JavaScript object literal with a property called <code>data</code> which is the array you wish to iterate over. The object
+literal may also have other properties, such as <code>afterAdd</code> or <code>includeDestroyed</code> --- see below for details of these extra options and
+examples of their use.</p>
+<p>If the array you supply is observable, the <code>foreach</code> binding will respond to any future changes in the array&#39;s contents by adding or
+removing corresponding sections of markup in the DOM.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-referring-to-each-array-entry-using-data">Note 1: Referring to each array entry using $data</h3>
+<p>As shown in the above examples, bindings within the <code>foreach</code> block can refer to properties on the array entries. For example, <a href="#example_1_iterating_over_an_array">Example 1</a> referenced the <code>firstName</code> and <code>lastName</code> properties on each array entry.</p>
+<p>But what if you want to refer to the array entry itself (not just one of its properties)? In that case, you can use the <a href="binding-context.html">special context property</a> <code>$data</code>. Within a <code>foreach</code> block, it means &quot;the current item&quot;. For example,</p>
+<p><live-example params='id: "foreach-$data"'></live-example></p>
+<p>If you wanted, you could use <code>$data</code> as a prefix when referencing properties on each entry. For example, you could rewrite part of <a href="#example_1_iterating_over_an_array">Example 1</a> as follows:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;td data-bind="text: $data.firstName">&lt;/td></div>
+</code></pre>
+<p>... but you don&#39;t have to, because <code>firstName</code> will be evaluated within the context of <code>$data</code> by default anyway.</p>
+<h3 id="note-2-using-index-parent-and-other-context-properties">Note 2: Using $index, $parent, and other context properties</h3>
+<p>As you can see from Example 2 above, it&#39;s possible to use <code>$index</code> to refer to the zero-based index of the current array item. <code>$index</code> is an observable and is updated whenever the index of the item changes (e.g., if items are added to or removed from the array).</p>
+<p>Similarly, you can use <code>$parent</code> to refer to data from outside the <code>foreach</code>, e.g.:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;h1 data-bind="text: blogPostTitle">&lt;/h1>
+&lt;ul data-bind="foreach: likes">
+    &lt;li>
+        &lt;b data-bind="text: name">&lt;/b> likes the blog
+        post &lt;b data-bind="text: $parent.blogPostTitle">&lt;/b>
+    &lt;/li>
+&lt;/ul></div>
+</code></pre>
+<p>For more information about <code>$index</code> and other context properties such as <code>$parent</code>, see documentation for <a href="binding-context.html">binding context properties</a>.</p>
+<h3 id="note-3-using-as-to-give-an-alias-to-foreach-items">Note 3: Using &quot;as&quot; to give an alias to &quot;foreach&quot; items</h3>
+<p>As described in Note 1, you can refer to each array entry using the <code>$data</code> <a href="binding-context.html">context variable</a>. In some cases though, it may be useful to give the current item a more descriptive name using the <code>as</code> option like:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind="foreach: { data: people, as: 'person' }">&lt;/ul></div>
+</code></pre>
+<p>Now anywhere inside this <code>foreach</code> loop, bindings will be able to refer to <code>person</code> to access the current array item, from the <code>people</code> array, that is being rendered. This can be especially useful in scenarios where you have nested <code>foreach</code> blocks and you need to refer to an item declared at a higher level in the hierarchy. For example:</p>
+<p><live-example params='id: "foreach-cats"'></live-example></p>
+<p>Tip: Remember to pass a <em>string literal value</em> to <code>as</code> (e.g., <code>as: &#39;category&#39;</code>, <em>not</em> <code>as: category</code>), because you are giving a name for a new variable, not reading the value of a variable that already exists.</p>
+<h3 id="note-4-using-foreach-without-a-container-element">Note 4: Using foreach without a container element</h3>
+<p>In some cases, you might want to duplicate a section of markup, but you don&#39;t have any container element on which to put a <code>foreach</code> binding. For example, you might want to generate the following:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
+    &lt;li class="header">Header item&lt;/li>
+    &lt;!-- The following are generated dynamically from an array -->
+    &lt;li>Item A&lt;/li>
+    &lt;li>Item B&lt;/li>
+    &lt;li>Item C&lt;/li>
+&lt;/ul></div>
+</code></pre>
+<p>In this example, there isn&#39;t anywhere to put a normal <code>foreach</code> binding. You can&#39;t put it on the <code>&lt;ul&gt;</code> (because then you&#39;d be duplicating the header item), nor can you put a further container inside the <code>&lt;ul&gt;</code> (because only <code>&lt;li&gt;</code> elements are allowed inside <code>&lt;ul&gt;</code>s).</p>
+<p>To handle this, you can use the <em>containerless control flow syntax</em>, which is based on comment tags. For example,</p>
+<p><live-example params='id: "foreach-virtual"'></live-example></p>
+<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<h3 id="note-5-how-array-changes-are-detected-and-handled">Note 5: How array changes are detected and handled</h3>
+<p>When you modify the contents of your model array (by adding, moving, or deleting its entries), the <code>foreach</code> binding uses an efficient differencing algorithm to figure out what has changed, so it can then update the DOM to match. This means it can handle arbitrary combinations of simulaneous changes.</p>
+<ul>
+<li>When you <strong>add</strong> array entries, <code>foreach</code> will render new copies of your template and insert them into the existing DOM</li>
+<li>When you <strong>delete</strong> array entries, <code>foreach</code> will simply remove the corresponding DOM elements</li>
+<li>When you <strong>reorder</strong> array entries (retaining the same object instances), <code>foreach</code> will typically just move the corresponding DOM elements into their new position</li>
+</ul>
+<p>Note that reordering detection is not guaranteed: to ensure the algorithm completes quickly, it is optimized to detect &quot;simple&quot; movements of small numbers of array entries. If the algorithm detects too many simultaneous reorderings combined with unrelated insertions and deletions, then for speed it can choose to regard a reordering as an &quot;delete&quot; plus an &quot;add&quot; instead of a single &quot;move&quot;, and in that case the corresponding DOM elements will be torn down and recreated. Most developers won&#39;t encounter this edge case, and even if you do, the end-user experience will usually be identical.</p>
+<h3 id="note-6-destroyed-entries-are-hidden-by-default">Note 6: Destroyed entries are hidden by default</h3>
+<p>Sometimes you may want to mark an array entry as deleted, but without actually losing record of its existence. This is known as a <em>non-destructive delete</em>. For details of how to do this, see <a href="observableArrays.html#destroy_and_destroyall_note_usually_relevant_to_ruby_on_rails_developers_only">the destroy function on <code>observableArray</code></a>.</p>
+<p>By default, the <code>foreach</code> binding will skip over (i.e., hide) any array entries that are marked as destroyed. If you want to show destroyed entries, use the <code>includeDestroyed</code> option. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='foreach: { data: myArray, includeDestroyed: true }'>
+    ...
+&lt;/div></div>
+</code></pre>
+<h3 id="note-7-post-processing-or-animating-the-generated-dom-elements">Note 7: Post-processing or animating the generated DOM elements</h3>
+<p>If you need to run some further custom logic on the generated DOM elements, you can use any of the <code>afterRender</code>/<code>afterAdd</code>/<code>beforeRemove</code>/<code>beforeMove</code>/<code>afterMove</code> callbacks described below.</p>
+<blockquote>
+<p><strong>Note:</strong> These callbacks are <em>only</em> intended for triggering animations related to changes in a list. If your goal is actually to attach other behaviors to new DOM elements when they have been added (e.g., event handlers, or to activate third-party UI controls), then your work will be much easier if you implement that new behavior as a <a href="custom-bindings.html">custom binding</a> instead, because then you can use that behavior anywhere, independently of the <code>foreach</code> binding.</p>
+</blockquote>
+<p>Here&#39;s a trivial example that uses <code>afterAdd</code> to apply the classic &quot;yellow fade&quot; effect to newly-added items. It requires the <a href="https://github.com/jquery/jquery-color">jQuery Color plugin</a> to enable animation of background colors.</p>
+<p><live-example params='id: "foreach-afteradd"'></live-example></p>
+<p>Full details:</p>
+<ul>
+<li><p><code>afterRender</code> --- is invoked each time the <code>foreach</code> block is duplicated and inserted into the document, both when <code>foreach</code> first initializes, and when new entries are added to the associated array later. Knockout will supply the following parameters to your callback:</p>
+<ol>
+<li>An array of the inserted DOM elements</li>
+<li>The data item against which they are being bound</li>
+</ol>
+</li>
+<li><p><code>afterAdd</code> --- is like <code>afterRender</code>, except it is invoked only when new entries are added to your array (and <em>not</em> when <code>foreach</code> first iterates over your array&#39;s initial contents). A common use for <code>afterAdd</code> is to call a method such as jQuery&#39;s <code>$(domNode).fadeIn()</code> so that you get animated transitions whenever items are added. Knockout will supply the following parameters to your callback:</p>
+<ol>
+<li>A DOM node being added to the document</li>
+<li>The index of the added array element</li>
+<li>The added array element</li>
+</ol>
+</li>
+<li><p><code>beforeRemove</code> --- is invoked when an array item has been removed, but before the corresponding DOM nodes have been removed. If you specify a <code>beforeRemove</code> callback, then <em>it becomes your responsibility to remove the DOM nodes</em>. The obvious use case here is calling something like jQuery&#39;s <code>$(domNode).fadeOut()</code> to animate the removal of the corresponding DOM nodes --- in this case, Knockout cannot know how soon it is allowed to physically remove the DOM nodes (who knows how long your animation will take?), so it is up to you to remove them. Knockout will supply the following parameters to your callback:</p>
+<ol>
+<li>A DOM node that you should remove</li>
+<li>The index of the removed array element</li>
+<li>The removed array element</li>
+</ol>
+</li>
+<li><p><code>beforeMove</code> --- is invoked when an array item has changed position in the array, but before the corresponding DOM nodes have been moved. Note that <code>beforeMove</code> applies to all array elements whose indexes have changed, so if you insert a new item at the beginning of an array, then the callback (if specified) will fire for all other elements, since their index position has increased by one. You could use <code>beforeMove</code> to store the original screen coordinates of the affected elements so that you can animate their movements in the <code>afterMove</code> callback.  Knockout will supply the following parameters to your callback:</p>
+<ol>
+<li>A DOM node that may be about to move</li>
+<li>The index of the moved array element</li>
+<li>The moved array element</li>
+</ol>
+</li>
+<li><p><code>afterMove</code> --- is invoked after an array item has changed position in the array, and after <code>foreach</code> has updated the DOM to match. Note that <code>afterMove</code> applies to all array elements whose indexes have changed, so if you insert a new item at the beginning of an array, then the callback (if specified) will fire for all other elements, since their index position has increased by one. Knockout will supply the following parameters to your callback:</p>
+<ol>
+<li>A DOM node that may have moved</li>
+<li>The index of the moved array element</li>
+<li>The moved array element</li>
+</ol>
+</li>
+</ul>
+<p>For examples of <code>afterAdd</code> and <code>beforeRemove</code> see <a href="#animated">animated transitions</a>.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

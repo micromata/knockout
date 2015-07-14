@@ -1,0 +1,156 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/template-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>template</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>template</code> binding populates the associated DOM element with the results of rendering a template. Templates are a simple and convenient way to build sophisticated UI structures - possibly with repeating or nested blocks - as a function of your view model data.</p>
+<p>There are two main ways of using templates:</p>
+<ul>
+<li><em>Native templating</em> is the mechanism that underpins <code>foreach</code>, <code>if</code>, <code>with</code>, and other control flow bindings. Internally, those control
+flow bindings capture the HTML markup contained in your element, and use it as a template to render against an arbitrary data item.
+This feature is built into Knockout and doesn&#39;t require any external library.</li>
+<li><em>String-based templating</em> is a way to connect Knockout to a third-party template engine. Knockout will pass your model values to
+the external template engine and inject the resulting markup string into your document. See below for examples that use the <em>jquery.tmpl</em>
+and <em>Underscore</em> template engines.</li>
+</ul>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<ul>
+<li><p>Shorthand syntax: If you just supply a string value, KO will interpret this as the ID of a template to render. The data it supplies to the template will be your current model object.</p>
+</li>
+<li><p>For more control, pass a JavaScript object with some combination of the following properties:</p>
+<ul>
+<li><code>name</code> --- the ID of an element that contains the template you wish to render - see <a href="#note_5_dynamically_choosing_which_template_is_used">Note 5</a> for how to vary this programmatically.</li>
+<li><code>data</code> --- an object to supply as the data for the template to render. If you omit this parameter, KO will look for a <code>foreach</code> parameter, or will fall back on using your current model object.</li>
+<li><code>if</code> --- if this parameter is provided, the template will only be rendered if the specified expression evaluates to <code>true</code> (or a <code>true</code>-ish value). This can be useful for preventing a null observable from being bound against a template before it is populated.</li>
+<li><code>foreach</code> --- instructs KO to render the template in &quot;foreach&quot; mode - see <a href="#note_2_using_the_foreach_option_with_a_named_template">Note 2</a> for details.</li>
+<li><code>as</code> --- when used in conjunction with <code>foreach</code>, defines an alias for each item being rendered - see <a href="#note_3_using_as_to_give_an_alias_to_foreach_items">Note 3</a> for details.</li>
+<li><code>afterRender</code>, <code>afterAdd</code>, or <code>beforeRemove</code> --- callback functions to be invoked against the rendered DOM elements - see <a href="#note_4_using_afterrender_afteradd_and_beforeremove">Note 4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-rendering-a-named-template">Note 1: Rendering a named template</h3>
+<p>Normally, when you&#39;re using control flow bindings (<code>foreach</code>, <code>with</code>, <code>if</code>, etc.), there&#39;s no need to give names to your templates: they are defined implicitly
+and anonymously by the markup inside your DOM element. But if you want to, you can factor out templates into a separate element and then reference them by name:</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGgyPlBhcnRpY2lwYW50czwvaDI+XG5IZXJlIGFyZSB0aGUgcGFydGljaXBhbnRzOlxuPGRpdiBkYXRhLWJpbmQ9XCJ0ZW1wbGF0ZTogeyBuYW1lOiAncGVyc29uLXRlbXBsYXRlJywgZGF0YTogYnV5ZXIgfVwiPjwvZGl2PlxuPGRpdiBkYXRhLWJpbmQ9XCJ0ZW1wbGF0ZTogeyBuYW1lOiAncGVyc29uLXRlbXBsYXRlJywgZGF0YTogc2VsbGVyIH1cIj48L2Rpdj5cblxuPHRlbXBsYXRlIGlkPSdwZXJzb24tdGVtcGxhdGUnPlxuICAgIDxoMyBkYXRhLWJpbmQ9XCJ0ZXh0OiBuYW1lXCI+PC9oMz5cbiAgICA8cD5DcmVkaXRzOiA8c3BhbiBkYXRhLWJpbmQ9XCJ0ZXh0OiBjcmVkaXRzXCI+PC9zcGFuPjwvcD5cbjwvdGVtcGxhdGU+IiwiamF2YXNjcmlwdCI6ImZ1bmN0aW9uIE15Vmlld01vZGVsKCkge1xuICAgIHRoaXMuYnV5ZXIgPSB7IG5hbWU6ICdGcmFua2xpbicsIGNyZWRpdHM6IDI1MCB9O1xuICAgIHRoaXMuc2VsbGVyID0geyBuYW1lOiAnTWFyaW8nLCBjcmVkaXRzOiA1ODAwIH07XG59XG5rby5hcHBseUJpbmRpbmdzKG5ldyBNeVZpZXdNb2RlbCgpKTsifQ=="'></live-example>
+</code></pre>
+<p>In this example, the <code>person-template</code> markup is used twice: once for <code>buyer</code>, and once for <code>seller</code>. Notice that the template markup is wrapped in a <code>script type=&quot;text/html&quot;</code> ---
+the dummy <code>type</code> attribute is necessary to ensure that the markup is not executed as JavaScript, and Knockout does not attempt to apply
+bindings to that markup except when it is being used as a template.</p>
+<p>It&#39;s not very often that you&#39;ll need to use named templates, but on occasion it can help to minimise duplication of markup.</p>
+<h3 id="note-2-using-the-foreach-option-with-a-named-template">Note 2: Using the &quot;foreach&quot; option with a named template</h3>
+<p>If you want the equivalent of a <code>foreach</code> binding, but using a named template, you can do so in the natural way:</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGgyPlBhcnRpY2lwYW50czwvaDI+XG5IZXJlIGFyZSB0aGUgcGFydGljaXBhbnRzOlxuPGRpdiBkYXRhLWJpbmQ9XCJ0ZW1wbGF0ZTogeyBuYW1lOiAncGVyc29uLXRlbXBsYXRlJywgZm9yZWFjaDogcGVvcGxlIH1cIj48L2Rpdj5cbjxzY3JpcHQgaWQ9J3BlcnNvbi10ZW1wbGF0ZScgdHlwZT0ndGV4dC94LWtub2Nrb3V0Jz5cbiAgPGgzIGRhdGEtYmluZD1cInRleHQ6IG5hbWVcIj48L2gzPlxuICA8cD5DcmVkaXRzOiA8c3BhbiBkYXRhLWJpbmQ9XCJ0ZXh0OiBjcmVkaXRzXCI+PC9zcGFuPjwvcD5cbjwvc2NyaXB0PiIsImphdmFzY3JpcHQiOiJmdW5jdGlvbiBNeVZpZXdNb2RlbCgpIHtcbiAgdGhpcy5wZW9wbGUgPSBbXG4gICAgeyBuYW1lOiAnRnJhbmtsaW4nLCBjcmVkaXRzOiAyNTAgfSxcbiAgICB7IG5hbWU6ICdNYXJpbycsIGNyZWRpdHM6IDU4MDAgfVxuICBdXG59XG5rby5hcHBseUJpbmRpbmdzKG5ldyBNeVZpZXdNb2RlbCgpKTsifQ=="'></live-example>
+</code></pre>
+<p>This gives the same result as embedding an anonymous template directly inside the element to which you use <code>foreach</code>, i.e.:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="foreach: people">
+    &lt;h3 data-bind="text: name">&lt;/h3>
+    &lt;p>Credits: &lt;span data-bind="text: credits">&lt;/span>&lt;/p>
+&lt;/div></div>
+</code></pre>
+<h3 id="note-3-using-as-to-give-an-alias-to-foreach-items">Note 3: Using &quot;as&quot; to give an alias to &quot;foreach&quot; items</h3>
+<p>When nesting <code>foreach</code> templates, it&#39;s often useful to refer to items at higher levels in the hierarchy. One way to do this is to refer to <code>$parent</code> or other <a href="binding-context.html">binding context</a> variables in your bindings.</p>
+<p>A simpler and more elegant option, however, is to use <code>as</code> to declare a name for your iteration variables. For example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind="template: { name: 'employeeTemplate',
+                                  foreach: employees,
+                                  as: 'employee' }">&lt;/ul></div>
+</code></pre>
+<p>Notice the string value <code>&#39;employee&#39;</code> associated with <code>as</code>. Now anywhere inside this <code>foreach</code> loop, bindings in your child templates will be able to refer to <code>employee</code> to access the employee object being rendered.</p>
+<p>This is mainly useful if you have multiple levels of nested <code>foreach</code> blocks, because it gives you an unambiguous way to refer to any named item declared at a higher level in the hierarchy. Here&#39;s a complete example, showing how <code>season</code> can be referenced while rendering a <code>month</code>:</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPHVsIGRhdGEtYmluZD1cInRlbXBsYXRlOiB7IG5hbWU6ICdzZWFzb25UZW1wbGF0ZScsIGZvcmVhY2g6IHNlYXNvbnMsIGFzOiAnc2Vhc29uJyB9XCI+PC91bD5cbjwhLS0gIChOb3RlIHRoYXQgeW91IGNhbiwgYW5kIHByb2JhYmx5IHNob3VsZCwgdXNlIHRoZSBgdGVtcGxhdGVgIGJpbmRpbmcgZm9yIG5ld2VyIGJyb3dzZXJzKSAtLT5cbjx0ZW1wbGF0ZT5cbiAgPGxpPlxuICAgICAgPHN0cm9uZyBkYXRhLWJpbmQ9XCJ0ZXh0OiBuYW1lXCI+PC9zdHJvbmc+XG4gICAgICA8dWwgZGF0YS1iaW5kPVwidGVtcGxhdGU6IHsgbmFtZTogJ21vbnRoVGVtcGxhdGUnLCBmb3JlYWNoOiBtb250aHMsIGFzOiAnbW9udGgnIH1cIj48L3VsPlxuICA8L2xpPlxuPC90ZW1wbGF0ZT5cbjxzY3JpcHQgaWQ9J21vbnRoVGVtcGxhdGUnPlxuICA8bGk+XG4gICAgICA8c3BhbiBkYXRhLWJpbmQ9XCJ0ZXh0OiBtb250aFwiPjwvc3Bhbj5cbiAgICAgIGlzIGluXG4gICAgICA8c3BhbiBkYXRhLWJpbmQ9XCJ0ZXh0OiBzZWFzb24ubmFtZVwiPjwvc3Bhbj5cbiAgPC9saT5cbjwvc2NyaXB0PiIsImphdmFzY3JpcHQiOiJ2YXIgdmlld01vZGVsID0ge1xuICAgIHNlYXNvbnM6IGtvLm9ic2VydmFibGVBcnJheShbXG4gICAgICAgIHsgbmFtZTogJ1NwcmluZycsIG1vbnRoczogWyAnTWFyY2gnLCAnQXByaWwnLCAnTWF5JyBdIH0sXG4gICAgICAgIHsgbmFtZTogJ1N1bW1lcicsIG1vbnRoczogWyAnSnVuZScsICdKdWx5JywgJ0F1Z3VzdCcgXSB9LFxuICAgICAgICB7IG5hbWU6ICdBdXR1bW4nLCBtb250aHM6IFsgJ1NlcHRlbWJlcicsICdPY3RvYmVyJywgJ05vdmVtYmVyJyBdIH0sXG4gICAgICAgIHsgbmFtZTogJ1dpbnRlcicsIG1vbnRoczogWyAnRGVjZW1iZXInLCAnSmFudWFyeScsICdGZWJydWFyeScgXSB9XG4gICAgXSlcbn07XG5rby5hcHBseUJpbmRpbmdzKHZpZXdNb2RlbCk7In0="'></live-example>
+</code></pre>
+<p>Tip: Remember to pass a <em>string literal value</em> to as (e.g., <code>as: &#39;season&#39;</code>, <em>not</em> <code>as: season</code>), because you are giving a name for a new variable, not reading the value of a variable that already exists.</p>
+<h3 id="note-4-using-afterrender-afteradd-and-beforeremove-">Note 4: Using &quot;afterRender&quot;, &quot;afterAdd&quot;, and &quot;beforeRemove&quot;</h3>
+<p>Sometimes you might want to run custom post-processing logic on the DOM elements generated by your templates. For example, if you&#39;re using a JavaScript widgets library such as jQuery UI, you might want to intercept your templates&#39; output so that you can run jQuery UI commands on it to transform some of the rendered elements into date pickers, sliders, or anything else.</p>
+<p>Generally, the best way to perform such post-processing on DOM elements is to write a <a href="custom-bindings.html">custom binding</a>, but if you really just want to access the raw DOM elements emitted by a template, you can use <code>afterRender</code>.</p>
+<p>Pass a function reference (either a function literal, or give the name of a function on your view model), and Knockout will invoke it immediately after rendering or re-rendering your template. If you&#39;re using <code>foreach</code>, Knockout will invoke your <code>afterRender</code> callback for each item added to your observable array. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>  &lt;div data-bind='template: { name: "personTemplate",
+                              data: myData,
+                              afterRender: myPostProcessingLogic }'> &lt;/div></div>
+</code></pre>
+<p>... and define a corresponding function on your view model (i.e., the object that contains <code>myData</code>):</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>viewModel.myPostProcessingLogic = function(elements) {
+    // "elements" is an array of DOM nodes just rendered by the template
+    // You can add custom post-processing logic here
+}</div>
+</code></pre>
+<p>If you are using <code>foreach</code> and only want to be notified about elements that are specifically being added or are being removed, you can use <code>afterAdd</code> and <code>beforeRemove</code> instead. For details, see documentation for the <a href="foreach-binding.html"><code>foreach</code> binding</a>.</p>
+<h3 id="note-5-dynamically-choosing-which-template-is-used">Note 5: Dynamically choosing which template is used</h3>
+<p>If you have multiple named templates, you can pass an observable for the <code>name</code> option. As the observable&#39;s value is updated, the element&#39;s contents will be re-rendered using the appropriate template. Alternatively, you can pass a callback function to determine which template to use. If you are using the <code>foreach</code> template mode, Knockout will evaluate the function for each item in your array, passing that item&#39;s value as the only argument. Otherwise, the function will be given the <code>data</code> option&#39;s value or fall back to providing your whole current model object.</p>
+<p>For example,</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPHVsIGRhdGEtYmluZD0ndGVtcGxhdGU6IHsgbmFtZTogZGlzcGxheU1vZGUsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICBmb3JlYWNoOiBlbXBsb3llZXMgfSc+IDwvdWw+IiwiamF2YXNjcmlwdCI6InZhciB2aWV3TW9kZWwgPSB7XG4gICAgZW1wbG95ZWVzOiBrby5vYnNlcnZhYmxlQXJyYXkoW1xuICAgICAgICB7IG5hbWU6IFwiS2FyaVwiLCBhY3RpdmU6IGtvLm9ic2VydmFibGUodHJ1ZSkgfSxcbiAgICAgICAgeyBuYW1lOiBcIkJyeW5uXCIsIGFjdGl2ZToga28ub2JzZXJ2YWJsZShmYWxzZSkgfSxcbiAgICAgICAgeyBuYW1lOiBcIk5vcmFcIiwgYWN0aXZlOiBrby5vYnNlcnZhYmxlKGZhbHNlKSB9XG4gICAgXSksXG4gICAgZGlzcGxheU1vZGU6IGZ1bmN0aW9uKGVtcGxveWVlKSB7XG4gICAgICAgIC8vIEluaXRpYWxseSBcIkthcmlcIiB1c2VzIHRoZSBcImFjdGl2ZVwiIHRlbXBsYXRlLCB3aGlsZSB0aGUgb3RoZXJzIHVzZSBcImluYWN0aXZlXCJcbiAgICAgICAgcmV0dXJuIGVtcGxveWVlLmFjdGl2ZSgpID8gXCJhY3RpdmVcIiA6IFwiaW5hY3RpdmVcIjtcbiAgICB9XG59O1xuXG4vLyAuLi4gdGhlbiBsYXRlciAuLi5cbnZpZXdNb2RlbC5lbXBsb3llZXMoKVsxXS5hY3RpdmUodHJ1ZSk7IC8vIE5vdyBcIkJyeW5uXCIgaXMgYWxzbyByZW5kZXJlZCB1c2luZyB0aGUgXCJhY3RpdmVcIiB0ZW1wbGF0ZS4ifQ=="'></live-example>
+</code></pre>
+<p>If your function references observable values, then the binding will update whenever any of those values change.  This will cause the data to be re-rendered using the appropriate template.</p>
+<p>If your function accepts a second parameter, then it will receive the entire <a href="binding-context.html">binding context</a>. You can then access <code>$parent</code> or any other <a href="binding-context.html">binding context</a> variable when dynamically choosing a template. For example, you could amend the preceding code snippet as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>displayMode: function(employee, bindingContext) {
+    // Now return a template name string based on properties of employee or bindingContext
+}</div>
+</code></pre>
+<h3 id="note-6-using-jquery-tmpl-an-external-string-based-template-engine">Note 6: Using jQuery.tmpl, an external string-based template engine</h3>
+<p>In the vast majority of cases, Knockout&#39;s native templating and the <code>foreach</code>, <code>if</code>, <code>with</code> and other control flow bindings will be all you need to construct an arbitrarily sophisticated UI. But in case you wish to integrate with an external templating library, such as the <a href="http://documentcloud.github.com/underscore/#template">Underscore template engine</a> or <a href="http://api.jquery.com/jquery.tmpl/">jquery.tmpl</a>, Knockout offers a way to do it.</p>
+<p>By default, Knockout comes with support for <a href="http://api.jquery.com/jquery.tmpl/">jquery.tmpl</a>. To use it, you need to reference the following libraries, in this order:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- First jQuery -->     script src="http://code.jquery.com/jquery-1.7.1.min.js"
+&lt;!-- Then jQuery.tmpl --> script src="jquery.tmpl.js"
+&lt;!-- Then Knockout -->    script src="knockout-x.y.z.js"</div>
+</code></pre>
+<p>Then, you can use jQuery.tmpl syntax in your templates. For example,</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGgxPlBlb3BsZTwvaDE+XG48ZGl2IGRhdGEtYmluZD1cInRlbXBsYXRlOiAncGVvcGxlTGlzdCdcIj48L2Rpdj5cbjx0ZW1wbGF0ZSBpZD0ncGVvcGxlTGlzdCc+XG4gIDwhLS0gRklYTUUgLS0+XG4gICAgPHAgZGF0YS1iaW5kPSdmb3JlYWNoOiAkZGF0YSc+XG4gICAgICAgIDxiPiR7bmFtZX08L2I+IGlzICR7YWdlfSB5ZWFycyBvbGRcbiAgICA8L3A+XG48L3RlbXBsYXRlPiIsImphdmFzY3JpcHQiOiJ2YXIgdmlld01vZGVsID0ge1xuICAgIHBlb3BsZToga28ub2JzZXJ2YWJsZUFycmF5KFtcbiAgICAgICAgeyBuYW1lOiAnUm9kJywgYWdlOiAxMjMgfSxcbiAgICAgICAgeyBuYW1lOiAnSmFuZScsIGFnZTogMTI1IH0sXG4gICAgXSlcbn1cbmtvLmFwcGx5QmluZGluZ3Modmlld01vZGVsKTsifQ=="'></live-example>
+</code></pre>
+<p>This works because <code>{{&#39;{{&#39;}}each ...}}</code> and <code>${ ... }</code> are jQuery.tmpl syntaxes. What&#39;s more, it&#39;s trivial to nest templates: because you can use data-bind attributes from inside a template, you can simply put a <code>data-bind=&quot;template: ...&quot;</code> inside a template to render a nested one.</p>
+<p>Please note that, as of December 2011, jQuery.tmpl is no longer under active development. We recommend the use of Knockout&#39;s native DOM-based templating (i.e., the <code>foreach</code>, <code>if</code>, <code>with</code>, etc. bindings) instead of jQuery.tmpl or any other string-based template engine.</p>
+<h3 id="note-7-using-the-underscore-js-template-engine">Note 7: Using the Underscore.js template engine</h3>
+<p>The <a href="http://documentcloud.github.com/underscore/#template">Underscore.js template engine</a> by default uses ERB-style delimiters (<code>&lt;%= ... %&gt;</code>). Here&#39;s how the preceding example&#39;s template might look with Underscore:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;script id='peopleList'>
+    &lt;% _.each(people(), function(person) { %>
+        &lt;li>
+            &lt;b>&lt;%= person.name %>&lt;/b> is &lt;%= person.age %> years old
+        &lt;/li>
+    &lt;% }) %>
+&lt;/script></div>
+</code></pre>
+<p>Here&#39;s <a href="http://jsfiddle.net/rniemeyer/NW5Vn/">a simple implementation of integrating Underscore templates with Knockout</a>. The integration code is just 16 lines long, but it&#39;s enough to support Knockout <code>data-bind</code> attributes (and hence nested templates) and Knockout <a href="binding-context.html">binding context</a> variables (<code>$parent</code>, <code>$root</code>, etc.).</p>
+<p>If you&#39;re not a fan of the <code>&lt;%= ... %&gt;</code> delimiters, you can configure the Underscore template engine to use any other delimiter characters of your choice.</p>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li><strong>Native templating</strong> does not require any library other than Knockout itself</li>
+<li><strong>String-based templating</strong> works only once you&#39;ve referenced a suitable template engine, such as jQuery.tmpl or the Underscore template engine.</li>
+</ul>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/with-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>with</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>with</code> binding creates a new <a href="binding-context.html">binding context</a>, so that descendant elements are bound in the context of a specified object.</p>
+<p>Of course, you can arbitrarily nest <code>with</code> bindings along with the other control-flow bindings such as <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>.</p>
+<h3 id="example-1">Example 1</h3>
+<p>Here is a very basic example of switching the binding context to a child object. Notice that in the <code>data-bind</code> attributes, it is <em>not</em> necessary to prefix <code>latitude</code> or <code>longitude</code> with <code>coords.</code>, because the binding context is switched to <code>coords</code>.</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGgxIGRhdGEtYmluZD1cInRleHQ6IGNpdHlcIj4gPC9oMT5cbjxwIGRhdGEtYmluZD1cIndpdGg6IGNvb3Jkc1wiPlxuICAgIExhdGl0dWRlOiA8c3BhbiBkYXRhLWJpbmQ9XCJ0ZXh0OiBsYXRpdHVkZVwiPiA8L3NwYW4+LFxuICAgIExvbmdpdHVkZTogPHNwYW4gZGF0YS1iaW5kPVwidGV4dDogbG9uZ2l0dWRlXCI+IDwvc3Bhbj5cbjwvcD4iLCJqYXZhc2NyaXB0Ijoia28uYXBwbHlCaW5kaW5ncyh7XG4gICAgY2l0eTogXCJMb25kb25cIixcbiAgICBjb29yZHM6IHtcbiAgICAgICAgbGF0aXR1ZGU6ICA1MS41MDAxNTI0LFxuICAgICAgICBsb25naXR1ZGU6IC0wLjEyNjIzNjJcbiAgICB9XG59KTsifQ=="'></live-example>
+</code></pre>
+<h3 id="example-2">Example 2</h3>
+<p>This interactive example demonstrates that:</p>
+<ul>
+<li>The <code>with</code> binding will dynamically add or remove descendant elements depending on whether the associated value is <code>null</code>/<code>undefined</code> or not</li>
+<li>If you want to access data/functions from parent binding contexts, you can use <a href="binding-context.html">special context properties such as <code>$parent</code> and <code>root</code></a>.</li>
+</ul>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGZvcm0gZGF0YS1iaW5kPVwic3VibWl0OiBnZXRUd2VldHNcIj5cbiAgICBUd2l0dGVyIGFjY291bnQ6XG4gICAgPGlucHV0IGRhdGEtYmluZD1cInZhbHVlOiB0d2l0dGVyTmFtZVwiIC8+XG4gICAgPGJ1dHRvbiB0eXBlPVwic3VibWl0XCI+R2V0IHR3ZWV0czwvYnV0dG9uPlxuPC9mb3JtPlxuXG48ZGl2IGRhdGEtYmluZD1cIndpdGg6IHJlc3VsdERhdGFcIj5cbiAgICA8aDM+UmVjZW50IHR3ZWV0cyBmZXRjaGVkIGF0IDxzcGFuIGRhdGEtYmluZD1cInRleHQ6IHJldHJpZXZhbERhdGVcIj4gPC9zcGFuPjwvaDM+XG4gICAgPG9sIGRhdGEtYmluZD1cImZvcmVhY2g6IHRvcFR3ZWV0c1wiPlxuICAgICAgICA8bGkgZGF0YS1iaW5kPVwidGV4dDogdGV4dFwiPjwvbGk+XG4gICAgPC9vbD5cblxuICAgIDxidXR0b24gZGF0YS1iaW5kPVwiY2xpY2s6ICRwYXJlbnQuY2xlYXJSZXN1bHRzXCI+Q2xlYXIgdHdlZXRzPC9idXR0b24+XG48L2Rpdj4iLCJqYXZhc2NyaXB0IjoiZnVuY3Rpb24gQXBwVmlld01vZGVsKCkge1xuICAgIHZhciBzZWxmID0gdGhpcztcbiAgICBzZWxmLnR3aXR0ZXJOYW1lID0ga28ub2JzZXJ2YWJsZSgnQGV4YW1wbGUnKTtcbiAgICBzZWxmLnJlc3VsdERhdGEgPSBrby5vYnNlcnZhYmxlKCk7IC8vIE5vIGluaXRpYWwgdmFsdWVcblxuICAgIHNlbGYuZ2V0VHdlZXRzID0gZnVuY3Rpb24oKSB7XG4gICAgICAgIHZhciBuYW1lID0gc2VsZi50d2l0dGVyTmFtZSgpLFxuICAgICAgICAgICAgc2ltdWxhdGVkUmVzdWx0cyA9IFtcbiAgICAgICAgICAgICAgICB7IHRleHQ6IG5hbWUgKyAnIFdoYXQgYSBuaWNlIGRheS4nIH0sXG4gICAgICAgICAgICAgICAgeyB0ZXh0OiBuYW1lICsgJyBCdWlsZGluZyBzb21lIGNvb2wgYXBwcy4nIH0sXG4gICAgICAgICAgICAgICAgeyB0ZXh0OiBuYW1lICsgJyBKdXN0IHNhdyBhIGZhbW91cyBjZWxlYnJpdHkgZWF0aW5nIGxhcmQuIFl1bS4nIH1cbiAgICAgICAgICAgIF07XG5cbiAgICAgICAgc2VsZi5yZXN1bHREYXRhKHsgcmV0cmlldmFsRGF0ZTogbmV3IERhdGUoKSwgdG9wVHdlZXRzOiBzaW11bGF0ZWRSZXN1bHRzIH0pO1xuICAgIH1cblxuICAgIHNlbGYuY2xlYXJSZXN1bHRzID0gZnVuY3Rpb24oKSB7XG4gICAgICAgIHNlbGYucmVzdWx0RGF0YSh1bmRlZmluZWQpO1xuICAgIH1cbn1cblxua28uYXBwbHlCaW5kaW5ncyhuZXcgQXBwVmlld01vZGVsKCkpOyJ9"'></live-example>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>The object that you want to use as the context for binding descendant elements.</p>
+<p>If the expression you supply evaluates to <code>null</code> or <code>undefined</code>, descendant elements will <em>not</em> be bound at all, but will instead be removed from the document.</p>
+<p>If the expression you supply involves any observable values, the expression will be re-evaluated whenever any of those observables change. Then, descendant elements will be cleared out, and <strong>a new copy of the markup</strong> will be added to your document and bound in the context of the new evaluation result.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-using-with-without-a-container-element">Note 1: Using &quot;with&quot; without a container element</h3>
+<p>Just like other control flow elements such as <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>, you can use <code>with</code> without any container element to host it. This is useful if you need to use <code>with</code> in a place where it would not be legal to introduce a new container element just to hold the <code>with</code> binding. See the documentation for <a href="if-binding.html"><code>if</code></a> or <a href="foreach-binding.html"><code>foreach</code></a> for more details.</p>
+<p>Example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
+    &lt;li>Header element&lt;/li>
+    &lt;!-- ko with: outboundFlight -->
+        ...
+    &lt;!-- /ko -->
+    &lt;!-- ko with: inboundFlight -->
+        ...
+    &lt;!-- /ko -->
+&lt;/ul></div>
+</code></pre>
+<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

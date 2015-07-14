@@ -1,0 +1,132 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/binding-preprocessing.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Binding preprocessing</h1>
+<!-- /header -->
+<p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
+<p>Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.</p>
+<h2 id="preprocessing-binding-strings">Preprocessing binding strings</h2>
+<p>You can hook into Knockout&#39;s logic for interpreting <code>data-bind</code> attributes by providing a <em>binding preprocessor</em> for a specific binding handler (such as <code>click</code>, <code>visible</code>, or any <a href="custom-bindings.html">custom binding handler</a>).</p>
+<p>To do this, attach a <code>preprocess</code> function to the binding handler:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.yourBindingHandler.preprocess = function(stringFromMarkup) {
+    // Return stringFromMarkup if you don't want to change anything, or return
+    // some other string if you want Knockout to behave as if that was the
+    // syntax provided in the original HTML
+}</div>
+</code></pre>
+<p>See later on this page for an API reference.</p>
+<h3 id="example-1-setting-a-default-value-for-a-binding">Example 1: Setting a default value for a binding</h3>
+<p>If you leave off the value of a binding, it&#39;s bound to <code>undefined</code> by default. If you want to have a different default value for a binding, you can do so with a preprocessor. For example, you can allow <code>uniqueName</code> to be bound without a value by making its default value <code>true</code>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.uniqueName.preprocess = function(val) {
+    return val || 'true';
+}</div>
+</code></pre>
+<p>Now you can bind it like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;input data-bind="value: someModelProperty, uniqueName" /></div>
+</code></pre>
+<h3 id="example-2-binding-expressions-to-events">Example 2: Binding expressions to events</h3>
+<p>If you&#39;d like to be able to bind expressions to <code>click</code> events (rather than a function reference as Knockout expects), you can set up a preprocessor for the <code>click</code> handler to support this syntax:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingHandlers.click.preprocess = function(val) {
+  return 'function($data,$event){ ' + val + ' }';
+}</div>
+</code></pre>
+<p>Now you can bind <code>click</code> like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;button type="button" data-bind="click: myCount(myCount()+1)">Increment&lt;/button></div>
+</code></pre>
+<h3 id="binding-preprocessor-reference">Binding preprocessor reference</h3>
+<ul>
+<li><p><code>ko.bindingHandlers.&lt;name&gt;.preprocess(value, name, addBindingCallback)</code></p>
+<p>If defined, this function will be called for each <code>&lt;name&gt;</code> binding before the binding is evaluated.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><p><code>value</code>: the syntax associated with the binding value before Knockout attempts to parse it (e.g., for <code>yourBinding: 1 + 1</code>, the associated value is <code>&quot;1 + 1&quot;</code> as a string).</p>
+</li>
+<li><p><code>name</code>: the name of the binding (e.g., for <code>yourBinding: 1 + 1</code>, the name is <code>&quot;yourBinding&quot;</code> as a string).</p>
+</li>
+<li><p><code>addBinding</code>: a callback function you can optionally use to insert another binding on the current element. This requires two parameters, <code>name</code> and <code>value</code>. For example, inside your <code>preprocess</code> function, call <code>addBinding(&#39;visible&#39;, &#39;acceptsTerms()&#39;);</code> to make Knockout behave as if the element had a <code>visible: acceptsTerms()</code> binding on it.</p>
+</li>
+</ul>
+<p><strong>Return value</strong>:</p>
+<p>Your <code>preprocess</code> function must return the new string value to be parsed and passed to the binding, or return <code>undefined</code> to remove the binding.</p>
+<p>For example, if you return <code>&#39;value + &quot;.toUpperCase()&quot;&#39;</code> as a string, then <code>yourBinding: &quot;Bert&quot;</code> would be interpreted as if the markup contained <code>yourBinding: &quot;Bert&quot;.toUpperCase()</code>. Knockout will parse the returned value in the normal way, so it has to be a legal JavaScript expression.</p>
+<p>Don&#39;t return non-string values. That wouldn&#39;t make sense, because markup is always a string.</p>
+</li>
+</ul>
+<h2 id="preprocessing-dom-nodes">Preprocessing DOM nodes</h2>
+<p>You can hook into Knockout&#39;s logic for traversing the DOM by providing a <em>node preprocessor</em>. This is a function that Knockout will call once for each DOM node that it walks over, both when the UI is first bound, and later when any new DOM subtrees are injected (e.g., via a <a href="foreach-binding.html"><code>foreach</code> binding</a>).</p>
+<p>To do this, define a <code>preprocessNode</code> function on your binding provider:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  ko.bindingProvider.instance.preprocessNode = function(node) {
+  // Use DOM APIs such as setAttribute to modify 'node' if you wish.
+  // If you want to leave 'node' in the DOM, return null or have no 'return' statement.
+  // If you want to replace 'node' with some other set of nodes,
+  //    - Use DOM APIs such as insertChild to inject the new nodes
+  //      immediately before 'node'
+  //    - Use DOM APIs such as removeChild to remove 'node' if required
+  //    - Return an array of any new nodes that you've just inserted
+  //      so that Knockout can apply any bindings to them
+}</div>
+</code></pre>
+<p>See later on this page for an API reference.</p>
+<h3 id="example-3-virtual-template-elements">Example 3: Virtual template elements</h3>
+<p>If you commonly include template content using virtual elements, the normal syntax can feel a bit verbose. Using preprocessing, you can add a new template format that uses a single comment:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.bindingProvider.instance.preprocessNode = function(node) {
+    // Only react if this is a comment node of the form &lt;!-- template: ... -->
+    if (node.nodeType == 8) {
+        var match = node.nodeValue.match(/^\s*(template\s*:[\s\S]+)/);
+        if (match) {
+            // Create a pair of comments to replace the single comment
+            var c1 = document.createComment("ko " + match[1]),
+                c2 = document.createComment("/ko");
+            node.parentNode.insertBefore(c1, node);
+            node.parentNode.replaceChild(c2, node);
+
+            // Tell Knockout about the new nodes so that it can apply bindings to them
+            return [c1, c2];
+        }
+    }
+}</div>
+</code></pre>
+<p>Now you can include a template in your view like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- template: 'some-template' --></div>
+</code></pre>
+<h3 id="preprocessing-reference">Preprocessing Reference</h3>
+<ul>
+<li><p><code>ko.bindingProvider.instance.preprocessNode(node)</code></p>
+<p>  If defined, this function will be called for each DOM node before bindings are processed. The function can modify, remove, or replace <code>node</code>. Any new nodes must be inserted immediately before <code>node</code>, and if any nodes were added or <code>node</code> was removed, the function must return an array of the new nodes that are now in the document in place of <code>node</code>.</p>
+</li>
+</ul>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

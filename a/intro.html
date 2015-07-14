@@ -1,0 +1,77 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/intro.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>submit</h1>
+<!-- /header -->
+<h2>Key Concepts</h2>
+<div class='pure-g'>
+  <div class='pure-u-1 pure-u-sm-5-24 pad'>
+    <i class='fa fa-link fa-4x'></i>
+    <h4>Declarative bindings</h4>
+    Easily associate DOM elements with model data using a
+    concise, readable syntax
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-4 pad'>
+    <i class='fa fa-refresh fa-4x'></i>
+    <h4>Automatic UI refresh</h4>
+    When your data model&#39;s state changes, your UI updates automatically
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-4 pad'>
+    <i class='fa fa-code-fork fa-4x'></i>
+    <h4>Dependency Tracking</h4>
+    Implicitly set up chains of relationships between model data, to
+    transform and combine it
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-4 pad'>
+    <i class='fa fa-newspaper-o fa-4x'></i>
+    <h4>Templating</h4>
+    Quickly generate sophisticated, nested UIs as a function of your
+    model data
+  </div>
+</div>
+
+<p class='text-center'>
+  <i class='fa fa-university fa-2x'></i>
+  Check out the
+  <a href='http://learn.knockoutjs.com'>interactive tutorial</a>.
+</p>
+
+<h2>Live example</h2>
+
+<pre><code class="lang-example"><live-example params='base64: "eyJuYW1lIjoiSW50cm9kdWN0aW9uIiwiaHRtbCI6IkNob29zZSBhIHRpY2tldCBjbGFzc1xuPHNlbGVjdCBkYXRhLWJpbmQ9J29wdGlvbnM6IHRpY2tldHMsXG4gICAgICAgICAgICAgICAgICAgb3B0aW9uc0NhcHRpb246IFwiQ2hvb3NlIC4uLlwiLFxuICAgICAgICAgICAgICAgICAgIG9wdGlvbnNUZXh0OiBcIm5hbWVcIixcbiAgICAgICAgICAgICAgICAgICB2YWx1ZTogY2hvc2VuVGlja2V0Jz48L3NlbGVjdD5cblxuPGJ1dHRvbiBkYXRhLWJpbmQ9J2VuYWJsZTogY2hvc2VuVGlja2V0LFxuICAgICAgICAgICAgICAgICAgIGNsaWNrOiByZXNldFRpY2tldCc+Q2xlYXI8L2J1dHRvbj5cblxuPHAgZGF0YS1iaW5kPSd3aXRoOiBjaG9zZW5UaWNrZXQnPlxuICBZb3UgaGF2ZSBjaG9zZW4gPGIgZGF0YS1iaW5kPSd0ZXh0OiBuYW1lJz48L2I+XG4gICgkPHNwYW4gZGF0YS1iaW5kPSd0ZXh0OiBwcmljZSc+PC9zcGFuPilcbjwvcD4iLCJqYXZhc2NyaXB0IjoiZnVuY3Rpb24gVGlja2V0c1ZpZXdNb2RlbCgpIHtcbiAgdGhpcy50aWNrZXRzID0gW1xuICAgIHsgbmFtZTogXCJFY29ub215XCIsIHByaWNlOiAxOTkuOTUgfSxcbiAgICB7IG5hbWU6IFwiQnVzaW5lc3NcIiwgcHJpY2U6IDQ0OS4yMiB9LFxuICAgIHsgbmFtZTogXCJGaXJzdCBDbGFzc1wiLCBwcmljZTogMTE5OS45OSB9XG4gIF07XG4gIHRoaXMuY2hvc2VuVGlja2V0ID0ga28ub2JzZXJ2YWJsZSgpO1xuICB0aGlzLnJlc2V0VGlja2V0ID0gZnVuY3Rpb24gKCkge1xuICAgIHRoaXMuY2hvc2VuVGlja2V0KG51bGwpO1xuICB9O1xufVxuXG5rby5hcHBseUJpbmRpbmdzKG5ldyBUaWNrZXRzVmlld01vZGVsKCkpOyJ9"'></live-example>
+</code></pre>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

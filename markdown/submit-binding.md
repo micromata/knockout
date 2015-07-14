@@ -52,4 +52,4 @@ Instead of using `submit` on the form, you *could* use `click` on the submit but
 
 ### Notes
 
-For information about how to pass additional parameters to your submit handler function, or how to control the `this` handle when invoking functions that aren't on your view model, see the notes relating to the [click binding](#click-binding). All the notes on that page apply to `submit` handlers too.
+For information about how to pass additional parameters to your submit handler function, or how to control the `this` handle when invoking functions that aren't on your view model, see the notes relating to the [click binding](/a/click-binding.html). All the notes on that page apply to `submit` handlers too.

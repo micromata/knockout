@@ -1,0 +1,63 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/plugins.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Plugins</h1>
+<!-- /header -->
+<h1>
+  Plugins
+  <input type='search' placeholder='Search' data-bind='textInput: plugins.needle' />
+</h1>
+
+<table class='pure-table pure-table-horizontal pure-table-striped'>
+  <thead>
+    <tr>
+      <th>Repository</th>
+      <th>About</th>
+    </tr>
+  </thead>
+  <tbody data-bind='foreach: plugins.sortedPluginRepos'>
+    <tr>
+      <td class='plugin-repo'>
+        <a href='{{ html_url }}'>{{ name }}</a>
+      </td>
+      <td>
+        {{# template: &quot;plugins-td&quot; /}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

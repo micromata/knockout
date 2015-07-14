@@ -1,0 +1,68 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/visible-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>visible</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>visible</code> binding causes the associated DOM element to become hidden or visible according to the value you pass to the binding.</p>
+<h3 id="example">Example</h3>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGRpdiBkYXRhLWJpbmQ9XCJ2aXNpYmxlOiBzaG91bGRTaG93TWVzc2FnZVwiPlxuICBZb3Ugd2lsbCBzZWUgdGhpcyBtZXNzYWdlIG9ubHkgd2hlbiBcInNob3VsZFNob3dNZXNzYWdlXCIgaG9sZHMgYSB0cnVlIHZhbHVlLlxuPC9kaXY+IiwiamF2YXNjcmlwdCI6InZhciB2aWV3TW9kZWwgPSB7XG4gIHNob3VsZFNob3dNZXNzYWdlOiBrby5vYnNlcnZhYmxlKHRydWUpIC8vIE1lc3NhZ2UgaW5pdGlhbGx5IHZpc2libGVcbn07XG52aWV3TW9kZWwuc2hvdWxkU2hvd01lc3NhZ2UoZmFsc2UpOyAvLyAuLi4gbm93IGl0J3MgaGlkZGVuXG52aWV3TW9kZWwuc2hvdWxkU2hvd01lc3NhZ2UodHJ1ZSk7IC8vIC4uLiBub3cgaXQncyB2aXNpYmxlIGFnYWluIn0="'></live-example>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<ul>
+<li><p>When the parameter resolves to a <strong>false-like value</strong> (e.g., the boolean value <code>false</code>, or the numeric value <code>0</code>, or <code>null</code>, or <code>undefined</code>), the binding sets <code>yourElement.style.display</code> to <code>none</code>, causing it to be hidden. This takes priority over any display style you&#39;ve defined using CSS.</p>
+</li>
+<li><p>When the parameter resolves to a <strong>true-like value</strong> (e.g., the boolean value <code>true</code>, or a non-<code>null</code> object or array), the binding removes the <code>yourElement.style.display</code> value, causing it to become visible.</p>
+<p>Note that any display style you&#39;ve configured using CSS will then apply (so CSS rules like <code>display:table-row</code> work fine in conjunction with this binding).</p>
+</li>
+</ul>
+<p>If this parameter is an observable value, the binding will update the element&#39;s visibility whenever the value changes. If the parameter isn&#39;t observable, it will only set the element&#39;s visibility once and will not update it again later.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-using-functions-and-expressions-to-control-element-visibility">Note: Using functions and expressions to control element visibility</h3>
+<p>You can also use a JavaScript function or arbitrary JavaScript expression as the parameter value. If you do, KO will run your function/evaluate your expression, and use the result to determine whether to hide the element.</p>
+<p>For example,</p>
+<pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGRpdiBkYXRhLWJpbmQ9XCJ2aXNpYmxlOiBteVZhbHVlcygpLmxlbmd0aCA+IDBcIj5cbiAgWW91IHdpbGwgc2VlIHRoaXMgbWVzc2FnZSBvbmx5IHdoZW4gJ215VmFsdWVzJyBoYXMgYXQgbGVhc3Qgb25lIG1lbWJlci5cbjwvZGl2PiIsImphdmFzY3JpcHQiOiJ2YXIgdmlld01vZGVsID0ge1xuICBteVZhbHVlczoga28ub2JzZXJ2YWJsZUFycmF5KFtdKSAvLyBJbml0aWFsbHkgZW1wdHksIHNvIG1lc3NhZ2UgaGlkZGVuXG59O1xudmlld01vZGVsLm15VmFsdWVzLnB1c2goXCJzb21lIHZhbHVlXCIpOyAvLyBOb3cgdmlzaWJsZSJ9"'></live-example>
+</code></pre>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

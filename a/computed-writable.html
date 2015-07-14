@@ -1,0 +1,62 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/computed-writable.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Writable computed observables</h1>
+<!-- /header -->
+<p><em>Beginners may wish to skip this section - writable computed observables are fairly advanced and are not necessary in most situations</em></p>
+<p>Normally, computed observables have a value that is computed from other observables and are therefore <em>read-only</em>. What may seem surprising, then, is that it is possible to make computed observables <em>writable</em>. You just need to supply your own callback function that does something sensible with written values.</p>
+<p>You can use a writable computed observable exactly like a regular observable, with your own custom logic intercepting all reads and writes. Just like observables, you can write values to multiple observable or computed observable properties on a model object using <em>chaining syntax</em>. For example, <code>myViewModel.fullName(&#39;Joe Smith&#39;).age(50)</code>.</p>
+<p>Writable computed observables are a powerful feature with a wide range of possible uses.</p>
+<h3 id="example-1-decomposing-user-input">Example 1: Decomposing user input</h3>
+<p>Going back to the classic &quot;first name + last name = full name&quot; example, you can turn things back-to-front: make the <code>fullName</code> computed observable writable, so that the user can directly edit the full name, and their supplied value will be parsed and mapped back to the underlying <code>firstName</code> and <code>lastName</code> observables. In this example, the <code>write</code> callback handles incoming values by splitting the incoming text into &quot;firstName&quot; and &quot;lastName&quot; components, and writing those values back to the underlying observables.</p>
+<p><live-example params='id: "computed-writable"'></live-example></p>
+<p>This is the exact opposite of the <a href="../examples/helloWorld.html">Hello World</a> example, in that here the first and last names are not editable, but the combined full name is editable.</p>
+<p>The preceding view model code demonstrates the <em>single parameter syntax</em> for initializing computed observables. See the <a href="computed-reference.html">computed observable reference</a> for the full list of available options.</p>
+<h3 id="example-2-selecting-deselecting-all-items">Example 2: Selecting/deselecting all items</h3>
+<p>When presenting the user with a list of selectable items, it is often useful to include a method to select or deselect all of the items. This can be represented quite intuitively with a boolean value that represents whether all items are selected. When set to <code>true</code> it will select all items, and when set to <code>false</code> it will deselect them.</p>
+<p><live-example params='id: "computed-writable-deselect"'></live-example></p>
+<h3 id="example-3-a-value-converter">Example 3: A value converter</h3>
+<p>Sometimes you might want to represent a data point on the screen in a different format than its underlying storage. For example, you might want to store a price as a raw float value, but let the user edit it with a currency symbol and fixed number of decimal places. You can use a writable computed observable to represent the formatted price, mapping incoming values back to the underlying float value:</p>
+<p><live-example params='id: "computed-writable-converter"'></live-example></p>
+<p>Now, whenever the user enters a new price, the text box immediately updates to show it formatted with the currency symbol and two decimal places, no matter what format they entered the value in. This gives a great user experience, because the user sees how the software has understood their data entry as a price. They know they can&#39;t enter more than two decimal places, because if they try to, the additional decimal places are immediately removed. Similarly, they can&#39;t enter negative values, because the <code>write</code> callback strips off any minus sign.</p>
+<h3 id="example-4-filtering-and-validating-user-input">Example 4: Filtering and validating user input</h3>
+<p>Example 1 showed how a writable computed observable can effectively <em>filter</em> its incoming data by choosing not to write certain values back to the underlying observables if they don&#39;t meet some criteria. It ignored full name values that didn&#39;t include a space.</p>
+<p>Taking this a step further, you could also toggle an <code>isValid</code> flag depending on whether the latest input was satisfactory, and display a message in the UI accordingly. There&#39;s an easier way of doing validation (explained below), but first consider the following example, which demonstrates the mechanism:</p>
+<p><live-example params='id: "computed-writable-filter"'></live-example></p>
+<p>Now, <code>acceptedNumericValue</code> will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating <code>acceptedNumericValue</code>.</p>
+<p><strong>Note:</strong> For such trivial requirements as validating that an input is numeric, this technique is overkill. It would be far easier just to use jQuery Validation and its <code>number</code> class on the <code>&lt;input&gt;</code> element. Knockout and jQuery Validation work together nicely, as demonstrated on the <a href="../examples/gridEditor.html">grid editor</a> example. However, the preceding example demonstrates a more general mechanism for filtering and validating with custom logic to control what kind of user feedback appears, which may be of use if your scenario is more complex than jQuery Validation handles natively.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

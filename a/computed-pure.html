@@ -1,0 +1,111 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/computed-pure.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Pure computed observables</h1>
+<!-- /header -->
+<p><em>Pure</em> computed observables, introduced in Knockout 3.2.0, provide performance and memory benefits over regular computed observables for most applications. This is because a <em>pure</em> computed observable doesn&#39;t maintain subscriptions to its dependencies when it has no subscribers itself. This feature:</p>
+<ul>
+<li><strong>Prevents memory leaks</strong> from computed observables that are no longer referenced in an application but whose dependencies still exist.</li>
+<li><strong>Reduces computation overhead</strong> by not re-calculating computed observables whose value isn&#39;t being observed.</li>
+</ul>
+<p>A <em>pure</em> computed observable automatically switches between two states based on whether it has <code>change</code> subscribers.</p>
+<ol>
+<li><p>Whenever it has <em>no</em> <code>change</code> subscribers, it is <strong><em>sleeping</em></strong>. When entering the <em>sleeping</em> state, it disposes all subscriptions to its dependencies. During this state, it will not subscribe to any observables accessed in the evaluator function (although it does keep track of them). If the computed observable&#39;s value is read while it is <em>sleeping</em>, it is automatically re-evaluated if any of its dependencies have changed.</p>
+</li>
+<li><p>Whenever it has <em>any</em> <code>change</code> subscribers, it is awake and <strong><em>listening</em></strong>. When entering the <em>listening</em> state, it immediately subscribes to any dependencies. In this state, it operates just like a regular computed observable, as described in <a href="computed-dependency-tracking.md">how dependency tracking works</a>.</p>
+</li>
+</ol>
+<h4 id="why-pure-pure-computed-function-defined-">Why &quot;pure&quot;? {#pure-computed-function-defined}</h4>
+<p>We&#39;ve borrowed the term from <a href="http://en.wikipedia.org/wiki/Pure_function">pure functions</a> because this feature is generally only applicable for computed observables whose evaluator is a <em>pure function</em> as follows:</p>
+<ol>
+<li>Evaluating the computed observable should not cause any side effects.</li>
+<li>The value of the computed observable shouldn&#39;t vary based on the number of evaluations or other &quot;hidden&quot; information. Its value should be based solely on the values of other observables in the application, which for the pure function definition, are considered its parameters.</li>
+</ol>
+<h4 id="syntax">Syntax</h4>
+<p>The standard method of defining a <em>pure</em> computed observable is to use <code>ko.pureComputed</code>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.fullName = ko.pureComputed(function() {
+    return this.firstName() + " " + this.lastName();
+}, this);</div>
+</code></pre>
+<p>Alternatively, you can use the <code>pure</code> option with <code>ko.computed</code>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.fullName = ko.computed(function() {
+    return this.firstName() + " " + this.lastName();
+}, this, { pure: true });</div>
+</code></pre>
+<p>For complete syntax, see the <a href="#computed-reference">computed observable reference</a>.</p>
+<h3 id="when-to-use-a-pure-computed-observable">When to use a <em>pure</em> computed observable</h3>
+<p>You can use the <em>pure</em> feature for any computed observable that follows the <a href="#pure-computed-function-defined"><em>pure function</em> guidelines</a>. You&#39;ll see the most benefit, though, when it is applied to application designs that involve persistent view models that are used and shared by temporary views and view models. Using <em>pure</em> computed observables in a persistent view model provides computation performance benefits. Using them in temporary view models provides memory management benefits.</p>
+<p>In the following example of a simple wizard interface, the <code>fullName</code> <em>pure</em> computed is only bound to the view during the final step and so is only updated when that step is active.</p>
+<p><live-example params='id: "pure-computed"'></live-example></p>
+<h3 id="when-not-to-use-a-pure-computed-observable">When <em>not</em> to use a <em>pure</em> computed observable</h3>
+<h4 id="side-effects">Side effects</h4>
+<p>You should not use the <em>pure</em> feature for a computed observable that is meant to perform an action when its dependencies change. Examples include:</p>
+<ul>
+<li><p>Using a computed observable to run a callback based on multiple observables.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function () {
+    var cleanData = ko.toJS(this);
+    myDataClient.update(cleanData);
+}, this);</div>
+</code></pre>
+</li>
+<li><p>In a binding&#39;s <code>init</code> function, using a computed observable to update the bound element.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed({
+    read: function () {
+        element.title = ko.unwrap(valueAccessor());
+    },
+    disposeWhenNodeIsRemoved: element
+});</div>
+</code></pre>
+</li>
+</ul>
+<p>The reason you shouldn&#39;t use a <em>pure</em> computed if the evaluator has important side effects is simply that the evaluator will not run whenever the computed has no active subscribers (and so is sleeping). If it&#39;s important for the evaluator to always run when dependencies change, use a <a href="computedObservables.html">regular computed</a> instead.</p>
+<h3 id="state-change-notifications">State-change notifications</h3>
+<p>A pure computed observable notifies an <code>awake</code> event (using its current value) whenever it enters the <em>listening</em> state and notifies an <code>asleep</code> event (using an <code>undefined</code> value) whevener it enter the <em>sleeping</em> state. You won&#39;t normally need to know about the internal state of your computed observables. But since the internal state can correspond to whether the computed observable is bound to the view or not, you might use that information to do some view-model initialization or cleanup.</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  this.someComputedThatWillBeBound = ko.pureComputed(function () {
+      ...
+  }, this);
+
+  this.someComputedThatWillBeBound.subscribe(function () {
+      // do something when this is bound
+  }, this, "awake");
+
+  this.someComputedThatWillBeBound.subscribe(function () {
+      // do something when this is un-bound
+  }, this, "asleep");</div>
+</code></pre>
+<p>(The <code>awake</code> event also applies to normal computed observables created with the <code>deferEvaluation</code> option.)</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

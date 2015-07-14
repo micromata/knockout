@@ -1,0 +1,94 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/if-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>if</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>if</code> binding causes a section of markup to appear in your document (and to have its <code>data-bind</code> attributes applied), only if a specified expression evaluates to <code>true</code> (or a <code>true</code>-ish value such as a non-<code>null</code> object or nonempty string).</p>
+<p><code>if</code> plays a similar role to <a href="visible-binding.html">the <code>visible</code> binding</a>. The difference is that, with <code>visible</code>, the contained markup always remains in the DOM and always has its <code>data-bind</code> attributes applied - the <code>visible</code> binding just uses CSS to toggle the container element&#39;s visiblity. The <code>if</code> binding, however, physically adds or removes the contained markup in your DOM, and only applies bindings to descendants if the expression is <code>true</code>.</p>
+<h3 id="example-1">Example 1</h3>
+<p>This example shows that the <code>if</code> binding can dynamically add and remove sections of markup as observable values change.</p>
+<p><live-example params='id: "if-binding"'></live-example></p>
+<h3 id="example-2">Example 2</h3>
+<p>In the following example, the <code>&lt;div&gt;</code> element will be empty for &quot;Mercury&quot;, but populated for &quot;Earth&quot;. That&#39;s because Earth has a non-null <code>capital</code> property, whereas &quot;Mercury&quot; has <code>null</code> for that property.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind="foreach: planets">
+    &lt;li>
+        Planet: &lt;b data-bind="text: name"> &lt;/b>
+        &lt;div data-bind="if: capital">
+            Capital: &lt;b data-bind="text: capital.cityName"> &lt;/b>
+        &lt;/div>
+    &lt;/li>
+&lt;/ul></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.applyBindings({
+    planets: [
+        { name: 'Mercury', capital: null },
+        { name: 'Earth', capital: { cityName: 'Barnsley' } }
+    ]
+});</div>
+</code></pre>
+<p>It&#39;s important to understand that the <code>if</code> binding really is vital to make this code work properly. Without it, there would be an error when trying to evaluate <code>capital.cityName</code> in the context of &quot;Mercury&quot; where <code>capital</code> is <code>null</code>. In JavaScript, you&#39;re not allowed to evaluate subproperties of <code>null</code> or <code>undefined</code> values.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>The expression you wish to evaluate. If it evaluates to <code>true</code> (or a true-ish value), the contained markup will be present in the document, and any <code>data-bind</code> attributes on it will be applied. If your expression evaluates to <code>false</code>, the contained markup will be removed from your document without first applying any bindings to it.</p>
+<p>If your expression involves any observable values, the expression will be re-evaluated whenever any of them change. Correspondingly, the markup within your <code>if</code> block can be added or removed dynamically as the result of the expression changes. <code>data-bind</code> attributes will be applied to <strong>a new copy of the contained markup</strong> whenever it is re-added.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-using-if-without-a-container-element">Note: Using &quot;if&quot; without a container element</h3>
+<p>Sometimes you may want to control the presence/absence of a section of markup <em>without</em> having any container element that can hold an <code>if</code> binding. For example, you might want to control whether a certain <code>&lt;li&gt;</code> element appears alongside siblings that always appear:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
+  &lt;li>This item always appears&lt;/li>
+  &lt;li>I want to make this item present/absent dynamically&lt;/li>
+&lt;/ul></div>
+</code></pre>
+<p>In this case, you can&#39;t put <code>if</code> on the <code>&lt;ul&gt;</code> (because then it would affect the first <code>&lt;li&gt;</code> too), and you can&#39;t put any other container around the second <code>&lt;li&gt;</code> (because HTML doesn&#39;t allow extra containers within <code>&lt;ul&gt;</code>s).</p>
+<p>To handle this, you can use the <em>containerless control flow syntax</em>, which is based on comment tags. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul>
+    &lt;li>This item always appears&lt;/li>
+    &lt;!-- ko if: someExpressionGoesHere -->
+        &lt;li>I want to make this item present/absent dynamically&lt;/li>
+    &lt;!-- /ko -->
+&lt;/ul></div>
+</code></pre>
+<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

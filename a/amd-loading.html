@@ -1,0 +1,106 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/amd-loading.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Asynchronous Module Definition (AMD) With RequireJs</h1>
+<!-- /header -->
+<h3 id="overview-of-amd">Overview of AMD</h3>
+<p>Excerpt From <a href="http://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJs &amp; ES Harmony</a>:</p>
+<blockquote>
+<p>When we say an application is modular, we generally mean it&#39;s composed of a set of highly decoupled, distinct pieces of functionality stored in modules. As you probably know, loose coupling facilitates easier maintainability of apps by removing dependencies where possible. When this is implemented efficiently, its quite easy to see how changes to one part of a system may affect another.</p>
+<p>Unlike some more traditional programming languages however, the current iteration of JavaScript (ECMA-262) doesn&#39;t provide developers with the means to import such modules of code in a clean, organized manner. It&#39;s one of the concerns with specifications that haven&#39;t required great thought until more recent years where the need for more organized JavaScript applications became apparent.</p>
+<p>Instead, developers at present are left to fall back on variations of the module or object literal patterns. With many of these, module scripts are strung together in the DOM with namespaces being described by a single global object where it&#39;s still possible to incur naming collisions in your architecture. There&#39;s also no clean way to handle dependency management without some manual effort or third party tools.</p>
+<p>Whilst native solutions to these problems will be arriving in ES Harmony, the good news is that writing modular JavaScript has never been easier and you can start doing it today.</p>
+</blockquote>
+<h3 id="loading-knockout-js-and-a-viewmodel-class-via-requirejs">Loading Knockout.js and a ViewModel class via RequireJs</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;html>
+    &lt;head>
+        &lt;script type="text/javascript" data-main="scripts/init.js" src="scripts/require.js">&lt;/script>
+    &lt;/head>
+    &lt;body>
+        &lt;p>First name: &lt;input data-bind="value: firstName" />&lt;/p>
+        &lt;p>First name capitalized: &lt;strong data-bind="text: firstNameCaps">&lt;/strong>&lt;/p>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<h4 id="scripts-init-js">scripts/init.js</h4>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>require(['knockout-x.y.z', 'appViewModel', 'domReady!'],
+  function(ko, appViewModel) {
+    ko.applyBindings(new appViewModel());
+});</div>
+</code></pre>
+<h4 id="scripts-appviewmodel-js">scripts/appViewModel.js</h4>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>// Main viewmodel class
+define(['knockout-x.y.z'], function(ko) {
+    return function appViewModel() {
+        this.firstName = ko.observable('Bert');
+        this.firstNameCaps = ko.computed(function() {
+            return this.firstName().toUpperCase();
+        }, this);
+    };
+});</div>
+</code></pre>
+<p>Of course, <code>x.y.z</code> should be replaced with the version number of the Knockout script you are loading (e.g., <code>knockout-3.1.0</code>).</p>
+<h3 id="loading-knockout-js-a-binding-handler-and-a-viewmodel-class-via-requirejs">Loading Knockout.js, a Binding Handler, and a ViewModel class via RequireJs</h3>
+<p>Documentation on Binding Handlers in general can be found <a href="http://knockoutjs.com/documentation/custom-bindings.html">here</a>. This section is meant to demonstrate the power that AMD modules provide in maintaining your custom handlers. We will take the example of the <code>ko.bindingHandlers.hasFocus</code> example from the binding handlers documentation. By wrapping that handler in it&#39;s own module you can restrict it&#39;s use only to the pages that need it. The wrapped module becomes:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>define(['knockout-x.y.z'], function(ko){
+  ko.bindingHandlers.hasFocus = {
+      init: function(element, valueAccessor) { /* ... */ },
+      update: function(element, valueAccessor) { /* ... */ }
+  }
+});</div>
+</code></pre>
+<p>After you have defined the module update the input element from the HTML example above to be:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>First name:
+  &lt;input data-bind="value: firstName, hasFocus: editingName" />
+  &lt;span data-bind="visible: editingName">
+    You're editing the name!
+  &lt;/span>
+&lt;/p></div>
+</code></pre>
+<p>Include the module in the list of dependencies for your view model:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>define(['knockout-x.y.z', 'customBindingHandlers/hasFocus'], function(ko) {
+    return function appViewModel(){
+        /* ... */
+        // Add an editingName observable
+        this.editingName = ko.observable();
+    };
+});</div>
+</code></pre>
+<p>Note that the custom binding handler module does not inject anything into our ViewModel module, that is because it does not return anything. It just appends additional behavior to the knockout module.</p>
+<h3 id="requirejs-download">RequireJs Download</h3>
+<p>RequireJs can be downloaded from <a href="http://requirejs.org/docs/download.html">http://requirejs.org/docs/download.html</a>.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

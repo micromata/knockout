@@ -7,43 +7,43 @@ function isLocal(anchor) {
 }
 
 
-
 //
 // For JS history see:
 // https://github.com/devote/HTML5-History-API
 //
 function onAnchorClick(evt) {
-  // Ignore clicks on things outside this page
-  if (!isLocal(this)) { return true }
+  var anchor = this
+  // Do not intercept clicks on things outside this page
+  if (!isLocal(anchor)) { return true }
 
-  // Ignore clicks on an element in an example.
-  if ($(evt.target).parents("live-example").length !== 0) {
+  // Do not intercept clicks on an element in an example.
+  if ($(anchor).parents("live-example").length !== 0) {
     return true
   }
-  // Ignore clicks on links that may have e.g. data-bind=click: ...
-  // (e.g. open jsFiddle)
-  if (!evt.target.hash) { return true }
+
   try {
-    $root.open(evt.target.getAttribute('href'))
+    var pn = anchor.pathname
+    var templateId = pn.replace("/a/", "").replace(".html", "")
+    // If the template isn't found, presume a hard link
+    if (!document.getElementById(templateId)) { return true }
+    $root.open(templateId)
+    history.pushState(null, null, anchor.href)
   } catch(e) {
-    console.log(`Error/${evt.target.getAttribute('href')}`, e)
+    console.log(`Error/${anchor.getAttribute('href')}`, e)
   }
-  history.pushState(null, null, this.href)
-  document.title = `Knockout.js – ${$(this).text()}`
   return false
 }
 
 
 function onPopState(/* evt */) {
-  // Consider https://github.com/devote/HTML5-History-API
-  $root.open(location.hash)
+  // Note https://github.com/devote/HTML5-History-API
+  $root.open(location.pathname)
 }
 
 
 function setupEvents() {
-  $(document.body)
-    .on('click', "a", onAnchorClick)
-
-  $(window)
-    .on('popstate', onPopState)
+  if (window.history.pushState) {
+    $(document.body).on('click', "a", onAnchorClick)
+    $(window).on('popstate', onPopState)
+  }
 }

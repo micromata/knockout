@@ -1,0 +1,57 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/installation.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Installation</h1>
+<!-- /header -->
+<p>Simply reference the JavaScript file using a <code>&lt;script&gt;</code> tag somewhere on your HTML pages. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;script type='text/javascript' src='knockout-3.1.0.js'>&lt;/script></div>
+</code></pre>
+<p>Change the <code>src</code> attribute to match the location where you put
+the download file, or use one of the Content Delivery Networks at
+the footer of this page.</p>
+<p>You can also get Knockout over <em>bower</em>:</p>
+<blockquote>
+<p>$ bower install knockoutjs</p>
+</blockquote>
+<p>and <em>npm</em>:</p>
+<blockquote>
+<p>$ npm install knockout</p>
+</blockquote>
+<p>Next, if you are new to Knockout, you can get started with
+<a href="http://learn.knockoutjs.com">interactive tutorials</a>, or explore
+ the <a href="#docs">documentation</a>.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

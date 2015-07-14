@@ -1,0 +1,246 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/component-custom-elements.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>Custom Component Elements</h1>
+<!-- /header -->
+<p>Custom elements provide a convenient way of injecting <a href="#component-overview">components</a> into your views.</p>
+<ul>
+<li>[Table of contents injected here]
+{:toc}</li>
+</ul>
+<h3 id="introduction">Introduction</h3>
+<p>Custom elements are a syntactical alternative to the <a href="component-binding.html"><code>component</code> binding</a> (and in fact, custom elements make use of a component binding behind the scenes).</p>
+<p>For example, instead of writing this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind='component: { name: "flight-deals", params: { from: "lhr", to: "sfo" } }'>&lt;/div></div>
+</code></pre>
+<p>... you can write:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;flight-deals params='from: "lhr", to: "sfo"'>&lt;/flight-deals></div>
+</code></pre>
+<p>This allows for a very modern, <a href="http://www.w3.org/TR/components-intro/">WebComponents</a>-like way to organize your code, while retaining support for even very old browsers (see <a href="#note-custom-elements-and-internet-explorer-6-to-8">custom elements and IE 6 to 8</a>).</p>
+<h3 id="example">Example</h3>
+<p>This example declares a component, and then injects two instances of it into a view. See the source code below.</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;live-example params='id: "component-custom-element"'>&lt;/live-example></div>
+</code></pre>
+<p>Note: In more realistic cases, you would typically load component viewmodels and templates from external files, instead of hardcoding them into the registration. See <a href="#component-overview.html#example-loading-the-likedislike-widget-from-external-files-on-demand">an example</a> and <a href="#component-registration">registration documentation</a>.</p>
+<h3 id="passing-parameters">Passing parameters</h3>
+<p>As you have seen in the examples above, you can use a <code>params</code> attribute to supply parameters to the component viewmodel. The contents of the <code>params</code> attribute are interpreted like a JavaScript object literal (just like a <code>data-bind</code> attribute), so you can pass arbitrary values of any type. Example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;unrealistic-component
+    params='stringValue: "hello",
+            numericValue: 123,
+            boolValue: true,
+            objectValue: { a: 1, b: 2 },
+            dateValue: new Date(),
+            someModelProperty: myModelValue,
+            observableSubproperty: someObservable().subprop'>
+&lt;/unrealistic-component></div>
+</code></pre>
+<h4 id="communication-between-parent-and-child-components">Communication between parent and child components</h4>
+<p>If you refer to model properties in a <code>params</code> attribute, then you are of course referring to the properties on the viewmodel outside the component (the &#39;parent&#39; or &#39;host&#39; viewmodel), since the component itself is not instantiated yet. In the above example, <code>myModelValue</code> would be a property on the parent viewmodel, and would be received by the child component viewmodel&#39;s constructor as <code>params.someModelProperty</code>.</p>
+<p>This is how you can pass properties from a parent viewmodel to a child component. If the properties themselves are observable, then the parent viewmodel will be able to observe and react to any new values inserted into them by the child component.</p>
+<h4 id="passing-observable-expressions">Passing observable expressions</h4>
+<p>In the following example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;some-component
+    params='simpleExpression: 1 + 1,
+            simpleObservable: myObservable,
+            observableExpression: myObservable() + 1'>
+&lt;/some-component></div>
+</code></pre>
+<p>... the component viewmodel&#39;s <code>params</code> parameter will contain three values:</p>
+<ul>
+<li><p><code>simpleExpression</code></p>
+<ul>
+<li><p>This will be the numeric value <code>2</code>. It will not be an observable or computed value, since there are no observables involved.</p>
+<p>In general, if a parameter&#39;s evaluation does not involve evaluating an observable (in this case, the value did not involve observables at all), then the value is passed literally. If the value was an object, then the child component could mutate it, but since it&#39;s not observable the parent would not know the child had done so.</p>
+</li>
+</ul>
+</li>
+<li><p><code>simpleObservable</code></p>
+<ul>
+<li><p>This will be the <a href="observables.html"><code>ko.observable</code></a> instance declared on the parent viewmodel as <code>myObservable</code>. It is not a wrapper --- it&#39;s the actual same instance as referenced by the parent. So if the child viewmodel writes to this observable, the parent viewmodel will receive that change.</p>
+<p>In general, if a parameter&#39;s evaluation does not involve evaluating an observable (in this case, the observable was simply passed without evaluating it), then the value is passed literally.</p>
+</li>
+</ul>
+</li>
+<li><p><code>observableExpression</code></p>
+<ul>
+<li><p>This one is trickier. The expression itself, when evaluated, reads an observable. That observable&#39;s value could change over time, so the expression result could change over time.</p>
+<p>To ensure that the child component can react to changes in the expression value, Knockout <strong>automatically upgrades this parameter to a computed property</strong>. So, the child component will be able to read <code>params.observableExpression()</code> to get the current value, or use <code>params.observableExpression.subscribe(...)</code>, etc.</p>
+<p>In general, with custom elements, if a parameter&#39;s evaluation involves evaluating an observable, then Knockout automatically constructs a <code>ko.computed</code> value to give the expression&#39;s result, and supplies that to the component.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>In summary, the general rule is:</p>
+<ol>
+<li>If a parameter&#39;s evaluation <strong>does not</strong> involve evaluating an observable/computed, it is passed literally.</li>
+<li>If a parameter&#39;s evaluation <strong>does</strong> involve evaluating one or more observables/computeds, it is passed as a computed property so that you can react to changes in the parameter value.</li>
+</ol>
+<h3 id="passing-markup-into-components">Passing markup into components</h3>
+<p>Sometimes you may want to create a component that receives markup and uses it as part of its output. For example, you may want to build a &quot;container&quot; UI element such as a grid, list, dialog, or tab set that can receive and bind arbitrary markup inside itself.</p>
+<p>Consider a special list component that can be invoked as follows:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;my-special-list params="items: someArrayOfPeople">
+    &lt;!-- Look, I'm putting markup inside a custom element -->
+    The person &lt;em data-bind="text: name">&lt;/em>
+    is &lt;em data-bind="text: age">&lt;/em> years old.
+&lt;/my-special-list></div>
+</code></pre>
+<p>By default, the DOM nodes inside <code>&lt;my-special-list&gt;</code> will be stripped out (without being bound to any viewmodel) and replaced by the component&#39;s output. However, those DOM nodes aren&#39;t lost: they are remembered, and are supplied to the component in two ways:</p>
+<ul>
+<li>As an array, <code>$componentTemplateNodes</code>, available to any binding expression in the component&#39;s template (i.e., as a <a href="binding-context.html">binding context</a> property). Usually this is the most convenient way to use the supplied markup. See the example below.</li>
+<li>As an array, <code>componentInfo.templateNodes</code>, passed to its <a href="component-registration.html#a-createviewmodel-factory-function"><code>createViewModel</code> function</a></li>
+</ul>
+<p>The component can then choose to use the supplied DOM nodes as part of its output however it wishes, such as by using <code>template: { nodes: $componentTemplateNodes }</code> on any element in the component&#39;s template.</p>
+<p>For example, the <code>my-special-list</code> component&#39;s template can reference <code>$componentTemplateNodes</code> so that its output includes the supplied markup. Here&#39;s the complete working example:</p>
+<p><live-example params='id: "component-markdown-example"'></live-example></p>
+<p>This &quot;special list&quot; example does nothing more than insert a heading above each list item. But the same technique can be used to create sophisticated grids, dialogs, tab sets, and so on, since all that is needed for such UI elements is common UI markup (e.g., to define the grid or dialog&#39;s heading and borders) wrapped around arbitrary supplied markup.</p>
+<p>This technique is also possible when using components <em>without</em> custom elements, i.e., <a href="component-binding.html#note-passing-markup-to-components">passing markup when using the <code>component</code> binding directly</a>.</p>
+<h3 id="controlling-custom-element-tag-names">Controlling custom element tag names</h3>
+<p>By default, Knockout assumes that your custom element tag names correspond exactly to the names of components registered using <code>ko.components.register</code>. This convention-over-configuration strategy is ideal for most applications.</p>
+<p>If you want to have different custom element tag names, you can override <code>getComponentNameForNode</code> to control this. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.getComponentNameForNode = function(node) {
+    var tagNameLower = node.tagName &amp;&amp; node.tagName.toLowerCase();
+
+    if (ko.components.isRegistered(tagNameLower)) {
+        // If the element's name exactly matches a preregistered
+        // component, use that component
+        return tagNameLower;
+    } else if (tagNameLower === "special-element") {
+        // For the element &lt;special-element>, use the component
+        // "MySpecialComponent" (whether or not it was preregistered)
+        return "MySpecialComponent";
+    } else {
+        // Treat anything else as not representing a component
+        return null;
+    }
+}</div>
+</code></pre>
+<p>You can use this technique if, for example, you want to control which subset of registered components may be used as custom elements.</p>
+<h3 id="registering-custom-elements-registering-custom-elements-">Registering custom elements {#registering-custom-elements}</h3>
+<p>If you are using the default component loader, and hence are registering your components using <code>ko.components.register</code>, then there is nothing extra you need to do. Components registered this way are immediately available for use as custom elements.</p>
+<p>If you have implemented a <a href="component-loaders.html">custom component loader</a>, and are not using <code>ko.components.register</code>, then you need to tell Knockout about any element names you wish to use as custom elements. To do this, simply call <code>ko.components.register</code> - you don&#39;t need to specify any configuration, since your custom component loader won&#39;t be using the configuration anyway. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.components.register('my-custom-element', { /* No config needed */ });</div>
+</code></pre>
+<p>Alternatively, you can <a href="#controlling-custom-element-tag-names">override <code>getComponentNameForNode</code></a> to control dynamically which elements map to which component names, independently of preregistration.</p>
+<h3 id="note-combining-custom-elements-with-regular-bindings">Note: Combining custom elements with regular bindings</h3>
+<p>A custom element can have a regular <code>data-bind</code> attribute (in addition to any <code>params</code> attribute) if needed. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;products-list params='category: chosenCategory'
+               data-bind='visible: shouldShowProducts'>
+&lt;/products-list></div>
+</code></pre>
+<p>However, it does not make sense to use bindings that would modify the element&#39;s contents, such as the <a href="text-binding.html"><code>text</code></a> or <a href="template-binding.html"><code>template</code></a> bindings, since they would overwrite the template injected by your component.</p>
+<p>Knockout will prevent the use of any bindings that use <a href="custom-bindings-controlling-descendant-bindings.html"><code>controlsDescendantBindings</code></a>, because this also would clash with the component when trying to bind its viewmodel to the injected template. Therefore if you want to use a control flow binding such as <code>if</code> or <code>foreach</code>, then you must wrap it around your custom element rather than using it directly on the custom element, e.g.,:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko if: someCondition -->
+    &lt;products-list>&lt;/products-list>
+&lt;!-- /ko --></div>
+</code></pre>
+<p>or:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;ul data-bind='foreach: allProducts'>
+    &lt;product-details params='product: $data'>&lt;/product-details>
+&lt;/ul></div>
+</code></pre>
+<h3 id="note-custom-elements-cannot-be-self-closing">Note: Custom elements cannot be self-closing</h3>
+<p>You must write <code>&lt;my-custom-element&gt;&lt;/my-custom-element&gt;</code>, and <strong>not</strong> <code>&lt;my-custom-element /&gt;</code>. Otherwise, your custom element is not closed and subsequent elements will be parsed as child elements.</p>
+<p>This is a limitation of the HTML specification and is outside the scope of what Knockout can control. HTML parsers, following the HTML specification, <a href="http://dev.w3.org/html5/spec-author-view/syntax.html#syntax-start-tag">ignore any self-closing slashes</a> (except on a small number of special &quot;foreign elements&quot;, which are hardcoded into the parser). HTML is not the same as XML.</p>
+<h3 id="note-custom-elements-and-internet-explorer-6-to-8">Note: Custom elements and Internet Explorer 6 to 8</h3>
+<p>Knockout tries hard to spare developers the pain of dealing with cross-browser compatiblity issues, especially those relating to older browsers! Even though custom elements provide a very modern style of web development, they still work on all commonly-encountered browsers:</p>
+<ul>
+<li>HTML5-era browsers, which includes <strong>Internet Explorer 9</strong> and later, automatically allow for custom elements with no difficulties.</li>
+<li><strong>Internet Explorer 6 to 8</strong> also supports custom elements, <em>but only if they are registered before the HTML parser encounters any of those elements</em>.</li>
+</ul>
+<p>IE 6-8&#39;s HTML parser will discard any unrecognized elements. To ensure it doesn&#39;t throw out your custom elements, you must do one of the following:</p>
+<ul>
+<li>Ensure you call <code>ko.components.register(&#39;your-component&#39;)</code> <em>before</em> the HTML parser sees any <code>&lt;your-component&gt;</code> elements</li>
+<li>Or, at least call <code>document.createElement(&#39;your-component&#39;)</code> <em>before</em> the HTML parser sees any <code>&lt;your-component&gt;</code> elements. You can ignore the result of the <code>createElement</code> call --- all that matters is that you have called it.</li>
+</ul>
+<p>For example, if you structure your page like this, then everything will be OK:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!DOCTYPE html>
+&lt;html>
+    &lt;body>
+        &lt;script src='some-script-that-registers-components.js'>&lt;/script>
+
+        &lt;my-custom-element>&lt;/my-custom-element>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<p>If you&#39;re working with AMD, then you might prefer a structure like this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!DOCTYPE html>
+&lt;html>
+    &lt;body>
+        &lt;script>
+            // Since the components aren't registered until the AMD module
+            // loads, which is asynchronous, the following prevents IE6-8's
+            // parser from discarding the custom element
+            document.createElement('my-custom-element');
+        &lt;/script>
+
+        &lt;script src='require.js' data-main='app/startup'>&lt;/script>
+
+        &lt;my-custom-element>&lt;/my-custom-element>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<p>Or if you really don&#39;t like the hackiness of the <code>document.createElement</code> call, then you could use a <a href="component-binding.html"><code>component</code> binding</a> for your top-level component instead of a custom element. As long as all other components are registered before your <code>ko.applyBindings</code> call, they can be used as custom elements on IE6-8 without futher trouble:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!DOCTYPE html>
+&lt;html>
+    &lt;body>
+        &lt;!-- The startup module registers all other KO components before calling
+             ko.applyBindings(), so they are OK as custom elements on IE6-8 -->
+        &lt;script src='require.js' data-main='app/startup'>&lt;/script>
+
+        &lt;div data-bind='component: "my-custom-element"'>&lt;/div>
+    &lt;/body>
+&lt;/html></div>
+</code></pre>
+<h3 id="advanced-accessing-raw-parameters">Advanced: Accessing <code>$raw</code> parameters</h3>
+<p>Consider the following unusual case, in which <code>useObservable1</code>, <code>observable1</code>, and <code>observable2</code> are all observables:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;some-component
+    params='myExpr: useObservable1() ? observable1 : observable2'>
+&lt;/some-component></div>
+</code></pre>
+<p>Since evaluating <code>myExpr</code> involves reading an observable (<code>useObservable1</code>), KO will supply the parameter to the component as a computed property.</p>
+<p>However, the value of the computed property is itself an observable. This would seem to lead to an awkward scenario, where reading its current value would involve double-unwrapping (i.e., <code>params.myExpr()()</code>, where the first parentheses give the value of the expression, and the second give the value of the resulting observable instance).</p>
+<p>This double-unwrapping would be ugly, inconvenient, and unexpected, so Knockout automatically sets up the generated computed property (<code>params.myExpr</code>) to unwrap its value for you. That is, the component can read <code>params.myExpr()</code> to get the value of whichever observable has been selected (<code>observable1</code> or <code>observable2</code>), without the need for double-unwrapping.</p>
+<p>In the unlikely event that you <em>don&#39;t</em> want the automatic unwrapping, because you want to access the <code>observable1</code>/<code>observable2</code> instances directly, you can read values from <code>params.$raw</code>. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function MyComponentViewModel(params) {
+    var currentObservableInstance = params.$raw.myExpr();
+
+    // Now currentObservableInstance is either observable1 or observable2
+    // and you would read its value with "currentObservableInstance()"
+}</div>
+</code></pre>
+<p>This should be a very unusual scenario, so normally you will not need to work with <code>$raw</code>.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

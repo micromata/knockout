@@ -20,3 +20,4 @@ globals:
   $: true
   Page: true
   $root: true
+  ace: true

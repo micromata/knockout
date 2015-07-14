@@ -1,4 +1,4 @@
-<template id='amd-loading'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/amd-loading.html --> <template id='amd-loading'
   data-kind='documentation'
   data-title='Asynchronous Module Definition (AMD) With RequireJs'
   data-cat='5'
@@ -71,7 +71,7 @@ define(['knockout-x.y.z'], function(ko) {
 <p>RequireJs can be downloaded from <a href="http://requirejs.org/docs/download.html">http://requirejs.org/docs/download.html</a>.</p>
 </template>
 
-<template id='animated'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/animated.html --> <template id='animated'
   data-kind='documentation'
   data-title='Animated transitions'
   data-cat='5'
@@ -87,7 +87,37 @@ define(['knockout-x.y.z'], function(ko) {
 <p><a href="http://jsfiddle.net/rniemeyer/8k8V5/">Try it in jsFiddle</a></p>
 </template>
 
-<template id='arraychange'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/api.html --> <template id='api'
+  data-kind=''
+  data-title='Application Programming Interface'
+  data-cat=''
+  data-subcat=''>
+<table class='pure-table pure-table-horizontal pure-table-striped'>
+  <thead>
+    <tr>
+      <th>Identity</th>
+      <th>Purpose</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody data-bind='foreach: API.items'>
+    <tr>
+      <td>
+        <code>{{ name }}</code>
+      </td>
+      <td>{{ purpose }}</td>
+      <td>
+        {{ type }} at
+        <a href='{{ url }}'>
+          {{ source }}:{{ line }}
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</template>
+
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/arraychange.html --> <template id='arraychange'
   data-kind='documentation'
   data-title='Tracking array changes'
   data-cat='2'
@@ -112,7 +142,7 @@ you can extend any other <code>subscribable</code> (i.e. <code>ko.observable</co
 <p><live-example params='id: "arraychange"'></live-example></p>
 </template>
 
-<template id='attr-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/attr-binding.html --> <template id='attr-binding'
   data-kind='documentation'
   data-title='attr'
   data-cat='4'
@@ -143,7 +173,7 @@ you can extend any other <code>subscribable</code> (i.e. <code>ko.observable</co
 </code></pre>
 </template>
 
-<template id='binding-context'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/binding-context.html --> <template id='binding-context'
   data-kind='documentation'
   data-title='Binding context'
   data-cat='3'
@@ -208,7 +238,7 @@ you can extend any other <code>subscribable</code> (i.e. <code>ko.observable</co
 <p>Just like the built-in bindings <a href="#with-binding"><code>with</code></a> and <a href="#foreach-binding"><code>foreach</code></a>, custom bindings can change the binding context for their descendant elements, or provide special properties by extending the binding context object. This is described in detail under <a href="#custom-bindings-controlling-descendant-bindings">creating custom bindings that control descendant bindings</a>.</p>
 </template>
 
-<template id='binding-preprocessing'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/binding-preprocessing.html --> <template id='binding-preprocessing'
   data-kind='documentation'
   data-title='Binding preprocessing'
   data-cat='3'
@@ -307,7 +337,7 @@ you can extend any other <code>subscribable</code> (i.e. <code>ko.observable</co
 </ul>
 </template>
 
-<template id='binding-syntax'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/binding-syntax.html --> <template id='binding-syntax'
   data-kind='documentation'
   data-title='The "data-bind" syntax'
   data-cat='2'
@@ -365,7 +395,7 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 <p>This ability is especially useful when paired with <a href="#binding-preprocessing">binding preprocessing</a>, which can assign a default value for a binding.</p>
 </template>
 
-<template id='browser-support'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/browser-support.html --> <template id='browser-support'
   data-kind='documentation'
   data-title='Browser support'
   data-cat='1'
@@ -386,7 +416,7 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 <p>To get a good idea of how Knockout will run on another browser or platform, simply <a href="../spec/runner.html">run the test suite</a>. This will validate hundreds of behavioral specifications and produce a report of any problems. The pass rate should be 100% on all the browsers listed above.</p>
 </template>
 
-<template id='checked-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/checked-binding.html --> <template id='checked-binding'
   data-kind='documentation'
   data-title='checked'
   data-cat='4'
@@ -481,7 +511,7 @@ viewModel.spamFlavors.push("msg"); // Now additionally checks the Monosodium Glu
 </ul>
 </template>
 
-<template id='click-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/click-binding.html --> <template id='click-binding'
   data-kind='documentation'
   data-title='click'
   data-cat='4'
@@ -543,7 +573,7 @@ with <code>this</code> being redefined to mean something else in event handlers 
 <p>Normally, in this case <code>myButtonHandler</code> would be called first, then the click event would bubble up to <code>myDivHandler</code>.  However, the <code>clickBubble</code> binding that we added with a value of <code>false</code> prevents the event from making it past <code>myButtonHandler</code>.</p>
 </template>
 
-<template id='component-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/component-binding.html --> <template id='component-binding'
   data-kind='documentation'
   data-title='component'
   data-cat='4'
@@ -709,7 +739,7 @@ ko.components.register('your-component-name', {
 <p>It isn&#39;t strictly necessary to dispose computeds and subscriptions that only depend on properties of the same viewmodel object, since this creates only a circular reference which JavaScript garbage collectors know how to release. However, to avoid having to remember which things need disposal, you may prefer to use <code>pureComputed</code> wherever possible, and explicitly dispose all other computeds/subscriptions whether technically necessary or not.</p>
 </template>
 
-<template id='component-custom-elements'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/component-custom-elements.html --> <template id='component-custom-elements'
   data-kind='documentation'
   data-title='Custom Component Elements'
   data-cat='3'
@@ -922,7 +952,7 @@ ko.components.register('your-component-name', {
 <p>This should be a very unusual scenario, so normally you will not need to work with <code>$raw</code>.</p>
 </template>
 
-<template id='component-loaders'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/component-loaders.html --> <template id='component-loaders'
   data-kind='documentation'
   data-title='Component loaders'
   data-cat='3'
@@ -1170,7 +1200,7 @@ ko.components.register('my-browserify-component', {
 </ul>
 </template>
 
-<template id='component-overview'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/component-overview.html --> <template id='component-overview'
   data-kind='documentation'
   data-title='Component Overview'
   data-cat='3'
@@ -1242,7 +1272,7 @@ ko.applyBindings(new MyViewModel());</div>
 </ul>
 </template>
 
-<template id='component-registration'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/component-registration.html --> <template id='component-registration'
   data-kind='documentation'
   data-title='Component registration'
   data-cat='3'
@@ -1507,7 +1537,7 @@ define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
 </ul>
 </template>
 
-<template id='computed-dependency-tracking'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/computed-dependency-tracking.html --> <template id='computed-dependency-tracking'
   data-kind='documentation'
   data-title='How dependency tracking works'
   data-cat='2'
@@ -1560,7 +1590,7 @@ define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
 <p>So what does Knockout do if you have a cycle in your dependency graph? It avoids infinite loops by enforcing the following rule: <strong>Knockout will not restart evaluation of a computed while it is already evaluating</strong>. This is very unlikely to affect your code. It&#39;s relevant in two situations: when two computed observables are dependent on each other (possible only if one or both use the <code>deferEvaluation</code> option), or when a computed observable writes to another observable on which it has a dependency (either directly or via a dependency chain). If you need to use one of these patterns and want to entirely avoid the circular dependency, you can use the <code>peek</code> function described above.</p>
 </template>
 
-<template id='computed-pure'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/computed-pure.html --> <template id='computed-pure'
   data-kind='documentation'
   data-title='Pure computed observables'
   data-cat='2'
@@ -1638,7 +1668,7 @@ define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
 <p>(The <code>awake</code> event also applies to normal computed observables created with the <code>deferEvaluation</code> option.)</p>
 </template>
 
-<template id='computed-reference'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/computed-reference.html --> <template id='computed-reference'
   data-kind='documentation'
   data-title='Computed Observable Reference'
   data-cat='3'
@@ -1708,7 +1738,7 @@ define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
 <p>These facilities are typically useful only in advanced scenarios, for example when your computed observable&#39;s primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
 </template>
 
-<template id='computed-writable'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/computed-writable.html --> <template id='computed-writable'
   data-kind='documentation'
   data-title='Writable computed observables'
   data-cat='2'
@@ -1737,7 +1767,7 @@ define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
 <p><strong>Note:</strong> For such trivial requirements as validating that an input is numeric, this technique is overkill. It would be far easier just to use jQuery Validation and its <code>number</code> class on the <code>&lt;input&gt;</code> element. Knockout and jQuery Validation work together nicely, as demonstrated on the <a href="../examples/gridEditor.html">grid editor</a> example. However, the preceding example demonstrates a more general mechanism for filtering and validating with custom logic to control what kind of user feedback appears, which may be of use if your scenario is more complex than jQuery Validation handles natively.</p>
 </template>
 
-<template id='computedObservables'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/computedObservables.html --> <template id='computedObservables'
   data-kind='documentation'
   data-title='Computed Observables'
   data-cat='2'
@@ -1986,7 +2016,7 @@ ko.applyBindings(new MyViewModel());</div>
 <p><em>Note: Computed observables were once called &quot;dependent observables&quot;, but have since been renamed i.e. <code>ko.dependentObservable === ko.computed</code></em></p>
 </template>
 
-<template id='css-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/css-binding.html --> <template id='css-binding'
   data-kind='documentation'
   data-title='css'
   data-cat='4'
@@ -2054,7 +2084,7 @@ viewModel.currentProfit(-50);</div>
 </code></pre>
 </template>
 
-<template id='custom-bindings-controlling-descendant-bindings'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/custom-bindings-controlling-descendant-bindings.html --> <template id='custom-bindings-controlling-descendant-bindings'
   data-kind='documentation'
   data-title='Controlling descendant bindings'
   data-cat='3'
@@ -2136,7 +2166,7 @@ viewModel.currentProfit(-50);</div>
 <p>By modifying binding contexts and controlling descendant bindings, you have a powerful and advanced tool to create custom binding mechanisms of your own.</p>
 </template>
 
-<template id='custom-bindings-disposal'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/custom-bindings-disposal.html --> <template id='custom-bindings-disposal'
   data-kind='documentation'
   data-title='Custom disposal logic'
   data-cat='3'
@@ -2168,7 +2198,7 @@ viewModel.currentProfit(-50);</div>
 </code></pre>
 </template>
 
-<template id='custom-bindings-for-virtual-elements'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/custom-bindings-for-virtual-elements.html --> <template id='custom-bindings-for-virtual-elements'
   data-kind='documentation'
   data-title='Custom bindings and virtual elements'
   data-cat='3'
@@ -2270,7 +2300,7 @@ viewModel.currentProfit(-50);</div>
 <p>Notice that this is <em>not</em> intended to be a complete replacement to the full set of regular DOM APIs. Knockout provides only a minimal set of virtual element APIs to make it possible to perform the kinds of transformations needed when implementing control flow bindings.</p>
 </template>
 
-<template id='custom-bindings'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/custom-bindings.html --> <template id='custom-bindings'
   data-kind='documentation'
   data-title='Creating custom bindings'
   data-cat='3'
@@ -2395,7 +2425,7 @@ ko.applyBindings(viewModel);</div>
 <p>... then see <a href="#custom-bindings-for-virtual-elements">the documentation for virtual elements</a>.</p>
 </template>
 
-<template id='disable-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/disable-binding.html --> <template id='disable-binding'
   data-kind='documentation'
   data-title='disable'
   data-cat='4'
@@ -2405,7 +2435,22 @@ ko.applyBindings(viewModel);</div>
 <p>This is the mirror image of the <code>enable</code> binding. For more information, see <a href="#enable-binding">documentation for the <code>enable</code> binding</a>, because <code>disable</code> works in exactly the same way except that it negates whatever parameter you pass to it.</p>
 </template>
 
-<template id='enable-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/docs.html --> <template id='docs'
+  data-kind=''
+  data-title='Documentation'
+  data-cat=''
+  data-subcat=''>
+<div class='docs-list'>
+  {{# foreach: docCats }}
+    <h2>{{ $data }} </h2>
+    <ul data-bind='foreach: $root.docCatMap.get($data)'>
+      <li><a href='/a/{{ template }}.html'>{{ title }}</a>
+    </ul>
+  {{/ foreach }}
+</div>
+</template>
+
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/enable-binding.html --> <template id='enable-binding'
   data-kind='documentation'
   data-title='enable'
   data-cat='4'
@@ -2438,7 +2483,7 @@ ko.applyBindings(viewModel);</div>
 <p>None, other than the core Knockout library.</p>
 </template>
 
-<template id='event-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/event-binding.html --> <template id='event-binding'
   data-kind='documentation'
   data-title='event'
   data-cat='4'
@@ -2549,7 +2594,7 @@ ko.applyBindings(viewModel);</div>
 <p>Normally, in this case <code>myButtonHandler</code> would be called first, then the event would bubble up to <code>myDivHandler</code>.  However, the <code>mouseoverBubble</code> binding that we added with a value of <code>false</code> prevents the event from making it past <code>myButtonHandler</code>.</p>
 </template>
 
-<template id='extenders'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/extenders.html --> <template id='extenders'
   data-kind='documentation'
   data-title='Using extenders to augment observables'
   data-cat='2'
@@ -2583,7 +2628,7 @@ ko.applyBindings(viewModel);</div>
 <p>In this case, both the <code>required</code> and <code>logChange</code> extenders would be executed against our observable.</p>
 </template>
 
-<template id='fn'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/fn.html --> <template id='fn'
   data-kind='documentation'
   data-title='Adding custom functions using "fn"'
   data-cat='2'
@@ -2673,7 +2718,7 @@ ko.applyBindings(new AppViewModel());</div>
 </code></pre>
 </template>
 
-<template id='foreach-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/foreach-binding.html --> <template id='foreach-binding'
   data-kind='documentation'
   data-title='foreach'
   data-cat='4'
@@ -2808,7 +2853,7 @@ removing corresponding sections of markup in the DOM.</p>
 <p>For examples of <code>afterAdd</code> and <code>beforeRemove</code> see <a href="#animated">animated transitions</a>.</p>
 </template>
 
-<template id='hasfocus-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/hasfocus-binding.html --> <template id='hasfocus-binding'
   data-kind='documentation'
   data-title='hasFocus'
   data-cat='4'
@@ -2841,7 +2886,7 @@ removing corresponding sections of markup in the DOM.</p>
 </ul>
 </template>
 
-<template id='html-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/html-binding.html --> <template id='html-binding'
   data-kind='documentation'
   data-title='html'
   data-cat='4'
@@ -2874,7 +2919,7 @@ viewModel.details("&lt;em>For further details, view the report &lt;a href='repor
 <p>Since this binding sets your element&#39;s content using <code>innerHTML</code>, you should be careful not to use it with untrusted model values, because that might open the possibility of a script injection attack.  If you cannot guarantee that the content is safe to display (for example, if it is based on a different user&#39;s input that was stored in your database), then you can use <a href="text-binding.html">the text binding</a>, which will set the element&#39;s text value using <code>innerText</code> or <code>textContent</code> instead.</p>
 </template>
 
-<template id='if-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/if-binding.html --> <template id='if-binding'
   data-kind='documentation'
   data-title='if'
   data-cat='4'
@@ -2935,7 +2980,7 @@ viewModel.details("&lt;em>For further details, view the report &lt;a href='repor
 <p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
 </template>
 
-<template id='ifnot-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/ifnot-binding.html --> <template id='ifnot-binding'
   data-kind='documentation'
   data-title='ifnot'
   data-cat='4'
@@ -2953,7 +2998,7 @@ viewModel.details("&lt;em>For further details, view the report &lt;a href='repor
 <p>The only reason to use <code>ifnot</code> instead of a negated <code>if</code> is just as a matter of taste: many developers feel that it looks tidier.</p>
 </template>
 
-<template id='installation'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/installation.html --> <template id='installation'
   data-kind='documentation'
   data-title='Installation'
   data-cat='1'
@@ -2977,7 +3022,51 @@ the footer of this page.</p>
  the <a href="#docs">documentation</a>.</p>
 </template>
 
-<template id='introduction'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/intro.html --> <template id='intro'
+  data-kind='Title'
+  data-title='submit'
+  data-cat=''
+  data-subcat=''>
+<h2>Key Concepts</h2>
+<div class='pure-g'>
+  <div class='pure-u-1 pure-u-sm-5-24 pad'>
+    <i class='fa fa-link fa-4x'></i>
+    <h4>Declarative bindings</h4>
+    Easily associate DOM elements with model data using a
+    concise, readable syntax
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-4 pad'>
+    <i class='fa fa-refresh fa-4x'></i>
+    <h4>Automatic UI refresh</h4>
+    When your data model&#39;s state changes, your UI updates automatically
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-4 pad'>
+    <i class='fa fa-code-fork fa-4x'></i>
+    <h4>Dependency Tracking</h4>
+    Implicitly set up chains of relationships between model data, to
+    transform and combine it
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-4 pad'>
+    <i class='fa fa-newspaper-o fa-4x'></i>
+    <h4>Templating</h4>
+    Quickly generate sophisticated, nested UIs as a function of your
+    model data
+  </div>
+</div>
+
+<p class='text-center'>
+  <i class='fa fa-university fa-2x'></i>
+  Check out the
+  <a href='http://learn.knockoutjs.com'>interactive tutorial</a>.
+</p>
+
+<h2>Live example</h2>
+
+<pre><code class="lang-example"><live-example params='base64: "eyJuYW1lIjoiSW50cm9kdWN0aW9uIiwiaHRtbCI6IkNob29zZSBhIHRpY2tldCBjbGFzc1xuPHNlbGVjdCBkYXRhLWJpbmQ9J29wdGlvbnM6IHRpY2tldHMsXG4gICAgICAgICAgICAgICAgICAgb3B0aW9uc0NhcHRpb246IFwiQ2hvb3NlIC4uLlwiLFxuICAgICAgICAgICAgICAgICAgIG9wdGlvbnNUZXh0OiBcIm5hbWVcIixcbiAgICAgICAgICAgICAgICAgICB2YWx1ZTogY2hvc2VuVGlja2V0Jz48L3NlbGVjdD5cblxuPGJ1dHRvbiBkYXRhLWJpbmQ9J2VuYWJsZTogY2hvc2VuVGlja2V0LFxuICAgICAgICAgICAgICAgICAgIGNsaWNrOiByZXNldFRpY2tldCc+Q2xlYXI8L2J1dHRvbj5cblxuPHAgZGF0YS1iaW5kPSd3aXRoOiBjaG9zZW5UaWNrZXQnPlxuICBZb3UgaGF2ZSBjaG9zZW4gPGIgZGF0YS1iaW5kPSd0ZXh0OiBuYW1lJz48L2I+XG4gICgkPHNwYW4gZGF0YS1iaW5kPSd0ZXh0OiBwcmljZSc+PC9zcGFuPilcbjwvcD4iLCJqYXZhc2NyaXB0IjoiZnVuY3Rpb24gVGlja2V0c1ZpZXdNb2RlbCgpIHtcbiAgdGhpcy50aWNrZXRzID0gW1xuICAgIHsgbmFtZTogXCJFY29ub215XCIsIHByaWNlOiAxOTkuOTUgfSxcbiAgICB7IG5hbWU6IFwiQnVzaW5lc3NcIiwgcHJpY2U6IDQ0OS4yMiB9LFxuICAgIHsgbmFtZTogXCJGaXJzdCBDbGFzc1wiLCBwcmljZTogMTE5OS45OSB9XG4gIF07XG4gIHRoaXMuY2hvc2VuVGlja2V0ID0ga28ub2JzZXJ2YWJsZSgpO1xuICB0aGlzLnJlc2V0VGlja2V0ID0gZnVuY3Rpb24gKCkge1xuICAgIHRoaXMuY2hvc2VuVGlja2V0KG51bGwpO1xuICB9O1xufVxuXG5rby5hcHBseUJpbmRpbmdzKG5ldyBUaWNrZXRzVmlld01vZGVsKCkpOyJ9"'></live-example>
+</code></pre>
+</template>
+
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/introduction.html --> <template id='introduction'
   data-kind='documentation'
   data-title='Introduction'
   data-cat='1'
@@ -3014,7 +3103,7 @@ the footer of this page.</p>
 <p>To summarise: KO doesn&#39;t compete with jQuery or similar low-level DOM APIs. KO provides a complementary, high-level way to link a data model to a UI. KO itself doesn&#39;t depend on jQuery, but you can certainly use jQuery at the same time, and indeed that&#39;s often useful if you want things like animated transitions.</p>
 </template>
 
-<template id='json-data'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/json-data.html --> <template id='json-data'
   data-kind='documentation'
   data-title='Loading and Saving JSON data'
   data-cat='5'
@@ -3092,7 +3181,7 @@ viewModel.pets(parsed.pets);</div>
 <p>However, many developers prefer to use a more conventions-based approach to updating their view models using incoming data without manually writing a line of code for every property to be updated. This can be beneficial if your view models have many properties, or deeply nested data structures, because it can greatly reduce the amount of manual mapping code you need to write. For more details about this technique, see <a href="#plugins-mapping">the knockout.mapping plugin</a>.</p>
 </template>
 
-<template id='links'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/links.html --> <template id='links'
   data-kind='documentation'
   data-title='External links and tutorials'
   data-cat='5'
@@ -3109,7 +3198,7 @@ viewModel.pets(parsed.pets);</div>
 <p><em>Still collecting links for this list - if you want to see your blog post here, <a href="http://groups.google.com/group/knockoutjs">tell us</a> about it</em></p>
 </template>
 
-<template id='observableArrays'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/observableArrays.html --> <template id='observableArrays'
   data-kind='documentation'
   data-title='Observable Arrays'
   data-cat='2'
@@ -3189,7 +3278,7 @@ myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 </code></pre>
 </template>
 
-<template id='observables'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/observables.html --> <template id='observables'
   data-kind='documentation'
   data-title='Observables'
   data-cat='2'
@@ -3291,7 +3380,7 @@ myViewModel.personName.extend({ rateLimit: 50 });</div>
 </code></pre>
 </template>
 
-<template id='options-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/options-binding.html --> <template id='options-binding'
   data-kind='documentation'
   data-title='options'
   data-cat='4'
@@ -3436,7 +3525,37 @@ ko.applyBindings(vm);</div>
 <p>None, other than the core Knockout library.</p>
 </template>
 
-<template id='rateLimit-observable'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/plugins.html --> <template id='plugins'
+  data-kind=''
+  data-title='Plugins'
+  data-cat=''
+  data-subcat=''>
+<h1>
+  Plugins
+  <input type='search' placeholder='Search' data-bind='textInput: plugins.needle' />
+</h1>
+
+<table class='pure-table pure-table-horizontal pure-table-striped'>
+  <thead>
+    <tr>
+      <th>Repository</th>
+      <th>About</th>
+    </tr>
+  </thead>
+  <tbody data-bind='foreach: plugins.sortedPluginRepos'>
+    <tr>
+      <td class='plugin-repo'>
+        <a href='{{ html_url }}'>{{ name }}</a>
+      </td>
+      <td>
+        {{# template: &quot;plugins-td&quot; /}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+</template>
+
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/rateLimit-observable.html --> <template id='rateLimit-observable'
   data-kind='documentation'
   data-title='The "rateLimit" extender'
   data-cat='2'
@@ -3534,7 +3653,7 @@ var upperCaseName = ko.computed(function() {
 </ol>
 </template>
 
-<template id='selectedOptions-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/selectedOptions-binding.html --> <template id='selectedOptions-binding'
   data-kind='documentation'
   data-title='selectedOptions'
   data-cat='4'
@@ -3574,7 +3693,7 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 <p>In this scenario, the values you can read and write using <code>selectedOptions</code> are those objects themselves, <em>not</em> their textual representations. This leads to much cleaner and more elegant code in most cases. Your view model can imagine that the user chooses from an array of arbitrary objects, without having to care how those objects are mapped to an on-screen representation.</p>
 </template>
 
-<template id='style-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/style-binding.html --> <template id='style-binding'
   data-kind='documentation'
   data-title='style'
   data-cat='4'
@@ -3611,7 +3730,7 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 <p>See also: <a href="http://www.comptechdoc.org/independent/web/cgi/javamanual/javastyle.html">a longer list of style names and their JavaScript equivalents</a></p>
 </template>
 
-<template id='submit-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/submit-binding.html --> <template id='submit-binding'
   data-kind='documentation'
   data-title='submit'
   data-cat='4'
@@ -3645,10 +3764,10 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 </li>
 </ul>
 <h3 id="notes">Notes</h3>
-<p>For information about how to pass additional parameters to your submit handler function, or how to control the <code>this</code> handle when invoking functions that aren&#39;t on your view model, see the notes relating to the <a href="#click-binding">click binding</a>. All the notes on that page apply to <code>submit</code> handlers too.</p>
+<p>For information about how to pass additional parameters to your submit handler function, or how to control the <code>this</code> handle when invoking functions that aren&#39;t on your view model, see the notes relating to the <a href="/a/click-binding.html">click binding</a>. All the notes on that page apply to <code>submit</code> handlers too.</p>
 </template>
 
-<template id='template-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/template-binding.html --> <template id='template-binding'
   data-kind='documentation'
   data-title='template'
   data-cat='4'
@@ -3771,7 +3890,7 @@ bindings to that markup except when it is being used as a template.</p>
 </ul>
 </template>
 
-<template id='text-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/text-binding.html --> <template id='text-binding'
   data-kind='documentation'
   data-title='text'
   data-cat='4'
@@ -3833,7 +3952,7 @@ today.</div>
 <p>Other browsers, and newer versions of IE, don&#39;t have this quirk.</p>
 </template>
 
-<template id='textInput-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/textInput-binding.html --> <template id='textInput-binding'
   data-kind='documentation'
   data-title='textInput'
   data-cat='4'
@@ -3870,7 +3989,7 @@ today.</div>
 <p>Don&#39;t try to use the <code>value</code> and <code>textInput</code> bindings together on the same element, as that won&#39;t achieve anything useful.</p>
 </template>
 
-<template id='throttle-extender'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/throttle-extender.html --> <template id='throttle-extender'
   data-kind='documentation'
   data-title='The "throttle" extender'
   data-cat='2'
@@ -3938,7 +4057,7 @@ var upperCaseName = ko.computed(function() {
 <p>Now you can update <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once at the end of that sequence. It doesn&#39;t matter if your thread continually makes changes for longer than 1 millisecond, because re-evaluation won&#39;t start until you release your thread back to the JavaScript runtime.</p>
 </template>
 
-<template id='uniqueName-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/uniqueName-binding.html --> <template id='uniqueName-binding'
   data-kind='documentation'
   data-title='uniqueName'
   data-cat='4'
@@ -3970,7 +4089,7 @@ var upperCaseName = ko.computed(function() {
 <p>None, other than the core Knockout library.</p>
 </template>
 
-<template id='unobtrusive-event-handling'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/unobtrusive-event-handling.html --> <template id='unobtrusive-event-handling'
   data-kind='documentation'
   data-title='Using unobtrusive event handlers'
   data-cat='5'
@@ -4003,7 +4122,7 @@ var upperCaseName = ko.computed(function() {
 <p>No matter how nested the links become, the handler is always able to identify and operate on the appropriate data. Using this techinique, we can avoid the overhead of attaching handlers to each individual link and can keep the markup clean and concise.</p>
 </template>
 
-<template id='value-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/value-binding.html --> <template id='value-binding'
   data-kind='documentation'
   data-title='value'
   data-cat='4'
@@ -4098,7 +4217,7 @@ var upperCaseName = ko.computed(function() {
 </code></pre>
 </template>
 
-<template id='visible-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/visible-binding.html --> <template id='visible-binding'
   data-kind='documentation'
   data-title='visible'
   data-cat='4'
@@ -4133,7 +4252,7 @@ var upperCaseName = ko.computed(function() {
 </code></pre>
 </template>
 
-<template id='with-binding'
+<!-- auto generated from /Users/bmh/Repos/knockout/markdown/with-binding.html --> <template id='with-binding'
   data-kind='documentation'
   data-title='with'
   data-cat='4'

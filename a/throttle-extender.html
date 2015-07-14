@@ -1,0 +1,101 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/throttle-extender.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>The "throttle" extender</h1>
+<!-- /header -->
+<p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
+<p>Normally, <a href="#computedObservables">computed observables</a> are re-evaluated <em>synchronously</em>, as soon as each of their dependencies change. The <code>throttle</code> extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update <em>asychronously</em>.</p>
+<p>The main uses cases for throttling are:</p>
+<ul>
+<li>Making things respond after a certain delay</li>
+<li>Combining multiple changes into a single re-evaluation (also known as &quot;atomic updates&quot;)</li>
+</ul>
+<p>You&#39;ll find examples of these below.</p>
+<h3 id="example-1-the-basics">Example 1: The basics</h3>
+<p>Consider the computed observable in the following code:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var name = ko.observable('Bert');
+
+var upperCaseName = ko.computed(function() {
+    return name().toUpperCase();
+});</div>
+</code></pre>
+<p>Normally, if you update <code>name</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>name('The New Bert');</div>
+</code></pre>
+<p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you had instead defined <code>upperCaseName</code> using <code>throttle</code> as follows:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var upperCaseName = ko.computed(function() {
+    return name().toUpperCase();
+}).extend({ throttle: 500 });</div>
+</code></pre>
+<p>... then <code>upperCaseName</code> would not be recomputed immediately when <code>name</code> changes --- instead, it would wait for 500 milliseconds (half a second) before recomputing its value and then notifying any associated UI. Each time <code>name</code> changes, that timeout is reset back to zero, so the re-evaluation only occurs once <code>name</code> has stopped changing for at least half a second.</p>
+<h3 id="example-2-doing-something-when-the-user-stops-typing">Example 2: Doing something when the user stops typing</h3>
+<p>In this live example, there&#39;s an <code>instantaneousValue</code> observable that reacts immediately when you press a key. This is then wrapped inside a <code>throttledValue</code> computed observable that&#39;s configured to react only when you stop typing for at least 400 milliseconds.</p>
+<p>Try it:</p>
+<p><live-example params='id: "throttle-binding"'></live-example></p>
+<h3 id="example-3-avoiding-multiple-ajax-requests">Example 3: Avoiding multiple Ajax requests</h3>
+<p>The following model represents data that you could render as a paged grid:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>function GridViewModel() {
+    this.pageSize = ko.observable(20);
+    this.pageIndex = ko.observable(1);
+    this.currentPageData = ko.observableArray();
+
+    // Query /Some/Json/Service whenever pageIndex or pageSize changes,
+    // and use the results to update currentPageData
+    ko.computed(function() {
+        var params = { page: this.pageIndex(), size: this.pageSize() };
+        $.getJSON('/Some/Json/Service', params, this.currentPageData);
+    }, this);
+}</div>
+</code></pre>
+<p>Because the <code>ko.computed</code> evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery&#39;s <a href="http://api.jquery.com/jQuery.getJSON/"><code>$.getJSON</code> function</a> to reload <code>currentPageData</code> when the <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
+<p>This is very simple and elegant (and it&#39;s trivial to add yet more observable query parameters that also trigger a refresh automatically whenever they change), but there is a potential efficiency problem. What if you want to change both <code>pageIndex</code> and <code>pageSize</code> at once? You might add the following function to <code>GridViewModel</code>:</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>this.setPageSize = function(newPageSize) {
+    // Whenever you change the page size, we always reset the page index to 1
+    this.pageSize(newPageSize);
+    this.pageIndex(1);
+}</div>
+</code></pre>
+<p>The problem is that this will cause <em>two</em> simultaneous Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
+<p>Throttling is an elegant solution. You can add an arbitrarily short but nonzero throttle timeout (e.g., 1 millisecond), and then any sequence of synchronous changes to dependencies will only trigger <em>one</em> re-evaluation of your computed observable. For example,</p>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>ko.computed(function() {
+    // This evaluation logic is exactly the same as before
+    var params = { page: this.pageIndex(), size: this.pageSize() };
+    $.getJSON('/Some/Json/Service', params, this.currentPageData);
+}, this).extend({ throttle: 1 });</div>
+</code></pre>
+<p>Now you can update <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once at the end of that sequence. It doesn&#39;t matter if your thread continually makes changes for longer than 1 millisecond, because re-evaluation won&#39;t start until you release your thread back to the JavaScript runtime.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

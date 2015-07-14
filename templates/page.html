@@ -1,28 +1,10 @@
 <template id='page'>
-  {{# if: cacheIsUpdated }}
-    <div class='cache-update'>
-      <h5>This page has been updated.</h5>
-      <a class='pure-button'href='#' data-bind='on.click: location.reload()'>
-        <i class='fa fa-refresh'></i>
-        Click to reload
-      </a>
-      &ensp;
-      <a href='#' class='pure-button' data-bind='on.click: cacheIsUpdated(false)'>
-        Later ...
-      </a>
-      <progress max=1 value='{{ reloadProgress }}'></progress>
-    </div>
-  {{/ if }}
-
   {{# template: 'header' /}}
 
-  {{# template: {name: "search", data: search, if: search.query } /}}
-  {{# ifnot: search.query }}
-    <div class='main' data-bind='if: body'>
-      <h1>{{ title }}</h1>
-      {{# template: body /}}
-    </div>
-  {{/ ifnot }}
+  <div class='main' data-bind='if: body'>
+    <h1>{{ title }}</h1>
+    {{# template: body /}}
+  </div>
 
   {{# template: 'footer' /}}
 </template>

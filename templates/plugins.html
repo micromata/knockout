@@ -1,31 +1,3 @@
-<template id='plugins'>
-  <h1>
-    Plugins
-    <input type='search' placeholder='Search' data-bind='textInput: pluginNeedle' />
-  </h1>
-
-
-
-  <table class='pure-table pure-table-horizontal pure-table-striped'>
-    <thead>
-      <tr>
-        <th>Repository</th>
-        <th>About</th>
-      </tr>
-    </thead>
-    <tbody data-bind='foreach: sortedPluginRepos'>
-      <tr data-bind='with: $parent.pluginMap.get($data)'>
-        <td class='plugin-repo'>
-          <a href='{{ html_url }}'>{{ name }}</a>
-        </td>
-        <td>
-          {{# template: "plugins-td" /}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
 
 <template id='plugins-td'>
   <div class='pure-g'>

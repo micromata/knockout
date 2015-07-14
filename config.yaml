@@ -17,7 +17,7 @@ appcache:
     # --- DO NOT EDIT ---
     index.html
     favicon.ico
-    images/logo.svg
+    build/logo.svg
     build/templates.html
     build/markdown.html
     build/styles.css
@@ -25,7 +25,7 @@ appcache:
     build/app.js
     build/examples.json
     build/plugins.json
-    images/hourglass.gif
+    build/hourglass.gif
 
     # Fonts
     # We only include .woff because any browser that supports the
@@ -62,6 +62,7 @@ markdown:
   dest: build/
   filename: markdown.html
   header: >
+    <!-- auto generated from <%= file.path %> -->
     <template id='<%=path.basename(file.path, '.html')%>'
       data-kind='<%= file.frontMatter.kind %>'
       data-title='<%= file.frontMatter.title %>'
@@ -119,6 +120,56 @@ api:
   src: koSrc/**/*.js
   filename: api.json
   dest: build/
+
+# multipage
+# ----
+# This is a fallback for older browsers and SEO.
+multipage:
+  src: markdown/*
+  dest: a/
+  header: |
+    <!doctype html>
+    <html manifest='ko.appcache'>
+    <head>
+      <!-- auto generated from <%= file.path %> -->
+      <meta charset='utf-8'>
+      <title> Knockout.js </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href='build/styles.css' rel='stylesheet' type='text/css' />
+    </head>
+    <body data-bind='css.bound: true'>
+      <div class='headline'>
+        <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+        <img src="build/hourglass.gif" alt='Loading ...'/>
+
+        <div class='browser-version'>
+          Please ensure you are using the latest version of a modern
+          browser. If this page fails to load, you may still access
+          the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+        </div>
+      </div>
+
+      <div style='display: none' data-bind='style.display: 'block''>
+        {{# template: 'header' /}}
+        <div class='main'>
+          {{# if: body }}
+            <h1>{{ title }}</h1>
+            {{# template: body /}}
+          {{/if }}
+          <div data-bind='ifnot: body'>
+            <h1><%= file.frontMatter.title %></h1>
+    <!-- /header -->
+  footer: |
+    <!-- footer -->
+          </div>
+        </div>
+        {{# template: 'footer' /}}
+      </div>
+      <script src='build/libs.js'></script>
+      <script src='build/app.js' async></script>
+    </body>
+    </html>
+
 
 # Plugins
 # ---

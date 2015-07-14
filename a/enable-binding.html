@@ -1,0 +1,66 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/enable-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>enable</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>enable</code> binding causes the associated DOM element to be enabled only when the parameter value is <code>true</code>. This is useful with form elements like <code>input</code>, <code>select</code>, and <code>textarea</code>.</p>
+<h3 id="example">Example</h3>
+<p><live-example params='id: "enable-binding"'></live-example></p>
+<p>In this example, the &quot;Your cellphone number&quot; text box will initially be disabled. It will be enabled only when the user checks the box labelled &quot;I have a cellphone&quot;.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>A value that controls whether or not the associated DOM element should be enabled.</p>
+<p>Non-boolean values are interpreted loosely as boolean. For example, <code>0</code> and <code>null</code> are treated as <code>false</code>, whereas <code>21</code> and non-<code>null</code> objects are treated as <code>true</code>.</p>
+<p>If your parameter references an observable value, the binding will update the enabled/disabled state whenever the observable value changes. If the parameter doesn&#39;t reference an observable value, it will only set the state once and will not do so again later.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-using-arbitrary-javascript-expressions">Note: Using arbitrary JavaScript expressions</h3>
+<p>You&#39;re not limited to referencing variables - you can reference arbitrary expressions to control an element&#39;s enabledness. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;button data-bind="enable: parseAreaCode(viewModel.cellphoneNumber()) != '555'">
+    Do something
+&lt;/button></div>
+</code></pre>
+<h3 id="dependencies">Dependencies</h3>
+<p>None, other than the core Knockout library.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/binding-syntax.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>The "data-bind" syntax</h1>
+<!-- /header -->
+<p>Knockout&#39;s declarative binding system provides a concise and powerful way to link data to the UI. It&#39;s generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout&#39;s binding system.</p>
+<h3 id="binding-syntax">Binding syntax</h3>
+<p>A binding consists of two items, the binding <em>name</em> and <em>value</em>, separated by a colon. Here is an example of a single, simple binding:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>Today's message is: &lt;span data-bind="text: myMessage">&lt;/span></div>
+</code></pre>
+<p>An element can include multiple bindings (related or unrelated), with each binding separated by a comma. Here are some examples:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- related bindings: valueUpdate is a parameter for value -->
+Your value: &lt;input data-bind="value: someValue, valueUpdate: 'afterkeydown'" />
+
+&lt;!-- unrelated bindings -->
+Cellphone: &lt;input data-bind="value: cellphoneNumber, enable: hasCellphone" /></div>
+</code></pre>
+<p>The binding <em>name</em> should generally match a registered binding handler (either built-in or <a href="custom-bindings.html">custom</a>) or be a parameter for another binding. If the name matches neither of those, Knockout will ignore it (without any error or warning). So if a binding doesn&#39;t appear to work, first check that the name is correct.</p>
+<h4 id="binding-values">Binding values</h4>
+<p>The binding <em>value</em> can be a single <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Values,_variables,_and_literals">value, variable, or literal</a> or almost any valid <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Expressions_and_Operators">JavaScript expression</a>. Here are examples of various binding values:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- variable (usually a property of the current view model -->
+&lt;div data-bind="visible: shouldShowMessage">...&lt;/div>
+
+&lt;!-- comparison and conditional -->
+The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;/span>.
+
+&lt;!-- function call and comparison -->
+&lt;button data-bind="enable: parseAreaCode(cellphoneNumber()) != '555'">...&lt;/button>
+
+&lt;!-- function expression -->
+&lt;div data-bind="click: function (data) { myFunction('param1', data) }">...&lt;/div>
+
+&lt;!-- object literal (with unquoted and quoted property names) -->
+&lt;div data-bind="with: {emotion: 'happy', 'facial-expression': 'smile'}">...&lt;/div></div>
+</code></pre>
+<p>These examples show that the value can be just about any JavaScript expression. Even the comma is fine when it&#39;s enclosed in braces, brackets, or parentheses. When the value is an object literal, the object&#39;s property names must be valid JavaScript identifiers or be enclosed in quotes. If the binding value is an invalid expression or references an unknown variable, Knockout will output an error and stop processing bindings.</p>
+<h4 id="whitespace">Whitespace</h4>
+<p>Bindings can include any amount of <em>whitespace</em> (spaces, tab, and newlines), so you&#39;re free to use it to arrange your bindings as you like. The following examples are all equivalent:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- no spaces -->
+&lt;select data-bind="options:availableCountries,optionsText:'countryName',value:selectedCountry,optionsCaption:'Choose...'">&lt;/select>
+
+&lt;!-- some spaces -->
+&lt;select data-bind="options : availableCountries, optionsText : 'countryName', value : selectedCountry, optionsCaption : 'Choose...'">&lt;/select>
+
+&lt;!-- spaces and newlines -->
+&lt;select data-bind="
+    options: availableCountries,
+    optionsText: 'countryName',
+    value: selectedCountry,
+    optionsCaption: 'Choose...'">&lt;/select></div>
+</code></pre>
+<h4 id="skipping-the-binding-value">Skipping the binding value</h4>
+<p>Starting with Knockout 3.0, you can specify bindings without a value, which will give the binding an <code>undefined</code> value. For example:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;span data-bind="text">Text that will be cleared when bindings are applied.&lt;/span></div>
+</code></pre>
+<p>This ability is especially useful when paired with <a href="#binding-preprocessing">binding preprocessing</a>, which can assign a default value for a binding.</p>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

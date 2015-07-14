@@ -1,0 +1,101 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/css-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>css</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>css</code> binding adds or removes one or more named CSS classes to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative.</p>
+<p>(Note: If you don&#39;t want to apply a CSS class but instead want to assign a <code>style</code> attribute value directly, see <a href="style-binding.html">the style binding</a>.)</p>
+<h3 id="example-with-static-classes">Example with static classes</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { profitWarning: currentProfit() &lt; 0 }">
+   Profit Information
+&lt;/div>
+
+```javascript
+var viewModel = {
+    currentProfit: ko.observable(150000) // Positive value, so initially we don't apply the "profitWarning" class
+};
+viewModel.currentProfit(-50); // Causes the "profitWarning" class to be applied</div>
+</code></pre>
+<p>This will apply the CSS class <code>profitWarning</code> whenever the <code>currentProfit</code> value dips below zero, and remove that class whenever it goes above zero.</p>
+<h3 id="example-with-dynamic-classes">Example with dynamic classes</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: profitStatus">
+   Profit Information
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+    currentProfit: ko.observable(150000)
+};
+
+// Evalutes to a positive value, so initially we apply the "profitPositive" class
+viewModel.profitStatus = ko.computed(function() {
+    return this.currentProfit() &lt; 0 ? "profitWarning" : "profitPositive";
+}, viewModel);
+
+// Causes the "profitPositive" class to be removed and "profitWarning" class to be added
+viewModel.currentProfit(-50);</div>
+</code></pre>
+<p>This will apply the CSS class <code>profitPositive</code> when the <code>currentProfit</code> value is positive, otherwise it will apply the <code>profitWarning</code> CSS class.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>If you are using static CSS class names, then you can pass a JavaScript object in which the property names are your CSS classes, and their values evaluate to <code>true</code> or <code>false</code> according to whether the class should currently be applied.</p>
+<p>You can set multiple CSS classes at once. For example, if your view model has a property called <code>isSevere</code>,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'> &lt;div data-bind="css: { profitWarning: currentProfit() &lt; 0, majorHighlight: isSevere }"></div>
+</code></pre>
+<p>You can even set multiple CSS classes based on the same condition by wrapping the names in quotes like:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'> &lt;div data-bind="css: { profitWarning: currentProfit() &lt; 0, 'major highlight': isSevere }"></div>
+</code></pre>
+<p>Non-boolean values are interpreted loosely as boolean. For example, <code>0</code> and <code>null</code> are treated as <code>false</code>, whereas <code>21</code> and non-<code>null</code> objects are treated as <code>true</code>.</p>
+<p>If your parameter references an observable value, the binding will add or remove the CSS class whenever the observable value changes. If the parameter doesn&#39;t reference an observable value, it will only add or remove the class once and will not do so again later.</p>
+<p>If you want to use dynamic CSS class names, then you can pass a string that corresponds to the CSS class or classes that you want to add to the element. If the parameter references an observable value, then the binding will remove any previously added classes and add the class or classes corresponding to the observable&#39;s new value.</p>
+<p>As usual, you can use arbitrary JavaScript expressions or functions as parameter values. KO will evaluate them and use the resulting values to determine the appropriate CSS classes to add or remove.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-applying-css-classes-whose-names-aren-t-legal-javascript-variable-names">Note: Applying CSS classes whose names aren&#39;t legal JavaScript variable names</h3>
+<p>If you want to apply the CSS class <code>my-class</code>, you <em>can&#39;t</em> write this:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { my-class: someValue }">...&lt;/div></div>
+</code></pre>
+<p>... because <code>my-class</code> isn&#39;t a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { 'my-class': someValue }">...&lt;/div></div>
+</code></pre>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

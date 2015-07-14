@@ -1,0 +1,66 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/hasfocus-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>hasFocus</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>hasFocus</code> binding links a DOM element&#39;s focus state with a viewmodel property. It is a two-way binding, so:</p>
+<ul>
+<li>If you set the viewmodel property to <code>true</code> or <code>false</code>, the associated element will become focused or unfocused.</li>
+<li>If the user manually focuses or unfocuses the associated element, the viewmodel property will be set to <code>true</code> or <code>false</code> accordingly.</li>
+</ul>
+<p>This is useful if you&#39;re building sophisticated forms in which editable elements appear dynamically, and you would like to control where the user should start typing, or respond to the location of the caret.</p>
+<h3 id="example-1-the-basics">Example 1: The basics</h3>
+<p>This example simply displays a message if the textbox currently has focus, and uses a button to show that you can trigger focus programmatically.</p>
+<p><live-example params='id: "hasfocus-binding"'></live-example></p>
+<h3 id="example-2-click-to-edit">Example 2: Click-to-edit</h3>
+<p>Because the <code>hasFocus</code> binding works in both directions (setting the associated value focuses or unfocuses the element; focusing or unfocusing the element sets the associated value), it&#39;s a convenient way to toggle an &quot;edit&quot; mode. In this example, the UI displays either a <code>&lt;span&gt;</code> or an <code>&lt;input&gt;</code> element depending on the model&#39;s <code>editing</code> property. Unfocusing the <code>&lt;input&gt;</code> element sets <code>editing</code> to <code>false</code>, so the UI switches out of &quot;edit&quot; mode.</p>
+<p><live-example params='id: "hasfocus-edit"'></live-example></p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>Pass <code>true</code> (or some value that evaluates as true) to focus the associated element. Otherwise, the associated element will be unfocused.</p>
+<p>When the user manually focuses or unfocuses the element, your value will be set to <code>true</code> or <code>false</code> accordingly.</p>
+<p>If the value you supply is observable, the <code>hasFocus</code> binding will update the element&#39;s focus state whenever that observable value changes.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from /Users/bmh/Repos/knockout/markdown/checked-binding.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img class='logo' src='build/logo.svg' alt='Knockout.'/>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        {{# template: body /}}
+      {{/if }}
+      <div data-bind='ifnot: body'>
+        <h1>checked</h1>
+<!-- /header -->
+<h3 id="purpose">Purpose</h3>
+<p>The <code>checked</code> binding links a checkable form control &mdash; i.e., a checkbox (<code>&lt;input type=&#39;checkbox&#39;&gt;</code>) or a radio button (<code>&lt;input type=&#39;radio&#39;&gt;</code>) &mdash; with a property on your view model.</p>
+<p>When the user checks the associated form control, this updates the value on your view model. Likewise, when you update the value in your view model, this checks or unchecks the form control on screen.</p>
+<p>Note: For text boxes, drop-down lists, and all non-checkable form controls, use <a href="value-binding.html">the <code>value</code> binding</a> to read and write the element&#39;s value, not the <code>checked</code> binding.</p>
+<h3 id="example-with-checkbox">Example with checkbox</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  var viewModel = {
+    wantsSpam: ko.observable(true) // Initially checked
+  };
+
+  // ... then later ...
+  viewModel.wantsSpam(false); // The checkbox becomes unchecked</div>
+</code></pre>
+<h3 id="example-adding-checkboxes-bound-to-an-array">Example adding checkboxes bound to an array</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
+&lt;div data-bind="visible: wantsSpam">
+    Preferred flavors of spam:
+    &lt;div>&lt;input type="checkbox" value="cherry" data-bind="checked: spamFlavors" /> Cherry&lt;/div>
+    &lt;div>&lt;input type="checkbox" value="almond" data-bind="checked: spamFlavors" /> Almond&lt;/div>
+    &lt;div>&lt;input type="checkbox" value="msg" data-bind="checked: spamFlavors" /> Monosodium Glutamate&lt;/div>
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>var viewModel = {
+  wantsSpam: ko.observable(true),
+  spamFlavors: ko.observableArray(["cherry","almond"]) // Initially checks the Cherry and Almond checkboxes
+};
+
+// ... then later ...
+viewModel.spamFlavors.push("msg"); // Now additionally checks the Monosodium Glutamate checkbox</div>
+</code></pre>
+<h3 id="example-adding-radio-buttons">Example adding radio buttons</h3>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;p>Send me spam: &lt;input type="checkbox" data-bind="checked: wantsSpam" />&lt;/p>
+&lt;div data-bind="visible: wantsSpam">
+    Preferred flavor of spam:
+    &lt;div>&lt;input type="radio" name="flavorGroup" value="cherry" data-bind="checked: spamFlavor" /> Cherry&lt;/div>
+    &lt;div>&lt;input type="radio" name="flavorGroup" value="almond" data-bind="checked: spamFlavor" /> Almond&lt;/div>
+    &lt;div>&lt;input type="radio" name="flavorGroup" value="msg" data-bind="checked: spamFlavor" /> Monosodium Glutamate&lt;/div>
+&lt;/div></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>  var viewModel = {
+    wantsSpam: ko.observable(true),
+    spamFlavor: ko.observable("almond") // Initially selects only the Almond radio button
+  };
+
+  // ... then later ...
+  viewModel.spamFlavor("msg"); // Now only Monosodium Glutamate is checked</div>
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>KO sets the element&#39;s checked state to match your parameter value. Any previous checked state will be overwritten. The way your parameter is interpreted depends on what type of element you&#39;re binding to:</p>
+<ul>
+<li><p>For <strong>checkboxes</strong>, KO will set the element to be <em>checked</em> when the parameter value is <code>true</code>, and <em>unchecked</em> when it is <code>false</code>. If you give a value that isn&#39;t actually boolean, it will be interpreted loosely. This means that nonzero numbers and non-<code>null</code> objects and non-empty strings will all be interpreted as <code>true</code>, whereas zero, <code>null</code>, <code>undefined</code>, and empty strings will be interpreted as <code>false</code>.</p>
+<p>When the user checks or unchecks the checkbox, KO will set your model property to <code>true</code> or <code>false</code> accordingly.</p>
+<p>Special consideration is given if your parameter resolves to an <code>array</code>. In this case, KO will set the element to be <em>checked</em> if the value matches an item in the array, and <em>unchecked</em> if it is not contained in the array.</p>
+<p>When the user checks or unchecks the checkbox, KO will add or remove the value from the array accordingly.</p>
+</li>
+<li><p>For <strong>radio buttons</strong>, KO will set the element to be <em>checked</em> if and only if the parameter value equals the radio button node&#39;s <code>value</code> attribute or the value specified by the <code>checkedValue</code> parameter. In the previous example, the radio button with <code>value=&quot;almond&quot;</code> was checked only when the view model&#39;s <code>spamFlavor</code> property was equal to <code>&quot;almond&quot;</code>.</p>
+<p>When the user changes which radio button is selected, KO will set your model property to equal the value of the selected radio button. In the preceding example, clicking on the radio button with <code>value=&quot;cherry&quot;</code> would set <code>viewModel.spamFlavor</code> to be <code>&quot;cherry&quot;</code>.</p>
+<p>Of course, this is most useful when you have multiple radio button elements bound to a single model property. To ensure that only <em>one</em> of those radio buttons can be checked at any one time, you should set all of their <code>name</code> attributes to an arbitrary common value (e.g., the value <code>flavorGroup</code> in the preceding example) - doing this puts them into a group where only one can be selected.</p>
+</li>
+</ul>
+<p>If your parameter is an observable value, the binding will update the element&#39;s checked state whenever the value changes. If the parameter isn&#39;t observable, it will only set the element&#39;s checked state once and will not update it again later.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li><p><code>checkedValue</code></p>
+<p>If your binding also includes <code>checkedValue</code>, this defines the value used by the <code>checked</code> binding instead of the element&#39;s <code>value</code> attribute. This is useful if you want the value to be something other than a string (such as an integer or object), or you want the value set dynamically.</p>
+<p>In the following example, the item objects themselves (not their <code>itemName</code> strings) will be included in the <code>chosenItems</code> array when their corresponding checkboxes are checked:</p>
+<pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;!-- ko foreach: items -->
+   &lt;input type="checkbox" data-bind="checkedValue: $data, checked: $root.chosenItems" />
+   &lt;span data-bind="text: itemName">&lt;/span>
+&lt;!-- /ko --></div>
+</code></pre>
+<pre><code class="lang-javascript"><div data-bind='highlight: "javascript"'>   var viewModel = {
+       items: ko.observableArray([
+           { itemName: 'Choice 1' },
+           { itemName: 'Choice 2' }
+       ]),
+       chosenItems: ko.observableArray()
+   };</div>
+</code></pre>
+<p>If your <code>checkedValue</code> parameter is an observable value, whenever the value changes and the element is currently checked, the binding will update the <code>checked</code> model property. For checkboxes, it will remove the old value from the array and add the new value. For radio buttons, it will just update the model value.</p>
+</li>
+</ul>
+</li>
+</ul>
+<!-- footer -->
+      </div>
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

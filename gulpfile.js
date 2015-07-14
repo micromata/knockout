@@ -132,6 +132,8 @@ var markedOptions = {
 }
 
 
+//        Markdown
+//
 gulp.task("make:markdown", function () {
   gulp.src(config.markdown.src)
     .pipe(plugins.frontMatter())
@@ -144,6 +146,22 @@ gulp.task("make:markdown", function () {
 })
 
 
+
+//    MultiPage
+//
+gulp.task('make:multipage', function () {
+  gulp.src(config.multipage.src)
+    .pipe(plugins.frontMatter())
+    .pipe(plugins.marked(markedOptions))
+    .on('error', console.error)
+    .pipe(plugins.header(config.multipage.header))
+    .pipe(plugins.footer(config.multipage.footer))
+    .pipe(gulp.dest(config.multipage.dest))
+})
+
+
+//      Examples
+//
 gulp.task("make:examples", function () {
   gulp.src(config.examples.src)
     .pipe(plugins.yaml(config.examples.settings))
@@ -237,12 +255,12 @@ gulp.task("make:api", function () {
 
 
 var REMAKE_TASKS = [
-  'make:templates', 'make:markdown', 'make:css', 'make:app', 'make:libs', 'make:examples'
+  'make:templates', 'make:markdown', 'make:css', 'make:app', 'make:libs', 'make:examples', 'make:multipage'
 ]
 
 gulp.task('watch', REMAKE_TASKS, function () {
   gulp.watch(config.templates.src, ['make:templates'])
-  gulp.watch(config.markdown.src, ['make:markdown'])
+  gulp.watch(config.markdown.src, ['make:markdown', 'make:multipage'])
   gulp.watch(['build/*'], ['make:appcache'])
   gulp.watch('less/**/*.less', ['make:css'])
   gulp.watch(config['app.js'].src, ['make:app'])
@@ -251,21 +269,12 @@ gulp.task('watch', REMAKE_TASKS, function () {
 })
 
 
-gulp.task('reload', function () {
-  // gulp.src('ko.appcache')
-  //   .pipe(plugins.connect.reload())
-})
-
-
 gulp.task('server', ['watch'], function () {
   plugins.connect.server({
-    livereload: true,
     port: 8900,
     root: './'
   })
-  gulp.watch('ko.appcache', ['reload'])
 })
-
 
 
 gulp.on('err', function(e) {

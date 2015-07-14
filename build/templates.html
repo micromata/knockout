@@ -1,43 +1,3 @@
-<!--     /templates/api.html    -->
-<template id='api' data-title='Application Programming Interface'>
-
-  <table class='pure-table pure-table-horizontal pure-table-striped'>
-    <thead>
-      <tr>
-        <th>Identity</th>
-        <th>Purpose</th>
-        <th>Source</th>
-      </tr>
-    </thead>
-    <tbody data-bind='foreach: API.items'>
-      <tr>
-        <td>
-          <code>{{ name }}</code>
-        </td>
-        <td>{{ purpose }}</td>
-        <td>
-          {{ type }} at
-          <a href='{{ url }}'>
-            {{ source }}:{{ line }}
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
-<!--     /templates/docs.html    -->
-<template id='docs' data-title='Documentation'>
-  <div class='docs-list'>
-    {{# foreach: docCats }}
-      <h2>{{ $data }} </h2>
-      <ul data-bind='foreach: $root.docCatMap.get($data)'>
-        <li><a href='#{{ template }}'>{{ title }}</a>
-      </ul>
-    {{/ foreach }}
-  </div>
-</template>
-
 <!--     /templates/error.html    -->
 <template id='error' data-title='uh oh'>
   <div class='error'>
@@ -95,62 +55,36 @@
 <!--     /templates/header.html    -->
 <template id='header'>
   <div class='header'>
-    <img src='images/logo.svg' alt='Knockout.'/>
+    <img src='build/logo.svg' alt='Knockout.'/>
 
-    <a href='#intro'>Intro</a>
+    <a href='/a/intro.html'>Intro</a>
 
-    <a href='#docs'>Documentation</a>
+    <a href='/a/docs.html'>Documentation</a>
 
-    <a href='#api'>API</a>
+    <a href='/a/api.html'>API</a>
 
-    <a href='#plugins'>Plugins</a>
+    <a href='/a/plugins.html'>Plugins</a>
 
     <div class='text-right'>
       <i class='fa fa-search'></i>
       <input type='search' data-bind='textInput: search.query' placeholder='Search'/>
     </div>
   </div>
-</template>
 
-<!--     /templates/intro.html    -->
-<template id='intro' data-title='Introduction'>
-
-  <h2>Key Concepts</h2>
-  <div class='pure-g'>
-    <div class='pure-u-1 pure-u-sm-5-24 pad'>
-      <i class='fa fa-link fa-4x'></i>
-      <h4>Declarative bindings</h4>
-      Easily associate DOM elements with model data using a
-      concise, readable syntax
+  {{# if: cacheIsUpdated }}
+    <div class='cache-update'>
+      <h5>This page has been updated.</h5>
+      <a class='pure-button'href='#' data-bind='on.click: location.reload()'>
+        <i class='fa fa-refresh'></i>
+        Click to reload
+      </a>
+      &ensp;
+      <a href='#' class='pure-button' data-bind='on.click: cacheIsUpdated(false)'>
+        Later ...
+      </a>
+      <progress max=1 value='{{ reloadProgress }}'></progress>
     </div>
-    <div class='pure-u-1 pure-u-sm-1-4 pad'>
-      <i class='fa fa-refresh fa-4x'></i>
-      <h4>Automatic UI refresh</h4>
-      When your data model's state changes, your UI updates automatically
-    </div>
-    <div class='pure-u-1 pure-u-sm-1-4 pad'>
-      <i class='fa fa-code-fork fa-4x'></i>
-      <h4>Dependency Tracking</h4>
-      Implicitly set up chains of relationships between model data, to
-      transform and combine it
-    </div>
-    <div class='pure-u-1 pure-u-sm-1-4 pad'>
-      <i class='fa fa-newspaper-o fa-4x'></i>
-      <h4>Templating</h4>
-      Quickly generate sophisticated, nested UIs as a function of your
-      model data
-    </div>
-  </div>
-
-  <p class='text-center'>
-    <i class='fa fa-university fa-2x'></i>
-    Check out the
-    <a href='http://learn.knockoutjs.com'>interactive tutorial</a>.
-  </p>
-
-  <h2>Live example</h2>
-  <live-example params='id: "intro"'></live-example>
-
+  {{/ if }}
 </template>
 
 <!--     /templates/live-example.html    -->
@@ -197,63 +131,17 @@
 
 <!--     /templates/page.html    -->
 <template id='page'>
-  {{# if: cacheIsUpdated }}
-    <div class='cache-update'>
-      <h5>This page has been updated.</h5>
-      <a class='pure-button'href='#' data-bind='on.click: location.reload()'>
-        <i class='fa fa-refresh'></i>
-        Click to reload
-      </a>
-      &ensp;
-      <a href='#' class='pure-button' data-bind='on.click: cacheIsUpdated(false)'>
-        Later ...
-      </a>
-      <progress max=1 value='{{ reloadProgress }}'></progress>
-    </div>
-  {{/ if }}
-
   {{# template: 'header' /}}
 
-  {{# template: {name: "search", data: search, if: search.query } /}}
-  {{# ifnot: search.query }}
-    <div class='main' data-bind='if: body'>
-      <h1>{{ title }}</h1>
-      {{# template: body /}}
-    </div>
-  {{/ ifnot }}
+  <div class='main' data-bind='if: body'>
+    <h1>{{ title }}</h1>
+    {{# template: body /}}
+  </div>
 
   {{# template: 'footer' /}}
 </template>
 
 <!--     /templates/plugins.html    -->
-<template id='plugins'>
-  <h1>
-    Plugins
-    <input type='search' placeholder='Search' data-bind='textInput: pluginNeedle' />
-  </h1>
-
-
-
-  <table class='pure-table pure-table-horizontal pure-table-striped'>
-    <thead>
-      <tr>
-        <th>Repository</th>
-        <th>About</th>
-      </tr>
-    </thead>
-    <tbody data-bind='foreach: sortedPluginRepos'>
-      <tr data-bind='with: $parent.pluginMap.get($data)'>
-        <td class='plugin-repo'>
-          <a href='{{ html_url }}'>{{ name }}</a>
-        </td>
-        <td>
-          {{# template: "plugins-td" /}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
 
 <template id='plugins-td'>
   <div class='pure-g'>

@@ -95,39 +95,27 @@ function applyBindings() {
 
 
 function pageLoaded() {
-  window.$root.open(location.hash || "#intro")
-}
-
-
-var stateStep = 0
-function nextState() {
-  console.log(`Next state: ${stateStep++}`)
-  return Promise.resolve()
+  if (location.pathname.indexOf('.html') === -1) {
+    window.$root.open("intro")
+  }
 }
 
 
 function start() {
-  nextState()
-  Promise.all([loadTemplates(), loadMarkdown()]).then(nextState)
-    .then(Documentation.initialize).then(nextState)
-    .then(applyBindings).then(nextState)
-    .then(getExamples).then(nextState)
-    .then(loadAPI).then(nextState)
-    .then(getPlugins).then(nextState)
-    .then(setupEvents).then(nextState)
-    .then(checkForApplicationUpdate).then(nextState)
-    .then(pageLoaded).then(nextState)
+  Promise.all([loadTemplates(), loadMarkdown()])
+    .then(Documentation.initialize)
+    .then(applyBindings)
+    .then(getExamples)
+    .then(loadAPI)
+    .then(getPlugins)
+    .then(setupEvents)
+    .then(checkForApplicationUpdate)
+    .then(pageLoaded)
     .catch(function (err) {
       window.$root.body("error")
       window.$root.errorMessage(err.message || err)
+      console.error(err)
     })
-    .then(nextState)
 }
-
 
 $(start)
-
-// Enable livereload in development
-if (window.location.hostname === 'localhost') {
-  $.getScript("http://localhost:35729/livereload.js")
-}
