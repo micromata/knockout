@@ -136,7 +136,7 @@ multipage:
   dest: a/
   header: |
     <!doctype html>
-    <html manifest='ko.appcache'>
+    <html manifest='../ko.appcache'>
     <head>
       <!-- auto generated from <%= file.path %> -->
       <meta charset='utf-8'>
