@@ -97,6 +97,34 @@ Notice how, instead of using APIs like `domElement.firstChild`, we're now using 
 
 Also, `randomOrder` will still work with regular DOM elements, because all of the `ko.virtualElements` APIs are backwardly compatible with regular DOM elements.
 
+### Tables and Virtual Elements
+
+In some browsers you must be careful about virtual elements inside `<tbody>` and `<thead>` tags, since they may be "hoisted" out. For example:
+
+```html
+<table>
+  <!-- foreach: list  -->
+  <tr><td> ... </td></tr>
+  <!-- /foreach -->
+</table>
+```
+
+may be interpreted by the browser as:
+
+```html
+<table>
+  <!-- foreach: list  -->
+  <!-- /foreach -->
+  <tbody>
+    <tr><td> ... </td></tr>
+  </tbody>
+</table>
+```
+
+Be mindful of using virtual elements inside tables.
+
+For more information on this caveat, see issue [#1759](https://github.com/knockout/knockout/issues/1759).
+
 ### Virtual Element APIs
 
 Knockout provides the following functions for working with virtual elements.
