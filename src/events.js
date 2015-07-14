@@ -12,7 +12,10 @@ var anchorRoot = location.pathname.replace(/\/a\/.*\.html/, '')
 function rewriteAnchorRoot(evt) {
   var anchor = evt.currentTarget
   var href = anchor.getAttribute('href')
+  // Skip non-local urls.
   if (!isLocal(anchor)) { return true }
+  // Already re-rooted
+  if (anchor.pathname.indexOf(anchorRoot) === 0) { return true }
   anchor.pathname = `${anchorRoot}${anchor.pathname}`.replace('//', '/')
   return true
 }
