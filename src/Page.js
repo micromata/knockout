@@ -52,7 +52,7 @@ class Page {
   }
 
   pathToTemplate(path) {
-    return path.replace("/a/", "").replace(".html", "")
+    return path.split('/').pop().replace('.html', '')
   }
 
   open(pinpoint) {
