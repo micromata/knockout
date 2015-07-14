@@ -6,6 +6,17 @@ function isLocal(anchor) {
           location.host === anchor.host)
 }
 
+// Make sure in non-single-page-app mode that we link to the right relative
+// link.
+var anchorRoot = location.pathname.replace(/\/a\/.*\.html/, '')
+function rewriteAnchorRoot(evt) {
+  var anchor = evt.currentTarget
+  var href = anchor.getAttribute('href')
+  if (!isLocal(anchor)) { return true }
+  anchor.pathname = `${anchorRoot}${anchor.pathname}`.replace('//', '/')
+  return true
+}
+
 
 //
 // For JS history see:
@@ -13,6 +24,7 @@ function isLocal(anchor) {
 //
 function onAnchorClick(evt) {
   var anchor = this
+  rewriteAnchorRoot(evt)
   // Do not intercept clicks on things outside this page
   if (!isLocal(anchor)) { return true }
 
@@ -44,5 +56,7 @@ function setupEvents() {
   if (window.history.pushState) {
     $(document.body).on('click', "a", onAnchorClick)
     $(window).on('popstate', onPopState)
+  } else {
+    $(document.body).on('click', rewriteAnchorRoot)
   }
 }
