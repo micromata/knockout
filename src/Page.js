@@ -49,6 +49,11 @@ class Page {
 
     // page loading error
     this.errorMessage = ko.observable()
+
+    // Preference for non-Single Page App
+    var ls = window.localStorage
+    this.noSPA = ko.observable(Boolean(ls && ls.getItem('noSPA')))
+    this.noSPA.subscribe((v) => ls && ls.setItem('noSPA', v || ""))
   }
 
   pathToTemplate(path) {

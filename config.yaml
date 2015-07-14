@@ -62,7 +62,7 @@ markdown:
   dest: build/
   filename: markdown.html
   header: >
-    <!-- auto generated from <%= file.path %> -->
+    <!-- auto generated from <%= file.path.split('/').slice(-2).join("/") %> -->
     <template id='<%=path.basename(file.path, '.html')%>'
       data-kind='<%= file.frontMatter.kind %>'
       data-title='<%= file.frontMatter.title %>'
@@ -138,7 +138,7 @@ multipage:
     <!doctype html>
     <html manifest='ko.appcache'>
     <head>
-      <!-- auto generated from <%= file.path %> -->
+      <!-- auto generated from  <%= file.path.split('/').slice(-2).join("/") %> -->
       <meta charset='utf-8'>
       <title> Knockout.js </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -28,6 +28,7 @@ function rewriteAnchorRoot(evt) {
 function onAnchorClick(evt) {
   var anchor = this
   rewriteAnchorRoot(evt)
+  if ($root.noSPA()) { return true }
   // Do not intercept clicks on things outside this page
   if (!isLocal(anchor)) { return true }
 
@@ -40,8 +41,8 @@ function onAnchorClick(evt) {
     var templateId = $root.pathToTemplate(anchor.pathname)
     // If the template isn't found, presume a hard link
     if (!document.getElementById(templateId)) { return true }
-    $root.open(templateId)
     history.pushState(null, null, anchor.href)
+    $root.open(templateId)
   } catch(e) {
     console.log(`Error/${anchor.getAttribute('href')}`, e)
   }
@@ -51,6 +52,7 @@ function onAnchorClick(evt) {
 
 function onPopState(/* evt */) {
   // Note https://github.com/devote/HTML5-History-API
+  if ($root.noSPA()) { return }
   $root.open(location.pathname)
 }
 
