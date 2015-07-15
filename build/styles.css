@@ -1521,28 +1521,12 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   min-height: 5ex;
 }
 .headline {
-  font-size: 4em;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  -webkit-transform: translate(0, -50%);
-      -ms-transform: translate(0, -50%);
-          transform: translate(0, -50%);
+  font-size: 2em;
   text-align: center;
-}
-.headline img {
-  display: block;
-  margin: 0 auto;
-}
-.headline .logo {
-  width: 80%;
+  padding-top: 200px;
 }
 .bound .headline {
-  z-index: -1;
-  opacity: 0;
-  -webkit-transition: 1s;
-          transition: 1s;
+  display: none;
 }
 .page {
   opacity: 0;
@@ -1563,8 +1547,13 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   font-size: 1.1em;
   padding: 4px 0.5em;
 }
-.header img {
-  max-height: 26px;
+.logo {
+  display: inline-block;
+  max-width: 200px;
+}
+.logo progress {
+  position: absolute;
+  width: 200px;
 }
 .footer {
   padding: 0.62em;
@@ -1655,6 +1644,12 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   max-width: 500px;
   text-align: center;
   margin: 0 auto;
+}
+.button-refresh {
+  background: #df7514;
+}
+.button-refresh:hover {
+  color: #65350a;
 }
 div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;

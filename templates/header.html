@@ -1,6 +1,22 @@
 <template id='header'>
   <div class='header'>
-    <img src='build/logo.svg' alt='Knockout.'/>
+    <div class='logo'>
+      {{# ifnot: cacheIsUpdated }}
+        <img src='build/logo.svg' alt='Knockout.'/>
+        {{# if: reloadProgress }}
+          <progress title='Loading update' value="{{ reloadProgress }}" max='1'></progress>
+        {{/ if }}
+      {{/ ifnot }}
+      {{# if: cacheIsUpdated }}
+        <div class='text-center'>
+          Website updated.
+          <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
+            <i class='fa fa-lg fa-refresh'></i>
+            Click to reload
+          </a>
+        </div>
+      {{/ if }}
+    </div>
 
     <a href='/a/intro.html'>Intro</a>
 
@@ -15,19 +31,4 @@
       <input type='search' data-bind='textInput: search.query' placeholder='Search'/>
     </div>
   </div>
-
-  {{# if: cacheIsUpdated }}
-    <div class='cache-update'>
-      <h5>This page has been updated.</h5>
-      <a class='pure-button'href='#' data-bind='on.click: location.reload()'>
-        <i class='fa fa-refresh'></i>
-        Click to reload
-      </a>
-      &ensp;
-      <a href='#' class='pure-button' data-bind='on.click: cacheIsUpdated(false)'>
-        Later ...
-      </a>
-      <progress max=1 value='{{ reloadProgress }}'></progress>
-    </div>
-  {{/ if }}
 </template>

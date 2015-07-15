@@ -37,7 +37,6 @@ function reCheckApplicationCache() {
 function checkForApplicationUpdate() {
   var ac = applicationCache
   if (!ac) { return Promise.resolve() }
-  reCheckApplicationCache()
   ac.addEventListener('progress', function(evt) {
     if (evt.lengthComputable) {
       window.$root.reloadProgress(evt.loaded / evt.total)
@@ -48,6 +47,10 @@ function checkForApplicationUpdate() {
   ac.addEventListener('updateready', function () {
     window.$root.cacheIsUpdated(true)
   })
+  if (ac.status === ac.UPDATEREADY) {
+    window.$root.cacheIsUpdated(true)
+  }
+  reCheckApplicationCache()
   return Promise.resolve()
 }
 
