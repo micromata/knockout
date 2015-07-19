@@ -67,8 +67,10 @@ class Page {
   }
 
   onBodyChange(templateId) {
-    var node = document.getElementById(templateId)
-    this.title(node.getAttribute('data-title') || '')
+    if (templateId) {
+      var node = document.getElementById(templateId)
+      this.title(node.getAttribute('data-title') || '')
+    }
   }
 
   registerPlugins(plugins) {

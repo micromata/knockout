@@ -8,8 +8,14 @@
 //
 // The small duplication is a trade-off for the headache of putting a .js
 // file outside the src/ directory.
-window._trackJs = window._trackJs || {
-  enabled: true,
-  bindStack: true, //  watch for perf. penalty.
-  token: 'bc952e7044e34a2e8423f777b8c824be'
-};
+if (location.hostname !== 'localhost') {
+  window._trackJs = window._trackJs || {
+    enabled: true,
+    bindStack: true, //  watch for perf. penalty.
+    token: 'bc952e7044e34a2e8423f777b8c824be'
+  };
+} else {
+  window._trackJs = window._trackJs || {
+    enabled: false
+  };
+}

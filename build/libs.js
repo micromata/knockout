@@ -1,4 +1,4 @@
-/* eslint no-underscore-dangle: 0, semi: [1, 'always'\] */
+/* eslint no-underscore-dangle: 0, semi: 0 */
 //
 // Track:js setup
 //
@@ -8,10 +8,17 @@
 //
 // The small duplication is a trade-off for the headache of putting a .js
 // file outside the src/ directory.
-window._trackJs = window._trackJs || {
-  enabled: true,
-  token: 'bc952e7044e34a2e8423f777b8c824be'
-};
+if (location.hostname !== 'localhost') {
+  window._trackJs = window._trackJs || {
+    enabled: true,
+    bindStack: true, //  watch for perf. penalty.
+    token: 'bc952e7044e34a2e8423f777b8c824be'
+  };
+} else {
+  window._trackJs = window._trackJs || {
+    enabled: false
+  };
+}
 
 // COPYRIGHT (c) 2015 TrackJS LLC ALL RIGHTS RESERVED
 (function(h,q,k){"use awesome";if(h.trackJs)h.console&&h.console.warn&&h.console.warn("TrackJS global conflict");else{var l=function(a,b,c,d,e){this.util=a;this.onError=b;this.onFault=c;this.options=e;e.enabled&&this.initialize(d)};l.prototype={initialize:function(a){a.addEventListener&&(this.wrapAndCatch(a.Element.prototype,"addEventListener",1),this.wrapAndCatch(a.XMLHttpRequest.prototype,"addEventListener",1),this.wrapRemoveEventListener(a.Element.prototype),this.wrapRemoveEventListener(a.XMLHttpRequest.prototype));

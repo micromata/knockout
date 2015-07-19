@@ -43,6 +43,7 @@ function onAnchorClick(evt) {
     if (!document.getElementById(templateId)) { return true }
     history.pushState(null, null, anchor.href)
     $root.open(templateId)
+    $root.search.query('')
   } catch(e) {
     console.log(`Error/${anchor.getAttribute('href')}`, e)
   }

@@ -1,5 +1,5 @@
 ---
-title: submit
+title: Knockout.js
 kind: Title
 ---
 <h2>Key Concepts</h2>

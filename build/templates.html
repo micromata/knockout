@@ -168,16 +168,17 @@
 
 <!--     /templates/search.html    -->
 <template id='search'>
-  <h1>Searching for <em>“{{query}}”</em></h1>
+  <h1>Searching for <em>“{{search.query}}”</em></h1>
 
-  <ul data-bind='foreach: results'>
+  <ul data-bind='foreach: search.results'>
     <li>
-      <a href='{{ link }}' data-bind='on.click: $parent.query("")'>{{ title }}</a>
+      <a href='{{ link }}'>{{ title }}</a>
     </li>
   </ul>
+
   {{# ifnot: search.results }}
-  <p>
-    <em>Nothing found.</em>
-  </p>
+    <p>
+      <em>Nothing found.</em>
+    </p>
   {{/ ifnot }}
 </template>

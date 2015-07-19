@@ -2,7 +2,7 @@
 class SearchResult {
   constructor(template) {
     this.template = template
-    this.link = `#${template.id}`
+    this.link = `/a/${template.id}.html`
     this.title = template.getAttribute('data-title') || `“${template.id}”`
   }
 }
@@ -16,6 +16,8 @@ class Search {
     }
     this.query = ko.observable().extend({rateLimit: searchRate})
     this.results = ko.computed(this.computeResults, this)
+    this.query.subscribe(this.onQueryChange, this)
+    this.progress = ko.observable()
   }
 
   computeResults() {
@@ -26,5 +28,29 @@ class Search {
         return $(this.content).text().indexOf(q) !== -1
       })
       .map((i, template) => new SearchResult(template))
+  }
+
+  saveTemplate() {
+    if ($root.body() !== 'search') {
+      this.savedTemplate = $root.body()
+      this.savedTitle = document.title
+    }
+  }
+
+  restoreTemplate() {
+    if (this.savedTitle) {
+      $root.body(this.savedTemplate)
+      document.title = this.savedTitle
+    }
+  }
+
+  onQueryChange() {
+    if (!(this.query() || '').trim()) {
+      this.restoreTemplate()
+      return
+    }
+    this.saveTemplate()
+    $root.body("search")
+    document.title = `Knockout.js – Search “${this.query()}”`
   }
 }
