@@ -84,6 +84,8 @@ libs.js:
   dest: build/
   filename: libs.js
   src:
+    - src/tracker-setup.js
+    - bower_components/trackjs/tracker.js
     - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
     - node_modules/jquery/dist/jquery.js
     - node_modules/knockout/build/output/knockout-latest.js

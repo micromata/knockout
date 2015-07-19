@@ -1591,6 +1591,14 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   color: #710b1d;
   border-radius: 12px;
 }
+.trackjs-ack {
+  text-align: center;
+  font-style: italic;
+  color: #aaa;
+}
+.trackjs-ack a {
+  font-style: normal;
+}
 .cache-update {
   position: fixed;
   top: 45px;

@@ -1,0 +1,35 @@
+{
+  "name": "trackjs",
+  "version": "2.1.12",
+  "authors": [
+    "TrackJS LLC"
+  ],
+  "description": "A JavaScript error tracking service for modern web applications. Signup at http://trackjs.com",
+  "main": "tracker.js",
+  "keywords": [
+    "error",
+    "exception",
+    "tracking",
+    "logging"
+  ],
+  "license": "COPYRIGHT (c) 2014 TrackJS LLC ALL RIGHTS RESERVED",
+  "homepage": "http://trackjs.com",
+  "ignore": [
+    "**/.*",
+    ".npmignore",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "2.1.12",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.1.12",
+    "commit": "7c6983d71c2fae12633f91834cfe5fd70c58136a"
+  },
+  "_source": "git://github.com/TrackJs/trackjs-package.git",
+  "_target": "~2.1.12",
+  "_originalSource": "trackjs",
+  "_direct": true
+}

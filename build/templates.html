@@ -49,11 +49,15 @@
         {{/ foreach }}
       </div>
     </div>
-  <div>
-  <div class='text-right'>
-    <label>
-      <input type='checkbox' data-bind='checked: noSPA'> no single page
-    </label>
+    <p class='trackjs-ack'>
+      Javascript error monitoring provided by <a href='https://trackjs.com'>{Track:js}</a>.
+      <i class='fa fa-heart'></i>
+    </p>
+    <div class='text-right'>
+      <label title='By default this page try to behave as a single-page application. If you prefer, or have difficulties, you may disable this behaviour here.'>
+        <input type='checkbox' data-bind='checked: noSPA'> Disable single-page application
+      </label>
+    </div>
   </div>
 </template>
 

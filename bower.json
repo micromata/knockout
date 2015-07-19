@@ -20,6 +20,7 @@
   "dependencies": {
     "ace-builds": "~1.1.9",
     "knockout.punches": "~0.5.1",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "trackjs": "~2.1.12"
   }
 }
