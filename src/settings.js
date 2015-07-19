@@ -1,14 +1,5 @@
 
 window.links = [
-  { href: "https://github.com/knockout/knockout",
-    title: "Github — Repository",
-    icon: "fa-github"},
-  { href: "https://github.com/knockout/knockout/issues/",
-    title: "Github — Issues",
-    icon: "fa-exclamation-circle"},
-  { href: 'https://github.com/knockout/knockout/releases',
-    title: "Releases",
-    icon: "fa-certificate"},
   { href: "https://groups.google.com/forum/#!forum/knockoutjs",
     title: "Google Groups",
     icon: "fa-google"},
@@ -23,6 +14,17 @@ window.links = [
     icon: "fa fa-history"}
 ]
 
+window.githubLinks = [
+  { href: "https://github.com/knockout/knockout",
+    title: "Repository",
+    icon: "fa-github"},
+  { href: "https://github.com/knockout/knockout/issues/",
+    title: "Issues",
+    icon: "fa-exclamation-circle"},
+  { href: 'https://github.com/knockout/knockout/releases',
+    title: "Releases",
+    icon: "fa-certificate"}
+]
 
 window.cdn = [
   { name: "Microsoft CDN",

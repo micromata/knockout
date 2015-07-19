@@ -1,5 +1,5 @@
 ---
-title: Knockout.js
+title: Introduction
 kind: Title
 ---
 <h2>Key Concepts</h2>
