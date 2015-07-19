@@ -21,11 +21,11 @@ class Search {
   }
 
   computeResults() {
-    var q = this.query()
-    if (!q) { return null }
+    var q = (this.query() || '').trim().toLowerCase()
+    if (!q) { return [] }
     return $(`template`)
       .filter(function () {
-        return $(this.content).text().indexOf(q) !== -1
+        return $(this.content).text().toLowerCase().indexOf(q) !== -1
       })
       .map((i, template) => new SearchResult(template))
   }

@@ -25,6 +25,8 @@
   border-bottom: 1px solid #aaa;
   min-height: 32px;
   font-family: @title-font-family;
+  max-width: 1440px;
+  margin: 0 auto;
 
   a {
     font-size: 1.1em;
@@ -42,9 +44,28 @@
 }
 
 
+.main {
+  min-height: 60%;
+  min-height: calc(~"100vh - 180px");
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0px 1em 45px 1em;
+}
+
+
 .footer {
+  background-color: rgb(244, 244, 244);
 	padding: 0.62em;
-  margin-top: 25px;
+  max-width: 1440px;
+  margin: 0 auto;
+  border-top: 1px solid gray;
+
+  h4 {
+    color: black;
+    border-bottom: 1px solid rgb(194, 130, 20);
+    padding: 0;
+    margin: 0;
+  }
 
   .links {
     padding: 0px;
@@ -53,13 +74,6 @@
   }
 }
 
-
-.main {
-  min-height: 60%;
-  min-height: calc(~"100vh - 180px");
-  max-width: 1280px;
-  margin: 0 auto;
-}
 
 .docs-list {
 	ul {
@@ -164,6 +178,15 @@
     color: rgb(101, 53, 10);
   }
 }
+
+.plugin-search {
+  width: 60%;
+  margin: 12px auto;
+  padding: 6px 0.62em;
+  font-size: 1.25em;
+  display: block;
+}
+
 
 // Amending 3rd party styles.
 div.ace_editor {

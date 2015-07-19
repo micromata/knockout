@@ -1542,6 +1542,8 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   border-bottom: 1px solid #aaa;
   min-height: 32px;
   font-family: "Cherry Swash", serif;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 .header a {
   font-size: 1.1em;
@@ -1555,20 +1557,30 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   position: absolute;
   width: 200px;
 }
-.footer {
-  padding: 0.62em;
-  margin-top: 25px;
-}
-.footer .links {
-  padding: 0px;
-  line-height: 1.45em;
-  list-style: none;
-}
 .main {
   min-height: 60%;
   min-height: calc(100vh - 180px);
   max-width: 1280px;
   margin: 0 auto;
+  padding: 0px 1em 45px 1em;
+}
+.footer {
+  background-color: #f4f4f4;
+  padding: 0.62em;
+  max-width: 1440px;
+  margin: 0 auto;
+  border-top: 1px solid gray;
+}
+.footer h4 {
+  color: black;
+  border-bottom: 1px solid #c28214;
+  padding: 0;
+  margin: 0;
+}
+.footer .links {
+  padding: 0px;
+  line-height: 1.45em;
+  list-style: none;
 }
 .docs-list ul {
   -webkit-columns: 2;
@@ -1661,6 +1673,13 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .button-refresh:hover {
   color: #65350a;
 }
+.plugin-search {
+  width: 60%;
+  margin: 12px auto;
+  padding: 6px 0.62em;
+  font-size: 1.25em;
+  display: block;
+}
 div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   height: 200px;
@@ -1678,7 +1697,8 @@ textarea,
   font-family: "Lato", sans-serif;
 }
 body {
-  padding: 16px;
+  padding: 0;
+  margin: 0;
   font-family: 'Lato', sans-serif;
   font-size: 18px;
   color: #666;
@@ -1690,19 +1710,34 @@ pre {
 h1 {
   text-align: center;
   font-family: "Cherry Swash", serif;
+  color: #651f02;
+  padding: 1.2em 0;
 }
 h2 {
   color: #822700;
   font-family: "Cherry Swash", serif;
+  margin: 35px 0px 10px 0px;
+  padding: 0px 0px 10px 1em;
+  -webkit-transform: rotate(-4deg);
+      -ms-transform: rotate(-4deg);
+          transform: rotate(-4deg);
+}
+h2 + * {
+  margin-top: 25px;
 }
 h3 {
   color: #c60505;
   font-family: "Cherry Swash", serif;
+  padding: 22px 0px 8px 0px;
+  margin: 0;
+  border-bottom: 1px solid #e08204;
 }
 h4 {
   margin: 0px 1em 0px 0px;
-  border-bottom: 1px solid gray;
+  padding: 25px 0px;
   font-family: "Cherry Swash", serif;
+  font-size: 1.15em;
+  color: #b03500;
 }
 h5 {
   font-family: "Cherry Swash", serif;

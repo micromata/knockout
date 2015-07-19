@@ -1,5 +1,7 @@
-<template id='search'>
-  <h1>Searching for <em>“{{search.query}}”</em></h1>
+<template id='search' data-title='Searching ...'>
+  <h3>
+    Results for “{{search.query}}”
+  </h3>
 
   <ul data-bind='foreach: search.results'>
     <li>
@@ -7,9 +9,35 @@
     </li>
   </ul>
 
-  {{# ifnot: search.results }}
-    <p>
-      <em>Nothing found.</em>
+  {{# ifnot: search.results().length }}
+    <p class='text-center'>
+      <i class='fa fa-3x fa-frown-o'></i><br/>
+      <em>
+        Nothing found on this site.
+      </em>
     </p>
+
   {{/ ifnot }}
+
+  <h3>Search the 'net</h3>
+  <ul class='fa-ul'>
+    <li>
+      <a href='https://www.google.com?q=knockout.js+{{search.query()}}'>
+        <i class='fa fa-li fa-google'></i>
+        Try Google
+      </a>
+    </li>
+    <li>
+      <a href='http://stackoverflow.com/search?q=%5Bknockout.js%5D+{{search.query()}}'>
+        <i class='fa fa-li fa-stack-overflow'></i>
+        Try StackOverflow
+      </a>
+    </li>
+    <li>
+      <a href='https://github.com/knockout/knockout/search?utf8=%E2%9C%93&q={{ search.query() }}'>
+        <i class='fa fa-li fa-github-alt'></i>
+        Try the Knockout repo on GitHub
+      </a>
+    </li>
+  </ul>
 </template>

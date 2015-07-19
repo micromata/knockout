@@ -1,10 +1,7 @@
 ---
 title: Plugins
 ---
-<h1>
-  Plugins
-  <input type='search' placeholder='Search' data-bind='textInput: plugins.needle' />
-</h1>
+<input type='search' placeholder='Search' data-bind='textInput: plugins.needle, hasFocus: true' class='plugin-search' autofocus />
 
 <table class='pure-table pure-table-horizontal pure-table-striped'>
   <thead>

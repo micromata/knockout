@@ -6,7 +6,8 @@ html, button, input, select, textarea,
 }
 
 body {
-  padding: 16px;
+  padding: 0;
+  margin: 0;
   font-family: 'Lato', sans-serif;
   font-size: 18px;
 	color: #666;
@@ -20,22 +21,36 @@ pre {
 h1 {
 	text-align: center;
   font-family: @title-font-family;
+  color: rgb(101, 31, 2);
+  padding: 1.2em 0;
 }
 
 h2 {
 	color: rgb(130, 39, 0);
   font-family: @title-font-family;
+  margin: 35px 0px 10px 0px;
+  padding: 0px 0px 10px 1em;
+  transform: rotate(-4deg);
+
+  & + * {
+    margin-top: 25px;
+  }
 }
 
 h3 {
 	color: rgb(198, 5, 5);
   font-family: @title-font-family;
+  padding: 22px 0px 8px 0px;
+  margin: 0;
+  border-bottom: 1px solid rgb(224, 130, 4);
 }
 
 h4 {
   margin: 0px 1em 0px 0px;
-  border-bottom: 1px solid gray;
+  padding: 25px 0px;
   font-family: @title-font-family;
+  font-size: 1.15em;
+  color: rgb(176, 53, 0);
 }
 
 h5 {
