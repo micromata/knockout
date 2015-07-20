@@ -2,12 +2,14 @@
 
 // Save a copy for restoration/use
 ko.originalApplyBindings = ko.applyBindings
+ko.components.originalRegister = ko.components.register
 
 
 ko.bindingHandlers.result = {
   init: function (element, va) {
     var $e = $(element)
     var example = ko.unwrap(va())
+    var registeredComponents = new Set()
 
     function resetElement() {
       if (element.children[0]) {
@@ -20,6 +22,15 @@ ko.bindingHandlers.result = {
     function onError(msg) {
       $(element)
         .html(`<div class='error'>Error: ${msg}</div>`)
+    }
+
+    function fakeRegister(name, settings) {
+      ko.components.originalRegister(name, settings)
+      registeredComponents.add(name)
+    }
+
+    function clearComponentRegister() {
+      registeredComponents.forEach((v) => ko.components.unregister(v))
     }
 
     function refresh() {
@@ -41,8 +52,11 @@ ko.bindingHandlers.result = {
         ko.originalApplyBindings(e, element.children[0])
       }
 
+      ko.components.register = fakeRegister
+
       try {
         resetElement()
+        clearComponentRegister()
         $(element.children[0]).html(html)
         var fn = new Function('node', script)
         ko.ignoreDependencies(fn, null, [element.children[0]])
@@ -54,6 +68,10 @@ ko.bindingHandlers.result = {
     ko.computed({
       disposeWhenNodeIsRemoved: element,
       read: refresh
+    })
+
+    ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+      clearComponentRegister()
     })
 
     return {controlsDescendantBindings: true}
