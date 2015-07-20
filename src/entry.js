@@ -48,7 +48,8 @@ function checkForApplicationUpdate() {
     window.$root.cacheIsUpdated(true)
   })
   if (ac.status === ac.UPDATEREADY) {
-    window.$root.cacheIsUpdated(true)
+    // Reload the page if we are still initializing and an update is ready.
+    location.reload()
   }
   reCheckApplicationCache()
   return Promise.resolve()

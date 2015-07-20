@@ -1566,16 +1566,18 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 }
 .footer {
   background-color: #f4f4f4;
-  padding: 0.62em;
+  padding: 1.62em;
+  border-top: 1px solid gray;
+}
+.footer > div {
   max-width: 1440px;
   margin: 0 auto;
-  border-top: 1px solid gray;
 }
 .footer h4 {
   color: black;
   border-bottom: 1px solid #c28214;
   padding: 0;
-  margin: 0;
+  margin: 0 3em 0 0;
 }
 .footer .links {
   padding: 0px;
@@ -1632,14 +1634,25 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .cache-update:hover {
   opacity: 1;
 }
+.example-header {
+  background-color: #eee;
+  border: 4px double #bbb;
+  display: inline-block;
+  margin: 0px;
+  padding: 3px 12px;
+  border-radius: 12px;
+  margin: 15px 0px 0px 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
 .example {
-  padding: 10px 1em;
-  box-shadow: inset -2px -2px 6px #ffc14a, inset 2px 2px 6px #8f7b29;
-  background-color: #e2b84c;
+  padding: 3em;
+  background-color: #eee;
   min-height: 50px;
-  border-radius: 5px;
-  width: 90%;
-  margin: 0px auto;
+  border-radius: 10px;
+  margin: -19px auto 10px auto;
+  border: 6px double #bbb;
 }
 .example-centered {
   text-align: center;
@@ -1696,6 +1709,10 @@ textarea,
 .pure-g [class*="pure-u"] {
   font-family: "Lato", sans-serif;
 }
+* {
+  text-rendering: optimizeLegibility;
+  text-rendering: geometricPrecision;
+}
 body {
   padding: 0;
   margin: 0;
@@ -1718,12 +1735,12 @@ h2 {
   font-family: "Cherry Swash", serif;
   margin: 35px 0px 10px 0px;
   padding: 0px 0px 10px 1em;
-  -webkit-transform: rotate(-4deg);
-      -ms-transform: rotate(-4deg);
-          transform: rotate(-4deg);
+  -webkit-transform: rotate(-2.5deg);
+      -ms-transform: rotate(-2.5deg);
+          transform: rotate(-2.5deg);
 }
 h2 + * {
-  margin-top: 25px;
+  margin-top: 45px;
 }
 h3 {
   color: #c60505;
@@ -1731,6 +1748,10 @@ h3 {
   padding: 22px 0px 8px 0px;
   margin: 0;
   border-bottom: 1px solid #e08204;
+}
+pre h3 {
+  font-family: "Lato", sans-serif;
+  border: 0;
 }
 h4 {
   margin: 0px 1em 0px 0px;

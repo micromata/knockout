@@ -14,13 +14,21 @@ var request = require('request')
 var vmap = require('vinyl-map')
 var path = require('path')
 var opine = require('opine.js')
+var execSync = require('child_process').execSync
 global.path = require('path')
+
 
 Object.defineProperty(global, 'config', {
   get: _.throttle(function config() {
     return yaml.safeLoad(
       fs.readFileSync('./config.yaml', { encoding: 'utf8' })
     )
+  }, 100)
+})
+
+Object.defineProperty(global, 'gitVersion', {
+  get: _.throttle(function () {
+    return execSync('git rev-parse --short HEAD', {encoding: 'utf8'}).trim()
   }, 100)
 })
 

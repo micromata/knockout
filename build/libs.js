@@ -11,8 +11,8 @@
 if (location.hostname !== 'localhost') {
   window._trackJs = window._trackJs || {
     enabled: true,
-    bindStack: true, //  watch for perf. penalty.
-    token: 'bc952e7044e34a2e8423f777b8c824be'
+    token: 'bc952e7044e34a2e8423f777b8c824be',
+    version: document.body.getAttribute('data-version')
   };
 } else {
   window._trackJs = window._trackJs || {

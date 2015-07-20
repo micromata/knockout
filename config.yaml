@@ -14,28 +14,29 @@ appcache:
     # Keep in mind that the max size for everything here may be
     # 5MB on many browsers.
     #
-    # --- DO NOT EDIT ---
+    # --- DO NOT EDIT --- Edit config.yaml
     index.html
     favicon.ico
     build/logo.svg
-    build/templates.html
-    build/markdown.html
     build/styles.css
-    build/libs.js
-    build/app.js
-    build/examples.json
-    build/plugins.json
     build/hourglass.gif
 
+    build/templates.html
+    build/markdown.html
+
+    build/libs.js
+    build/app.js
+
+    build/examples.json
+    build/plugins.json
+    build/api.json
+
     # Fonts
-    # We only include .woff because any browser that supports the
-    # manifest will also support woff.
-    fonts/Cherry_Swash.woff
-    fonts/Lato_400.woff
-    fonts/Lato_700.woff
-    fonts/Lato_400italic.woff
-    fonts/fontawesome-webfont.woff
-    fonts/fontawesome-webfont.woff2
+    fonts/Cherry_Swash.ttf
+    fonts/Lato_400.ttf
+    fonts/Lato_700.ttf
+    fonts/Lato_400italic.ttf
+    fonts/fontawesome-webfont.ttf?v=4.3.0
 
     # Ace -- these to-be Workers need to be available in separate
     # scripts.
@@ -146,7 +147,7 @@ multipage:
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href='build/styles.css' rel='stylesheet' type='text/css' />
     </head>
-    <body data-bind='css.bound: true'>
+    <body data-bind='css.bound: true' data-version="<%= gitVersion %>">
       <div class='headline'>
         <img src="build/hourglass.gif" alt='Loading ...'/>
         <div class='browser-version'>

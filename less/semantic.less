@@ -55,16 +55,19 @@
 
 .footer {
   background-color: rgb(244, 244, 244);
-	padding: 0.62em;
-  max-width: 1440px;
-  margin: 0 auto;
+	padding: 1.62em;
   border-top: 1px solid gray;
+
+  > div {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
 
   h4 {
     color: black;
     border-bottom: 1px solid rgb(194, 130, 20);
     padding: 0;
-    margin: 0;
+    margin: 0 3em 0 0;
   }
 
   .links {
@@ -125,15 +128,30 @@
 }
 
 
+.html-header {}
+
+
+.javascript-header {}
+
+
+.example-header {
+  background-color: #eee;
+  border: 4px double #bbb;
+  display: inline-block;
+  margin: 0px;
+  padding: 3px 12px;
+  border-radius: 12px;
+  margin: 15px 0px 0px 50%;
+  transform: translateX(-50%);
+}
+
 .example {
-  padding: 10px 1em;
-  box-shadow: inset -2px -2px 6px rgb(255, 193, 74),
-              inset 2px 2px 6px #8f7b29;
-  background-color: #e2b84c;
+  padding: 3em;
+  background-color: #eee;
   min-height: 50px;
-  border-radius: 5px;
-  width: 90%;
-  margin: 0px auto;
+  border-radius: 10px;
+  margin: -19px auto 10px auto;
+  border: 6px double #bbb;
 }
 
 .example-centered {
