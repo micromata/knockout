@@ -1,17 +1,28 @@
 /* global setupEvents, Example, Documentation, API */
 var appCacheUpdateCheckInterval = location.hostname === 'localhost' ? 2500 : (1000 * 60 * 15)
 
+var nativeTemplating = 'content' in document.createElement('template')
+
+
 function loadHtml(uri) {
   return Promise.resolve($.ajax(uri))
     .then(function (html) {
       if (typeof html !== "string") {
         console.error(`Unable to get ${uri}:`, html)
       } else {
-        // ES5-<template> shim/polyfill:
-        // unless 'content' of document.createElement('template')
-        //   # see pv_shim_template_tag re. broken-template tags
-        //   html = html.replace(/<\/template>/g, '</script>')
-        //     .replace(/<template/g, '<script type="text/x-template"')
+        if (!nativeTemplating) {
+          // Polyfill the <template> tag from the templates we load.
+          // For a more involved polyfill, see e.g.
+          //   http://jsfiddle.net/brianblakely/h3EmY/
+          html = html.replace(/<\/?template/g, function(match) {
+              if (match === "<template") {
+                return "<script type='text/x-template'"
+              } else {
+                return "</script"
+              }
+            })
+        }
+
         $(`<div id='templates--${uri}'>`)
           .append(html)
           .appendTo(document.body)
