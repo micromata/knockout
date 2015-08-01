@@ -40,13 +40,13 @@ function loadMarkdown() {
 
 
 function reCheckApplicationCache() {
-  var ac = applicationCache
+  var ac = window.applicationCache
   if (ac.status === ac.IDLE) { ac.update() }
   setTimeout(reCheckApplicationCache, appCacheUpdateCheckInterval)
 }
 
 function checkForApplicationUpdate() {
-  var ac = applicationCache
+  var ac = window.applicationCache
   if (!ac) { return Promise.resolve() }
   ac.addEventListener('progress', function(evt) {
     if (evt.lengthComputable) {

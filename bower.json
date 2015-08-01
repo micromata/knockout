@@ -21,6 +21,7 @@
     "ace-builds": "~1.2.0",
     "knockout.punches": "~0.5.1",
     "fontawesome": "~4.3.0",
-    "trackjs": "~2.1.12"
+    "trackjs": "~2.1.12",
+    "base64": "~0.3.0"
   }
 }

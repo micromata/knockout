@@ -88,6 +88,7 @@ libs.js:
     - src/tracker-setup.js
     - bower_components/trackjs/tracker.js
     - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
+    - bower_components/base64/base64.min.js
     - node_modules/jquery/dist/jquery.js
     - node_modules/knockout/build/output/knockout-latest.js
     - bower_components/knockout.punches/knockout.punches.js
