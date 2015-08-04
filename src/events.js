@@ -41,7 +41,11 @@ function onAnchorClick(evt) {
     var templateId = $root.pathToTemplate(anchor.pathname)
     // If the template isn't found, presume a hard link
     if (!document.getElementById(templateId)) { return true }
+    if ($root.body() === templateId) {
+      return false
+    }
     history.pushState(null, null, anchor.href)
+    document.title = `Knockout.js – ${$(this).text()}`
     $root.open(templateId)
     $root.search.query('')
   } catch(e) {

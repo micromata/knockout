@@ -63,7 +63,6 @@ class Page {
   open(pinpoint) {
     this.body(this.pathToTemplate(pinpoint))
     $(window).scrollTop(0)
-    document.title = `Knockout.js – ${$(this).text()}`
   }
 
   onBodyChange(templateId) {
