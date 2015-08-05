@@ -1772,8 +1772,26 @@ a {
   text-decoration: none;
   color: #3222e6;
 }
+a[href*="//"] {
+  color: #2416bf;
+}
+a[href*="//"]:after {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-transform: translate(5px, 0);
+      -ms-transform: translate(5px, 0);
+          transform: translate(5px, 0);
+  content: "\f08e";
+  font-size: 0.65em;
+  color: #aaa;
+}
 a:hover {
   color: #ff6228;
+}
+a:hover:after {
+  color: #3222e6;
 }
 code {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;

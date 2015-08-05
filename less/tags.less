@@ -75,8 +75,32 @@ h5 {
 a {
   text-decoration: none;
   color: @link-color;
+
+  // Style external links; see e.g.
+  // http://davidwalsh.name/external-links-css
+  &[href*="//"]/*:not([href*="mysite.com"]) */{
+    color: darken(@link-color, 10%);
+
+    &:after {
+      // .fa
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      transform: translate(5px, 0);
+      // icon
+      content: "\f08e";
+      // Style
+      font-size: 0.65em;
+      color: #aaa;
+    }
+  }
   &:hover {
     color: @active-color;
+
+    &:after {
+      color: @link-color;
+    }
   }
 }
 

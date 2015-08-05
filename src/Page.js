@@ -62,7 +62,6 @@ class Page {
 
   open(pinpoint) {
     this.body(this.pathToTemplate(pinpoint))
-    $(window).scrollTop(0)
   }
 
   onBodyChange(templateId) {

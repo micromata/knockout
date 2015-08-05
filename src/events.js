@@ -21,6 +21,28 @@ function rewriteAnchorRoot(evt) {
 }
 
 
+function scrollToHash(anchor) {
+  if (!anchor.hash) {
+    $(window).scrollTop(0)
+    return
+  }
+  var target = document.getElementById(
+    // We normalize the links – the docs use _ and - inconsistently and
+    // seemingly interchangeably; we could go through and spot every difference
+    // but this is just easier for now.
+    anchor.hash.substring(1).replace(/_/g, '-')
+  )
+  if (!target) {
+    throw new Error(`Bad anchor: ${anchor.hash} from ${anchor.href}`)
+  }
+  // We defer until the layout is completed.
+  setTimeout(function () {
+    $("html, body").animate({
+      scrollTop: $(target).offset().top
+    }, 150)
+  }, 15)
+}
+
 //
 // For JS history see:
 // https://github.com/devote/HTML5-History-API
@@ -41,13 +63,13 @@ function onAnchorClick(evt) {
     var templateId = $root.pathToTemplate(anchor.pathname)
     // If the template isn't found, presume a hard link
     if (!document.getElementById(templateId)) { return true }
-    if ($root.body() === templateId) {
-      return false
+    if ($root.body() !== templateId) {
+      history.pushState(null, null, anchor.href)
+      document.title = `Knockout.js – ${$(this).text()}`
+      $root.open(templateId)
+      $root.search.query('')
     }
-    history.pushState(null, null, anchor.href)
-    document.title = `Knockout.js – ${$(this).text()}`
-    $root.open(templateId)
-    $root.search.query('')
+    scrollToHash(anchor)
   } catch(e) {
     console.log(`Error/${anchor.getAttribute('href')}`, e)
   }
