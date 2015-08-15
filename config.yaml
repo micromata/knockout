@@ -108,8 +108,7 @@ libs.js:
     - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
     - bower_components/base64/base64.min.js
     - node_modules/jquery/dist/jquery.js
-    # - node_modules/knockout/build/output/knockout-latest.debug.js
-    - knockout-3.4-pre.js
+    - node_modules/knockout/build/output/knockout-latest.js
     - bower_components/knockout.punches/knockout.punches.js
     - node_modules/knockout-transformations/dist/knockout-transformations.js
     - bower_components/marked/marked.min.js
