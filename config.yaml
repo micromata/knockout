@@ -80,17 +80,36 @@ sitemap:
     fileName: sitemap.xml
   dest: ./
 
+
+tracker.js:
+  dest: tracker-setup.js
+  text: |
+    /*  Automatically generated */
+    if (location.hostname !== 'localhost') {
+      window._trackJs = window._trackJs || {
+        enabled: true,
+        token: 'bc952e7044e34a2e8423f777b8c824be',
+        application: "knockout.js",
+        version: "<%= gitVersion %>"
+      };
+    } else {
+      window._trackJs = window._trackJs || {
+        enabled: false
+      };
+    }
+
 # Javascript libraries
 libs.js:
   dest: build/
   filename: libs.js
   src:
-    - src/tracker-setup.js
+    - tracker-setup.js
     - bower_components/trackjs/tracker.js
     - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
     - bower_components/base64/base64.min.js
     - node_modules/jquery/dist/jquery.js
-    - node_modules/knockout/build/output/knockout-latest.js
+    # - node_modules/knockout/build/output/knockout-latest.debug.js
+    - knockout-3.4-pre.js
     - bower_components/knockout.punches/knockout.punches.js
     - node_modules/knockout-transformations/dist/knockout-transformations.js
     - bower_components/marked/marked.min.js
@@ -148,7 +167,7 @@ multipage:
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href='build/styles.css' rel='stylesheet' type='text/css' />
     </head>
-    <body data-bind='css.bound: true' data-version="<%= gitVersion %>">
+    <body data-bind='css.bound: true'>
       <div class='headline'>
         <img src="build/hourglass.gif" alt='Loading ...'/>
         <div class='browser-version'>

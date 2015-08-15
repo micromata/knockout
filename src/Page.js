@@ -61,6 +61,7 @@ class Page {
   }
 
   open(pinpoint) {
+    console.log(" 📰  " + this.pathToTemplate(pinpoint))
     this.body(this.pathToTemplate(pinpoint))
   }
 

@@ -57,7 +57,13 @@ gulp.task('eslint', function () {
 gulp.task('make:appcache', _.debounce(makeAppcache, 500))
 
 
-gulp.task('make:libs', function () {
+gulp.task('make:tracker.js', function () {
+  var code = _.template(config['tracker.js'].text)()
+  fs.writeFileSync(config['tracker.js'].dest, code)
+})
+
+
+gulp.task('make:libs', ['make:tracker.js'], function () {
   gulp.src(config['libs.js'].src)
     .pipe(plugins.concat(config['libs.js'].filename))
     // .pipe(plugins.replace("# sourceMappingURL=jquery.min.map", ""))
