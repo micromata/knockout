@@ -534,7 +534,7 @@ describe('Binding attribute syntax', function() {
             var called = 0
             ko.bindingHandlers.fnHandler = function () { called++; };
             ko.bindingHandlers.fnHandler.prototype = {
-                allowVirtualElements: true
+                allowVirtual: true
             };
             testNode.innerHTML = '<b><!-- ko fnHandler --><!-- /ko --></b>';
             ko.applyBindings({}, testNode);
@@ -544,7 +544,7 @@ describe('Binding attribute syntax', function() {
         it("virtual elements via fn.allowVirtualElements", function () {
             var called = 0
             ko.bindingHandlers.fnHandler = function () { called++};
-            ko.bindingHandlers.fnHandler.allowVirtualElements = true;
+            ko.bindingHandlers.fnHandler.allowVirtual = true;
             testNode.innerHTML = '<b><!-- ko fnHandler --><!-- /ko --></b>';
             ko.applyBindings({}, testNode);
             expect(called).toEqual(1);

@@ -183,9 +183,9 @@
         var bindingHandler = ko.bindingHandlers[bindingName],
             validator;
         if (typeof bindingHandler === 'function') {
-            validator = bindingHandler.allowVirtualElements || (
+            validator = bindingHandler.allowVirtual || (
                 typeof bindingHandler.prototype === 'object' &&
-                Boolean(bindingHandler.prototype.allowVirtualElements)
+                Boolean(bindingHandler.prototype.allowVirtual)
             )
         } else {
             validator = ko.virtualElements.allowedBindings[bindingName];
@@ -285,7 +285,7 @@
 
     // This is called when the bindingHandler is an object (with `init` and/or
     // `update` methods)
-    function execObjectBindingHandlerOnNode(bindingKeyAndHandler, node, getValueAccessor, allBindings, bindingContext) {
+    function initObjectBindingHandlerOnNode(bindingKeyAndHandler, node, getValueAccessor, allBindings, bindingContext) {
         var handlerInitFn = bindingKeyAndHandler.handler["init"],
             handlerUpdateFn = bindingKeyAndHandler.handler["update"],
             bindingKey = bindingKeyAndHandler.key,
@@ -319,7 +319,7 @@
     // This is called when the bindingHandler is a function (or ES6 class).
     // Node that these will work only for browsers with Object.defineProperty,
     // i.e. IE9+.
-    function execNewBindingHandlerOnNode(bindingKeyAndHandler, node, getValueAccessor, allBindings, bindingContext) {
+    function constructNewBindingHandlerOnNode(bindingKeyAndHandler, node, getValueAccessor, allBindings, bindingContext) {
         var bindingKey = bindingKeyAndHandler.key,
             handlerParams = {
                 element: node,
@@ -332,7 +332,7 @@
             subscriptions = [];
 
         Object.defineProperty(handlerParams, 'value', {
-            get: function () { return getValueAccessor(bindingKey)() }
+            get: getValueAccessor(bindingKey)
         });
 
         function handlerConstructorWrapper() {
@@ -366,8 +366,9 @@
         // it's the only way to define this.computed/subscribe before the
         // handlerConstructor is called, and one would expect those
         // utilities to be available in the constructor.
-        ko.utils.extend(handlerConstructorWrapper, handlerConstructor)
-        handlerConstructorWrapper.prototype = handlerConstructor.prototype;
+        handlerConstructorWrapper.prototype = ko.utils.extend(
+            handlerConstructor.prototype || {},
+            {constructor: handlerConstructor});
         new handlerConstructorWrapper();
 
         ko.utils.domNodeDisposal.addDisposeCallback(node, function () {
@@ -375,11 +376,11 @@
                 handlerInstance.dispose.call(handlerInstance);
             }
             ko.utils.arrayForEach(subscriptions, function (subs) {
-                subs.dispose()
-            })
-        })
+                subs.dispose();
+            });
+        });
 
-        return handlerConstructor.controlsDescendantBindings || handlerInstance.controlsDescendantBindings;
+        return handlerConstructor.controlsContext || handlerInstance.controlsContext;
     }
 
     function applyBindingsToNodeInternal(node, sourceBindings, bindingContext, bindingContextMayDifferFromDomParentElement) {
@@ -456,9 +457,9 @@
             ko.utils.arrayForEach(orderedBindings, function(bindingKeyAndHandler) {
                 var bindingKey = bindingKeyAndHandler.key,
                     controlsDescendantBindings,
-                    execBindingFunction = typeof bindingKeyAndHandler.handler === 'function' ?
-                        execNewBindingHandlerOnNode :
-                        execObjectBindingHandlerOnNode;
+                    applyBindingFunction = typeof bindingKeyAndHandler.handler === 'function' ?
+                        constructNewBindingHandlerOnNode :
+                        initObjectBindingHandlerOnNode;
 
                 if (node.nodeType === 8) {
                     validateThatBindingIsAllowedForVirtualElements(bindingKey);
@@ -467,7 +468,7 @@
                 // Note that topologicalSortBindings has already filtered out any nonexistent binding handlers,
                 // so bindingKeyAndHandler.handler will always be nonnull.
                 try {
-                    controlsDescendantBindings = execBindingFunction(
+                    controlsDescendantBindings = applyBindingFunction(
                         bindingKeyAndHandler, node, getValueAccessor,
                         allBindings, bindingContext)
                 } catch (ex) {
