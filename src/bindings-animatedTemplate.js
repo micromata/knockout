@@ -4,13 +4,17 @@
 // Waits for CSS3 transitions to complete on change before moving to the next.
 //
 var animatedHideProps = {
-  marginLeft: '100%',
+  x: '100%',
   width: '100%',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  duration: 180,
+  easing: 'snap'
 }
 
 var animatedShowProps = {
-  marginLeft: 0
+  x: 0,
+  duration: 180,
+  easing: 'snap'
 }
 
 
@@ -28,15 +32,13 @@ ko.bindingHandlers.animatedTemplate = {
         throw new Error(`Cannot find template by id: ${templateId}`)
       } else {
         $element.stop()
-          .animate(animatedHideProps, {
-            duration: 180,
-            complete: function () {
-              $element.css('margin-left', '-100%')
+          .transition(animatedHideProps, function () {
+              $element.css('x', '-100%')
               $element.html($(templateNode).html())
               ko.applyBindingsToDescendants(bindingContext, element)
             }
-          })
-          .animate(animatedShowProps, { duration: 180 })
+          )
+          .transition(animatedShowProps)
       }
     }
 

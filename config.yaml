@@ -107,7 +107,7 @@ libs.js:
     - bower_components/trackjs/tracker.js
     - node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js
     - bower_components/base64/base64.min.js
-    - node_modules/jquery/dist/jquery.js
+    - bower_components/jquery/dist/jquery.js
     - node_modules/knockout/build/output/knockout-latest.js
     - bower_components/knockout.punches/knockout.punches.js
     - node_modules/knockout-transformations/dist/knockout-transformations.js
@@ -119,6 +119,7 @@ libs.js:
     - bower_components/ace-builds/src/theme-solarized_light.js
     - bower_components/ace-builds/src/theme-tomorrow.js
     - bower_components/ace-builds/src/theme-monokai.js
+    - bower_components/jquery.transit/jquery.transit.js
 
 
 # Our JS application

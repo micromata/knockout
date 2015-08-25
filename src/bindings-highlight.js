@@ -18,7 +18,7 @@ function unescape(str) {
 }
 
 ko.bindingHandlers.highlight = {
-  init: function (element, va) {
+  setup: function (element, va) {
     var $e = $(element)
     var language = va()
     if (language !== 'html' && language !== 'javascript') {
@@ -43,5 +43,9 @@ ko.bindingHandlers.highlight = {
     editor.setValue(content)
     editor.clearSelection()
     ko.utils.domNodeDisposal.addDisposeCallback(element, () => editor.destroy())
+  },
+
+  init: function (element, va) {
+    setTimeout(() => ko.bindingHandlers.highlight.setup(element, va), 124)
   }
 }

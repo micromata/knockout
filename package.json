@@ -24,7 +24,6 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-util": "^3.0.6",
     "gulp-yaml": "^0.2.4",
-    "jquery": "^2.1.4",
     "js-yaml": "^3.3.1",
     "knockout": "^3.3.0",
     "knockout-transformations": "^2.0.2",

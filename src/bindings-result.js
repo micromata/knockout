@@ -6,7 +6,10 @@ ko.components.originalRegister = ko.components.register
 
 
 ko.bindingHandlers.result = {
-  init: function (element, va) {
+  init: function(element, va) {
+    setTimeout(() => ko.bindingHandlers.result.setup(element, va), 124)
+  },
+  setup: function (element, va) {
     var $e = $(element)
     var example = ko.unwrap(va())
     var registeredComponents = new Set()
