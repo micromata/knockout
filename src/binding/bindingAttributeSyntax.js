@@ -353,6 +353,10 @@
                 return ko.computed(options);
             };
 
+            this.pureComputed = function handlerInstancePureComputed(evaluator) {
+                return ko.computed(evaluator, handlerInstance, {pure: true})
+            };
+
             this.subscribe = function handlerInstanceSubscription(subscribable, callback, eventType) {
                 subscriptions.push(
                     subscribable.subscribe(callback, handlerInstance, eventType)
