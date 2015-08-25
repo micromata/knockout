@@ -354,7 +354,9 @@
             };
 
             this.pureComputed = function handlerInstancePureComputed(evaluator) {
-                return ko.computed(evaluator, handlerInstance, {pure: true})
+                return ko.computed(evaluator, handlerInstance, {
+                    pure: true, disposeWhenNodeIsRemoved: node
+                })
             };
 
             this.subscribe = function handlerInstanceSubscription(subscribable, callback, eventType) {

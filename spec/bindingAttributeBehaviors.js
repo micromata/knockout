@@ -600,6 +600,35 @@ describe('Binding attribute syntax', function() {
             expect(yCalls).toEqual(2);
         });
 
+        it("has a .pureComputed() property with the node's lifecycle", function () {
+            var instance, calls = 0;
+            ko.bindingHandlers.fnHandler = function () {
+                instance = this;
+                this.v = ko.observable(0);
+                this.pc = this.pureComputed(this.calculate_pure);
+            };
+            ko.bindingHandlers.fnHandler.prototype = {
+                calculate_pure: function() {
+                    this.v();
+                    expect(this).toEqual(instance);
+                    calls++;
+                }
+            };
+            testNode.innerHTML = '<i data-bind="fnHandler"></i>';
+            ko.applyBindings({}, testNode);
+            expect(calls).toEqual(0);
+            instance.pc();
+            expect(calls).toEqual(1);
+            instance.v(1);
+            instance.pc();
+            expect(calls).toEqual(2);
+
+            ko.cleanNode(testNode);
+            instance.v(2);
+            instance.pc();
+            expect(calls).toEqual(2);
+        })
+
         it("has a .subscribe property with the node's lifecycle", function () {
             var obs = ko.observable(),
                 handlerInstance;
