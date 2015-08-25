@@ -22,7 +22,7 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        {{# template: body /}}
+        <div data-bind='animatedTemplate: body'></div>
       {{/if }}
       <div data-bind='ifnot: body'>
         <h1>Installation</h1>
