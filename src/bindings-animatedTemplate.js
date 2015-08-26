@@ -5,14 +5,20 @@
 //
 var animatedHideProps = {
   x: '100%',
-  width: '100%',
+  rotateY: '90deg',
   overflow: 'hidden',
   duration: 180,
   easing: 'snap'
 }
 
+var animatedStartProps = {
+  x: '-100%',
+  rotateY: '-90deg'
+}
+
 var animatedShowProps = {
   x: 0,
+  rotateY: '0deg',
   duration: 180,
   easing: 'snap'
 }
@@ -33,8 +39,8 @@ ko.bindingHandlers.animatedTemplate = {
       } else {
         $element.stop()
           .transition(animatedHideProps, function () {
-              $element.css('x', '-100%')
-              $element.html($(templateNode).html())
+              $element.css(animatedStartProps)
+                .html($(templateNode).html())
               ko.applyBindingsToDescendants(bindingContext, element)
             }
           )

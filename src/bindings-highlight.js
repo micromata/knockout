@@ -46,6 +46,6 @@ ko.bindingHandlers.highlight = {
   },
 
   init: function (element, va) {
-    setTimeout(() => ko.bindingHandlers.highlight.setup(element, va), 124)
+    setTimeout(() => ko.bindingHandlers.highlight.setup(element, va), 25)
   }
 }

@@ -16,7 +16,7 @@ function rewriteAnchorRoot(evt) {
   if (!isLocal(anchor)) { return true }
   // Already re-rooted
   if (anchor.pathname.indexOf(anchorRoot) === 0) { return true }
-  anchor.pathname = `${anchorRoot}${anchor.pathname}`.replace('//', '/')
+  anchor.href = `${anchorRoot}${anchor.pathname}`.replace('//', '/')
   return true
 }
 

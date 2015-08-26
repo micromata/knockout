@@ -7,7 +7,7 @@ ko.components.originalRegister = ko.components.register
 
 ko.bindingHandlers.result = {
   init: function(element, va) {
-    setTimeout(() => ko.bindingHandlers.result.setup(element, va), 124)
+    setTimeout(() => ko.bindingHandlers.result.setup(element, va), 25)
   },
   setup: function (element, va) {
     var $e = $(element)
