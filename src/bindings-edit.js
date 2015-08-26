@@ -37,7 +37,7 @@ function setupEditor(element, language, exampleName) {
 ko.bindingHandlers['edit-js'] = {
   /* highlight: "langauge" */
   init: function (element, va) {
-    setTimeout(() => setupEditor(element, 'javascript', va(), 25))
+    whenInView(element, () => setupEditor(element, 'javascript', va()))
   }
 }
 
@@ -45,7 +45,7 @@ ko.bindingHandlers['edit-html'] = {
   init: function (element, va) {
     // Defer so the page rendering is faster
     // TODO: Wait until in view http://stackoverflow.com/a/7557433/19212
-    setTimeout(() => setupEditor(element, 'html', va()), 25)
+    whenInView(element, () => setupEditor(element, 'html', va()))
     // debugger
     // editor.session.setOptions({
     // // $worker.call('changeOptions', [{

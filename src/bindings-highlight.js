@@ -46,6 +46,6 @@ ko.bindingHandlers.highlight = {
   },
 
   init: function (element, va) {
-    setTimeout(() => ko.bindingHandlers.highlight.setup(element, va), 25)
+    whenInView(element, () => ko.bindingHandlers.highlight.setup(element, va))
   }
 }

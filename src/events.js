@@ -1,6 +1,8 @@
 /*global setupEvents*/
 /* eslint no-unused-vars: 0 */
 
+var SCROLL_DEBOUNCE = 200
+
 function isLocal(anchor) {
   return (location.protocol === anchor.protocol &&
           location.host === anchor.host)
@@ -91,4 +93,5 @@ function setupEvents() {
   } else {
     $(document.body).on('click', rewriteAnchorRoot)
   }
+  $(window).on('scroll', throttle(checkItemsInView, SCROLL_DEBOUNCE))
 }
