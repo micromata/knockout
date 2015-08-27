@@ -22,7 +22,6 @@
     "base64": "~0.3.0",
     "fontawesome": "~4.3.0",
     "jquery": "~2.1.4",
-    "jquery.transit": "~0.9.12",
     "knockout.punches": "~0.5.1",
     "trackjs": "~2.1.12"
   }

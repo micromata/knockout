@@ -59,9 +59,23 @@
 }
 
 .main-body {
-  padding: 5px 0.5em;
+  padding: 15px 0.5em;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.5);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.main-animated {
+  animation: 0.4s ease-out mainAnimation;
+  transform-origin: left center;
+  perspective: 100px;
+  perspective-origin: 50% 50%;
+}
+
+@keyframes mainAnimation {
+    0%   { transform: translateY(100%); }
+    100% { transform: translateY(0); }
 }
 
 
@@ -210,7 +224,7 @@
 
 .button-refresh {
   position: fixed;
-  top: 60px;
+  top: 100px;
   left: 0;
   width: 100%;
   z-index: 25000;

@@ -119,7 +119,6 @@ libs.js:
     - bower_components/ace-builds/src/theme-solarized_light.js
     - bower_components/ace-builds/src/theme-tomorrow.js
     - bower_components/ace-builds/src/theme-monokai.js
-    - bower_components/jquery.transit/jquery.transit.js
 
 
 # Our JS application

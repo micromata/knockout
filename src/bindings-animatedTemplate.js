@@ -4,6 +4,8 @@
 // Waits for CSS3 transitions to complete on change before moving to the next.
 //
 
+var animationEvent = 'animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd'
+
 ko.bindingHandlers.animatedTemplate = {
   init: function (element, valueAccessor, ign1, ign2, bindingContext) {
     var $element = $(element)
@@ -17,7 +19,15 @@ ko.bindingHandlers.animatedTemplate = {
       } else if (!templateNode) {
         throw new Error(`Cannot find template by id: ${templateId}`)
       } else {
-        $element.html($(templateNode).html())
+        var html = $(templateNode).html()
+        $element.html(`<div class='main-animated'>${html}</div>`)
+
+        // See: http://stackoverflow.com/questions/9255279
+        $element.one(animationEvent, function () {
+          // Fake a scroll event so our `isAlmostInView`
+          $(window).trigger("scroll")
+        })
+
         ko.applyBindingsToDescendants(bindingContext, element)
       }
     }

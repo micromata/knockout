@@ -1570,9 +1570,42 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   padding: 0px 1em 45px 1em;
 }
 .main-body {
-  padding: 5px 0.5em;
+  padding: 15px 0.5em;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.5);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.main-animated {
+  -webkit-animation: 0.4s ease-out mainAnimation;
+          animation: 0.4s ease-out mainAnimation;
+  -webkit-transform-origin: left center;
+      -ms-transform-origin: left center;
+          transform-origin: left center;
+  -webkit-perspective: 100px;
+          perspective: 100px;
+  -webkit-perspective-origin: 50% 50%;
+          perspective-origin: 50% 50%;
+}
+@-webkit-keyframes mainAnimation {
+  0% {
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@keyframes mainAnimation {
+  0% {
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
 }
 .footer {
   background-color: rgba(244, 244, 244, 0.5);
@@ -1698,7 +1731,7 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 }
 .button-refresh {
   position: fixed;
-  top: 60px;
+  top: 100px;
   left: 0;
   width: 100%;
   z-index: 25000;
