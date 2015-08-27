@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Animated transitions</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>This example shows two ways to animate transitions:</p>
 <ul>
@@ -37,7 +38,8 @@
 <p><live-example params='id: "animated"'></live-example></p>
 <p><a href="http://jsfiddle.net/rniemeyer/8k8V5/">Try it in jsFiddle</a></p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

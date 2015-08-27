@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Plugins</h1>
+        <div class='main-body'>
 <!-- /header -->
 <input type='search' placeholder='Search' data-bind='textInput: plugins.needle, hasFocus: true' class='plugin-search' autofocus />
 
@@ -48,7 +49,8 @@
   </tbody>
 </table>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

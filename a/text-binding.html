@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>text</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>text</code> binding causes the associated DOM element to display the text value of your parameter.</p>
@@ -83,7 +84,8 @@ today.</div>
 </code></pre>
 <p>Other browsers, and newer versions of IE, don&#39;t have this quirk.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

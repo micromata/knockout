@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>css</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>css</code> binding adds or removes one or more named CSS classes to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative.</p>
@@ -89,7 +90,8 @@ viewModel.currentProfit(-50);</div>
 <pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;div data-bind="css: { 'my-class': someValue }">...&lt;/div></div>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

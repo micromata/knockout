@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>The "rateLimit" extender</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the <a href="throttle-extender.html"><code>throttle</code> extender</a> provides similar functionality.</em></p>
 <p>Normally, an <a href="observables.html">observable</a> that is changed notifies its subscribers immediately, so that any computed observables or bindings that depend on the observable are updated synchronously. The <code>rateLimit</code> extender, however, causes an observable to suppress and delay change notifications for a specified period of time. A rate-limited observable therefore updates dependencies asynchronously.</p>
@@ -119,7 +120,8 @@ var upperCaseName = ko.computed(function() {
 <li>Evaluation of a rate-limited computed observable isn&#39;t rate-limited; it will re-evaluate if you read its value.</li>
 </ol>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

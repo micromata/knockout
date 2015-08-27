@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>style</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>style</code> binding adds or removes one or more style values to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative, or to set the width of a bar to match a numerical value that changes.</p>
@@ -58,7 +59,8 @@
 </ul>
 <p>See also: <a href="http://www.comptechdoc.org/independent/web/cgi/javamanual/javastyle.html">a longer list of style names and their JavaScript equivalents</a></p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

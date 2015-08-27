@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Custom disposal logic</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>In a typical Knockout application, DOM elements are dynamically added and removed, for example using the <a href="template-binding.html"><code>template</code></a> binding or via control-flow bindings (<a href="if-binding.html"><code>if</code></a>, <a href="ifnot-binding.html"><code>ifnot</code></a>, <a href="with-binding.html"><code>with</code></a>, and <a href="foreach-binding.html"><code>foreach</code></a>). When creating a custom binding, it is often desirable to add clean-up logic that runs when an element associated with your custom binding is removed by Knockout.</p>
 <h3 id="registering-a-callback-on-the-disposal-of-an-element">Registering a callback on the disposal of an element</h3>
@@ -53,7 +54,8 @@
 };</div>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>html</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>html</code> binding causes the associated DOM element to display the HTML specified by your parameter.</p>
@@ -54,7 +55,8 @@ viewModel.details("&lt;em>For further details, view the report &lt;a href='repor
 <h3 id="note-about-html-encoding">Note: About HTML encoding</h3>
 <p>Since this binding sets your element&#39;s content using <code>innerHTML</code>, you should be careful not to use it with untrusted model values, because that might open the possibility of a script injection attack.  If you cannot guarantee that the content is safe to display (for example, if it is based on a different user&#39;s input that was stored in your database), then you can use <a href="text-binding.html">the text binding</a>, which will set the element&#39;s text value using <code>innerText</code> or <code>textContent</code> instead.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

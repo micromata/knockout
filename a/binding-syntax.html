@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>The "data-bind" syntax</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Knockout&#39;s declarative binding system provides a concise and powerful way to link data to the UI. It&#39;s generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout&#39;s binding system.</p>
 <h3 id="binding-syntax">Binding syntax</h3>
@@ -79,7 +80,8 @@ The item is &lt;span data-bind="text: price() > 50 ? 'expensive' : 'cheap'">&lt;
 </code></pre>
 <p>This ability is especially useful when paired with <a href="#binding-preprocessing">binding preprocessing</a>, which can assign a default value for a binding.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

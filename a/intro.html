@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Introduction</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h2>Key Concepts</h2>
 <div class='pure-g'>
@@ -65,7 +66,8 @@
 <pre><code class="lang-example"><live-example params='base64: "eyJuYW1lIjoiSW50cm9kdWN0aW9uIiwiaHRtbCI6IkNob29zZSBhIHRpY2tldCBjbGFzc1xuPHNlbGVjdCBkYXRhLWJpbmQ9J29wdGlvbnM6IHRpY2tldHMsXG4gICAgICAgICAgICAgICAgICAgb3B0aW9uc0NhcHRpb246IFwiQ2hvb3NlIC4uLlwiLFxuICAgICAgICAgICAgICAgICAgIG9wdGlvbnNUZXh0OiBcIm5hbWVcIixcbiAgICAgICAgICAgICAgICAgICB2YWx1ZTogY2hvc2VuVGlja2V0Jz48L3NlbGVjdD5cblxuPGJ1dHRvbiBkYXRhLWJpbmQ9J2VuYWJsZTogY2hvc2VuVGlja2V0LFxuICAgICAgICAgICAgICAgICAgIGNsaWNrOiByZXNldFRpY2tldCc+Q2xlYXI8L2J1dHRvbj5cblxuPHAgZGF0YS1iaW5kPSd3aXRoOiBjaG9zZW5UaWNrZXQnPlxuICBZb3UgaGF2ZSBjaG9zZW4gPGIgZGF0YS1iaW5kPSd0ZXh0OiBuYW1lJz48L2I+XG4gICgkPHNwYW4gZGF0YS1iaW5kPSd0ZXh0OiBwcmljZSc+PC9zcGFuPilcbjwvcD4iLCJqYXZhc2NyaXB0IjoiZnVuY3Rpb24gVGlja2V0c1ZpZXdNb2RlbCgpIHtcbiAgdGhpcy50aWNrZXRzID0gW1xuICAgIHsgbmFtZTogXCJFY29ub215XCIsIHByaWNlOiAxOTkuOTUgfSxcbiAgICB7IG5hbWU6IFwiQnVzaW5lc3NcIiwgcHJpY2U6IDQ0OS4yMiB9LFxuICAgIHsgbmFtZTogXCJGaXJzdCBDbGFzc1wiLCBwcmljZTogMTE5OS45OSB9XG4gIF07XG4gIHRoaXMuY2hvc2VuVGlja2V0ID0ga28ub2JzZXJ2YWJsZSgpO1xuICB0aGlzLnJlc2V0VGlja2V0ID0gZnVuY3Rpb24gKCkge1xuICAgIHRoaXMuY2hvc2VuVGlja2V0KG51bGwpO1xuICB9O1xufVxuXG5rby5hcHBseUJpbmRpbmdzKG5ldyBUaWNrZXRzVmlld01vZGVsKCkpOyJ9"'></live-example>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

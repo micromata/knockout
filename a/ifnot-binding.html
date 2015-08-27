@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>ifnot</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>ifnot</code> binding is exactly the same as <a href="#if-binding">the <code>if</code> binding</a>, except that it inverts the result of whatever expression you pass to it. For more details, see documentation for <a href="#if-binding">the <code>if</code> binding</a>.</p>
@@ -39,7 +40,8 @@
 <p>... assuming that <code>someProperty</code> is <em>observable</em> and hence you need to invoke it as a function to obtain the current value.</p>
 <p>The only reason to use <code>ifnot</code> instead of a negated <code>if</code> is just as a matter of taste: many developers feel that it looks tidier.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

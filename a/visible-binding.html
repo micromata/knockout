@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>visible</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>visible</code> binding causes the associated DOM element to become hidden or visible according to the value you pass to the binding.</p>
@@ -56,7 +57,8 @@
 <pre><code class="lang-example"><live-example params='base64: "eyJodG1sIjoiPGRpdiBkYXRhLWJpbmQ9XCJ2aXNpYmxlOiBteVZhbHVlcygpLmxlbmd0aCA+IDBcIj5cbiAgWW91IHdpbGwgc2VlIHRoaXMgbWVzc2FnZSBvbmx5IHdoZW4gJ215VmFsdWVzJyBoYXMgYXQgbGVhc3Qgb25lIG1lbWJlci5cbjwvZGl2PiIsImphdmFzY3JpcHQiOiJ2YXIgdmlld01vZGVsID0ge1xuICBteVZhbHVlczoga28ub2JzZXJ2YWJsZUFycmF5KFtdKSAvLyBJbml0aWFsbHkgZW1wdHksIHNvIG1lc3NhZ2UgaGlkZGVuXG59O1xudmlld01vZGVsLm15VmFsdWVzLnB1c2goXCJzb21lIHZhbHVlXCIpOyAvLyBOb3cgdmlzaWJsZSJ9"'></live-example>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Component registration</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>For Knockout to be able to load and instantiate your components, you must register them using <code>ko.components.register</code>, providing a configuration as described here.</p>
 <p><em>Note: As an alternative, it&#39;s possible to implement a <a href="component-loaders.html">custom component loader</a> that fetches components by your own conventions instead of explicit configuration.</em></p>
@@ -286,7 +287,8 @@ define(['knockout', 'text!./my-component.html'], function(ko, htmlString) {
 </li>
 </ul>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Loading and Saving JSON data</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Knockout allows you to implement sophisticated client-side interactivity, but almost all web applications also need to exchange data with the server, or at least to serialize the data for local storage. The most convenient way to exchange or store data is in <a href="http://json.org/">JSON format</a> - the format that the majority of Ajax applications use today.</p>
 <h3 id="loading-or-saving-data">Loading or Saving Data</h3>
@@ -99,7 +100,8 @@ viewModel.pets(parsed.pets);</div>
 <p>In many scenarios, this direct approach is the simplest and most flexible solution. Of course, as you update the properties on your view model, Knockout will take care of updating the visible UI to match it.</p>
 <p>However, many developers prefer to use a more conventions-based approach to updating their view models using incoming data without manually writing a line of code for every property to be updated. This can be beneficial if your view models have many properties, or deeply nested data structures, because it can greatly reduce the amount of manual mapping code you need to write. For more details about this technique, see <a href="#plugins-mapping">the knockout.mapping plugin</a>.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

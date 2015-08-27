@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Pure computed observables</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Pure</em> computed observables, introduced in Knockout 3.2.0, provide performance and memory benefits over regular computed observables for most applications. This is because a <em>pure</em> computed observable doesn&#39;t maintain subscriptions to its dependencies when it has no subscribers itself. This feature:</p>
 <ul>
@@ -99,7 +100,8 @@
 </code></pre>
 <p>(The <code>awake</code> event also applies to normal computed observables created with the <code>deferEvaluation</code> option.)</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

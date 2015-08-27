@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Observable Arrays</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>If you want to detect and respond to changes on one object, you&#39;d use <a href="#observables">observables</a>. If you want to detect and respond to changes of a <em>collection of things</em>, use an <code>observableArray</code>. This is useful in many scenarios where you&#39;re displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.</p>
 <h3 id="example">Example</h3>
@@ -101,7 +102,8 @@ alert('The first element is ' + myObservableArray()[0]);</div>
 myViewModel.myObservableArray.extend({ rateLimit: 50 });</div>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

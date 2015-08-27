@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Using unobtrusive event handlers</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:</p>
 <pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;a href="#" data-bind="click: function() { viewModel.items.remove($data); }">
@@ -54,7 +55,8 @@
 </code></pre>
 <p>No matter how nested the links become, the handler is always able to identify and operate on the appropriate data. Using this techinique, we can avoid the overhead of attaching handlers to each individual link and can keep the markup clean and concise.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

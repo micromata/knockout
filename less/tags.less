@@ -16,6 +16,8 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 18px;
 	color: #666;
+  background: url(images/bg.svg) no-repeat center center fixed;
+  background-size: cover;
 }
 
 pre {
@@ -28,6 +30,7 @@ h1 {
   font-family: @title-font-family;
   color: rgb(101, 31, 2);
   padding: 1.2em 0;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 h2 {
@@ -79,27 +82,28 @@ a {
   // Style external links; see e.g.
   // http://davidwalsh.name/external-links-css
   &[href*="//"]/*:not([href*="mysite.com"]) */{
-    color: darken(@link-color, 10%);
-
     &:after {
       // .fa
       display: inline-block;
       font: normal normal normal 14px/1 FontAwesome;
       font-size: inherit;
       text-rendering: auto;
-      transform: translate(5px, 0);
+      transform: translate(0, 0);
       // icon
       content: "\f08e";
       // Style
-      font-size: 0.65em;
-      color: #aaa;
+      vertical-align: super;
+      font-size: 0.55em;
+      text-shadow: 0px 0px 2px darken(@link-color, 10%);
+      color: transparent;
     }
   }
   &:hover {
     color: @active-color;
 
     &:after {
-      color: @link-color;
+      text-shadow: none;
+      color: @active-color;
     }
   }
 }

@@ -21,4 +21,4 @@ globals:
   Page: true
   $root: true
   ace: true
-  whenInView: true
+  whenAlmostInView: true

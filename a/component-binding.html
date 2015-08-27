@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>component</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>The <code>component</code> binding injects a specified <a href="component-overview.html">component</a> into an element, and optionally passes parameters to it.</p>
 <ul>
@@ -187,7 +188,8 @@ ko.components.register('your-component-name', {
 </code></pre>
 <p>It isn&#39;t strictly necessary to dispose computeds and subscriptions that only depend on properties of the same viewmodel object, since this creates only a circular reference which JavaScript garbage collectors know how to release. However, to avoid having to remember which things need disposal, you may prefer to use <code>pureComputed</code> wherever possible, and explicitly dispose all other computeds/subscriptions whether technically necessary or not.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

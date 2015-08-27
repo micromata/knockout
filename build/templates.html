@@ -75,20 +75,16 @@
 <template id='header'>
   <div class='header'>
     <div class='logo'>
-      {{# ifnot: cacheIsUpdated }}
-        <img src='build/logo.svg' alt='Knockout.'/>
-        {{# if: reloadProgress }}
-          <progress title='Loading update' value="{{ reloadProgress }}" max='1'></progress>
-        {{/ if }}
-      {{/ ifnot }}
+      <img src='build/logo.svg' alt='Knockout.'/>
+      {{# if: reloadProgress }}
+        <progress title='Loading update' value="{{ reloadProgress }}" max='1'></progress>
+      {{/ if }}
       {{# if: cacheIsUpdated }}
-        <div class='text-center'>
-          Website updated.
-          <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
-            <i class='fa fa-lg fa-refresh'></i>
-            Click to reload
-          </a>
-        </div>
+        <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
+          <small>Page has updated</small><br/>
+          <i class='fa fa-lg fa-refresh'></i>
+          Click to refresh
+        </a>
       {{/ if }}
     </div>
 
@@ -100,9 +96,8 @@
 
     <a href='/a/plugins.html'>Plugins</a>
 
-    <div class='text-right'>
-      <i class='fa fa-search'></i>
-      <input type='search' data-bind='textInput: search.query' placeholder='Search'/>
+    <div class='search'>
+      <input type='search' data-bind='textInput: search.query, hasFocus: true' placeholder='Type here to search the site'/>
     </div>
   </div>
 </template>

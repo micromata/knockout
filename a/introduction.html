@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Introduction</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Knockout is a JavaScript library that helps you to create rich, responsive display and editor user interfaces with a clean underlying data model. Any time you have sections of UI that update dynamically (e.g., changing depending on the user&#39;s actions or when an external data source changes), KO can help you implement it more simply and maintainably.</p>
 <p>Headline features:</p>
@@ -58,7 +59,8 @@
 <p>Later, when you&#39;re asked to implement the &#39;Delete&#39; functionality, you don&#39;t have to figure out what bits of the UI it has to interact with; you just make it alter the underlying data model.</p>
 <p>To summarise: KO doesn&#39;t compete with jQuery or similar low-level DOM APIs. KO provides a complementary, high-level way to link a data model to a UI. KO itself doesn&#39;t depend on jQuery, but you can certainly use jQuery at the same time, and indeed that&#39;s often useful if you want things like animated transitions.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

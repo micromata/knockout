@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>with</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>with</code> binding creates a new <a href="binding-context.html">binding context</a>, so that descendant elements are bound in the context of a specified object.</p>
@@ -70,7 +71,8 @@
 </code></pre>
 <p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

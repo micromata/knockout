@@ -1539,7 +1539,6 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .header {
   width: 100%;
   padding-top: 5px;
-  border-bottom: 1px solid #aaa;
   min-height: 32px;
   font-family: "Cherry Swash", serif;
   max-width: 1440px;
@@ -1548,6 +1547,12 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .header a {
   font-size: 1.1em;
   padding: 4px 0.5em;
+  border: 1px solid transparent;
+  border-radius: 15px;
+}
+.header a:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(125, 125, 125, 0.5);
 }
 .logo {
   display: inline-block;
@@ -1564,17 +1569,23 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   margin: 0 auto;
   padding: 0px 1em 45px 1em;
 }
+.main-body {
+  padding: 5px 0.5em;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.5);
+}
 .footer {
-  background-color: #f4f4f4;
+  background-color: rgba(244, 244, 244, 0.5);
   padding: 1.62em;
   border-top: 1px solid gray;
+  color: #844;
 }
 .footer > div {
   max-width: 1440px;
   margin: 0 auto;
 }
 .footer h4 {
-  color: black;
+  color: #800;
   border-bottom: 1px solid #c28214;
   padding: 0;
   margin: 0 3em 0 0;
@@ -1610,7 +1621,6 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .trackjs-ack {
   text-align: center;
   font-style: italic;
-  color: #aaa;
 }
 .trackjs-ack a {
   font-style: normal;
@@ -1687,10 +1697,17 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   margin: 0 auto;
 }
 .button-refresh {
-  background: #df7514;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  z-index: 25000;
+  padding: 12px;
+  color: #ecd828;
+  background: rgba(88, 59, 32, 0.5);
 }
 .button-refresh:hover {
-  color: #65350a;
+  background: #65350a;
 }
 .plugin-search {
   width: 60%;
@@ -1698,6 +1715,22 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   padding: 6px 0.62em;
   font-size: 1.25em;
   display: block;
+}
+.search {
+  margin-top: 18px;
+  width: 100%;
+}
+.search input[type=search] {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.25);
+  width: 85%;
+  -webkit-transform: translateX(7.5%);
+      -ms-transform: translateX(7.5%);
+          transform: translateX(7.5%);
+}
+.search input[type=search]:focus {
+  color: #f24808;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
@@ -1725,6 +1758,8 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 18px;
   color: #666;
+  background: url(images/bg.svg) no-repeat center center fixed;
+  background-size: cover;
 }
 pre {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
@@ -1735,6 +1770,7 @@ h1 {
   font-family: "Cherry Swash", serif;
   color: #651f02;
   padding: 1.2em 0;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
 }
 h2 {
   color: #822700;
@@ -1778,26 +1814,26 @@ a {
   text-decoration: none;
   color: #3222e6;
 }
-a[href*="//"] {
-  color: #2416bf;
-}
 a[href*="//"]:after {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
-  -webkit-transform: translate(5px, 0);
-      -ms-transform: translate(5px, 0);
-          transform: translate(5px, 0);
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
   content: "\f08e";
-  font-size: 0.65em;
-  color: #aaa;
+  vertical-align: super;
+  font-size: 0.55em;
+  text-shadow: 0px 0px 2px #2416bf;
+  color: transparent;
 }
 a:hover {
   color: #ff6228;
 }
 a:hover:after {
-  color: #3222e6;
+  text-shadow: none;
+  color: #ff6228;
 }
 code {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;

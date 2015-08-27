@@ -3,23 +3,20 @@
 var inViewWatch = new Map()
 
 
-// Per http://stackoverflow.com/a/7557433/19212
-function isInView(el) {
+// SEe also http://stackoverflow.com/a/7557433/19212
+function isAlmostInView(el) {
   var rect = el.getBoundingClientRect()
   var winHeight = window.innerHeight || document.documentElement.clientHeight
-  var winWidth = window.innerWidth || document.documentElement.clientWidth
 
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= winHeight &&
-    rect.right <= winWidth)
+  // Items are almost in view when we've scrolled down to 200px above their
+  // presence on the page i.e. just before the user gets to them.
+  return rect.top < winHeight + 200
 }
 
 
 function checkItemsInView() {
   for (var element of inViewWatch.keys()) {
-    if (isInView(element)) {
+    if (isAlmostInView(element)) {
       // Invoke the callback.
       inViewWatch.get(element)()
       inViewWatch.delete(element)
@@ -28,8 +25,8 @@ function checkItemsInView() {
 }
 
 
-function whenInView(element, callback) {
-  if (isInView(element)) {
+function whenAlmostInView(element, callback) {
+  if (isAlmostInView(element)) {
     setTimeout(callback, 1)
   } else {
     inViewWatch.set(element, callback)

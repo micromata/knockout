@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Adding custom functions using "fn"</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>  Occasionally, you may find opportunities to streamline your code by attaching new functionality to Knockout&#39;s core value types. You can define custom functions on any of the following types:</p>
 <p>  TODO: HIERARCHY
@@ -111,7 +112,8 @@ ko.applyBindings(new AppViewModel());</div>
 }, this);</div>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

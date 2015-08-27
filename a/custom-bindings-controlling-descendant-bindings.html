@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Controlling descendant bindings</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Note: Creating custom bindings that control descendant binding is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>By default, bindings only affect the element to which they are applied. But what if you want to affect all descendant elements too? This is possible. Your binding can tell Knockout <em>not</em> to bind descendants at all, and then your custom binding can do whatever it likes to bind them in a different way.</p>
@@ -103,7 +104,8 @@
 </code></pre>
 <p>By modifying binding contexts and controlling descendant bindings, you have a powerful and advanced tool to create custom binding mechanisms of your own.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

@@ -46,6 +46,6 @@ ko.bindingHandlers.highlight = {
   },
 
   init: function (element, va) {
-    whenInView(element, () => ko.bindingHandlers.highlight.setup(element, va))
+    whenAlmostInView(element, () => ko.bindingHandlers.highlight.setup(element, va))
   }
 }

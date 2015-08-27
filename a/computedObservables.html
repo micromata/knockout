@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Computed Observables</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>What if you&#39;ve got an <a href="observables.html">observable</a> for <code>firstName</code>, and another for <code>lastName</code>, and you want to display the full name? That&#39;s where <em>computed observables</em> come in - these are functions that are dependent on one or more other observables, and will automatically update whenever any of these dependencies change.</p>
 <p>For example, given the following view model class,</p>
@@ -270,7 +271,8 @@ ko.applyBindings(new MyViewModel());</div>
 <p>These facilities are typically useful only in advanced scenarios, for example when your computed observable&#39;s primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
 <p><em>Note: Computed observables were once called &quot;dependent observables&quot;, but have since been renamed i.e. <code>ko.dependentObservable === ko.computed</code></em></p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

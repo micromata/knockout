@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>selectedOptions</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>selectedOptions</code> binding controls which elements in a multi-select list are currently selected. This is intended to be used in conjunction with a <code>&lt;select&gt;</code> element and the <code>options</code> binding.</p>
@@ -61,7 +62,8 @@ viewModel.chosenCountries.push('France'); // Now France is selected too</div>
 <p>In the example code above, the user can choose from an array of string values. You&#39;re <em>not</em> limited to providing strings - your <code>options</code> array can contain arbitrary JavaScript objects if you wish. See <a href="options-binding.html">the <code>options</code> binding</a> for details on how to control how arbitrary objects should be displayed in the list.</p>
 <p>In this scenario, the values you can read and write using <code>selectedOptions</code> are those objects themselves, <em>not</em> their textual representations. This leads to much cleaner and more elegant code in most cases. Your view model can imagine that the user chooses from an array of arbitrary objects, without having to care how those objects are mapped to an on-screen representation.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

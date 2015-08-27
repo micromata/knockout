@@ -22,16 +22,18 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>disable</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>disable</code> binding causes the associated DOM element to be disabled only when the parameter value is <code>true</code>. This is useful with form elements like <code>input</code>, <code>select</code>, and <code>textarea</code>.</p>
 <p>This is the mirror image of the <code>enable</code> binding. For more information, see <a href="#enable-binding">documentation for the <code>enable</code> binding</a>, because <code>disable</code> works in exactly the same way except that it negates whatever parameter you pass to it.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

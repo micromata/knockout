@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Asynchronous Module Definition (AMD) With RequireJs</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="overview-of-amd">Overview of AMD</h3>
 <p>Excerpt From <a href="http://addyosmani.com/writing-modular-js/">Writing Modular JavaScript With AMD, CommonJs &amp; ES Harmony</a>:</p>
@@ -94,7 +95,8 @@ define(['knockout-x.y.z'], function(ko) {
 <h3 id="requirejs-download">RequireJs Download</h3>
 <p>RequireJs can be downloaded from <a href="http://requirejs.org/docs/download.html">http://requirejs.org/docs/download.html</a>.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

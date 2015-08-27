@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>options</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>options</code> binding controls what options should appear in a drop-down list (i.e., a <code>&lt;select&gt;</code> element) or multi-select list (e.g., <code>&lt;select size=&#39;6&#39;&gt;</code>). This binding cannot be used with anything other than <code>&lt;select&gt;</code> elements.</p>
@@ -166,7 +167,8 @@ ko.applyBindings(vm);</div>
 <h3 id="dependencies">Dependencies</h3>
 <p>None, other than the core Knockout library.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

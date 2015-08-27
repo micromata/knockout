@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Custom bindings and virtual elements</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Note: Creating custom bindings that support virtual elements is an advanced technique, typically used only when creating libraries of reusable bindings. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>Knockout&#39;s <em>control flow bindings</em> (e.g., <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>) can be applied not only to regular DOM elements, but also to &quot;virtual&quot; DOM elements defined by a special comment-based syntax. For example:</p>
@@ -142,7 +143,8 @@
 </ul>
 <p>Notice that this is <em>not</em> intended to be a complete replacement to the full set of regular DOM APIs. Knockout provides only a minimal set of virtual element APIs to make it possible to perform the kinds of transformations needed when implementing control flow bindings.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

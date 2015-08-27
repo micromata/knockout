@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Browser support</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Knockout is tested on the following browsers:</p>
 <ul>
@@ -42,7 +43,8 @@
 </ul>
 <p>To get a good idea of how Knockout will run on another browser or platform, simply <a href="../spec/runner.html">run the test suite</a>. This will validate hundreds of behavioral specifications and produce a report of any problems. The pass rate should be 100% on all the browsers listed above.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

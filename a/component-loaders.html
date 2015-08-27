@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Component loaders</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Whenever you inject a <a href="component-overview.html">component</a> using the <a href="component-binding.html"><code>component</code> binding</a> or a <a href="component-custom-elements.html">custom element</a>, Knockout fetches that component&#39;s template and viewmodel using one or more <em>component loaders</em>. The job of a component loader is to asynchronously supply a template/viewmodel pair for any given component name.</p>
 <ul>
@@ -269,7 +270,8 @@ ko.components.register('my-browserify-component', {
 <li><code>browserify -t brfs main.js &gt; bundle.js</code></li>
 </ul>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>The "throttle" extender</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
 <p>Normally, <a href="#computedObservables">computed observables</a> are re-evaluated <em>synchronously</em>, as soon as each of their dependencies change. The <code>throttle</code> extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update <em>asychronously</em>.</p>
@@ -89,7 +90,8 @@ var upperCaseName = ko.computed(function() {
 </code></pre>
 <p>Now you can update <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once at the end of that sequence. It doesn&#39;t matter if your thread continually makes changes for longer than 1 millisecond, because re-evaluation won&#39;t start until you release your thread back to the JavaScript runtime.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

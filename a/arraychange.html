@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Tracking array changes</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Since <a href="http://blog.stevensanderson.com/2013/10/08/knockout-3-0-release-candidate-available/">Knockout 3.0</a>
 there has been an <code>arrayChange</code> event that can be attached to an <code>observable</code>
@@ -46,7 +47,8 @@ you can extend any other <code>subscribable</code> (i.e. <code>ko.observable</co
 </code></pre>
 <p><live-example params='id: "arraychange"'></live-example></p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

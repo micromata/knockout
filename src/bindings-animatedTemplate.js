@@ -15,7 +15,7 @@ function getTemplateAnimations(origin) {
     },
     start: {
       x: '-100%',
-      rotateY: '-90deg'
+      rotateY: '-90deg',
     },
     show: {
       x: 0,

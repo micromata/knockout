@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Writable computed observables</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Beginners may wish to skip this section - writable computed observables are fairly advanced and are not necessary in most situations</em></p>
 <p>Normally, computed observables have a value that is computed from other observables and are therefore <em>read-only</em>. What may seem surprising, then, is that it is possible to make computed observables <em>writable</em>. You just need to supply your own callback function that does something sensible with written values.</p>
@@ -50,7 +51,8 @@
 <p>Now, <code>acceptedNumericValue</code> will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating <code>acceptedNumericValue</code>.</p>
 <p><strong>Note:</strong> For such trivial requirements as validating that an input is numeric, this technique is overkill. It would be far easier just to use jQuery Validation and its <code>number</code> class on the <code>&lt;input&gt;</code> element. Knockout and jQuery Validation work together nicely, as demonstrated on the <a href="../examples/gridEditor.html">grid editor</a> example. However, the preceding example demonstrates a more general mechanism for filtering and validating with custom logic to control what kind of user feedback appears, which may be of use if your scenario is more complex than jQuery Validation handles natively.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

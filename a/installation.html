@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Installation</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Simply reference the JavaScript file using a <code>&lt;script&gt;</code> tag somewhere on your HTML pages. For example,</p>
 <pre><code class="lang-html"><div data-bind='highlight: "html"'>&lt;script type='text/javascript' src='knockout-3.1.0.js'>&lt;/script></div>
@@ -45,7 +46,8 @@ the footer of this page.</p>
 <a href="http://learn.knockoutjs.com">interactive tutorials</a>, or explore
  the <a href="#docs">documentation</a>.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

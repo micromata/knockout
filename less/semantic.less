@@ -22,7 +22,6 @@
 .header {
   width: 100%;
   padding-top: 5px;
-  border-bottom: 1px solid #aaa;
   min-height: 32px;
   font-family: @title-font-family;
   max-width: 1440px;
@@ -31,6 +30,13 @@
   a {
     font-size: 1.1em;
     padding: 4px 0.5em;
+    border: 1px solid transparent;
+    border-radius: 15px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(125, 125, 125, 0.5);
+    }
   }
 }
 
@@ -52,11 +58,18 @@
   padding: 0px 1em 45px 1em;
 }
 
+.main-body {
+  padding: 5px 0.5em;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
 
 .footer {
-  background-color: rgb(244, 244, 244);
+  background-color: rgba(244, 244, 244, 0.5);
 	padding: 1.62em;
   border-top: 1px solid gray;
+  color: #844;
 
   > div {
     max-width: 1440px;
@@ -64,7 +77,7 @@
   }
 
   h4 {
-    color: black;
+    color: #800;
     border-bottom: 1px solid rgb(194, 130, 20);
     padding: 0;
     margin: 0 3em 0 0;
@@ -103,7 +116,6 @@
 .trackjs-ack {
   text-align: center;
   font-style: italic;
-  color: #aaa;
   a {
     font-style: normal;
   }
@@ -197,9 +209,16 @@
 
 
 .button-refresh {
-  background: rgb(223, 117, 20);
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  z-index: 25000;
+  padding: 12px;
+  color: rgb(236, 216, 40);
+  background: rgba(88, 59, 32, 0.5);
   &:hover {
-    color: rgb(101, 53, 10);
+    background: rgb(101, 53, 10);
   }
 }
 
@@ -209,6 +228,23 @@
   padding: 6px 0.62em;
   font-size: 1.25em;
   display: block;
+}
+
+
+.search {
+  margin-top: 18px;
+  width: 100%;
+  input[type=search] {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 85%;
+    transform: translateX(7.5%);
+
+    &:focus {
+      color: rgb(242, 72, 8);
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
 }
 
 

@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Binding preprocessing</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
 <p>Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.</p>
@@ -120,7 +121,8 @@
 </li>
 </ul>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

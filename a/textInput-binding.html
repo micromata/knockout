@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>textInput</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>textInput</code> binding links a text box (<code>&lt;input&gt;</code>) or text area (<code>&lt;textarea&gt;</code>) with a viewmodel property, providing two-way updates between the viewmodel property and the element&#39;s value. Unlike the <code>value</code> binding, <code>textInput</code> provides instant updates from the DOM for all types of user input, including autocomplete, drag-and-drop, and clipboard events.</p>
@@ -58,7 +59,8 @@
 </ul>
 <p>Don&#39;t try to use the <code>value</code> and <code>textInput</code> bindings together on the same element, as that won&#39;t achieve anything useful.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

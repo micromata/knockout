@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Binding context</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>A <em>binding context</em> is an object that holds data that you can reference from your bindings. While applying bindings, Knockout automatically creates and manages a hierarchy of binding contexts. The root level of the hierarchy refers to the <code>viewModel</code> parameter you supplied to <code>ko.applyBindings(viewModel)</code>. Then, each time you use a control flow binding such as <a href="with-binding.html"><code>with</code></a> or <a href="foreach-binding.html"><code>foreach</code></a>, that creates a child binding context that refers to the nested view model data.</p>
 <p>Bindings contexts offer the following special properties that you can reference in any binding:</p>
@@ -86,7 +87,8 @@
 <h3 id="controlling-or-modifying-the-binding-context-in-custom-bindings">Controlling or modifying the binding context in custom bindings</h3>
 <p>Just like the built-in bindings <a href="#with-binding"><code>with</code></a> and <a href="#foreach-binding"><code>foreach</code></a>, custom bindings can change the binding context for their descendant elements, or provide special properties by extending the binding context object. This is described in detail under <a href="#custom-bindings-controlling-descendant-bindings">creating custom bindings that control descendant bindings</a>.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

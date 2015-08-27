@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>uniqueName</h1>
+        <div class='main-body'>
 <!-- /header -->
 <h3 id="purpose">Purpose</h3>
 <p>The <code>uniqueName</code> binding ensures that the associated DOM element has a nonempty <code>name</code> attribute. If the DOM element did not have a <code>name</code> attribute, this binding gives it one and sets it to some unique string value.</p>
@@ -53,7 +54,8 @@
 <h3 id="dependencies">Dependencies</h3>
 <p>None, other than the core Knockout library.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

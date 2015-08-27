@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Observables</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Knockout is built around three core features:</p>
 <ol>
@@ -123,7 +124,8 @@ subscription.dispose(); // I no longer want notifications</div>
 myViewModel.personName.extend({ rateLimit: 50 });</div>
 </code></pre>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>

@@ -22,10 +22,11 @@
     <div class='main'>
       {{# if: body }}
         <h1>{{ title }}</h1>
-        <div data-bind='animatedTemplate: body'></div>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
-      <div data-bind='ifnot: body'>
+      {{# ifnot: body }}
         <h1>Using extenders to augment observables</h1>
+        <div class='main-body'>
 <!-- /header -->
 <p>Knockout observables provide the basic features necessary to support reading/writing values and notifying subscribers when that value changes. In some cases, though, you may wish to add additional functionality to an observable. This might include adding additional properties to the observable or intercepting writes by placing a writeable computed observable in front of the observable. Knockout extenders provide an easy and flexible way to do this type of augmentation to an observable.</p>
 <h3 id="how-to-create-an-extender">How to create an extender</h3>
@@ -55,7 +56,8 @@
 </code></pre>
 <p>In this case, both the <code>required</code> and <code>logChange</code> extenders would be executed against our observable.</p>
 <!-- footer -->
-      </div>
+        </div>
+      {{ /ifnot }}
     </div>
     {{# template: 'footer' /}}
   </div>
