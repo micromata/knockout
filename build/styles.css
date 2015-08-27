@@ -1549,6 +1549,7 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   padding: 4px 0.5em;
   border: 1px solid transparent;
   border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .header a:hover {
   background: rgba(0, 0, 0, 0.5);
@@ -1731,13 +1732,16 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 }
 .button-refresh {
   position: fixed;
-  top: 100px;
+  top: 10%;
   left: 0;
-  width: 100%;
+  margin: 10px 5%;
+  width: 90%;
   z-index: 25000;
   padding: 12px;
   color: #ecd828;
   background: rgba(88, 59, 32, 0.5);
+  border: 1px solid #ff4a00;
+  box-shadow: 0px 0px 15px rgba(88, 59, 32, 0.5);
 }
 .button-refresh:hover {
   background: #65350a;
@@ -1845,7 +1849,7 @@ h5 em {
 }
 a {
   text-decoration: none;
-  color: #3222e6;
+  color: #e62222;
 }
 a[href*="//"]:after {
   display: inline-block;
@@ -1858,7 +1862,7 @@ a[href*="//"]:after {
   content: "\f08e";
   vertical-align: super;
   font-size: 0.55em;
-  text-shadow: 0px 0px 2px #2416bf;
+  text-shadow: 0px 0px 2px #bf1616;
   color: transparent;
 }
 a:hover {
@@ -1883,7 +1887,7 @@ pre code {
   border-radius: 5px;
 }
 a code {
-  color: #3222e6;
+  color: #e62222;
 }
 progress {
   width: 100%;
