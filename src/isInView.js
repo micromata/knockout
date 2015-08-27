@@ -25,6 +25,9 @@ function checkItemsInView() {
 }
 
 
+// Schedule the callback for when the element comes into view.
+// This is in some ways a poor man's requestIdleCallback
+// https://developers.google.com/web/updates/2015/08/27/using-requestidlecallback
 function whenAlmostInView(element, callback) {
   if (isAlmostInView(element)) {
     setTimeout(callback, 1)
