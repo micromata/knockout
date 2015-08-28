@@ -1942,3 +1942,8 @@ live-example h3 {
     margin: 0;
   }
 }
+@media (max-width: 900px) {
+  .github-tab {
+    display: none;
+  }
+}
