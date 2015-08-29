@@ -20,6 +20,7 @@ appcache:
     build/logo.svg
     build/styles.css
     build/hourglass.gif
+    build/bg.svg
 
     build/templates.html
     build/markdown.html
@@ -45,6 +46,7 @@ appcache:
 
     FALLBACK:
     / index.html
+    /a/*.html index.html
 
     NETWORK:
     *

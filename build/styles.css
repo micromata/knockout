@@ -1795,7 +1795,7 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 18px;
   color: #666;
-  background: url(images/bg.svg) no-repeat center center fixed;
+  background: url(bg.svg) no-repeat center center fixed;
   background-size: cover;
 }
 pre {
@@ -1940,6 +1940,10 @@ live-example h3 {
   }
   live-example {
     margin: 0;
+  }
+  .header a {
+    display: block;
+    margin: 5px;
   }
 }
 @media (max-width: 900px) {

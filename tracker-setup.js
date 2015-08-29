@@ -4,7 +4,7 @@ if (location.hostname !== 'localhost') {
     enabled: true,
     token: 'bc952e7044e34a2e8423f777b8c824be',
     application: "knockout.js",
-    version: "e842347"
+    version: "900d259"
   };
 } else {
   window._trackJs = window._trackJs || {
