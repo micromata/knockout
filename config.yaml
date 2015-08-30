@@ -31,6 +31,7 @@ appcache:
     build/examples.json
     build/plugins.json
     build/api.json
+    build/books.json
 
     # Fonts
     fonts/Cherry_Swash.ttf
@@ -285,3 +286,29 @@ plugins:
     - thelinuxlich/knockout.model
     - thelinuxlich/knockout.underscore.plugin
     - tyrsius/ko-validate
+
+
+books:
+  dest: build/books.json
+  url: https://www.googleapis.com/books/v1/volumes/${id}
+  google_api_ids:
+    # Knockout.js: Building Dynamic Client-Side Web Applications
+    - ZPDnoQEACAAJ
+
+    # ASP.NET MVC 5 with Bootstrap and Knockout.js: Building Dynamic, Responsive Web Applications
+    - try8oQEACAAJ
+
+    # Getting Started with Knockout.js for .NET Developers
+    - A-iuCQAAQBAJ
+
+    # Mastering KnockoutJS
+    - BoqbBQAAQBAJ
+
+    # Web App Testing Using Knockout.JS
+    - dZN1BQAAQBAJ
+
+    # Knockout.JS Essentials
+    - HEXfBgAAQBAJ
+
+    # KnockoutJS Blueprints
+    - 5ljTBgAAQBAJ

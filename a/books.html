@@ -1,0 +1,52 @@
+<!doctype html>
+<html manifest='ko.appcache'>
+<head>
+  <!-- auto generated from  markdown/books.html -->
+  <meta charset='utf-8'>
+  <title> Knockout.js </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='build/styles.css' rel='stylesheet' type='text/css' />
+</head>
+<body data-bind='css.bound: true'>
+  <div class='headline'>
+    <img src="build/hourglass.gif" alt='Loading ...'/>
+    <div class='browser-version'>
+      Please ensure you are using the latest version of a modern
+      browser. If this page fails to load, you may still access
+      the <a href='http://knockoutjs.com'>legacy documentation site</a>.
+    </div>
+  </div>
+
+  <div style='display: none' data-bind='style.display: 'block''>
+    {{# template: 'header' /}}
+    <div class='main'>
+      {{# if: body }}
+        <h1>{{ title }}</h1>
+        <div data-bind='animatedTemplate: body' class='main-body'></div>
+      {{/if }}
+      {{# ifnot: body }}
+        <h1>Books on Knockout</h1>
+        <div class='main-body'>
+<!-- /header -->
+<div class='pure-g book-list' data-bind='foreach: books'>
+  {{# template: &#39;book&#39; /}}
+</div>
+
+
+
+<p><em style='text-align: center; display: block;'>
+  <a href='https://github.com/knockout/knockout/issues/'>
+    Let us know
+  </a>
+  if you think another book should be listed here!
+</em></p>
+<!-- footer -->
+        </div>
+      {{ /ifnot }}
+    </div>
+    {{# template: 'footer' /}}
+  </div>
+  <script src='build/libs.js'></script>
+  <script src='build/app.js' async></script>
+</body>
+</html>

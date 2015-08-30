@@ -1,3 +1,17 @@
+<!--     /templates/book.html    -->
+<template id='book'>
+  <div class='pure-u-1 pure-u-md-1-2 book'>
+    <a class='thumb' href='{{ canonicalVolumeLink }}'>
+      <img src='{{ (imageLinks || {}).thumbnail}}'/>
+      Click to check it out
+    </a>
+    <span class='title'>{{ title }}</span>
+    <span class='subtitle'>{{ $data.subtitle }}</span>
+    <span class='author'>{{ authors }}</span>
+    <span class='pubdate'>{{ publishedDate }}</span>
+  </div>
+</template>
+
 <!--     /templates/error.html    -->
 <template id='error' data-title='uh oh'>
   <div class='error'>
@@ -79,16 +93,9 @@
       {{# if: reloadProgress }}
         <progress title='Loading update' value="{{ reloadProgress }}" max='1'></progress>
       {{/ if }}
-      {{# if: cacheIsUpdated }}
-        <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
-          <small>Page has updated</small><br/>
-          <i class='fa fa-lg fa-spin fa-refresh'></i>
-          Click to refresh
-        </a>
-      {{/ if }}
     </div>
 
-    <a href='/a/intro.html'>Intro</a>
+    <a href='/a/intro.html'>Introduction</a>
 
     <a href='/a/docs.html'>Documentation</a>
 
@@ -100,6 +107,13 @@
       <input type='search' data-bind='textInput: search.query, hasFocus: true' placeholder='Type here to search the site'/>
     </div>
   </div>
+  {{# if: cacheIsUpdated }}
+    <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
+      <small>Page has updated</small><br/>
+      <i class='fa fa-lg fa-spin fa-refresh'></i>
+      Click to refresh
+    </a>
+  {{/ if }}
 </template>
 
 

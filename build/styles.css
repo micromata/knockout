@@ -1739,12 +1739,32 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   z-index: 25000;
   padding: 12px;
   color: #ecd828;
-  background: rgba(88, 59, 32, 0.5);
+  background: rgba(101, 53, 10, 0.8);
   border: 1px solid #ff4a00;
   box-shadow: 0px 0px 15px rgba(88, 59, 32, 0.5);
 }
 .button-refresh:hover {
   background: #65350a;
+}
+.button-learn {
+  display: block;
+  margin: 0px 1em;
+  text-align: center;
+  background-color: #df7514;
+  color: #ecd828;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.button-learn:hover {
+  color: #ecd828;
+}
+.button-learn i {
+  float: left;
+}
+.button-learn small {
+  display: block;
+}
+a[href*="//"].button-learn:after {
+  display: none;
 }
 .plugin-search {
   width: 60%;
@@ -1768,6 +1788,36 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 .search input[type=search]:focus {
   color: #f24808;
   background-color: rgba(0, 0, 0, 0.7);
+}
+.book {
+  padding: 10px;
+}
+.book .thumb {
+  float: left;
+  margin: 0px 0.5em 12px 0px;
+}
+.book img {
+  display: block;
+}
+.book .title {
+  display: block;
+  font-weight: bold;
+}
+.book .subtitle {
+  display: block;
+  font-style: italic;
+}
+.book .author {
+  display: block;
+  padding-top: 1ex;
+  font-size: 0.9em;
+  font-size: 0.9rem;
+}
+.book .pubdate {
+  display: block;
+  text-align: right;
+  font-size: 0.9em;
+  font-size: 0.9rem;
 }
 div.ace_editor {
   font: 12px / normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;

@@ -193,6 +193,33 @@ gulp.task("make:examples", function () {
     .pipe(gulp.dest(config.examples.dest))
 })
 
+//      Books
+//
+gulp.task("make:books", function () {
+  var urlTemplate = _.template(config.books.url)
+  var requests = config.books.google_api_ids.map(function (id) {
+    return new Promise(function (resolve, reject) {
+      function onResponse(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          var ret = {}
+          ret[id] = body.volumeInfo
+          resolve(ret)
+        }
+        reject(error || response.statusCode)
+      }
+      request.get({url: urlTemplate({id: id}), json: true}, onResponse)
+    })
+  })
+
+  return Promise.all(requests)
+    .then(function (results) {
+      fs.writeFileSync(
+        config.books.dest,
+        JSON.stringify(_.extend.apply(_, results))
+      )
+    })
+})
+
 
 function updatePlugins(done) {
   var items = {}
@@ -300,5 +327,5 @@ gulp.task('server', ['watch'], function () {
 
 
 gulp.on('err', function(e) {
-  console.log("Gulp Error:", e, e.err.stack)
+  console.log(" 🚩  Gulp Error:", e, e.err.stack)
 })

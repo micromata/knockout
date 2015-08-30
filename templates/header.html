@@ -5,16 +5,9 @@
       {{# if: reloadProgress }}
         <progress title='Loading update' value="{{ reloadProgress }}" max='1'></progress>
       {{/ if }}
-      {{# if: cacheIsUpdated }}
-        <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
-          <small>Page has updated</small><br/>
-          <i class='fa fa-lg fa-spin fa-refresh'></i>
-          Click to refresh
-        </a>
-      {{/ if }}
     </div>
 
-    <a href='/a/intro.html'>Intro</a>
+    <a href='/a/intro.html'>Introduction</a>
 
     <a href='/a/docs.html'>Documentation</a>
 
@@ -26,6 +19,13 @@
       <input type='search' data-bind='textInput: search.query, hasFocus: true' placeholder='Type here to search the site'/>
     </div>
   </div>
+  {{# if: cacheIsUpdated }}
+    <a class='pure-button button-refresh' href='#' data-bind='on.click: location.reload()'>
+      <small>Page has updated</small><br/>
+      <i class='fa fa-lg fa-spin fa-refresh'></i>
+      Click to refresh
+    </a>
+  {{/ if }}
 </template>
 
 

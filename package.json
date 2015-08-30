@@ -32,7 +32,7 @@
     "lodash": "^3.10.0",
     "opine.js": "^0.1.0",
     "purecss": "^0.6.0",
-    "request": "^2.59.0",
+    "request": "^2.61.0",
     "vinyl-map": "^1.0.1"
   },
   "devDependencies": {},

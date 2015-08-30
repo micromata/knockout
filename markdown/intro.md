@@ -2,6 +2,7 @@
 title: Introduction
 kind: Title
 ---
+
 <h2>Key Concepts</h2>
 <div class='pure-g'>
   <div class='pure-u-1 pure-u-sm-5-24 pad'>
@@ -29,11 +30,23 @@ kind: Title
   </div>
 </div>
 
-<p class='text-center'>
-  <i class='fa fa-university fa-2x'></i>
-  Check out the
-  <a href='http://learn.knockoutjs.com'>interactive tutorial</a>.
-</p>
+
+<h2>Some ways to get started</h2>
+
+<div class='pure-g'>
+  <div class='pure-u-1 pure-u-sm-1-2'>
+    <a class='pure-button button-learn' href='http://learn.knockoutjs.com'>
+      <i class='fa fa-university fa-2x'></i>
+      Interactive tutorial
+      <small>&lt;learn.knockoutjs.com&gt;</small>
+    </a>
+  </div>
+  <div class='pure-u-1 pure-u-sm-1-2'>
+    <i class='fa fa-2x fa-book'></i>
+    Also, check out <a href='books.html'>some books</a>
+  </div>
+</div>
+
 
 <h2>Live example</h2>
 

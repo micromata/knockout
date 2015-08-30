@@ -79,6 +79,14 @@ function getExamples() {
   )
 }
 
+function getBooks() {
+  return Promise.resolve($.ajax({
+    url: 'build/books.json',
+    dataType: 'json'
+  }))
+  .then((results) => $root.registerBooks(results))
+}
+
 
 function loadAPI() {
   return Promise.resolve($.ajax({
@@ -123,6 +131,7 @@ function start() {
     .then(getExamples)
     .then(loadAPI)
     .then(getPlugins)
+    .then(getBooks)
     .then(setupEvents)
     .then(checkForApplicationUpdate)
     .then(pageLoaded)

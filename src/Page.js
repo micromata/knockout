@@ -13,8 +13,9 @@ class Page {
     this.links = window.links
     this.cdn = window.cdn
 
-    // --- plugins ---
+    // --- static info ---
     this.plugins = new PluginManager()
+    this.books = ko.observableArray([])
 
     // --- documentation ---
     this.docCatMap = new Map()
@@ -74,5 +75,9 @@ class Page {
 
   registerPlugins(plugins) {
     this.plugins.register(plugins)
+  }
+
+  registerBooks(books) {
+    this.books(Object.keys(books).map(key => books[key]))
   }
 }
