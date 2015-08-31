@@ -235,6 +235,7 @@
   background: rgba(101, 53, 10, 0.8);
   border: 1px solid rgb(255, 74, 0);
   box-shadow: 0px 0px 15px rgba(88, 59, 32, 0.5);
+  border-radius: 25px;
   &:hover {
     background: rgb(101, 53, 10);
   }
@@ -247,6 +248,8 @@
   background-color: rgb(223, 117, 20);
   color: rgb(236, 216, 40);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgb(181, 95, 15);
 
   &:hover {
     color: rgb(236, 216, 40);
@@ -262,6 +265,30 @@
 
   a[href*="//"]&:after {
     display: none;
+  }
+}
+
+
+.button-literature {
+  display: block;
+  margin: 0px 1em;
+  text-align: center;
+  background-color: rgb(255, 136, 27);
+  color: rgb(236, 216, 40);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgb(217, 114, 18);
+
+  &:hover {
+    color: rgb(236, 216, 40);
+  }
+
+  i {
+    float: left;
+  }
+
+  small {
+    display: block;
   }
 }
 
@@ -297,6 +324,8 @@
   .thumb {
     float: left;
     margin: 0px 0.5em 12px 0px;
+
+    text-align: center;
   }
 
   img {
@@ -321,8 +350,10 @@
   }
 
   .pubdate {
-    display: block;
-    text-align: right;
+    color: #C88;
+    padding-top: 1ex;
+    float: right;
+    display: inline;
     font-size: 0.9em;
     font-size: 0.9rem;
   }

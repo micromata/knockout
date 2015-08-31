@@ -114,6 +114,7 @@ libs.js:
     - node_modules/knockout/build/output/knockout-latest.js
     - bower_components/knockout.punches/knockout.punches.js
     - node_modules/knockout-transformations/dist/knockout-transformations.js
+    - bower_components/moment/min/moment.min.js
     - bower_components/marked/marked.min.js
     - bower_components/ace-builds/src/ace.js
     - bower_components/ace-builds/src/mode-javascript.js

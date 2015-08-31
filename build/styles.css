@@ -1742,6 +1742,7 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   background: rgba(101, 53, 10, 0.8);
   border: 1px solid #ff4a00;
   box-shadow: 0px 0px 15px rgba(88, 59, 32, 0.5);
+  border-radius: 25px;
 }
 .button-refresh:hover {
   background: #65350a;
@@ -1753,6 +1754,8 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   background-color: #df7514;
   color: #ecd828;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  border: 1px solid #b55f0f;
 }
 .button-learn:hover {
   color: #ecd828;
@@ -1765,6 +1768,25 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
 }
 a[href*="//"].button-learn:after {
   display: none;
+}
+.button-literature {
+  display: block;
+  margin: 0px 1em;
+  text-align: center;
+  background-color: #ff881b;
+  color: #ecd828;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  border: 1px solid #d97212;
+}
+.button-literature:hover {
+  color: #ecd828;
+}
+.button-literature i {
+  float: left;
+}
+.button-literature small {
+  display: block;
 }
 .plugin-search {
   width: 60%;
@@ -1795,6 +1817,7 @@ a[href*="//"].button-learn:after {
 .book .thumb {
   float: left;
   margin: 0px 0.5em 12px 0px;
+  text-align: center;
 }
 .book img {
   display: block;
@@ -1814,8 +1837,10 @@ a[href*="//"].button-learn:after {
   font-size: 0.9rem;
 }
 .book .pubdate {
-  display: block;
-  text-align: right;
+  color: #C88;
+  padding-top: 1ex;
+  float: right;
+  display: inline;
   font-size: 0.9em;
   font-size: 0.9rem;
 }

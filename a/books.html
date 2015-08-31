@@ -25,9 +25,11 @@
         <div data-bind='animatedTemplate: body' class='main-body'></div>
       {{/if }}
       {{# ifnot: body }}
-        <h1>Books on Knockout</h1>
+        <h1>Literature on Knockout</h1>
         <div class='main-body'>
 <!-- /header -->
+<h2>Books</h2>
+
 <div class='pure-g book-list' data-bind='foreach: books'>
   {{# template: &#39;book&#39; /}}
 </div>
@@ -35,10 +37,10 @@
 
 
 <p><em style='text-align: center; display: block;'>
-  <a href='https://github.com/knockout/knockout/issues/'>
+  <a href='https://github.com/knockout/knockout/issues/new'>
     Let us know
   </a>
-  if you think another book should be listed here!
+  if you think we are missing something!
 </em></p>
 <!-- footer -->
         </div>

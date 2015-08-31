@@ -1,8 +1,10 @@
 ---
-title: Books on Knockout
+title: Literature on Knockout
 kind: Title
 ---
 
+
+<h2>Books</h2>
 
 <div class='pure-g book-list' data-bind='foreach: books'>
   {{# template: 'book' /}}
@@ -11,8 +13,8 @@ kind: Title
 
 
 <em style='text-align: center; display: block;'>
-  <a href='https://github.com/knockout/knockout/issues/'>
+  <a href='https://github.com/knockout/knockout/issues/new'>
     Let us know
   </a>
-  if you think another book should be listed here!
+  if you think we are missing something!
 </em>

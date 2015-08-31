@@ -112,7 +112,6 @@ function getPlugins() {
 function applyBindings() {
   ko.punches.enableAll()
   window.$root = new Page()
-  ko.punches.enableAll()
   ko.applyBindings(window.$root)
 }
 

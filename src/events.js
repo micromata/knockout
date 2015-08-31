@@ -69,7 +69,7 @@ function onAnchorClick(evt) {
       history.pushState(null, null, anchor.href)
       document.title = `Knockout.js – ${$(this).text()}`
       $root.open(templateId)
-      $root.search.query('')
+      $root.search.query(null)
     }
     scrollToHash(anchor)
   } catch(e) {

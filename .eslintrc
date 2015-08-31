@@ -22,3 +22,4 @@ globals:
   $root: true
   ace: true
   whenAlmostInView: true
+  moment: true

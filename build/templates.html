@@ -3,12 +3,12 @@
   <div class='pure-u-1 pure-u-md-1-2 book'>
     <a class='thumb' href='{{ canonicalVolumeLink }}'>
       <img src='{{ (imageLinks || {}).thumbnail}}'/>
-      Click to check it out
+      Check it out
     </a>
     <span class='title'>{{ title }}</span>
     <span class='subtitle'>{{ $data.subtitle }}</span>
+    <span class='pubdate'>published {{ publishedDate | dateFormat }}</span>
     <span class='author'>{{ authors }}</span>
-    <span class='pubdate'>{{ publishedDate }}</span>
   </div>
 </template>
 

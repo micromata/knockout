@@ -38,7 +38,7 @@ class Search {
   }
 
   restoreTemplate() {
-    if (this.savedTitle) {
+    if (this.savedTitle && this.query() !== null) {
       $root.body(this.savedTemplate)
       document.title = this.savedTitle
     }
