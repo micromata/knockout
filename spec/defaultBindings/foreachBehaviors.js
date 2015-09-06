@@ -144,35 +144,53 @@ describe('Binding: Foreach', function() {
     });
 
     it('Should be able to supply afterAdd and beforeRemove callbacks', function() {
-        testNode.innerHTML = "<div data-bind='foreach: { data: someItems, afterAdd: myAfterAdd, beforeRemove: myBeforeRemove }'><span data-bind='text: childprop'></span></div>";
-        var someItems = ko.observableArray([{ childprop: 'first child' }]);
+        testNode.innerHTML = "<div data-bind='foreach: { data: someItems, afterAdd: myAfterAdd, beforeRemove: myBeforeRemove }'><span data-bind='text: $data'></span></div>";
+        var someItems = ko.observableArray(['first child']);
         var afterAddCallbackData = [], beforeRemoveCallbackData = [];
         ko.applyBindings({
             someItems: someItems,
-            myAfterAdd: function(elem, index, value) { afterAddCallbackData.push({ elem: elem, index: index, value: value, currentParentClone: elem.parentNode.cloneNode(true) }) },
-            myBeforeRemove: function(elem, index, value) { beforeRemoveCallbackData.push({ elem: elem, index: index, value: value, currentParentClone: elem.parentNode.cloneNode(true) }) }
+            myAfterAdd: function(elem, index, value) { afterAddCallbackData.push({ elem: elem, value: value, currentParentClone: elem.parentNode.cloneNode(true) }) },
+            myBeforeRemove: function(elem, index, value) { beforeRemoveCallbackData.push({ elem: elem, value: value, currentParentClone: elem.parentNode.cloneNode(true) }) }
         }, testNode);
 
-        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: childprop">first child</span>');
+        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: $data">first child</span>');
 
         // Try adding
-        someItems.push({ childprop: 'added child'});
-        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: childprop">first child</span><span data-bind="text: childprop">added child</span>');
+        someItems.push('added child');
+        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: $data">first child</span><span data-bind="text: $data">added child</span>');
         expect(afterAddCallbackData.length).toEqual(1);
         expect(afterAddCallbackData[0].elem).toEqual(testNode.childNodes[0].childNodes[1]);
-        expect(afterAddCallbackData[0].index).toEqual(1);
-        expect(afterAddCallbackData[0].value.childprop).toEqual("added child");
-        expect(afterAddCallbackData[0].currentParentClone).toContainHtml('<span data-bind="text: childprop">first child</span><span data-bind="text: childprop">added child</span>');
+        expect(afterAddCallbackData[0].value).toEqual("added child");
+        expect(afterAddCallbackData[0].currentParentClone).toContainHtml('<span data-bind="text: $data">first child</span><span data-bind="text: $data">added child</span>');
 
         // Try removing
         someItems.shift();
         expect(beforeRemoveCallbackData.length).toEqual(1);
         expect(beforeRemoveCallbackData[0].elem).toContainText("first child");
-        expect(beforeRemoveCallbackData[0].index).toEqual(0);
-        expect(beforeRemoveCallbackData[0].value.childprop).toEqual("first child");
+        expect(beforeRemoveCallbackData[0].value).toEqual("first child");
         // Note that when using "beforeRemove", we *don't* remove the node from the doc - it's up to the beforeRemove callback to do it. So, check it's still there.
-        expect(beforeRemoveCallbackData[0].currentParentClone).toContainHtml('<span data-bind="text: childprop">first child</span><span data-bind="text: childprop">added child</span>');
-        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: childprop">first child</span><span data-bind="text: childprop">added child</span>');
+        expect(beforeRemoveCallbackData[0].currentParentClone).toContainHtml('<span data-bind="text: $data">first child</span><span data-bind="text: $data">added child</span>');
+        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: $data">first child</span><span data-bind="text: $data">added child</span>');
+
+        // Remove another item
+        beforeRemoveCallbackData = [];
+        someItems.shift();
+        expect(beforeRemoveCallbackData.length).toEqual(1);
+        expect(beforeRemoveCallbackData[0].elem).toContainText("added child");
+        expect(beforeRemoveCallbackData[0].value).toEqual("added child");
+        // Neither item has yet been removed and both are still in their original locations
+        expect(beforeRemoveCallbackData[0].currentParentClone).toContainHtml('<span data-bind="text: $data">first child</span><span data-bind="text: $data">added child</span>');
+        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: $data">first child</span><span data-bind="text: $data">added child</span>');
+
+        // Try adding the item back; it should be added and not confused with the removed item
+        testNode.childNodes[0].innerHTML = '';  // Actually remove *removed* nodes to check that they are not added back in
+        afterAddCallbackData = [];
+        someItems.push('added child');
+        expect(testNode.childNodes[0]).toContainHtml('<span data-bind="text: $data">added child</span>');
+        expect(afterAddCallbackData.length).toEqual(1);
+        expect(afterAddCallbackData[0].elem).toEqual(testNode.childNodes[0].childNodes[0]);
+        expect(afterAddCallbackData[0].value).toEqual("added child");
+        expect(afterAddCallbackData[0].currentParentClone).toContainHtml('<span data-bind="text: $data">added child</span>');
     });
 
     it('Should call an afterRender callback function and not cause updates if an observable accessed in the callback is changed', function () {
@@ -235,6 +253,22 @@ describe('Binding: Foreach', function() {
         expect(callbackReceivedArrayValues).toEqual(['Alpha', 'Beta']);
 
         ko.bindingProvider.instance = originalBindingProvider;
+    });
+
+    it('Exception in afterAdd callback should not cause extra elements on next update', function () {
+        // See https://github.com/knockout/knockout/issues/1794
+        testNode.innerHTML = "<div data-bind='foreach: { data: someItems, afterAdd: callback }'><span data-bind='text: $data'></span></div>";
+        var someItems = ko.observableArray([ 'A', 'B', 'C' ]),
+            callback = function(element, index, data) { if (data === 'D') throw "Exception"; };
+
+        ko.applyBindings({someItems: someItems, callback: callback });
+        expect(testNode.childNodes[0]).toContainText('ABC');
+
+        expect(function() { someItems.push('D'); }).toThrow("Exception");
+        expect(testNode.childNodes[0]).toContainText('ABCD');
+
+        expect(function() { someItems.push('E'); }).not.toThrow();
+        expect(testNode.childNodes[0]).toContainText('ABCDE');
     });
 
     it('Should call an afterAdd callback function and not cause updates if an observable accessed in the callback is changed', function () {
@@ -541,23 +575,29 @@ describe('Binding: Foreach', function() {
     });
 
     it('Should be able to output HTML5 elements (even on IE<9, as long as you reference either innershiv.js or jQuery1.7+Modernizr)', function() {
-        // Represents https://github.com/SteveSanderson/knockout/issues/194
-        ko.utils.setHtml(testNode, "<div data-bind='foreach:someitems'><section data-bind='text: $data'></section></div>");
-        var viewModel = {
-            someitems: [ 'Alpha', 'Beta' ]
-        };
-        ko.applyBindings(viewModel, testNode);
-        expect(testNode).toContainHtml('<div data-bind="foreach:someitems"><section data-bind="text: $data">alpha</section><section data-bind="text: $data">beta</section></div>');
+        var isSupported = jasmine.ieVersion >= 9 || window.innerShiv || window.jQuery;
+        if (isSupported) {
+            // Represents https://github.com/SteveSanderson/knockout/issues/194
+            ko.utils.setHtml(testNode, "<div data-bind='foreach:someitems'><section data-bind='text: $data'></section></div>");
+            var viewModel = {
+                someitems: [ 'Alpha', 'Beta' ]
+            };
+            ko.applyBindings(viewModel, testNode);
+            expect(testNode).toContainHtml('<div data-bind="foreach:someitems"><section data-bind="text: $data">alpha</section><section data-bind="text: $data">beta</section></div>');
+        }
     });
 
     it('Should be able to output HTML5 elements within container-less templates (same as above)', function() {
-        // Represents https://github.com/SteveSanderson/knockout/issues/194
-        ko.utils.setHtml(testNode, "xxx<!-- ko foreach:someitems --><div><section data-bind='text: $data'></section></div><!-- /ko -->");
-        var viewModel = {
-            someitems: [ 'Alpha', 'Beta' ]
-        };
-        ko.applyBindings(viewModel, testNode);
-        expect(testNode).toContainHtml('xxx<!-- ko foreach:someitems --><div><section data-bind="text: $data">alpha</section></div><div><section data-bind="text: $data">beta</section></div><!-- /ko -->');
+        var isSupported = jasmine.ieVersion >= 9 || window.innerShiv || window.jQuery;
+        if (isSupported) {
+            // Represents https://github.com/SteveSanderson/knockout/issues/194
+            ko.utils.setHtml(testNode, "xxx<!-- ko foreach:someitems --><div><section data-bind='text: $data'></section></div><!-- /ko -->");
+            var viewModel = {
+                someitems: [ 'Alpha', 'Beta' ]
+            };
+            ko.applyBindings(viewModel, testNode);
+            expect(testNode).toContainHtml('xxx<!-- ko foreach:someitems --><div><section data-bind="text: $data">alpha</section></div><div><section data-bind="text: $data">beta</section></div><!-- /ko -->');
+        }
     });
 
     it('Should provide access to observable array items through $rawData', function() {

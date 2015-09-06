@@ -510,6 +510,15 @@ describe('Binding: Value', function() {
             expect(dropdown.selectedIndex).toEqual(2);
         });
 
+        it('Should not throw an exception for value binding on multiple select boxes', function() {
+            testNode.innerHTML = "<select data-bind=\"options: ['abc','def','ghi'], value: x\"></select><select data-bind=\"options: ['xyz','uvw'], value: x\"></select>";
+            var observable = ko.observable();
+            expect(function() {
+                ko.applyBindings({ x: observable }, testNode);
+            }).not.toThrow();
+            expect(observable()).not.toBeUndefined();       // The spec doesn't specify which of the two possible values is actually set
+        });
+
         describe('Using valueAllowUnset option', function () {
             it('Should display the caption when the model value changes to undefined, null, or \"\" when using \'options\' binding', function() {
                 var observable = ko.observable('B');
@@ -592,6 +601,36 @@ describe('Binding: Value', function() {
                 options(["E", "F"]);
                 expect(testNode.childNodes[0].selectedIndex).toEqual(-1);
                 expect(observable()).toEqual("D");
+            });
+
+            it('Should maintain model value and update selection when changing observable option text or value', function() {
+                var selected = ko.observable('B');
+                var people = [
+                    { name: ko.observable('Annie'), id: ko.observable('A') },
+                    { name: ko.observable('Bert'), id: ko.observable('B') }
+                ];
+                testNode.innerHTML = "<select data-bind=\"options:people, optionsText:'name', optionsValue:'id', value:selected, valueAllowUnset:true\"></select>";
+
+                ko.applyBindings({people: people, selected: selected}, testNode);
+                expect(testNode.childNodes[0].selectedIndex).toEqual(1);
+                expect(testNode.childNodes[0]).toHaveTexts(["Annie", "Bert"]);
+                expect(selected()).toEqual("B");
+
+                // Changing an option name shouldn't change selection
+                people[1].name("Charles");
+                expect(testNode.childNodes[0].selectedIndex).toEqual(1);
+                expect(testNode.childNodes[0]).toHaveTexts(["Annie", "Charles"]);
+                expect(selected()).toEqual("B");
+
+                // Changing the selected option value should clear selection
+                people[1].id("C");
+                expect(testNode.childNodes[0].selectedIndex).toEqual(-1);
+                expect(selected()).toEqual("B");
+
+                // Changing an option name while nothing is selected won't select anything
+                people[0].name("Amelia");
+                expect(testNode.childNodes[0].selectedIndex).toEqual(-1);
+                expect(selected()).toEqual("B");
             });
         });
     });
