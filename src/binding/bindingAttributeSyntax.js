@@ -374,7 +374,7 @@
                 });
             };
 
-            handlerConstructor.call(this, handlerParams)
+            handlerConstructor.call(this, handlerParams);
         }
 
         // We have to wrap the handler instance in this "subclass" because

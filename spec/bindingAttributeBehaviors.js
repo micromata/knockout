@@ -493,16 +493,16 @@ describe('Binding attribute syntax', function() {
             var obj = { 'canary': 42 },
                 viewModel = {param: obj};
             ko.bindingHandlers.fnHandler = function (params) {
-                expect(params.value).toEqual(obj)
-                expect(params.element).toEqual(testNode.children[0])
-                expect(params.$data).toEqual(viewModel)
+                expect(params.value).toEqual(obj);
+                expect(params.element).toEqual(testNode.children[0]);
+                expect(params.$data).toEqual(viewModel);
                 expect(params.$context).toEqual(
-                    ko.contextFor(testNode.children[0]))
-                expect(params.allBindings()['bx']).toEqual(43)
-                expect(params.allBindings.get('bx')).toEqual(43)
+                    ko.contextFor(testNode.children[0]));
+                expect(params.allBindings()['bx']).toEqual(43);
+                expect(params.allBindings.get('bx')).toEqual(43);
             }
             testNode.innerHTML = "<p data-bind='fnHandler: param, bx: 43'>";
-            ko.applyBindings(viewModel, testNode)
+            ko.applyBindings(viewModel, testNode);
         });
 
         it("calls the `fn::dispose` when cleaned up", function () {
@@ -563,8 +563,8 @@ describe('Binding attribute syntax', function() {
         });
 
         it("has a .computed() property with the node's lifecycle", function () {
-            var instance;
-            var xCalls = 0,
+            var instance,
+                xCalls = 0,
                 yCalls = 0;
             ko.bindingHandlers.fnHandler = function () {
                 var v = this.v = ko.observable(0);
@@ -660,13 +660,13 @@ describe('Binding attribute syntax', function() {
                 this.addEventHandler('click', eventHandler);
             };
             testNode.innerHTML = "<i data-bind='fnHandler'></i>";
-            ko.applyBindings({}, testNode)
-            expect(fnCalls).toEqual(0)
-            ko.utils.triggerEvent(testNode.children[0], 'click')
-            expect(fnCalls).toEqual(1)
-            ko.cleanNode(testNode)
-            ko.utils.triggerEvent(testNode.children[0], 'click')
-            expect(fnCalls).toEqual(1)
+            ko.applyBindings({}, testNode);
+            expect(fnCalls).toEqual(0);
+            ko.utils.triggerEvent(testNode.children[0], 'click');
+            expect(fnCalls).toEqual(1);
+            ko.cleanNode(testNode);
+            ko.utils.triggerEvent(testNode.children[0], 'click');
+            expect(fnCalls).toEqual(1);
         })
     });
 });
