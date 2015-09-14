@@ -2,14 +2,14 @@
  * Configure the Jasmine testing framework.
  */
 
- window.DEBUG = true;
- window.amdRequire = window.require;
+window.DEBUG = true;
+window.amdRequire = window.require;
 
- // Use a different variable name (not 'jQuery') to avoid overwriting
- // window.jQuery with 'undefined' on IE < 9
- window.jQueryInstance = window.jQuery;
+// Use a different variable name (not 'jQuery') to avoid overwriting
+// window.jQuery with 'undefined' on IE < 9
+window.jQueryInstance = window.jQuery;
 
- jasmine.updateInterval = 500;
+jasmine.updateInterval = 500;
 
 
 /*
@@ -46,7 +46,6 @@ jasmine.Spec.prototype.restoreAfter = function(object, propertyName) {
         object[propertyName] = originalValue;
     });
 };
-
 
 jasmine.nodeText = function(node) {
     return node.nodeType == 3 ? node.data : 'textContent' in node ? node.textContent : node.innerText;
@@ -147,13 +146,16 @@ matchers.toEqualOneOf = function (expectedPossibilities) {
     return false;
 };
 
-matchers.toContainHtml = function (expectedHtml) {
+matchers.toContainHtml = function (expectedHtml, postProcessCleanedHtml) {
     var cleanedHtml = this.actual.innerHTML.toLowerCase().replace(/\r\n/g, "");
     // IE < 9 strips whitespace immediately following comment nodes. Normalize by doing the same on all browsers.
     cleanedHtml = cleanedHtml.replace(/(<!--.*?-->)\s*/g, "$1");
     expectedHtml = expectedHtml.replace(/(<!--.*?-->)\s*/g, "$1");
     // Also remove __ko__ expando properties (for DOM data) - most browsers hide these anyway but IE < 9 includes them in innerHTML
     cleanedHtml = cleanedHtml.replace(/ __ko__\d+=\"(ko\d+|null)\"/g, "");
+    if (postProcessCleanedHtml) {
+        cleanedHtml = postProcessCleanedHtml(cleanedHtml);
+    }
     this.actual = cleanedHtml;      // Fix explanatory message
     return cleanedHtml === expectedHtml;
 };

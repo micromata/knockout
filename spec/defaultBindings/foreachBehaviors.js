@@ -257,7 +257,7 @@ describe('Binding: Foreach', function() {
 
     it('Exception in afterAdd callback should not cause extra elements on next update', function () {
         // See https://github.com/knockout/knockout/issues/1794
-        testNode.innerHTML = "<ul data-bind='foreach: { data: someItems, afterAdd: callback }'><li data-bind='text: $data'></li></ul>";
+        testNode.innerHTML = "<div data-bind='foreach: { data: someItems, afterAdd: callback }'><span data-bind='text: $data'></span></div>";
         var someItems = ko.observableArray([ 'A', 'B', 'C' ]),
             callback = function(element, index, data) { if (data === 'D') throw "Exception"; };
 
@@ -575,23 +575,29 @@ describe('Binding: Foreach', function() {
     });
 
     it('Should be able to output HTML5 elements (even on IE<9, as long as you reference either innershiv.js or jQuery1.7+Modernizr)', function() {
-        // Represents https://github.com/SteveSanderson/knockout/issues/194
-        ko.utils.setHtml(testNode, "<div data-bind='foreach:someitems'><section data-bind='text: $data'></section></div>");
-        var viewModel = {
-            someitems: [ 'Alpha', 'Beta' ]
-        };
-        ko.applyBindings(viewModel, testNode);
-        expect(testNode).toContainHtml('<div data-bind="foreach:someitems"><section data-bind="text: $data">alpha</section><section data-bind="text: $data">beta</section></div>');
+        var isSupported = jasmine.ieVersion >= 9 || window.innerShiv || window.jQuery;
+        if (isSupported) {
+            // Represents https://github.com/SteveSanderson/knockout/issues/194
+            ko.utils.setHtml(testNode, "<div data-bind='foreach:someitems'><section data-bind='text: $data'></section></div>");
+            var viewModel = {
+                someitems: [ 'Alpha', 'Beta' ]
+            };
+            ko.applyBindings(viewModel, testNode);
+            expect(testNode).toContainHtml('<div data-bind="foreach:someitems"><section data-bind="text: $data">alpha</section><section data-bind="text: $data">beta</section></div>');
+        }
     });
 
     it('Should be able to output HTML5 elements within container-less templates (same as above)', function() {
-        // Represents https://github.com/SteveSanderson/knockout/issues/194
-        ko.utils.setHtml(testNode, "xxx<!-- ko foreach:someitems --><div><section data-bind='text: $data'></section></div><!-- /ko -->");
-        var viewModel = {
-            someitems: [ 'Alpha', 'Beta' ]
-        };
-        ko.applyBindings(viewModel, testNode);
-        expect(testNode).toContainHtml('xxx<!-- ko foreach:someitems --><div><section data-bind="text: $data">alpha</section></div><div><section data-bind="text: $data">beta</section></div><!-- /ko -->');
+        var isSupported = jasmine.ieVersion >= 9 || window.innerShiv || window.jQuery;
+        if (isSupported) {
+            // Represents https://github.com/SteveSanderson/knockout/issues/194
+            ko.utils.setHtml(testNode, "xxx<!-- ko foreach:someitems --><div><section data-bind='text: $data'></section></div><!-- /ko -->");
+            var viewModel = {
+                someitems: [ 'Alpha', 'Beta' ]
+            };
+            ko.applyBindings(viewModel, testNode);
+            expect(testNode).toContainHtml('xxx<!-- ko foreach:someitems --><div><section data-bind="text: $data">alpha</section></div><div><section data-bind="text: $data">beta</section></div><!-- /ko -->');
+        }
     });
 
     it('Should provide access to observable array items through $rawData', function() {

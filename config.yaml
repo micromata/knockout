@@ -2,9 +2,11 @@
 #   Configuration and settings for Knockout
 #
 banner: |
-  // Knockout JavaScript library v<%= pkg.version %>
-  // (c) Steven Sanderson - <%= pkg.homepage %>
-  // License: <%= pkg.licenses[0].type %> (<%= pkg.licenses[0].url %>)
+  /*!
+   * Knockout JavaScript library v<%= pkg.version %>
+   * (c) Steven Sanderson - <%= pkg.homepage %>
+   * License: <%= pkg.licenses[0].type %> (<%= pkg.licenses[0].url %>)
+   */
 
 # knockout-latest[.debug].js goes here when compiled
 buildDir: build/output/
@@ -13,7 +15,7 @@ build:
   debug: knockout-latest.debug.js
   headers:
   # This is from what was build/fragments/extern-pre.js:
-  - |
+  - |-
     (function(undefined){
         // (0, eval)('this') is a robust way of getting a reference to the global object
         // For details, see http://stackoverflow.com/questions/14119988/return-this-0-evalthis/14120023#14120023
@@ -45,11 +47,11 @@ build:
 
   footers:
   # This is from what was build/fragments/amd-post.js:
-  - |
+  - |-
     }));
 
   # This is from what was build/fragments/extern-post.js
-  - |
+  - |-
     }());
 
 
@@ -218,7 +220,7 @@ spec_files:
 # https://github.com/karma-runner/karma-sauce-launcher/issues/40
 karma:
   basePath: ''
-  port: 9876
+  port: 9875
   colors: true
   logLevel: INFO  # from karma/lib/constants.js
   autoWatch: true
@@ -247,8 +249,15 @@ karma:
 test_alt_libs:
   jquery: ./spec/helpers/jquery.js
   modernizr: ./spec/helpers/modernizr.js
-  innershiv: ./spec/helpers/innershiv.js
   json2: ./spec/helpers/json2.js
+
+  # Note: innerShiv is deprecated in favour of html5shiv (https://github.com/aFarkas/html5shiv)
+  # KO retains back-compatible support for innershiv, but we will consider dropping this and
+  # supporting only html5shiv as of the next major version of KO (unless KO itself drops support
+  # for IE 6-8 in the next major version, in which case this is all irrelevant).
+  # It doesn't really matter very much, because essentially everyone who targets IE6-8 is also
+  # using jQuery, and if you are using jQuery then you don't need innerShiv.
+  innershiv: ./spec/helpers/innershiv.js
 
 # These are the browsers that'll get tested by SauceLabs.
 # These are bucketed together in groups of no more than 3, because of
