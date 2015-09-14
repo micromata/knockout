@@ -365,6 +365,15 @@
                 );
             };
 
+            this.addEventHandler = function addEventHandler(eventType, handler) {
+                // Register the event handler, and add it to our subscriptions
+                // for disposal when cleanNode is called- with a subscription-
+                // like API (i.e. the `dispose` property).
+                subscriptions.push({
+                    dispose: ko.utils.registerEventHandler(node, eventType, handler)
+                });
+            };
+
             handlerConstructor.call(this, handlerParams)
         }
 
@@ -381,8 +390,8 @@
             if (typeof handlerInstance.dispose === "function") {
                 handlerInstance.dispose.call(handlerInstance);
             }
-            ko.utils.arrayForEach(subscriptions, function (subs) {
-                subs.dispose();
+            ko.utils.arrayForEach(subscriptions, function (subscription) {
+                subscription.dispose();
             });
         });
 

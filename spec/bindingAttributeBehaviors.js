@@ -1,3 +1,5 @@
+/* eslint semi: 0, key-spacing: 0 */
+
 describe('Binding attribute syntax', function() {
     beforeEach(jasmine.prepareTestNode);
 
@@ -648,5 +650,23 @@ describe('Binding attribute syntax', function() {
             ko.cleanNode(testNode);
             expect(obs.getSubscriptionsCount()).toEqual(0);
         });
+
+        it("addEventHandler events are cleaned up", function () {
+            var handlerInstance;
+            var fnCalls = 0;
+            function eventHandler() { return fnCalls++; }
+            ko.bindingHandlers.fnHandler = function (element) {
+                handlerInstance = this;
+                this.addEventHandler('click', eventHandler);
+            };
+            testNode.innerHTML = "<i data-bind='fnHandler'></i>";
+            ko.applyBindings({}, testNode)
+            expect(fnCalls).toEqual(0)
+            ko.utils.triggerEvent(testNode.children[0], 'click')
+            expect(fnCalls).toEqual(1)
+            ko.cleanNode(testNode)
+            ko.utils.triggerEvent(testNode.children[0], 'click')
+            expect(fnCalls).toEqual(1)
+        })
     });
 });

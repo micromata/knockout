@@ -360,24 +360,34 @@ ko.utils = (function () {
 
         registerEventHandler: function (element, eventType, handler) {
             var wrappedHandler = ko.utils.catchFunctionErrors(handler);
+            var disposeFn;
 
             var mustUseAttachEvent = ieVersion && eventsThatMustBeRegisteredUsingAttachEvent[eventType];
             if (!ko.options['useOnlyNativeEvents'] && !mustUseAttachEvent && jQueryInstance) {
                 jQueryInstance(element)['bind'](eventType, wrappedHandler);
-            } else if (!mustUseAttachEvent && typeof element.addEventListener == "function")
+                disposeFn = function dispose() {
+                    jQueryInstance(element)['unbind'](eventType, wrappedHandler);
+                };
+            } else if (!mustUseAttachEvent && typeof element.addEventListener == "function") {
                 element.addEventListener(eventType, wrappedHandler, false);
-            else if (typeof element.attachEvent != "undefined") {
+                disposeFn = function dispose() {
+                    element.removeEventListener(eventType, wrappedHandler);
+                };
+            } else if (typeof element.attachEvent != "undefined") {
                 var attachEventHandler = function (event) { wrappedHandler.call(element, event); },
                     attachEventName = "on" + eventType;
                 element.attachEvent(attachEventName, attachEventHandler);
+                disposeFn = function dispose() {
+                    element.detachEvent(attachEventName, attachEventHandler);
+                };
 
                 // IE does not dispose attachEvent handlers automatically (unlike with addEventListener)
                 // so to avoid leaks, we have to remove them manually. See bug #856
-                ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-                    element.detachEvent(attachEventName, attachEventHandler);
-                });
+                ko.utils.domNodeDisposal.addDisposeCallback(element, disposeFn);
             } else
                 throw new Error("Browser doesn't support addEventListener or attachEvent");
+
+            return disposeFn;
         },
 
         triggerEvent: function (element, eventType) {
