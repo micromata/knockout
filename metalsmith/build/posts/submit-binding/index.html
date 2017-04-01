@@ -1,24 +1,40 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>submit</code> binding adds an event handler so that your chosen JavaScript function will be invoked when the associated DOM element is submitted. Typically you will only want to use this on <code>form</code> elements.</p>
-<p>When you use the <code>submit</code> binding on a form, Knockout will prevent the browser&#39;s default submit action for that form. In other words, the browser will call your handler function but will <em>not</em> submit the form to the server. This is a useful default because when you use the <code>submit</code> binding, it&#39;s normally because you&#39;re using the form as an interface to your view model, not as a regular HTML form. If you <em>do</em> want to let the form submit like a normal HTML form, just return <code>true</code> from your <code>submit</code> handler.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>submit</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>submit</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code>submit</code> binding adds an event handler so that your chosen JavaScript function will be invoked when the associated DOM element is submitted. Typically you will only want to use this on <code class="lang-fortran"><span class="hljs-keyword">form</span></code> elements.</p>
+<p>When you use the <code>submit</code> binding on a form, Knockout will prevent the browser's default submit action for that form. In other words, the browser will call your handler function but will <em>not</em> submit the form to the server. This is a useful default because when you use the <code>submit</code> binding, it's normally because you're using the form as an interface to your view model, not as a regular HTML form. If you <em>do</em> want to let the form submit like a normal HTML form, just return <code class="lang-actionscript"><span class="hljs-literal">true</span></code> from your <code>submit</code> handler.</p>
 <h3 id="example">Example</h3>
-<pre><code class="lang-example">html: |-
-  &lt;form data-bind=&quot;submit: doSomething&quot;&gt;
+<pre><code class="lang-javascript">html: |-
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"submit: doSomething"</span>&gt;</span>
       ... form contents go here ...
-      &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
-  &lt;/form&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"submit"</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
 javascript: |-
   var viewModel = {
       doSomething : function(formElement) {
           // ... now do something
       }
   };
-</code></pre>
+</span></code></pre>
 <p>As illustrated in this example, KO passes the form element as a parameter to your submit handler function. You can ignore that parameter if you want, or there are various ways you might want to use it, for example:</p>
 <ul>
 <li><p>Extracting additional data or state from the form elements</p>
 </li>
-<li><p>Triggering UI-level validation using a library such as <a href="https://github.com/jzaefferer/jquery-validation">jQuery Validation</a>, using code similar to the following snippet: <code>if ($(formElement).valid()) { /* do something */ }</code>.</p>
+<li><p>Triggering UI-level validation using a library such as <a href="https://github.com/jzaefferer/jquery-validation">jQuery Validation</a>, using code similar to the following snippet: <code class="lang-gcode"><span class="hljs-keyword">if</span> <span class="hljs-comment">($(formElement)</span>.valid<span class="hljs-comment">()</span>) { <span class="hljs-comment">/* do something */</span> }</code>.</p>
 </li>
 </ul>
 <h3 id="why-not-just-put-a-click-handler-on-the-submit-button-">Why not just put a <code>click</code> handler on the submit button?</h3>
@@ -26,9 +42,9 @@ javascript: |-
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
-<p>The function you want to bind to the element&#39;s <code>submit</code> event.</p>
-<p>You can reference any JavaScript function - it doesn&#39;t have to be a function on your view model. You can reference a function on any object by writing <code>submit: someObject.someFunction</code>.</p>
-<p>Functions on your view model are slightly special because you can reference them by name, i.e., you can write <code>submit: doSomething</code> and <em>don&#39;t</em> have to write <code>submit: viewModel.doSomething</code> (though technically that&#39;s also valid).</p>
+<p>The function you want to bind to the element's <code>submit</code> event.</p>
+<p>You can reference any JavaScript function - it doesn't have to be a function on your view model. You can reference a function on any object by writing <code class="lang-http"><span class="hljs-attribute">submit</span>: <span class="hljs-string">someObject.someFunction</span></code>.</p>
+<p>Functions on your view model are slightly special because you can reference them by name, i.e., you can write <code class="lang-http"><span class="hljs-attribute">submit</span>: <span class="hljs-string">doSomething</span></code> and <em>don't</em> have to write <code class="lang-http"><span class="hljs-attribute">submit</span>: <span class="hljs-string">viewModel.doSomething</span></code> (though technically that's also valid).</p>
 </li>
 <li><p>Additional parameters</p>
 <ul>
@@ -37,4 +53,12 @@ javascript: |-
 </li>
 </ul>
 <h3 id="notes">Notes</h3>
-<p>For information about how to pass additional parameters to your submit handler function, or how to control the <code>this</code> handle when invoking functions that aren&#39;t on your view model, see the notes relating to the <a href="/a/click-binding.html">click binding</a>. All the notes on that page apply to <code>submit</code> handlers too.</p>
+<p>For information about how to pass additional parameters to your submit handler function, or how to control the <code class="lang-actionscript"><span class="hljs-keyword">this</span></code> handle when invoking functions that aren't on your view model, see the notes relating to the <a href="/a/click-binding.html">click binding</a>. All the notes on that page apply to <code>submit</code> handlers too.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

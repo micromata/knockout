@@ -1,27 +1,27 @@
 <h3 id="purpose">Purpose</h3>
 <p>The <code>style</code> binding adds or removes one or more style values to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative, or to set the width of a bar to match a numerical value that changes.</p>
-<p>(Note: If you don&#39;t want to apply an explicit style value but instead want to assign a CSS class, see <a href="css-binding.html">the css binding</a>.)</p>
+<p>(Note: If you don't want to apply an explicit style value but instead want to assign a CSS class, see <a href="css-binding.html">the css binding</a>.)</p>
 <h3 id="example">Example</h3>
-<pre><code class="lang-example">name: Control Text &amp; Appearance
+<pre><code class="lang-javascript">name: Control Text &amp; Appearance
 html: |-
-  &lt;div data-bind=&quot;style: { color: currentProfit() &lt; 0 ? &#39;red&#39; : &#39;black&#39; }&quot;&gt;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"style: { color: currentProfit() &lt; 0 ? 'red' : 'black' }"</span>&gt;</span>
      Profit Information
-  &lt;/div&gt;
+  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 javascript: |-
   var viewModel = {
       currentProfit: ko.observable(150000) // Positive value, so initially black
   };
-  viewModel.currentProfit(-50); // Causes the DIV&#39;s contents to go red
-</code></pre>
-<p>This will set the element&#39;s <code>style.color</code> property to <code>red</code> whenever the <code>currentProfit</code> value dips below zero, and to <code>black</code> whenever it goes above zero.</p>
+  viewModel.currentProfit(-50); // Causes the DIV's contents to go red
+</span></code></pre>
+<p>This will set the element's <code class="lang-css"><span class="hljs-tag">style</span><span class="hljs-class">.color</span></code> property to <code class="lang-processing"><span class="hljs-built_in">red</span></code> whenever the <code>currentProfit</code> value dips below zero, and to <code class="lang-livecodeserver"><span class="hljs-keyword">black</span></code> whenever it goes above zero.</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
 <p>You should pass a JavaScript object in which the property names correspond to style names, and the values correspond to the style values you wish to apply.</p>
 <p>You can set multiple style values at once. For example, if your view model has a property called <code>isSevere</code>,</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;style: { color: currentProfit() &lt; 0 ? &#39;red&#39; : &#39;black&#39;, fontWeight: isSevere() ? &#39;bold&#39; : &#39;&#39; }&quot;&gt;...&lt;/div&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"style: { color: currentProfit() &lt; 0 ? 'red' : 'black', fontWeight: isSevere() ? 'bold' : '' }"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>If your parameter references an observable value, the binding will update the styles whenever the observable value changes. If the parameter doesn&#39;t reference an observable value, it will only set the styles once and will not update them later.</p>
+<p>If your parameter references an observable value, the binding will update the styles whenever the observable value changes. If the parameter doesn't reference an observable value, it will only set the styles once and will not update them later.</p>
 <p>As usual, you can use arbitrary JavaScript expressions or functions as parameter values. KO will evaluate them and use the resulting values to detemine the style values to apply.</p>
 </li>
 <li><p>Additional parameters</p>
@@ -30,10 +30,10 @@ javascript: |-
 </ul>
 </li>
 </ul>
-<h3 id="note-applying-styles-whose-names-aren-t-legal-javascript-variable-names">Note: Applying styles whose names aren&#39;t legal JavaScript variable names</h3>
-<p>If you want to apply a <code>font-weight</code> or <code>text-decoration</code> style, or any other style whose name isn&#39;t a legal JavaScript identifier (e.g., because it contains a hyphen), you must use the <em>JavaScript name</em> for that style. For example,</p>
+<h3 id="note-applying-styles-whose-names-aren-t-legal-javascript-variable-names">Note: Applying styles whose names aren't legal JavaScript variable names</h3>
+<p>If you want to apply a <code class="lang-scss"><span class="hljs-attribute">font-weight</span></code> or <code class="lang-applescript"><span class="hljs-type">text</span>-decoration</code> style, or any other style whose name isn't a legal JavaScript identifier (e.g., because it contains a hyphen), you must use the <em>JavaScript name</em> for that style. For example,</p>
 <ul>
-<li>Don&#39;t write <code>{ font-weight: someValue }</code>; do write <code>{ fontWeight: someValue }</code></li>
-<li>Don&#39;t write <code>{ text-decoration: someValue }</code>; do write <code>{ textDecoration: someValue }</code></li>
+<li>Don't write <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">font-weight</span>:<span class="hljs-value"> someValue </span></span></span>}</code>; do write <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">fontWeight</span>:<span class="hljs-value"> someValue </span></span></span>}</code></li>
+<li>Don't write <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">text-decoration</span>:<span class="hljs-value"> someValue </span></span></span>}</code>; do write <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">textDecoration</span>:<span class="hljs-value"> someValue </span></span></span>}</code></li>
 </ul>
 <p>See also: <a href="http://www.comptechdoc.org/independent/web/cgi/javamanual/javastyle.html">a longer list of style names and their JavaScript equivalents</a></p>

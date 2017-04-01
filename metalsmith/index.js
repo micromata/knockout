@@ -1,9 +1,9 @@
-var Metalsmith  = require('metalsmith')
-var collections = require('metalsmith-collections')
-var layouts     = require('metalsmith-layouts')
-var markdown    = require('metalsmith-markdown')
-var permalinks  = require('metalsmith-permalinks')
-
+var Metalsmith  			= require('metalsmith')
+var collections 			= require('metalsmith-collections')
+var layouts     			= require('metalsmith-layouts')
+var markdown    			= require('metalsmith-markdown')
+var permalinks  			= require('metalsmith-permalinks')
+var codeHighlighting	= require('metalsmith-code-highlight')
 
 Metalsmith(__dirname)
   .metadata({
@@ -24,6 +24,7 @@ Metalsmith(__dirname)
   .use(permalinks({           // change URLs to permalink URLs
     relative: false           // put css only in /css
   }))
+	.use(codeHighlighting())
   .use(layouts({              // wrap layouts around html
     engine: 'handlebars',     // use the layout engine you like
   }))

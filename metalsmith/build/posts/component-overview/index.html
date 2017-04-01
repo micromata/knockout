@@ -1,4 +1,20 @@
-<p><strong>Components</strong> are a powerful, clean way of organizing your UI code into self-contained, reusable chunks. They:</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Component Overview</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Component Overview</h1>
+
+  <p><strong>Components</strong> are a powerful, clean way of organizing your UI code into self-contained, reusable chunks. They:</p>
 <ul>
 <li>...can represent individual controls/widgets, or entire sections of your application</li>
 <li>...contain their own view, and usually (but optionally) their own viewmodel</li>
@@ -9,57 +25,65 @@
 <li>...let you define your own conventions/logic for configuration and loading</li>
 </ul>
 <p>This pattern is beneficial for large applications, because it <strong>simplifies development</strong> through clear organization and encapsulation, and helps to <strong>improve runtime performance</strong> by incrementally loading your application code and templates as needed.</p>
-<p><strong>Custom elements</strong> are an optional but convenient syntax for consuming components. Instead of needing placeholder <code>&lt;div&gt;</code>s into which components are injected with bindings, you can use more self-descriptive markup with custom element names (e.g., <code>&lt;voting-button&gt;</code> or <code>&lt;product-editor&gt;</code>). Knockout takes care to ensure compatibility even with old browsers such as IE 6.</p>
+<p><strong>Custom elements</strong> are an optional but convenient syntax for consuming components. Instead of needing placeholder <code class="lang-apache"><span class="hljs-tag">&lt;div&gt;</span></code>s into which components are injected with bindings, you can use more self-descriptive markup with custom element names (e.g., <code class="lang-apache"><span class="hljs-tag">&lt;voting-button&gt;</span></code> or <code class="lang-apache"><span class="hljs-tag">&lt;product-editor&gt;</span></code>). Knockout takes care to ensure compatibility even with old browsers such as IE 6.</p>
 <h3 id="example-a-like-dislike-widget">Example: A like/dislike widget</h3>
-<p>To get started, you can register a component using <code>ko.components.register</code> (technically, registration is optional, but it&#39;s the easiest way to get started). A component definition specifies a <code>viewModel</code> and <code>template</code>. For example:</p>
-<p><live-example params='id: "component-like"'></live-example></p>
-<p><strong>Normally, you&#39;d load the view model and template from external files</strong> instead of declaring them inline like this. We&#39;ll get to that later.</p>
-<p>Now, to use this component, you can reference it from any other view in your application, either using the <a href="#component-binding"><code>component</code> binding</a> or using a <a href="#component-custom-elements">custom element</a>. Here&#39;s a live example that uses it as a custom element:</p>
-<p><live-example params='id: "component-overview"'></live-example></p>
-<p>In this example, the component both displays and edits an observable property called <code>userRating</code> on the <code>Product</code> view model class.</p>
+<p>To get started, you can register a component using <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code> (technically, registration is optional, but it's the easiest way to get started). A component definition specifies a <code>viewModel</code> and <code class="lang-cpp"><span class="hljs-keyword">template</span></code>. For example:</p>
+<p><live-example params="id: &quot;component-like&quot;"></live-example></p>
+<p><strong>Normally, you'd load the view model and template from external files</strong> instead of declaring them inline like this. We'll get to that later.</p>
+<p>Now, to use this component, you can reference it from any other view in your application, either using the <a href="#component-binding"><code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding</a> or using a <a href="#component-custom-elements">custom element</a>. Here's a live example that uses it as a custom element:</p>
+<p><live-example params="id: &quot;component-overview&quot;"></live-example></p>
+<p>In this example, the component both displays and edits an observable property called <code class="lang-pf"><span class="hljs-keyword">user</span>Rating</code> on the <code class="lang-fortran"><span class="hljs-built_in">Product</span></code> view model class.</p>
 <h3 id="example-loading-the-like-dislike-widget-from-external-files-on-demand">Example: Loading the like/dislike widget from external files, on demand</h3>
-<p>In most applications, you&#39;ll want to keep component view models and templates in external files. If you configure Knockout to fetch them via an AMD module loader such as <a href="http://requirejs.org/">require.js</a>, then they can either be preloaded (possibly bundled/minified), or incrementally loaded as needed.</p>
-<p>Here&#39;s an example configuration:</p>
-<pre><code class="lang-javascript">ko.components.register(&#39;like-or-dislike&#39;, {
-    viewModel: { require: &#39;files/component-like-widget&#39; },
-    template: { require: &#39;text!files/component-like-widget.html&#39; }
+<p>In most applications, you'll want to keep component view models and templates in external files. If you configure Knockout to fetch them via an AMD module loader such as <a href="http://requirejs.org/">require.js</a>, then they can either be preloaded (possibly bundled/minified), or incrementally loaded as needed.</p>
+<p>Here's an example configuration:</p>
+<pre><code class="lang-javascript">ko.components.register(<span class="hljs-string">'like-or-dislike'</span>, {
+    viewModel: { <span class="hljs-built_in">require</span>: <span class="hljs-string">'files/component-like-widget'</span> },
+    template: { <span class="hljs-built_in">require</span>: <span class="hljs-string">'text!files/component-like-widget.html'</span> }
 });
 </code></pre>
 <p><strong>Requirements</strong></p>
-<p>For this to work, the files <a href="files/component-like-widget.js"><code>files/component-like-widget.js</code></a> and <a href="files/component-like-widget.html"><code>files/component-like-widget.html</code></a> need to exist. Check them out (and <em>view source</em> on the <code>.html</code> one) - as you&#39;ll see, this is cleaner and more convenient that including the code inline in the definition.</p>
+<p>For this to work, the files <a href="files/component-like-widget.js"><code class="lang-axapta">files/component-<span class="hljs-keyword">like</span>-widget.js</code></a> and <a href="files/component-like-widget.html"><code class="lang-axapta">files/component-<span class="hljs-keyword">like</span>-widget.html</code></a> need to exist. Check them out (and <em>view source</em> on the <code class="lang-asciidoc"><span class="hljs-title">.html</span></code> one) - as you'll see, this is cleaner and more convenient that including the code inline in the definition.</p>
 <p>Also, you need to have referenced a suitable module loader library (such as <a href="http://requirejs.org/">require.js</a>) or implemented a <a href="component-loaders.html">custom component loader</a> that knows how to grab your files.</p>
 <p><strong>Using the component</strong></p>
-<p>Now <code>like-or-dislike</code> can be consumed in the same way as before, using either a <a href="#component-binding"><code>component</code> binding</a> or a <a href="#component-custom-elements">custom element</a>:</p>
-<pre><code class="lang-html">&lt;ul data-bind=&quot;foreach: products&quot;&gt;
-    &lt;li class=&quot;product&quot;&gt;
-        &lt;strong data-bind=&quot;text: name&quot;&gt;&lt;/strong&gt;
-        &lt;like-or-dislike params=&quot;value: userRating&quot;&gt;&lt;/like-or-dislike&gt;
-    &lt;/li&gt;
-&lt;/ul&gt;
-&lt;button data-bind=&quot;click: addProduct&quot;&gt;Add a product&lt;/button&gt;
+<p>Now <code class="lang-vbnet"><span class="hljs-keyword">like</span>-<span class="hljs-keyword">or</span>-dislike</code> can be consumed in the same way as before, using either a <a href="#component-binding"><code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding</a> or a <a href="#component-custom-elements">custom element</a>:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"foreach: products"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"product"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">strong</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">strong</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">like-or-dislike</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">"value: userRating"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">like-or-dislike</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"click: addProduct"</span>&gt;</span>Add a product<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">function Product(name, rating) {
-    this.name = name;
-    this.userRating = ko.observable(rating || null);
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Product</span>(<span class="hljs-params">name, rating</span>) </span>{
+    <span class="hljs-keyword">this</span>.name = name;
+    <span class="hljs-keyword">this</span>.userRating = ko.observable(rating || <span class="hljs-literal">null</span>);
 }
 
-function MyViewModel() {
-    this.products = ko.observableArray(); // Start empty
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyViewModel</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.products = ko.observableArray(); <span class="hljs-comment">// Start empty</span>
 }
 
-MyViewModel.prototype.addProduct = function() {
-    var name = &#39;Product &#39; + (this.products().length + 1);
-    this.products.push(new Product(name));
+MyViewModel.prototype.addProduct = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> name = <span class="hljs-string">'Product '</span> + (<span class="hljs-keyword">this</span>.products().length + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">this</span>.products.push(<span class="hljs-keyword">new</span> Product(name));
 };
 
-ko.applyBindings(new MyViewModel());
+ko.applyBindings(<span class="hljs-keyword">new</span> MyViewModel());
 </code></pre>
-<p>If you open your browser developer tools&#39; <strong>Network</strong> inspector before your first click on <em>Add product</em>, you&#39;ll see that the component&#39;s <code>.js</code>/<code>.html</code> files are fetched on demand when first required, and thereafter retained for reuse.</p>
+<p>If you open your browser developer tools' <strong>Network</strong> inspector before your first click on <em>Add product</em>, you'll see that the component's <code class="lang-asciidoc"><span class="hljs-title">.js</span></code>/<code class="lang-asciidoc"><span class="hljs-title">.html</span></code> files are fetched on demand when first required, and thereafter retained for reuse.</p>
 <h3 id="learn-more">Learn more</h3>
 <p>More more detailed information, see:</p>
 <ul>
 <li><a href="#component-registration">Defining and registering components</a></li>
-<li><a href="#component-binding">Using the <code>component</code> binding</a></li>
+<li><a href="#component-binding">Using the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding</a></li>
 <li><a href="#component-custom-elements">Using custom elements</a></li>
 <li><a href="#component-loaders">Advanced: Custom component loaders</a></li>
 </ul>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

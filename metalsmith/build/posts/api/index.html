@@ -1,4 +1,4 @@
-<table class='pure-table pure-table-horizontal pure-table-striped'>
+<table class="pure-table pure-table-horizontal pure-table-striped">
   <thead>
     <tr>
       <th>Identity</th>
@@ -6,15 +6,15 @@
       <th>Source</th>
     </tr>
   </thead>
-  <tbody data-bind='foreach: API.items'>
+  <tbody data-bind="foreach: API.items">
     <tr>
       <td>
-        <code>{{ name }}</code>
+        <code class="lang-crystal"><span class="hljs-expansion">{{ name }}</span></code>
       </td>
       <td>{{ purpose }}</td>
       <td>
         {{ type }} at
-        <a href='{{ url }}'>
+        <a href="{{ url }}">
           {{ source }}:{{ line }}
         </a>
       </td>

@@ -1,9 +1,33 @@
-<p>This example shows two ways to animate transitions:</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Animated transitions</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Animated transitions</h1>
+
+  <p>This example shows two ways to animate transitions:</p>
 <ul>
-<li><p>When using the <code>template/foreach</code> binding, you can provide <code>afterAdd</code> and <code>beforeRemove</code> callbacks. These let you intercept the code that actually adds or removes elements, so you can trivially use something like jQuery&#39;s <code>slideUp</code>/<code>slideDown()</code> animation methods or similar. To see this in action, switch between different planet types, or add new planets.</p>
+<li><p>When using the <code class="lang-d"><span class="hljs-keyword">template</span>/<span class="hljs-keyword">foreach</span></code> binding, you can provide <code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Add</span></code> and <code>beforeRemove</code> callbacks. These let you intercept the code that actually adds or removes elements, so you can trivially use something like jQuery's <code>slideUp</code>/<code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">slideDown</span><span class="hljs-params">()</span></span></code> animation methods or similar. To see this in action, switch between different planet types, or add new planets.</p>
 </li>
-<li><p>It&#39;s not hard to write a custom Knockout binding that manipulates element states in arbitrary ways according to the value of an observable. Check the HTML source code to see a custom binding called <code>fadeVisible</code> that, whenever an observable value changes, uses jQuery&#39;s <code>fadeIn</code>/<code>fadeOut</code> functions to animate the associated DOM element. To see this in action, check and uncheck the &quot;advanced options&quot; checkbox.</p>
+<li><p>It's not hard to write a custom Knockout binding that manipulates element states in arbitrary ways according to the value of an observable. Check the HTML source code to see a custom binding called <code>fadeVisible</code> that, whenever an observable value changes, uses jQuery's <code>fadeIn</code>/<code>fadeOut</code> functions to animate the associated DOM element. To see this in action, check and uncheck the "advanced options" checkbox.</p>
 </li>
 </ul>
-<p><live-example params='id: "animated"'></live-example></p>
+<p><live-example params="id: &quot;animated&quot;"></live-example></p>
 <p><a href="http://jsfiddle.net/rniemeyer/8k8V5/">Try it in jsFiddle</a></p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

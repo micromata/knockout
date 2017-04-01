@@ -1,41 +1,57 @@
-<p>In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:</p>
-<pre><code class="lang-html">&lt;a href=&quot;#&quot; data-bind=&quot;click: function() { viewModel.items.remove($data); }&quot;&gt;
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Using unobtrusive event handlers</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Using unobtrusive event handlers</h1>
+
+  <p>In most cases, data-bind attributes provide a clean and succinct way to bind to a view model. However, event handling is one area that can often result in verbose data-bind attributes, as anonymous functions were typically the recommended techinique to pass arguments.  For example:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"click: function() { viewModel.items.remove($data); }"</span>&gt;</span>
     remove
-&lt;/a&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
 </code></pre>
 <p>As an alternative, Knockout provides two helper functions that allow you to identify the data associated with a DOM element:</p>
 <ul>
-<li><code>ko.dataFor(element)</code> - returns the data that was available for binding against the element</li>
-<li><code>ko.contextFor(element)</code> - returns the entire <a href="binding-context.html">binding context</a> that was available to the DOM element.</li>
+<li><code class="lang-stylus">ko.<span class="hljs-function"><span class="hljs-title">dataFor</span><span class="hljs-params">(element)</span></span></code> - returns the data that was available for binding against the element</li>
+<li><code class="lang-stylus">ko.<span class="hljs-function"><span class="hljs-title">contextFor</span><span class="hljs-params">(element)</span></span></code> - returns the entire <a href="binding-context.html">binding context</a> that was available to the DOM element.</li>
 </ul>
-<p>These helper functions can be used in event handlers that are attached unobtrusively using something like jQuery&#39;s <code>bind</code> or <code>click</code>. The above function could be attached to each link with a <code>remove</code> class like:</p>
-<pre><code class="lang-javascript">$(&quot;.remove&quot;).click(function () {
-    viewModel.items.remove(ko.dataFor(this));
+<p>These helper functions can be used in event handlers that are attached unobtrusively using something like jQuery's <code class="lang-bash"><span class="hljs-built_in">bind</span></code> or <code>click</code>. The above function could be attached to each link with a <code class="lang-cmake"><span class="hljs-keyword">remove</span></code> class like:</p>
+<pre><code class="lang-javascript">$(<span class="hljs-string">".remove"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    viewModel.items.remove(ko.dataFor(<span class="hljs-keyword">this</span>));
 });
 </code></pre>
-<p>Better yet, this techinique could be used to support event delegation.  jQuery&#39;s <code>live/delegate/on</code> functions are an easy way to make this happen:</p>
-<pre><code class="lang-javascript">$(&quot;.remove&quot;).live(&quot;click&quot;, function() {
-    viewModel.items.remove(ko.dataFor(this));
+<p>Better yet, this techinique could be used to support event delegation.  jQuery's <code class="lang-applescript">live/delegate/<span class="hljs-function_start"><span class="hljs-keyword">on</span></span></code> functions are an easy way to make this happen:</p>
+<pre><code class="lang-javascript">$(<span class="hljs-string">".remove"</span>).live(<span class="hljs-string">"click"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    viewModel.items.remove(ko.dataFor(<span class="hljs-keyword">this</span>));
 });
 </code></pre>
-<p>Now, a single event handler is attached at a higher level and handles clicks against any links with the <code>remove</code> class. This method has the added benefit of automatically handling additional links that are dynamically added to the document (perhaps as the result of an item being added to an observableArray).</p>
+<p>Now, a single event handler is attached at a higher level and handles clicks against any links with the <code class="lang-cmake"><span class="hljs-keyword">remove</span></code> class. This method has the added benefit of automatically handling additional links that are dynamically added to the document (perhaps as the result of an item being added to an observableArray).</p>
 <h3 id="live-example-nested-children">Live example: nested children</h3>
-<p>This example shows &quot;add&quot; and &quot;remove&quot; links on multiple levels of parents and children with a single handler attached unobtrusively for each type of link.</p>
-<pre><code class="lang-example">css: |-
-   .liveExample a.add { font-size: .7em; color: #aaa; }
-   .liveExample a.remove { font-size: .9em; }
+<p>This example shows "add" and "remove" links on multiple levels of parents and children with a single handler attached unobtrusively for each type of link.</p>
+<pre><code class="lang-javascript">css: |-
+   .liveExample a.add { font-size: <span class="hljs-number">.7</span>em; color: #aaa; }
+   .liveExample a.remove { font-size: <span class="hljs-number">.9</span>em; }
 
 html: |-
-  &lt;script id=&quot;personTmpl&quot; type=&quot;text/html&quot;&gt;
-      &lt;li&gt;
-          &lt;a class=&quot;remove&quot; href=&quot;#&quot;&gt; x &lt;/a&gt;
-          &lt;span data-bind=&#39;text: name&#39;&gt;&lt;/span&gt;
-          &lt;a class=&quot;add&quot; href=&quot;#&quot;&gt; add child &lt;/a&gt;
-          &lt;ul data-bind=&#39;template: { name: &quot;personTmpl&quot;, foreach: children }&#39;&gt;&lt;/ul&gt;
-      &lt;/li&gt;
-  &lt;/script&gt;
-  &lt;ul id=&quot;people&quot; data-bind=&#39;template: { name: &quot;personTmpl&quot;, foreach: people }&#39;&gt;
-  &lt;/ul&gt;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"personTmpl"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/html"</span>&gt;</span><span class="handlebars"><span class="xml">
+      <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"remove"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span> x <span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'text: name'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"add"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span> add child <span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'template: { name: "personTmpl", foreach: children }'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+  </span></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"people"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'template: { name: "personTmpl", foreach: people }'</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 javascript: |-
   var Person = function(name, children) {
     this.name = ko.observable(name);
@@ -44,22 +60,22 @@ javascript: |-
 
   var PeopleModel = function() {
     this.people = ko.observableArray([
-        new Person(&quot;Bob&quot;, [
-            new Person(&quot;Jan&quot;),
-            new Person(&quot;Don&quot;, [
-                new Person(&quot;Ted&quot;),
-                new Person(&quot;Ben&quot;, [
-                    new Person(&quot;Joe&quot;, [
-                        new Person(&quot;Ali&quot;),
-                        new Person(&quot;Ken&quot;)
+        new Person("Bob", [
+            new Person("Jan"),
+            new Person("Don", [
+                new Person("Ted"),
+                new Person("Ben", [
+                    new Person("Joe", [
+                        new Person("Ali"),
+                        new Person("Ken")
                     ])
                 ]),
-                new Person(&quot;Doug&quot;)
+                new Person("Doug")
             ])
         ]),
-        new Person(&quot;Ann&quot;, [
-            new Person(&quot;Eve&quot;),
-            new Person(&quot;Hal&quot;)
+        new Person("Ann", [
+            new Person("Eve"),
+            new Person("Hal")
         ])
     ]);
 
@@ -71,7 +87,7 @@ javascript: |-
   ko.applyBindings(new PeopleModel());
 
   //attach event handlers
-  $(&quot;#people&quot;).delegate(&quot;.remove&quot;, &quot;click&quot;, function() {
+  $("#people").delegate(".remove", "click", function() {
     //retrieve the context
     var context = ko.contextFor(this),
         parentArray = context.$parent.people || context.$parent.children;
@@ -82,10 +98,10 @@ javascript: |-
     return false;
   });
 
-  $(&quot;#people&quot;).delegate(&quot;.add&quot;, &quot;click&quot;, function() {
+  $("#people").delegate(".add", "click", function() {
     //retrieve the context
     var context = ko.contextFor(this),
-        childName = context.$data.name() + &quot; child&quot;,
+        childName = context.$data.name() + " child",
         parentArray = context.$data.people || context.$data.children;
 
     //add a child to the appropriate parent, calling a method off of the main view model (context.$root)
@@ -93,5 +109,13 @@ javascript: |-
 
     return false;
   });
-</code></pre>
+</span></code></pre>
 <p>No matter how nested the links become, the handler is always able to identify and operate on the appropriate data. Using this techinique, we can avoid the overhead of attaching handlers to each individual link and can keep the markup clean and concise.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

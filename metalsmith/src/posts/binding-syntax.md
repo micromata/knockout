@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: The "data-bind" syntax
 cat: 2

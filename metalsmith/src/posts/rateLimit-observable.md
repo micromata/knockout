@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: The "rateLimit" extender
 cat: 2

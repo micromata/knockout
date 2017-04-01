@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: template
 cat: 4
@@ -37,7 +38,7 @@ There are two main ways of using templates:
 Normally, when you're using control flow bindings (`foreach`, `with`, `if`, etc.), there's no need to give names to your templates: they are defined implicitly
 and anonymously by the markup inside your DOM element. But if you want to, you can factor out templates into a separate element and then reference them by name:
 
-```example
+```javascript
 html: |-
   <h2>Participants</h2>
   Here are the participants:
@@ -67,7 +68,7 @@ It's not very often that you'll need to use named templates, but on occasion it 
 
 If you want the equivalent of a `foreach` binding, but using a named template, you can do so in the natural way:
 
-```example
+```javascript
 html: |-
   <h2>Participants</h2>
   Here are the participants:
@@ -111,7 +112,7 @@ Notice the string value `'employee'` associated with `as`. Now anywhere inside t
 
 This is mainly useful if you have multiple levels of nested `foreach` blocks, because it gives you an unambiguous way to refer to any named item declared at a higher level in the hierarchy. Here's a complete example, showing how `season` can be referenced while rendering a `month`:
 
-```example
+```javascript
 html: |-
   <ul data-bind="template: { name: 'seasonTemplate', foreach: seasons, as: 'season' }"></ul>
   <!--  (Note that you can, and probably should, use the `template` binding for newer browsers) -->
@@ -174,7 +175,7 @@ If you have multiple named templates, you can pass an observable for the `name` 
 
 For example,
 
-```example
+```javascript
 html: |-
     <ul data-bind='template: { name: displayMode,
                                foreach: employees }'> </ul>
@@ -219,7 +220,7 @@ By default, Knockout comes with support for [jquery.tmpl](http://api.jquery.com/
 
 Then, you can use jQuery.tmpl syntax in your templates. For example,
 
-```example
+```javascript
 html: |-
   <h1>People</h1>
   <div data-bind="template: 'peopleList'"></div>

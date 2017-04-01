@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: with
 cat: 4
@@ -14,7 +15,7 @@ Of course, you can arbitrarily nest `with` bindings along with the other control
 
 Here is a very basic example of switching the binding context to a child object. Notice that in the `data-bind` attributes, it is *not* necessary to prefix `latitude` or `longitude` with `coords.`, because the binding context is switched to `coords`.
 
-```example
+```javascript
 html: |-
     <h1 data-bind="text: city"> </h1>
     <p data-bind="with: coords">
@@ -39,7 +40,7 @@ This interactive example demonstrates that:
  * The `with` binding will dynamically add or remove descendant elements depending on whether the associated value is `null`/`undefined` or not
  * If you want to access data/functions from parent binding contexts, you can use [special context properties such as `$parent` and `root`](binding-context.html).
 
-```example
+```javascript
 html: |-
   <form data-bind="submit: getTweets">
       Twitter account:

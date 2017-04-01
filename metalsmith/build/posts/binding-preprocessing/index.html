@@ -1,92 +1,116 @@
-<p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It&#39;s not something you&#39;ll normally need to do when building applications with Knockout.</em></p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Binding preprocessing</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Binding preprocessing</h1>
+
+  <p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It's not something you'll normally need to do when building applications with Knockout.</em></p>
 <p>Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.</p>
 <h2 id="preprocessing-binding-strings">Preprocessing binding strings</h2>
-<p>You can hook into Knockout&#39;s logic for interpreting <code>data-bind</code> attributes by providing a <em>binding preprocessor</em> for a specific binding handler (such as <code>click</code>, <code>visible</code>, or any <a href="custom-bindings.html">custom binding handler</a>).</p>
+<p>You can hook into Knockout's logic for interpreting <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes by providing a <em>binding preprocessor</em> for a specific binding handler (such as <code>click</code>, <code class="lang-scss"><span class="hljs-value">visible</span></code>, or any <a href="custom-bindings.html">custom binding handler</a>).</p>
 <p>To do this, attach a <code>preprocess</code> function to the binding handler:</p>
-<pre><code class="lang-javascript">ko.bindingHandlers.yourBindingHandler.preprocess = function(stringFromMarkup) {
-    // Return stringFromMarkup if you don&#39;t want to change anything, or return
-    // some other string if you want Knockout to behave as if that was the
-    // syntax provided in the original HTML
+<pre><code class="lang-javascript">ko.bindingHandlers.yourBindingHandler.preprocess = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">stringFromMarkup</span>) </span>{
+    <span class="hljs-comment">// Return stringFromMarkup if you don't want to change anything, or return</span>
+    <span class="hljs-comment">// some other string if you want Knockout to behave as if that was the</span>
+    <span class="hljs-comment">// syntax provided in the original HTML</span>
 }
 </code></pre>
 <p>See later on this page for an API reference.</p>
 <h3 id="example-1-setting-a-default-value-for-a-binding">Example 1: Setting a default value for a binding</h3>
-<p>If you leave off the value of a binding, it&#39;s bound to <code>undefined</code> by default. If you want to have a different default value for a binding, you can do so with a preprocessor. For example, you can allow <code>uniqueName</code> to be bound without a value by making its default value <code>true</code>:</p>
-<pre><code class="lang-javascript">ko.bindingHandlers.uniqueName.preprocess = function(val) {
-    return val || &#39;true&#39;;
+<p>If you leave off the value of a binding, it's bound to <code class="lang-actionscript"><span class="hljs-literal">undefined</span></code> by default. If you want to have a different default value for a binding, you can do so with a preprocessor. For example, you can allow <code>uniqueName</code> to be bound without a value by making its default value <code class="lang-actionscript"><span class="hljs-literal">true</span></code>:</p>
+<pre><code class="lang-javascript">ko.bindingHandlers.uniqueName.preprocess = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
+    <span class="hljs-keyword">return</span> val || <span class="hljs-string">'true'</span>;
 }
 </code></pre>
 <p>Now you can bind it like this:</p>
-<pre><code class="lang-html">&lt;input data-bind=&quot;value: someModelProperty, uniqueName&quot; /&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"value: someModelProperty, uniqueName"</span> /&gt;</span>
 </code></pre>
 <h3 id="example-2-binding-expressions-to-events">Example 2: Binding expressions to events</h3>
-<p>If you&#39;d like to be able to bind expressions to <code>click</code> events (rather than a function reference as Knockout expects), you can set up a preprocessor for the <code>click</code> handler to support this syntax:</p>
-<pre><code class="lang-javascript">ko.bindingHandlers.click.preprocess = function(val) {
-  return &#39;function($data,$event){ &#39; + val + &#39; }&#39;;
+<p>If you'd like to be able to bind expressions to <code>click</code> events (rather than a function reference as Knockout expects), you can set up a preprocessor for the <code>click</code> handler to support this syntax:</p>
+<pre><code class="lang-javascript">ko.bindingHandlers.click.preprocess = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-string">'function($data,$event){ '</span> + val + <span class="hljs-string">' }'</span>;
 }
 </code></pre>
 <p>Now you can bind <code>click</code> like this:</p>
-<pre><code class="lang-html">&lt;button type=&quot;button&quot; data-bind=&quot;click: myCount(myCount()+1)&quot;&gt;Increment&lt;/button&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"click: myCount(myCount()+1)"</span>&gt;</span>Increment<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 </code></pre>
 <h3 id="binding-preprocessor-reference">Binding preprocessor reference</h3>
 <ul>
-<li><p><code>ko.bindingHandlers.&lt;name&gt;.preprocess(value, name, addBindingCallback)</code></p>
-<p>If defined, this function will be called for each <code>&lt;name&gt;</code> binding before the binding is evaluated.</p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.bindingHandlers</span>.&lt;name&gt;.<span class="hljs-function"><span class="hljs-title">preprocess</span><span class="hljs-params">(value, name, addBindingCallback)</span></span></code></p>
+<p>If defined, this function will be called for each <code class="lang-apache"><span class="hljs-tag">&lt;name&gt;</span></code> binding before the binding is evaluated.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><p><code>value</code>: the syntax associated with the binding value before Knockout attempts to parse it (e.g., for <code>yourBinding: 1 + 1</code>, the associated value is <code>&quot;1 + 1&quot;</code> as a string).</p>
+<li><p><code class="lang-ceylon"><span class="hljs-keyword">value</span></code>: the syntax associated with the binding value before Knockout attempts to parse it (e.g., for <code class="lang-cpp">yourBinding: <span class="hljs-number">1</span> + <span class="hljs-number">1</span></code>, the associated value is <code class="lang-1c"><span class="hljs-string">"1 + 1"</span></code> as a string).</p>
 </li>
-<li><p><code>name</code>: the name of the binding (e.g., for <code>yourBinding: 1 + 1</code>, the name is <code>&quot;yourBinding&quot;</code> as a string).</p>
+<li><p><code class="lang-applescript"><span class="hljs-property">name</span></code>: the name of the binding (e.g., for <code class="lang-cpp">yourBinding: <span class="hljs-number">1</span> + <span class="hljs-number">1</span></code>, the name is <code class="lang-1c"><span class="hljs-string">"yourBinding"</span></code> as a string).</p>
 </li>
-<li><p><code>addBinding</code>: a callback function you can optionally use to insert another binding on the current element. This requires two parameters, <code>name</code> and <code>value</code>. For example, inside your <code>preprocess</code> function, call <code>addBinding(&#39;visible&#39;, &#39;acceptsTerms()&#39;);</code> to make Knockout behave as if the element had a <code>visible: acceptsTerms()</code> binding on it.</p>
+<li><p><code>addBinding</code>: a callback function you can optionally use to insert another binding on the current element. This requires two parameters, <code class="lang-applescript"><span class="hljs-property">name</span></code> and <code class="lang-ceylon"><span class="hljs-keyword">value</span></code>. For example, inside your <code>preprocess</code> function, call <code class="lang-lisp">addBinding<span class="hljs-list">(<span class="hljs-quoted">'visible</span>', <span class="hljs-quoted">'acceptsTerms</span><span class="hljs-list">()</span>')</span><span class="hljs-comment">;</span></code> to make Knockout behave as if the element had a <code class="lang-stylus">visible: <span class="hljs-function"><span class="hljs-title">acceptsTerms</span><span class="hljs-params">()</span></span></code> binding on it.</p>
 </li>
 </ul>
 <p><strong>Return value</strong>:</p>
-<p>Your <code>preprocess</code> function must return the new string value to be parsed and passed to the binding, or return <code>undefined</code> to remove the binding.</p>
-<p>For example, if you return <code>&#39;value + &quot;.toUpperCase()&quot;&#39;</code> as a string, then <code>yourBinding: &quot;Bert&quot;</code> would be interpreted as if the markup contained <code>yourBinding: &quot;Bert&quot;.toUpperCase()</code>. Knockout will parse the returned value in the normal way, so it has to be a legal JavaScript expression.</p>
-<p>Don&#39;t return non-string values. That wouldn&#39;t make sense, because markup is always a string.</p>
+<p>Your <code>preprocess</code> function must return the new string value to be parsed and passed to the binding, or return <code class="lang-actionscript"><span class="hljs-literal">undefined</span></code> to remove the binding.</p>
+<p>For example, if you return <code class="lang-ocaml"><span class="hljs-symbol">'value</span> + <span class="hljs-string">".toUpperCase()"</span><span class="hljs-char">'</span></code> as a string, then <code class="lang-avrasm"><span class="hljs-label">yourBinding:</span> <span class="hljs-string">"Bert"</span></code> would be interpreted as if the markup contained <code class="lang-stylus">yourBinding: <span class="hljs-string">"Bert"</span>.<span class="hljs-function"><span class="hljs-title">toUpperCase</span><span class="hljs-params">()</span></span></code>. Knockout will parse the returned value in the normal way, so it has to be a legal JavaScript expression.</p>
+<p>Don't return non-string values. That wouldn't make sense, because markup is always a string.</p>
 </li>
 </ul>
 <h2 id="preprocessing-dom-nodes">Preprocessing DOM nodes</h2>
-<p>You can hook into Knockout&#39;s logic for traversing the DOM by providing a <em>node preprocessor</em>. This is a function that Knockout will call once for each DOM node that it walks over, both when the UI is first bound, and later when any new DOM subtrees are injected (e.g., via a <a href="foreach-binding.html"><code>foreach</code> binding</a>).</p>
+<p>You can hook into Knockout's logic for traversing the DOM by providing a <em>node preprocessor</em>. This is a function that Knockout will call once for each DOM node that it walks over, both when the UI is first bound, and later when any new DOM subtrees are injected (e.g., via a <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> binding</a>).</p>
 <p>To do this, define a <code>preprocessNode</code> function on your binding provider:</p>
-<pre><code class="lang-javascript">  ko.bindingProvider.instance.preprocessNode = function(node) {
-  // Use DOM APIs such as setAttribute to modify &#39;node&#39; if you wish.
-  // If you want to leave &#39;node&#39; in the DOM, return null or have no &#39;return&#39; statement.
-  // If you want to replace &#39;node&#39; with some other set of nodes,
-  //    - Use DOM APIs such as insertChild to inject the new nodes
-  //      immediately before &#39;node&#39;
-  //    - Use DOM APIs such as removeChild to remove &#39;node&#39; if required
-  //    - Return an array of any new nodes that you&#39;ve just inserted
-  //      so that Knockout can apply any bindings to them
+<pre><code class="lang-javascript">  ko.bindingProvider.instance.preprocessNode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node</span>) </span>{
+  <span class="hljs-comment">// Use DOM APIs such as setAttribute to modify 'node' if you wish.</span>
+  <span class="hljs-comment">// If you want to leave 'node' in the DOM, return null or have no 'return' statement.</span>
+  <span class="hljs-comment">// If you want to replace 'node' with some other set of nodes,</span>
+  <span class="hljs-comment">//    - Use DOM APIs such as insertChild to inject the new nodes</span>
+  <span class="hljs-comment">//      immediately before 'node'</span>
+  <span class="hljs-comment">//    - Use DOM APIs such as removeChild to remove 'node' if required</span>
+  <span class="hljs-comment">//    - Return an array of any new nodes that you've just inserted</span>
+  <span class="hljs-comment">//      so that Knockout can apply any bindings to them</span>
 }
 </code></pre>
 <p>See later on this page for an API reference.</p>
 <h3 id="example-3-virtual-template-elements">Example 3: Virtual template elements</h3>
 <p>If you commonly include template content using virtual elements, the normal syntax can feel a bit verbose. Using preprocessing, you can add a new template format that uses a single comment:</p>
-<pre><code class="lang-javascript">ko.bindingProvider.instance.preprocessNode = function(node) {
-    // Only react if this is a comment node of the form &lt;!-- template: ... --&gt;
-    if (node.nodeType == 8) {
-        var match = node.nodeValue.match(/^\s*(template\s*:[\s\S]+)/);
-        if (match) {
-            // Create a pair of comments to replace the single comment
-            var c1 = document.createComment(&quot;ko &quot; + match[1]),
-                c2 = document.createComment(&quot;/ko&quot;);
+<pre><code class="lang-javascript">ko.bindingProvider.instance.preprocessNode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node</span>) </span>{
+    <span class="hljs-comment">// Only react if this is a comment node of the form &lt;!-- template: ... --&gt;</span>
+    <span class="hljs-keyword">if</span> (node.nodeType == <span class="hljs-number">8</span>) {
+        <span class="hljs-keyword">var</span> match = node.nodeValue.match(<span class="hljs-regexp">/^\s*(template\s*:[\s\S]+)/</span>);
+        <span class="hljs-keyword">if</span> (match) {
+            <span class="hljs-comment">// Create a pair of comments to replace the single comment</span>
+            <span class="hljs-keyword">var</span> c1 = <span class="hljs-built_in">document</span>.createComment(<span class="hljs-string">"ko "</span> + match[<span class="hljs-number">1</span>]),
+                c2 = <span class="hljs-built_in">document</span>.createComment(<span class="hljs-string">"/ko"</span>);
             node.parentNode.insertBefore(c1, node);
             node.parentNode.replaceChild(c2, node);
 
-            // Tell Knockout about the new nodes so that it can apply bindings to them
-            return [c1, c2];
+            <span class="hljs-comment">// Tell Knockout about the new nodes so that it can apply bindings to them</span>
+            <span class="hljs-keyword">return</span> [c1, c2];
         }
     }
 }
 </code></pre>
 <p>Now you can include a template in your view like this:</p>
-<pre><code class="lang-html">&lt;!-- template: &#39;some-template&#39; --&gt;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- template: 'some-template' --&gt;</span>
 </code></pre>
 <h3 id="preprocessing-reference">Preprocessing Reference</h3>
 <ul>
-<li><p><code>ko.bindingProvider.instance.preprocessNode(node)</code></p>
-<p>  If defined, this function will be called for each DOM node before bindings are processed. The function can modify, remove, or replace <code>node</code>. Any new nodes must be inserted immediately before <code>node</code>, and if any nodes were added or <code>node</code> was removed, the function must return an array of the new nodes that are now in the document in place of <code>node</code>.</p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.bindingProvider</span><span class="hljs-class">.instance</span><span class="hljs-class">.preprocessNode</span>(node)</code></p>
+<p>  If defined, this function will be called for each DOM node before bindings are processed. The function can modify, remove, or replace <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code>. Any new nodes must be inserted immediately before <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code>, and if any nodes were added or <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code> was removed, the function must return an array of the new nodes that are now in the document in place of <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code>.</p>
 </li>
 </ul>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

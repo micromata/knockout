@@ -1,25 +1,49 @@
-<p>In a typical Knockout application, DOM elements are dynamically added and removed, for example using the <a href="template-binding.html"><code>template</code></a> binding or via control-flow bindings (<a href="if-binding.html"><code>if</code></a>, <a href="ifnot-binding.html"><code>ifnot</code></a>, <a href="with-binding.html"><code>with</code></a>, and <a href="foreach-binding.html"><code>foreach</code></a>). When creating a custom binding, it is often desirable to add clean-up logic that runs when an element associated with your custom binding is removed by Knockout.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom disposal logic</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Custom disposal logic</h1>
+
+  <p>In a typical Knockout application, DOM elements are dynamically added and removed, for example using the <a href="template-binding.html"><code class="lang-cpp"><span class="hljs-keyword">template</span></code></a> binding or via control-flow bindings (<a href="if-binding.html"><code class="lang-actionscript"><span class="hljs-keyword">if</span></code></a>, <a href="ifnot-binding.html"><code class="lang-gcode"><span class="hljs-keyword">if</span><span class="hljs-label">not</span></code></a>, <a href="with-binding.html"><code class="lang-actionscript"><span class="hljs-keyword">with</span></code></a>, and <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code></a>). When creating a custom binding, it is often desirable to add clean-up logic that runs when an element associated with your custom binding is removed by Knockout.</p>
 <h3 id="registering-a-callback-on-the-disposal-of-an-element">Registering a callback on the disposal of an element</h3>
-<p>To register a function to run when a node is removed, you can call <code>ko.utils.domNodeDisposal.addDisposeCallback(node, callback)</code>. As an example, suppose you create a custom binding to instantiate a widget. When the element with the binding is removed, you may want to call the <code>destroy</code> method of the widget:</p>
+<p>To register a function to run when a node is removed, you can call <code class="lang-crmsh">ko.utils.domNodeDisposal.addDisposeCallback(<span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title">, callback</span>)</code>. As an example, suppose you create a custom binding to instantiate a widget. When the element with the binding is removed, you may want to call the <code>destroy</code> method of the widget:</p>
 <pre><code class="lang-javascript">ko.bindingHandlers.myWidget = {
-    init: function(element, valueAccessor) {
-        var options = ko.unwrap(valueAccessor()),
+    init: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">element, valueAccessor</span>) </span>{
+        <span class="hljs-keyword">var</span> options = ko.unwrap(valueAccessor()),
             $el = $(element);
 
         $el.myWidget(options);
 
-        ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-            // This will be called when the element is removed by Knockout or
-            // if some other part of your code calls ko.removeNode(element)
-            $el.myWidget(&quot;destroy&quot;);
+        ko.utils.domNodeDisposal.addDisposeCallback(element, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-comment">// This will be called when the element is removed by Knockout or</span>
+            <span class="hljs-comment">// if some other part of your code calls ko.removeNode(element)</span>
+            $el.myWidget(<span class="hljs-string">"destroy"</span>);
         });
     }
 };
 </code></pre>
 <h3 id="overriding-the-clean-up-of-external-data">Overriding the clean-up of external data</h3>
-<p>When removing an element, Knockout runs logic to clean up any data associated with the element. As part of this logic, Knockout calls jQuery&#39;s <code>cleanData</code> method if jQuery is loaded in your page. In advanced scenarios, you may want to prevent or customize how this data is removed in your application. Knockout exposes a function, <code>ko.utils.domNodeDisposal.cleanExternalData(node)</code>, that can be overridden to support custom logic. For example, to prevent <code>cleanData</code> from being called, an empty function could be used to replace the standard <code>cleanExternalData</code> implementation:</p>
-<pre><code class="lang-javascript">ko.utils.domNodeDisposal.cleanExternalData = function () {
-    // Do nothing. Now any jQuery data associated with elements will
-    // not be cleaned up when the elements are removed from the DOM.
+<p>When removing an element, Knockout runs logic to clean up any data associated with the element. As part of this logic, Knockout calls jQuery's <code>cleanData</code> method if jQuery is loaded in your page. In advanced scenarios, you may want to prevent or customize how this data is removed in your application. Knockout exposes a function, <code class="lang-stylus">ko<span class="hljs-class">.utils</span><span class="hljs-class">.domNodeDisposal</span><span class="hljs-class">.cleanExternalData</span>(node)</code>, that can be overridden to support custom logic. For example, to prevent <code>cleanData</code> from being called, an empty function could be used to replace the standard <code>cleanExternalData</code> implementation:</p>
+<pre><code class="lang-javascript">ko.utils.domNodeDisposal.cleanExternalData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// Do nothing. Now any jQuery data associated with elements will</span>
+    <span class="hljs-comment">// not be cleaned up when the elements are removed from the DOM.</span>
 };
 </code></pre>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

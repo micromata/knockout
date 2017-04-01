@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Custom disposal logic
 cat: 3

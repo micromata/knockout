@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Asynchronous Module Definition (AMD) With RequireJs
 cat: 5

@@ -1,57 +1,73 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>with</code> binding creates a new <a href="binding-context.html">binding context</a>, so that descendant elements are bound in the context of a specified object.</p>
-<p>Of course, you can arbitrarily nest <code>with</code> bindings along with the other control-flow bindings such as <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>with</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>with</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> binding creates a new <a href="binding-context.html">binding context</a>, so that descendant elements are bound in the context of a specified object.</p>
+<p>Of course, you can arbitrarily nest <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> bindings along with the other control-flow bindings such as <a href="if-binding.html"><code class="lang-actionscript"><span class="hljs-keyword">if</span></code></a> and <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code></a>.</p>
 <h3 id="example-1">Example 1</h3>
-<p>Here is a very basic example of switching the binding context to a child object. Notice that in the <code>data-bind</code> attributes, it is <em>not</em> necessary to prefix <code>latitude</code> or <code>longitude</code> with <code>coords.</code>, because the binding context is switched to <code>coords</code>.</p>
-<pre><code class="lang-example">html: |-
-    &lt;h1 data-bind=&quot;text: city&quot;&gt; &lt;/h1&gt;
-    &lt;p data-bind=&quot;with: coords&quot;&gt;
-        Latitude: &lt;span data-bind=&quot;text: latitude&quot;&gt; &lt;/span&gt;,
-        Longitude: &lt;span data-bind=&quot;text: longitude&quot;&gt; &lt;/span&gt;
-    &lt;/p&gt;
+<p>Here is a very basic example of switching the binding context to a child object. Notice that in the <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes, it is <em>not</em> necessary to prefix <code>latitude</code> or <code>longitude</code> with <code class="lang-erlang">coords.</code>, because the binding context is switched to <code>coords</code>.</p>
+<pre><code class="lang-javascript">html: |-
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">h1</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: city"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"with: coords"</span>&gt;</span>
+        Latitude: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: latitude"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>,
+        Longitude: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: longitude"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 
 javascript: |-
     ko.applyBindings({
-        city: &quot;London&quot;,
+        city: "London",
         coords: {
             latitude:  51.5001524,
             longitude: -0.1262362
         }
     });
-</code></pre>
+</span></code></pre>
 <h3 id="example-2">Example 2</h3>
 <p>This interactive example demonstrates that:</p>
 <ul>
-<li>The <code>with</code> binding will dynamically add or remove descendant elements depending on whether the associated value is <code>null</code>/<code>undefined</code> or not</li>
-<li>If you want to access data/functions from parent binding contexts, you can use <a href="binding-context.html">special context properties such as <code>$parent</code> and <code>root</code></a>.</li>
+<li>The <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> binding will dynamically add or remove descendant elements depending on whether the associated value is <code class="lang-actionscript"><span class="hljs-literal">null</span></code>/<code class="lang-actionscript"><span class="hljs-literal">undefined</span></code> or not</li>
+<li>If you want to access data/functions from parent binding contexts, you can use <a href="binding-context.html">special context properties such as <code class="lang-xquery"><span class="hljs-variable">$parent</span></code> and <code>root</code></a>.</li>
 </ul>
-<pre><code class="lang-example">html: |-
-  &lt;form data-bind=&quot;submit: getTweets&quot;&gt;
+<pre><code class="lang-javascript">html: |-
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"submit: getTweets"</span>&gt;</span>
       Twitter account:
-      &lt;input data-bind=&quot;value: twitterName&quot; /&gt;
-      &lt;button type=&quot;submit&quot;&gt;Get tweets&lt;/button&gt;
-  &lt;/form&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"value: twitterName"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"submit"</span>&gt;</span>Get tweets<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span>
 
-  &lt;div data-bind=&quot;with: resultData&quot;&gt;
-      &lt;h3&gt;Recent tweets fetched at &lt;span data-bind=&quot;text: retrievalDate&quot;&gt; &lt;/span&gt;&lt;/h3&gt;
-      &lt;ol data-bind=&quot;foreach: topTweets&quot;&gt;
-          &lt;li data-bind=&quot;text: text&quot;&gt;&lt;/li&gt;
-      &lt;/ol&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"with: resultData"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h3</span>&gt;</span>Recent tweets fetched at <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: retrievalDate"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">ol</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"foreach: topTweets"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: text"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">ol</span>&gt;</span>
 
-      &lt;button data-bind=&quot;click: $parent.clearResults&quot;&gt;Clear tweets&lt;/button&gt;
-  &lt;/div&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"click: $parent.clearResults"</span>&gt;</span>Clear tweets<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 javascript: |-
   function AppViewModel() {
       var self = this;
-      self.twitterName = ko.observable(&#39;@example&#39;);
+      self.twitterName = ko.observable('@example');
       self.resultData = ko.observable(); // No initial value
 
       self.getTweets = function() {
           var name = self.twitterName(),
               simulatedResults = [
-                  { text: name + &#39; What a nice day.&#39; },
-                  { text: name + &#39; Building some cool apps.&#39; },
-                  { text: name + &#39; Just saw a famous celebrity eating lard. Yum.&#39; }
+                  { text: name + ' What a nice day.' },
+                  { text: name + ' Building some cool apps.' },
+                  { text: name + ' Just saw a famous celebrity eating lard. Yum.' }
               ];
 
           self.resultData({ retrievalDate: new Date(), topTweets: simulatedResults });
@@ -63,12 +79,12 @@ javascript: |-
   }
 
   ko.applyBindings(new AppViewModel());
-</code></pre>
+</span></code></pre>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
 <p>The object that you want to use as the context for binding descendant elements.</p>
-<p>If the expression you supply evaluates to <code>null</code> or <code>undefined</code>, descendant elements will <em>not</em> be bound at all, but will instead be removed from the document.</p>
+<p>If the expression you supply evaluates to <code class="lang-actionscript"><span class="hljs-literal">null</span></code> or <code class="lang-actionscript"><span class="hljs-literal">undefined</span></code>, descendant elements will <em>not</em> be bound at all, but will instead be removed from the document.</p>
 <p>If the expression you supply involves any observable values, the expression will be re-evaluated whenever any of those observables change. Then, descendant elements will be cleared out, and <strong>a new copy of the markup</strong> will be added to your document and bound in the context of the new evaluation result.</p>
 </li>
 <li><p>Additional parameters</p>
@@ -77,17 +93,25 @@ javascript: |-
 </ul>
 </li>
 </ul>
-<h3 id="note-1-using-with-without-a-container-element">Note 1: Using &quot;with&quot; without a container element</h3>
-<p>Just like other control flow elements such as <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>, you can use <code>with</code> without any container element to host it. This is useful if you need to use <code>with</code> in a place where it would not be legal to introduce a new container element just to hold the <code>with</code> binding. See the documentation for <a href="if-binding.html"><code>if</code></a> or <a href="foreach-binding.html"><code>foreach</code></a> for more details.</p>
+<h3 id="note-1-using-with-without-a-container-element">Note 1: Using "with" without a container element</h3>
+<p>Just like other control flow elements such as <a href="if-binding.html"><code class="lang-actionscript"><span class="hljs-keyword">if</span></code></a> and <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code></a>, you can use <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> without any container element to host it. This is useful if you need to use <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> in a place where it would not be legal to introduce a new container element just to hold the <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> binding. See the documentation for <a href="if-binding.html"><code class="lang-actionscript"><span class="hljs-keyword">if</span></code></a> or <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code></a> for more details.</p>
 <p>Example:</p>
-<pre><code class="lang-html">&lt;ul&gt;
-    &lt;li&gt;Header element&lt;/li&gt;
-    &lt;!-- ko with: outboundFlight --&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>Header element<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- ko with: outboundFlight --&gt;</span>
         ...
-    &lt;!-- /ko --&gt;
-    &lt;!-- ko with: inboundFlight --&gt;
+    <span class="hljs-comment">&lt;!-- /ko --&gt;</span>
+    <span class="hljs-comment">&lt;!-- ko with: inboundFlight --&gt;</span>
         ...
-    &lt;!-- /ko --&gt;
-&lt;/ul&gt;
+    <span class="hljs-comment">&lt;!-- /ko --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
-<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<p>The <code class="lang-xml"><span class="hljs-comment">&lt;!-- ko --&gt;</span></code> and <code class="lang-xml"><span class="hljs-comment">&lt;!-- /ko --&gt;</span></code> comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Loading and Saving JSON data
 cat: 5

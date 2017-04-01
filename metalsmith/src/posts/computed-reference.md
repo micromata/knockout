@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Computed Observable Reference
 cat: 3

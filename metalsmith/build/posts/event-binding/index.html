@@ -1,22 +1,38 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>event</code> binding allows you to add an event handler for a specified event so that your chosen JavaScript function will be invoked when that event is triggered for the associated DOM element. This can be used to bind to any event, such as <code>keypress</code>, <code>mouseover</code> or <code>mouseout</code>.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>event</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>event</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code class="lang-cs"><span class="hljs-keyword">event</span></code> binding allows you to add an event handler for a specified event so that your chosen JavaScript function will be invoked when that event is triggered for the associated DOM element. This can be used to bind to any event, such as <code>keypress</code>, <code>mouseover</code> or <code>mouseout</code>.</p>
 <h3 id="example">Example</h3>
-<pre><code class="lang-html">&lt;div&gt;
-    &lt;div data-bind=&quot;event: { mouseover: enableDetails, mouseout: disableDetails }&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"event: { mouseover: enableDetails, mouseout: disableDetails }"</span>&gt;</span>
         Mouse over me
-    &lt;/div&gt;
-    &lt;div data-bind=&quot;visible: detailsEnabled&quot;&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"visible: detailsEnabled"</span>&gt;</span>
         Details
-    &lt;/div&gt;
-&lt;/div&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">var viewModel = {
-    detailsEnabled: ko.observable(false),
-    enableDetails: function() {
-        this.detailsEnabled(true);
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> viewModel = {
+    detailsEnabled: ko.observable(<span class="hljs-literal">false</span>),
+    enableDetails: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">this</span>.detailsEnabled(<span class="hljs-literal">true</span>);
     },
-    disableDetails: function() {
-        this.detailsEnabled(false);
+    disableDetails: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">this</span>.detailsEnabled(<span class="hljs-literal">false</span>);
     }
 };
 ko.applyBindings(viewModel);
@@ -26,7 +42,7 @@ ko.applyBindings(viewModel);
 <ul>
 <li><p>Main parameter</p>
 <p>You should pass a JavaScript object in which the property names correspond to event names, and the values correspond to the function that you want to bind to the event.</p>
-<p>You can reference any JavaScript function - it doesn&#39;t have to be a function on your view model. You can reference a function on any object by writing <code>event { mouseover: someObject.someFunction }</code>.</p>
+<p>You can reference any JavaScript function - it doesn't have to be a function on your view model. You can reference a function on any object by writing <code class="lang-css"><span class="hljs-tag">event</span> <span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">mouseover</span>:<span class="hljs-value"> someObject.someFunction </span></span></span>}</code>.</p>
 </li>
 <li><p>Additional parameters</p>
 <ul>
@@ -34,71 +50,79 @@ ko.applyBindings(viewModel);
 </ul>
 </li>
 </ul>
-<h3 id="note-1-passing-a-current-item-as-a-parameter-to-your-handler-function">Note 1: Passing a &quot;current item&quot; as a parameter to your handler function</h3>
-<p>When calling your handler, Knockout will supply the current model value as the first parameter. This is particularly useful if you&#39;re rendering
+<h3 id="note-1-passing-a-current-item-as-a-parameter-to-your-handler-function">Note 1: Passing a "current item" as a parameter to your handler function</h3>
+<p>When calling your handler, Knockout will supply the current model value as the first parameter. This is particularly useful if you're rendering
 some UI for each item in a collection, and you need to know which item the event refers to. For example,</p>
-<pre><code class="lang-html">&lt;ul data-bind=&quot;foreach: places&quot;&gt;
-    &lt;li data-bind=&quot;text: $data, event: { mouseover: $parent.logMouseOver }&quot;&gt; &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You seem to be interested in: &lt;span data-bind=&quot;text: lastInterest&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"foreach: places"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: $data, event: { mouseover: $parent.logMouseOver }"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>You seem to be interested in: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: lastInterest"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">function MyViewModel() {
-   var self = this;
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyViewModel</span>(<span class="hljs-params"></span>) </span>{
+   <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
    self.lastInterest = ko.observable();
-   self.places = ko.observableArray([&#39;London&#39;, &#39;Paris&#39;, &#39;Tokyo&#39;]);
+   self.places = ko.observableArray([<span class="hljs-string">'London'</span>, <span class="hljs-string">'Paris'</span>, <span class="hljs-string">'Tokyo'</span>]);
 
-   // The current item will be passed as the first parameter, so we know which place was hovered over
-   self.logMouseOver = function(place) {
+   <span class="hljs-comment">// The current item will be passed as the first parameter, so we know which place was hovered over</span>
+   self.logMouseOver = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">place</span>) </span>{
        self.lastInterest(place);
    }
 }
-   ko.applyBindings(new MyViewModel());
+   ko.applyBindings(<span class="hljs-keyword">new</span> MyViewModel());
 </code></pre>
 <p>Two points to note about this example:</p>
 <ul>
-<li>If you&#39;re inside a nested <a href="binding-context.html">binding context</a>, for example if you&#39;re inside a <code>foreach</code> or a <code>with</code> block, but your handler function
-is on the root viewmodel or some other parent context, you&#39;ll need to use a prefix such as <code>$parent</code> or <code>$root</code> to locate the
+<li>If you're inside a nested <a href="binding-context.html">binding context</a>, for example if you're inside a <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> or a <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> block, but your handler function
+is on the root viewmodel or some other parent context, you'll need to use a prefix such as <code class="lang-xquery"><span class="hljs-variable">$parent</span></code> or <code class="lang-xquery"><span class="hljs-variable">$root</span></code> to locate the
 handler function.</li>
-<li>In your viewmodel, it&#39;s often useful to declare <code>self</code> (or some other variable) as an alias for <code>this</code>. Doing so avoids any problems
-with <code>this</code> being redefined to mean something else in event handlers or Ajax request callbacks.</li>
+<li>In your viewmodel, it's often useful to declare <code class="lang-crystal"><span class="hljs-keyword">self</span></code> (or some other variable) as an alias for <code class="lang-actionscript"><span class="hljs-keyword">this</span></code>. Doing so avoids any problems
+with <code class="lang-actionscript"><span class="hljs-keyword">this</span></code> being redefined to mean something else in event handlers or Ajax request callbacks.</li>
 </ul>
 <h3 id="note-2-accessing-the-event-object-or-passing-more-parameters">Note 2: Accessing the event object, or passing more parameters</h3>
 <p>In some scenarios, you may need to access the DOM event object associated with your event. Knockout will pass the event as the second parameter to your function, as in this example:</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;event: { mouseover: myFunction }&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"event: { mouseover: myFunction }"</span>&gt;</span>
     Mouse over me
-&lt;/div&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">var viewModel = {
-    myFunction: function(data, event) {
-        if (event.shiftKey) {
-            //do something different when user has shift key down
-        } else {
-            //do normal action
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> viewModel = {
+    myFunction: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, event</span>) </span>{
+        <span class="hljs-keyword">if</span> (event.shiftKey) {
+            <span class="hljs-comment">//do something different when user has shift key down</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">//do normal action</span>
         }
     }
 };
 ko.applyBindings(viewModel);
 </code></pre>
 <p>If you need to pass more parameters, one way to do it is by wrapping your handler in a function literal that takes in a parameter, as in this example:</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;event: { mouseover: function(data, event) { myFunction(&#39;param1&#39;, &#39;param2&#39;, data, event) } }&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"event: { mouseover: function(data, event) { myFunction('param1', 'param2', data, event) } }"</span>&gt;</span>
     Mouse over me
-&lt;/div&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
 <p>Now, KO will pass the event to your function literal, which is then available to be passed to your handler.</p>
 <p>Alternatively, if you prefer to avoid the function literal in your view, you can use the <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind">bind</a> function, which attaches specific parameter values to a function reference:</p>
-<pre><code class="lang-html">&lt;button data-bind=&quot;event: { mouseover: myFunction.bind($data, &#39;param1&#39;, &#39;param2&#39;) }&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"event: { mouseover: myFunction.bind($data, 'param1', 'param2') }"</span>&gt;</span>
     Click me
-&lt;/button&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 </code></pre>
 <h3 id="note-3-allowing-the-default-action">Note 3: Allowing the default action</h3>
-<p>By default, Knockout will prevent the event from taking any default action. For example if you use the <code>event</code> binding to capture the <code>keypress</code> event of an <code>input</code> tag, the browser will only call your handler function and will <em>not</em> add the value of the key to the <code>input</code> element&#39;s value. A more common example is using <a href="click-binding.html">the click binding</a>, which internally uses this binding, where your handler function will be called, but the browser will <em>not</em> navigate to the link&#39;s <code>href</code>. This is a useful default because when you use the <code>click</code> binding, it&#39;s normally because you&#39;re using the link as part of a UI that manipulates your view model, not as a regular hyperlink to another web page.</p>
-<p>However, if you <em>do</em> want to let the default action proceed, just return <code>true</code> from your <code>event</code> handler function.</p>
+<p>By default, Knockout will prevent the event from taking any default action. For example if you use the <code class="lang-cs"><span class="hljs-keyword">event</span></code> binding to capture the <code>keypress</code> event of an <code class="lang-stata"><span class="hljs-keyword">input</span></code> tag, the browser will only call your handler function and will <em>not</em> add the value of the key to the <code class="lang-stata"><span class="hljs-keyword">input</span></code> element's value. A more common example is using <a href="click-binding.html">the click binding</a>, which internally uses this binding, where your handler function will be called, but the browser will <em>not</em> navigate to the link's <code>href</code>. This is a useful default because when you use the <code>click</code> binding, it's normally because you're using the link as part of a UI that manipulates your view model, not as a regular hyperlink to another web page.</p>
+<p>However, if you <em>do</em> want to let the default action proceed, just return <code class="lang-actionscript"><span class="hljs-literal">true</span></code> from your <code class="lang-cs"><span class="hljs-keyword">event</span></code> handler function.</p>
 <h3 id="note-4-preventing-the-event-from-bubbling">Note 4: Preventing the event from bubbling</h3>
 <p>By default, Knockout will allow the event to continue to bubble up to any higher level event handlers.  For example, if your element is handling a <code>mouseover</code> event and a parent of the element also handles that same event, then the event handler for both elements will be triggered.  If necessary, you can prevent the event from bubbling by including an additional binding that is named <code>youreventBubble</code> and passing false to it, as in this example:</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;event: { mouseover: myDivHandler }&quot;&gt;
-  &lt;button data-bind=&quot;event: { mouseover: myButtonHandler }, mouseoverBubble: false&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"event: { mouseover: myDivHandler }"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"event: { mouseover: myButtonHandler }, mouseoverBubble: false"</span>&gt;</span>
       Click me
-  &lt;/button&gt;
-&lt;/div&gt;
+  <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>Normally, in this case <code>myButtonHandler</code> would be called first, then the event would bubble up to <code>myDivHandler</code>.  However, the <code>mouseoverBubble</code> binding that we added with a value of <code>false</code> prevents the event from making it past <code>myButtonHandler</code>.</p>
+<p>Normally, in this case <code>myButtonHandler</code> would be called first, then the event would bubble up to <code>myDivHandler</code>.  However, the <code>mouseoverBubble</code> binding that we added with a value of <code class="lang-actionscript"><span class="hljs-literal">false</span></code> prevents the event from making it past <code>myButtonHandler</code>.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

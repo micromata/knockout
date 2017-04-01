@@ -1,10 +1,26 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>template</code> binding populates the associated DOM element with the results of rendering a template. Templates are a simple and convenient way to build sophisticated UI structures - possibly with repeating or nested blocks - as a function of your view model data.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>template</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>template</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code class="lang-cpp"><span class="hljs-keyword">template</span></code> binding populates the associated DOM element with the results of rendering a template. Templates are a simple and convenient way to build sophisticated UI structures - possibly with repeating or nested blocks - as a function of your view model data.</p>
 <p>There are two main ways of using templates:</p>
 <ul>
-<li><em>Native templating</em> is the mechanism that underpins <code>foreach</code>, <code>if</code>, <code>with</code>, and other control flow bindings. Internally, those control
+<li><em>Native templating</em> is the mechanism that underpins <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">if</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">with</span></code>, and other control flow bindings. Internally, those control
 flow bindings capture the HTML markup contained in your element, and use it as a template to render against an arbitrary data item.
-This feature is built into Knockout and doesn&#39;t require any external library.</li>
+This feature is built into Knockout and doesn't require any external library.</li>
 <li><em>String-based templating</em> is a way to connect Knockout to a third-party template engine. Knockout will pass your model values to
 the external template engine and inject the resulting markup string into your document. See below for examples that use the <em>jquery.tmpl</em>
 and <em>Underscore</em> template engines.</li>
@@ -17,190 +33,198 @@ and <em>Underscore</em> template engines.</li>
 </li>
 <li><p>For more control, pass a JavaScript object with some combination of the following properties:</p>
 <ul>
-<li><code>name</code> --- the ID of an element that contains the template you wish to render - see <a href="#note_5_dynamically_choosing_which_template_is_used">Note 5</a> for how to vary this programmatically.</li>
-<li><code>data</code> --- an object to supply as the data for the template to render. If you omit this parameter, KO will look for a <code>foreach</code> parameter, or will fall back on using your current model object.</li>
-<li><code>if</code> --- if this parameter is provided, the template will only be rendered if the specified expression evaluates to <code>true</code> (or a <code>true</code>-ish value). This can be useful for preventing a null observable from being bound against a template before it is populated.</li>
-<li><code>foreach</code> --- instructs KO to render the template in &quot;foreach&quot; mode - see <a href="#note_2_using_the_foreach_option_with_a_named_template">Note 2</a> for details.</li>
-<li><code>as</code> --- when used in conjunction with <code>foreach</code>, defines an alias for each item being rendered - see <a href="#note_3_using_as_to_give_an_alias_to_foreach_items">Note 3</a> for details.</li>
-<li><code>afterRender</code>, <code>afterAdd</code>, or <code>beforeRemove</code> --- callback functions to be invoked against the rendered DOM elements - see <a href="#note_4_using_afterrender_afteradd_and_beforeremove">Note 4</a></li>
+<li><code class="lang-applescript"><span class="hljs-property">name</span></code> --- the ID of an element that contains the template you wish to render - see <a href="#note_5_dynamically_choosing_which_template_is_used">Note 5</a> for how to vary this programmatically.</li>
+<li><code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span></span></code> --- an object to supply as the data for the template to render. If you omit this parameter, KO will look for a <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> parameter, or will fall back on using your current model object.</li>
+<li><code class="lang-actionscript"><span class="hljs-keyword">if</span></code> --- if this parameter is provided, the template will only be rendered if the specified expression evaluates to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> (or a <code class="lang-actionscript"><span class="hljs-literal">true</span></code>-ish value). This can be useful for preventing a null observable from being bound against a template before it is populated.</li>
+<li><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> --- instructs KO to render the template in "foreach" mode - see <a href="#note_2_using_the_foreach_option_with_a_named_template">Note 2</a> for details.</li>
+<li><code class="lang-actionscript"><span class="hljs-keyword">as</span></code> --- when used in conjunction with <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, defines an alias for each item being rendered - see <a href="#note_3_using_as_to_give_an_alias_to_foreach_items">Note 3</a> for details.</li>
+<li><code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Render</span></code>, <code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Add</span></code>, or <code>beforeRemove</code> --- callback functions to be invoked against the rendered DOM elements - see <a href="#note_4_using_afterrender_afteradd_and_beforeremove">Note 4</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <h3 id="note-1-rendering-a-named-template">Note 1: Rendering a named template</h3>
-<p>Normally, when you&#39;re using control flow bindings (<code>foreach</code>, <code>with</code>, <code>if</code>, etc.), there&#39;s no need to give names to your templates: they are defined implicitly
+<p>Normally, when you're using control flow bindings (<code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">with</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">if</span></code>, etc.), there's no need to give names to your templates: they are defined implicitly
 and anonymously by the markup inside your DOM element. But if you want to, you can factor out templates into a separate element and then reference them by name:</p>
-<pre><code class="lang-example">html: |-
-  &lt;h2&gt;Participants&lt;/h2&gt;
+<pre><code class="lang-javascript">html: |-
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Participants<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
   Here are the participants:
-  &lt;div data-bind=&quot;template: { name: &#39;person-template&#39;, data: buyer }&quot;&gt;&lt;/div&gt;
-  &lt;div data-bind=&quot;template: { name: &#39;person-template&#39;, data: seller }&quot;&gt;&lt;/div&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: { name: 'person-template', data: buyer }"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: { name: 'person-template', data: seller }"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-  &lt;template id=&#39;person-template&#39;&gt;
-      &lt;h3 data-bind=&quot;text: name&quot;&gt;&lt;/h3&gt;
-      &lt;p&gt;Credits: &lt;span data-bind=&quot;text: credits&quot;&gt;&lt;/span&gt;&lt;/p&gt;
-  &lt;/template&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-title">template</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">'person-template'</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h3</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Credits: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: credits"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">template</span>&gt;</span>
 
 javascript: |-
      function MyViewModel() {
-         this.buyer = { name: &#39;Franklin&#39;, credits: 250 };
-         this.seller = { name: &#39;Mario&#39;, credits: 5800 };
+         this.buyer = { name: 'Franklin', credits: 250 };
+         this.seller = { name: 'Mario', credits: 5800 };
      }
      ko.applyBindings(new MyViewModel());
-</code></pre>
-<p>In this example, the <code>person-template</code> markup is used twice: once for <code>buyer</code>, and once for <code>seller</code>. Notice that the template markup is wrapped in a <code>script type=&quot;text/html&quot;</code> ---
-the dummy <code>type</code> attribute is necessary to ensure that the markup is not executed as JavaScript, and Knockout does not attempt to apply
+</span></code></pre>
+<p>In this example, the <code class="lang-cpp">person-<span class="hljs-keyword">template</span></code> markup is used twice: once for <code>buyer</code>, and once for <code>seller</code>. Notice that the template markup is wrapped in a <code class="lang-fsharp">script <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"text/html"</span></code> ---
+the dummy <code class="lang-elm"><span class="hljs-typedef"><span class="hljs-keyword">type</span></span></code> attribute is necessary to ensure that the markup is not executed as JavaScript, and Knockout does not attempt to apply
 bindings to that markup except when it is being used as a template.</p>
-<p>It&#39;s not very often that you&#39;ll need to use named templates, but on occasion it can help to minimise duplication of markup.</p>
-<h3 id="note-2-using-the-foreach-option-with-a-named-template">Note 2: Using the &quot;foreach&quot; option with a named template</h3>
-<p>If you want the equivalent of a <code>foreach</code> binding, but using a named template, you can do so in the natural way:</p>
-<pre><code class="lang-example">html: |-
-  &lt;h2&gt;Participants&lt;/h2&gt;
+<p>It's not very often that you'll need to use named templates, but on occasion it can help to minimise duplication of markup.</p>
+<h3 id="note-2-using-the-foreach-option-with-a-named-template">Note 2: Using the "foreach" option with a named template</h3>
+<p>If you want the equivalent of a <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> binding, but using a named template, you can do so in the natural way:</p>
+<pre><code class="lang-javascript">html: |-
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Participants<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
   Here are the participants:
-  &lt;div data-bind=&quot;template: { name: &#39;person-template&#39;, foreach: people }&quot;&gt;&lt;/div&gt;
-  &lt;script id=&#39;person-template&#39; type=&#39;text/x-knockout&#39;&gt;
-    &lt;h3 data-bind=&quot;text: name&quot;&gt;&lt;/h3&gt;
-    &lt;p&gt;Credits: &lt;span data-bind=&quot;text: credits&quot;&gt;&lt;/span&gt;&lt;/p&gt;
-  &lt;/script&gt;
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: { name: 'person-template', foreach: people }"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">'person-template'</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">'text/x-knockout'</span>&gt;</span><span class="handlebars"><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-title">h3</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Credits: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: credits"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+  </span></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 javascript: |-
   function MyViewModel() {
     this.people = [
-      { name: &#39;Franklin&#39;, credits: 250 },
-      { name: &#39;Mario&#39;, credits: 5800 }
+      { name: 'Franklin', credits: 250 },
+      { name: 'Mario', credits: 5800 }
     ]
   }
   ko.applyBindings(new MyViewModel());
+</span></code></pre>
+<p>This gives the same result as embedding an anonymous template directly inside the element to which you use <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, i.e.:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"foreach: people"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h3</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Credits: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: credits"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>This gives the same result as embedding an anonymous template directly inside the element to which you use <code>foreach</code>, i.e.:</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;foreach: people&quot;&gt;
-    &lt;h3 data-bind=&quot;text: name&quot;&gt;&lt;/h3&gt;
-    &lt;p&gt;Credits: &lt;span data-bind=&quot;text: credits&quot;&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-</code></pre>
-<h3 id="note-3-using-as-to-give-an-alias-to-foreach-items">Note 3: Using &quot;as&quot; to give an alias to &quot;foreach&quot; items</h3>
-<p>When nesting <code>foreach</code> templates, it&#39;s often useful to refer to items at higher levels in the hierarchy. One way to do this is to refer to <code>$parent</code> or other <a href="binding-context.html">binding context</a> variables in your bindings.</p>
-<p>A simpler and more elegant option, however, is to use <code>as</code> to declare a name for your iteration variables. For example:</p>
-<pre><code class="lang-html">&lt;ul data-bind=&quot;template: { name: &#39;employeeTemplate&#39;,
+<h3 id="note-3-using-as-to-give-an-alias-to-foreach-items">Note 3: Using "as" to give an alias to "foreach" items</h3>
+<p>When nesting <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> templates, it's often useful to refer to items at higher levels in the hierarchy. One way to do this is to refer to <code class="lang-xquery"><span class="hljs-variable">$parent</span></code> or other <a href="binding-context.html">binding context</a> variables in your bindings.</p>
+<p>A simpler and more elegant option, however, is to use <code class="lang-actionscript"><span class="hljs-keyword">as</span></code> to declare a name for your iteration variables. For example:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: { name: 'employeeTemplate',
                                   foreach: employees,
-                                  as: &#39;employee&#39; }&quot;&gt;&lt;/ul&gt;
+                                  as: 'employee' }"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
-<p>Notice the string value <code>&#39;employee&#39;</code> associated with <code>as</code>. Now anywhere inside this <code>foreach</code> loop, bindings in your child templates will be able to refer to <code>employee</code> to access the employee object being rendered.</p>
-<p>This is mainly useful if you have multiple levels of nested <code>foreach</code> blocks, because it gives you an unambiguous way to refer to any named item declared at a higher level in the hierarchy. Here&#39;s a complete example, showing how <code>season</code> can be referenced while rendering a <code>month</code>:</p>
-<pre><code class="lang-example">html: |-
-  &lt;ul data-bind=&quot;template: { name: &#39;seasonTemplate&#39;, foreach: seasons, as: &#39;season&#39; }&quot;&gt;&lt;/ul&gt;
-  &lt;!--  (Note that you can, and probably should, use the `template` binding for newer browsers) --&gt;
-  &lt;template&gt;
-    &lt;li&gt;
-        &lt;strong data-bind=&quot;text: name&quot;&gt;&lt;/strong&gt;
-        &lt;ul data-bind=&quot;template: { name: &#39;monthTemplate&#39;, foreach: months, as: &#39;month&#39; }&quot;&gt;&lt;/ul&gt;
-    &lt;/li&gt;
-  &lt;/template&gt;
-  &lt;script id=&#39;monthTemplate&#39;&gt;
-    &lt;li&gt;
-        &lt;span data-bind=&quot;text: month&quot;&gt;&lt;/span&gt;
+<p>Notice the string value <code class="lang-actionscript"><span class="hljs-string">'employee'</span></code> associated with <code class="lang-actionscript"><span class="hljs-keyword">as</span></code>. Now anywhere inside this <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> loop, bindings in your child templates will be able to refer to <code>employee</code> to access the employee object being rendered.</p>
+<p>This is mainly useful if you have multiple levels of nested <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> blocks, because it gives you an unambiguous way to refer to any named item declared at a higher level in the hierarchy. Here's a complete example, showing how <code>season</code> can be referenced while rendering a <code class="lang-applescript"><span class="hljs-property">month</span></code>:</p>
+<pre><code class="lang-javascript">html: |-
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: { name: 'seasonTemplate', foreach: seasons, as: 'season' }"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+  <span class="hljs-comment">&lt;!--  (Note that you can, and probably should, use the `template` binding for newer browsers) --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">strong</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">strong</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: { name: 'monthTemplate', foreach: months, as: 'month' }"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">'monthTemplate'</span>&gt;</span><span class="handlebars"><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: month"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
         is in
-        &lt;span data-bind=&quot;text: season.name&quot;&gt;&lt;/span&gt;
-    &lt;/li&gt;
-  &lt;/script&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: season.name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+  </span></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
 javascript: |-
   var viewModel = {
       seasons: ko.observableArray([
-          { name: &#39;Spring&#39;, months: [ &#39;March&#39;, &#39;April&#39;, &#39;May&#39; ] },
-          { name: &#39;Summer&#39;, months: [ &#39;June&#39;, &#39;July&#39;, &#39;August&#39; ] },
-          { name: &#39;Autumn&#39;, months: [ &#39;September&#39;, &#39;October&#39;, &#39;November&#39; ] },
-          { name: &#39;Winter&#39;, months: [ &#39;December&#39;, &#39;January&#39;, &#39;February&#39; ] }
+          { name: 'Spring', months: [ 'March', 'April', 'May' ] },
+          { name: 'Summer', months: [ 'June', 'July', 'August' ] },
+          { name: 'Autumn', months: [ 'September', 'October', 'November' ] },
+          { name: 'Winter', months: [ 'December', 'January', 'February' ] }
       ])
   };
   ko.applyBindings(viewModel);
-</code></pre>
-<p>Tip: Remember to pass a <em>string literal value</em> to as (e.g., <code>as: &#39;season&#39;</code>, <em>not</em> <code>as: season</code>), because you are giving a name for a new variable, not reading the value of a variable that already exists.</p>
-<h3 id="note-4-using-afterrender-afteradd-and-beforeremove-">Note 4: Using &quot;afterRender&quot;, &quot;afterAdd&quot;, and &quot;beforeRemove&quot;</h3>
-<p>Sometimes you might want to run custom post-processing logic on the DOM elements generated by your templates. For example, if you&#39;re using a JavaScript widgets library such as jQuery UI, you might want to intercept your templates&#39; output so that you can run jQuery UI commands on it to transform some of the rendered elements into date pickers, sliders, or anything else.</p>
-<p>Generally, the best way to perform such post-processing on DOM elements is to write a <a href="custom-bindings.html">custom binding</a>, but if you really just want to access the raw DOM elements emitted by a template, you can use <code>afterRender</code>.</p>
-<p>Pass a function reference (either a function literal, or give the name of a function on your view model), and Knockout will invoke it immediately after rendering or re-rendering your template. If you&#39;re using <code>foreach</code>, Knockout will invoke your <code>afterRender</code> callback for each item added to your observable array. For example,</p>
-<pre><code class="lang-html">  &lt;div data-bind=&#39;template: { name: &quot;personTemplate&quot;,
+</span></code></pre>
+<p>Tip: Remember to pass a <em>string literal value</em> to as (e.g., <code class="lang-actionscript"><span class="hljs-keyword">as</span>: <span class="hljs-string">'season'</span></code>, <em>not</em> <code class="lang-http"><span class="hljs-attribute">as</span>: <span class="hljs-string">season</span></code>), because you are giving a name for a new variable, not reading the value of a variable that already exists.</p>
+<h3 id="note-4-using-afterrender-afteradd-and-beforeremove-">Note 4: Using "afterRender", "afterAdd", and "beforeRemove"</h3>
+<p>Sometimes you might want to run custom post-processing logic on the DOM elements generated by your templates. For example, if you're using a JavaScript widgets library such as jQuery UI, you might want to intercept your templates' output so that you can run jQuery UI commands on it to transform some of the rendered elements into date pickers, sliders, or anything else.</p>
+<p>Generally, the best way to perform such post-processing on DOM elements is to write a <a href="custom-bindings.html">custom binding</a>, but if you really just want to access the raw DOM elements emitted by a template, you can use <code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Render</span></code>.</p>
+<p>Pass a function reference (either a function literal, or give the name of a function on your view model), and Knockout will invoke it immediately after rendering or re-rendering your template. If you're using <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, Knockout will invoke your <code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Render</span></code> callback for each item added to your observable array. For example,</p>
+<pre><code class="lang-html">  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'template: { name: "personTemplate",
                               data: myData,
-                              afterRender: myPostProcessingLogic }&#39;&gt; &lt;/div&gt;
+                              afterRender: myPostProcessingLogic }'</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
 <p>... and define a corresponding function on your view model (i.e., the object that contains <code>myData</code>):</p>
-<pre><code class="lang-javascript">viewModel.myPostProcessingLogic = function(elements) {
-    // &quot;elements&quot; is an array of DOM nodes just rendered by the template
-    // You can add custom post-processing logic here
+<pre><code class="lang-javascript">viewModel.myPostProcessingLogic = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elements</span>) </span>{
+    <span class="hljs-comment">// "elements" is an array of DOM nodes just rendered by the template</span>
+    <span class="hljs-comment">// You can add custom post-processing logic here</span>
 }
 </code></pre>
-<p>If you are using <code>foreach</code> and only want to be notified about elements that are specifically being added or are being removed, you can use <code>afterAdd</code> and <code>beforeRemove</code> instead. For details, see documentation for the <a href="foreach-binding.html"><code>foreach</code> binding</a>.</p>
+<p>If you are using <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> and only want to be notified about elements that are specifically being added or are being removed, you can use <code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Add</span></code> and <code>beforeRemove</code> instead. For details, see documentation for the <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> binding</a>.</p>
 <h3 id="note-5-dynamically-choosing-which-template-is-used">Note 5: Dynamically choosing which template is used</h3>
-<p>If you have multiple named templates, you can pass an observable for the <code>name</code> option. As the observable&#39;s value is updated, the element&#39;s contents will be re-rendered using the appropriate template. Alternatively, you can pass a callback function to determine which template to use. If you are using the <code>foreach</code> template mode, Knockout will evaluate the function for each item in your array, passing that item&#39;s value as the only argument. Otherwise, the function will be given the <code>data</code> option&#39;s value or fall back to providing your whole current model object.</p>
+<p>If you have multiple named templates, you can pass an observable for the <code class="lang-applescript"><span class="hljs-property">name</span></code> option. As the observable's value is updated, the element's contents will be re-rendered using the appropriate template. Alternatively, you can pass a callback function to determine which template to use. If you are using the <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> template mode, Knockout will evaluate the function for each item in your array, passing that item's value as the only argument. Otherwise, the function will be given the <code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span></span></code> option's value or fall back to providing your whole current model object.</p>
 <p>For example,</p>
-<pre><code class="lang-example">html: |-
-    &lt;ul data-bind=&#39;template: { name: displayMode,
-                               foreach: employees }&#39;&gt; &lt;/ul&gt;
+<pre><code class="lang-javascript">html: |-
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'template: { name: displayMode,
+                               foreach: employees }'</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 javascript: |-
     var viewModel = {
         employees: ko.observableArray([
-            { name: &quot;Kari&quot;, active: ko.observable(true) },
-            { name: &quot;Brynn&quot;, active: ko.observable(false) },
-            { name: &quot;Nora&quot;, active: ko.observable(false) }
+            { name: "Kari", active: ko.observable(true) },
+            { name: "Brynn", active: ko.observable(false) },
+            { name: "Nora", active: ko.observable(false) }
         ]),
         displayMode: function(employee) {
-            // Initially &quot;Kari&quot; uses the &quot;active&quot; template, while the others use &quot;inactive&quot;
-            return employee.active() ? &quot;active&quot; : &quot;inactive&quot;;
+            // Initially "Kari" uses the "active" template, while the others use "inactive"
+            return employee.active() ? "active" : "inactive";
         }
     };
 
     // ... then later ...
-    viewModel.employees()[1].active(true); // Now &quot;Brynn&quot; is also rendered using the &quot;active&quot; template.
-</code></pre>
+    viewModel.employees()[1].active(true); // Now "Brynn" is also rendered using the "active" template.
+</span></code></pre>
 <p>If your function references observable values, then the binding will update whenever any of those values change.  This will cause the data to be re-rendered using the appropriate template.</p>
-<p>If your function accepts a second parameter, then it will receive the entire <a href="binding-context.html">binding context</a>. You can then access <code>$parent</code> or any other <a href="binding-context.html">binding context</a> variable when dynamically choosing a template. For example, you could amend the preceding code snippet as follows:</p>
-<pre><code class="lang-javascript">displayMode: function(employee, bindingContext) {
-    // Now return a template name string based on properties of employee or bindingContext
+<p>If your function accepts a second parameter, then it will receive the entire <a href="binding-context.html">binding context</a>. You can then access <code class="lang-xquery"><span class="hljs-variable">$parent</span></code> or any other <a href="binding-context.html">binding context</a> variable when dynamically choosing a template. For example, you could amend the preceding code snippet as follows:</p>
+<pre><code class="lang-javascript">displayMode: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">employee, bindingContext</span>) </span>{
+    <span class="hljs-comment">// Now return a template name string based on properties of employee or bindingContext</span>
 }
 </code></pre>
 <h3 id="note-6-using-jquery-tmpl-an-external-string-based-template-engine">Note 6: Using jQuery.tmpl, an external string-based template engine</h3>
-<p>In the vast majority of cases, Knockout&#39;s native templating and the <code>foreach</code>, <code>if</code>, <code>with</code> and other control flow bindings will be all you need to construct an arbitrarily sophisticated UI. But in case you wish to integrate with an external templating library, such as the <a href="http://documentcloud.github.com/underscore/#template">Underscore template engine</a> or <a href="http://api.jquery.com/jquery.tmpl/">jquery.tmpl</a>, Knockout offers a way to do it.</p>
+<p>In the vast majority of cases, Knockout's native templating and the <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">if</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">with</span></code> and other control flow bindings will be all you need to construct an arbitrarily sophisticated UI. But in case you wish to integrate with an external templating library, such as the <a href="http://documentcloud.github.com/underscore/#template">Underscore template engine</a> or <a href="http://api.jquery.com/jquery.tmpl/">jquery.tmpl</a>, Knockout offers a way to do it.</p>
 <p>By default, Knockout comes with support for <a href="http://api.jquery.com/jquery.tmpl/">jquery.tmpl</a>. To use it, you need to reference the following libraries, in this order:</p>
-<pre><code class="lang-html">&lt;!-- First jQuery --&gt;     script src=&quot;http://code.jquery.com/jquery-1.7.1.min.js&quot;
-&lt;!-- Then jQuery.tmpl --&gt; script src=&quot;jquery.tmpl.js&quot;
-&lt;!-- Then Knockout --&gt;    script src=&quot;knockout-x.y.z.js&quot;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- First jQuery --&gt;</span>     script src="http://code.jquery.com/jquery-1.7.1.min.js"
+<span class="hljs-comment">&lt;!-- Then jQuery.tmpl --&gt;</span> script src="jquery.tmpl.js"
+<span class="hljs-comment">&lt;!-- Then Knockout --&gt;</span>    script src="knockout-x.y.z.js"
 </code></pre>
 <p>Then, you can use jQuery.tmpl syntax in your templates. For example,</p>
-<pre><code class="lang-example">html: |-
-  &lt;h1&gt;People&lt;/h1&gt;
-  &lt;div data-bind=&quot;template: &#39;peopleList&#39;&quot;&gt;&lt;/div&gt;
-  &lt;template id=&#39;peopleList&#39;&gt;
-    &lt;!-- FIXME --&gt;
-      &lt;p data-bind=&#39;foreach: $data&#39;&gt;
-          &lt;b&gt;${name}&lt;/b&gt; is ${age} years old
-      &lt;/p&gt;
-  &lt;/template&gt;
+<pre><code class="lang-javascript">html: |-
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>People<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"template: 'peopleList'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">template</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">'peopleList'</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- FIXME --&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'foreach: $data'</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">b</span>&gt;</span>${name}<span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span> is ${age} years old
+      <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">template</span>&gt;</span>
 javascript: |-
     var viewModel = {
         people: ko.observableArray([
-            { name: &#39;Rod&#39;, age: 123 },
-            { name: &#39;Jane&#39;, age: 125 },
+            { name: 'Rod', age: 123 },
+            { name: 'Jane', age: 125 },
         ])
     }
     ko.applyBindings(viewModel);
-</code></pre>
-<p>This works because <code>{{&#39;{{&#39;}}each ...}}</code> and <code>${ ... }</code> are jQuery.tmpl syntaxes. What&#39;s more, it&#39;s trivial to nest templates: because you can use data-bind attributes from inside a template, you can simply put a <code>data-bind=&quot;template: ...&quot;</code> inside a template to render a nested one.</p>
-<p>Please note that, as of December 2011, jQuery.tmpl is no longer under active development. We recommend the use of Knockout&#39;s native DOM-based templating (i.e., the <code>foreach</code>, <code>if</code>, <code>with</code>, etc. bindings) instead of jQuery.tmpl or any other string-based template engine.</p>
+</span></code></pre>
+<p>This works because <code class="lang-crystal"><span class="hljs-expansion">{{<span class="hljs-string">'{{'</span>}}</span>each ...}}</code> and <code class="lang-bash"><span class="hljs-variable">${ ... }</span></code> are jQuery.tmpl syntaxes. What's more, it's trivial to nest templates: because you can use data-bind attributes from inside a template, you can simply put a <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span>=<span class="hljs-string">"template: ..."</span></code> inside a template to render a nested one.</p>
+<p>Please note that, as of December 2011, jQuery.tmpl is no longer under active development. We recommend the use of Knockout's native DOM-based templating (i.e., the <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">if</span></code>, <code class="lang-actionscript"><span class="hljs-keyword">with</span></code>, etc. bindings) instead of jQuery.tmpl or any other string-based template engine.</p>
 <h3 id="note-7-using-the-underscore-js-template-engine">Note 7: Using the Underscore.js template engine</h3>
-<p>The <a href="http://documentcloud.github.com/underscore/#template">Underscore.js template engine</a> by default uses ERB-style delimiters (<code>&lt;%= ... %&gt;</code>). Here&#39;s how the preceding example&#39;s template might look with Underscore:</p>
-<pre><code class="lang-html">&lt;script id=&#39;peopleList&#39;&gt;
-    &lt;% _.each(people(), function(person) { %&gt;
-        &lt;li&gt;
-            &lt;b&gt;&lt;%= person.name %&gt;&lt;/b&gt; is &lt;%= person.age %&gt; years old
-        &lt;/li&gt;
-    &lt;% }) %&gt;
-&lt;/script&gt;
+<p>The <a href="http://documentcloud.github.com/underscore/#template">Underscore.js template engine</a> by default uses ERB-style delimiters (<code class="lang-gcode">&lt;<span class="hljs-preprocessor">%</span>= ... <span class="hljs-preprocessor">%</span>&gt;</code>). Here's how the preceding example's template might look with Underscore:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">'peopleList'</span>&gt;</span><span class="handlebars"><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-title">%</span> <span class="hljs-attribute">_.each</span>(<span class="hljs-attribute">people</span>(), <span class="hljs-attribute">function</span>(<span class="hljs-attribute">person</span>) { %&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">b</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">%=</span> <span class="hljs-attribute">person.name</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span> is <span class="hljs-tag">&lt;<span class="hljs-title">%=</span> <span class="hljs-attribute">person.age</span> %&gt;</span> years old
+        <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">%</span> }) %&gt;</span>
+</span></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 </code></pre>
-<p>Here&#39;s <a href="http://jsfiddle.net/rniemeyer/NW5Vn/">a simple implementation of integrating Underscore templates with Knockout</a>. The integration code is just 16 lines long, but it&#39;s enough to support Knockout <code>data-bind</code> attributes (and hence nested templates) and Knockout <a href="binding-context.html">binding context</a> variables (<code>$parent</code>, <code>$root</code>, etc.).</p>
-<p>If you&#39;re not a fan of the <code>&lt;%= ... %&gt;</code> delimiters, you can configure the Underscore template engine to use any other delimiter characters of your choice.</p>
+<p>Here's <a href="http://jsfiddle.net/rniemeyer/NW5Vn/">a simple implementation of integrating Underscore templates with Knockout</a>. The integration code is just 16 lines long, but it's enough to support Knockout <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes (and hence nested templates) and Knockout <a href="binding-context.html">binding context</a> variables (<code class="lang-xquery"><span class="hljs-variable">$parent</span></code>, <code class="lang-xquery"><span class="hljs-variable">$root</span></code>, etc.).</p>
+<p>If you're not a fan of the <code class="lang-gcode">&lt;<span class="hljs-preprocessor">%</span>= ... <span class="hljs-preprocessor">%</span>&gt;</code> delimiters, you can configure the Underscore template engine to use any other delimiter characters of your choice.</p>
 <h3 id="dependencies">Dependencies</h3>
 <ul>
 <li><strong>Native templating</strong> does not require any library other than Knockout itself</li>
-<li><strong>String-based templating</strong> works only once you&#39;ve referenced a suitable template engine, such as jQuery.tmpl or the Underscore template engine.</li>
+<li><strong>String-based templating</strong> works only once you've referenced a suitable template engine, such as jQuery.tmpl or the Underscore template engine.</li>
 </ul>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

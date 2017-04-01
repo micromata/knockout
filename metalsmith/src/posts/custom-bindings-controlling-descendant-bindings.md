@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Controlling descendant bindings
 cat: 3

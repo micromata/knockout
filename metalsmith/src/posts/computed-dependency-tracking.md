@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: How dependency tracking works
 cat: 2

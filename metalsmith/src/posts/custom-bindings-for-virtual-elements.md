@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Custom bindings and virtual elements
 cat: 3

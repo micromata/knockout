@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Using unobtrusive event handlers
 cat: 5
@@ -39,7 +40,7 @@ Now, a single event handler is attached at a higher level and handles clicks aga
 
 This example shows "add" and "remove" links on multiple levels of parents and children with a single handler attached unobtrusively for each type of link.
 
-```example
+```javascript
 css: |-
    .liveExample a.add { font-size: .7em; color: #aaa; }
    .liveExample a.remove { font-size: .9em; }

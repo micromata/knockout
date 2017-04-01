@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Introduction
 cat: 1

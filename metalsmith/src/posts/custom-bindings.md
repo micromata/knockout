@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Creating custom bindings
 cat: 3

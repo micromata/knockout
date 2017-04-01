@@ -1,4 +1,20 @@
-<p><em>Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the <a href="throttle-extender.html"><code>throttle</code> extender</a> provides similar functionality.</em></p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The &quot;rateLimit&quot; extender</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>The &quot;rateLimit&quot; extender</h1>
+
+  <p><em>Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the <a href="throttle-extender.html"><code>throttle</code> extender</a> provides similar functionality.</em></p>
 <p>Normally, an <a href="observables.html">observable</a> that is changed notifies its subscribers immediately, so that any computed observables or bindings that depend on the observable are updated synchronously. The <code>rateLimit</code> extender, however, causes an observable to suppress and delay change notifications for a specified period of time. A rate-limited observable therefore updates dependencies asynchronously.</p>
 <p>The <code>rateLimit</code> extender can be applied to any type of observable, including <a href="observableArrays.html">observable arrays</a> and <a href="computedObservables.html">computed observables</a>. The main use cases for rate-limiting are:</p>
 <ul>
@@ -7,13 +23,13 @@
 </ul>
 <h3 id="applying-the-ratelimit-extender">Applying the rateLimit extender</h3>
 <p><code>rateLimit</code> supports two parameter formats:</p>
-<pre><code class="lang-javascript">// Shorthand: Specify just a timeout in milliseconds
-someObservableOrComputed.extend({ rateLimit: 500 });
+<pre><code class="lang-javascript"><span class="hljs-comment">// Shorthand: Specify just a timeout in milliseconds</span>
+someObservableOrComputed.extend({ rateLimit: <span class="hljs-number">500</span> });
 
-// Longhand: Specify timeout and/or method
-someObservableOrComputed.extend({ rateLimit: { timeout: 500, method: &quot;notifyWhenChangesStop&quot; } });
+<span class="hljs-comment">// Longhand: Specify timeout and/or method</span>
+someObservableOrComputed.extend({ rateLimit: { timeout: <span class="hljs-number">500</span>, method: <span class="hljs-string">"notifyWhenChangesStop"</span> } });
 </code></pre>
-<p>The <code>method</code> option controls when notifications fire, and accepts the following values:</p>
+<p>The <code class="lang-nimrod"><span class="hljs-keyword">method</span></code> option controls when notifications fire, and accepts the following values:</p>
 <ol>
 <li><p><code>notifyAtFixedRate</code> --- <strong>Default value if not otherwise specified</strong>. The notification happens after the specified period of time from the first change to the observable (either initially or since the previous notification).</p>
 </li>
@@ -22,70 +38,78 @@ someObservableOrComputed.extend({ rateLimit: { timeout: 500, method: &quot;notif
 </ol>
 <h3 id="example-1-the-basics">Example 1: The basics</h3>
 <p>Consider the observables in the following code:</p>
-<pre><code class="lang-javascript">var name = ko.observable(&#39;Bert&#39;);
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> name = ko.observable(<span class="hljs-string">'Bert'</span>);
 
-var upperCaseName = ko.computed(function() {
-    return name().toUpperCase();
+<span class="hljs-keyword">var</span> upperCaseName = ko.computed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> name().toUpperCase();
 });
 </code></pre>
-<p>Normally, if you change <code>name</code> as follows:</p>
-<pre><code class="lang-javascript">name(&#39;The New Bert&#39;);
+<p>Normally, if you change <code class="lang-applescript"><span class="hljs-property">name</span></code> as follows:</p>
+<pre><code class="lang-javascript">name(<span class="hljs-string">'The New Bert'</span>);
 </code></pre>
-<p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you instead define <code>name</code> using <code>rateLimit</code> as follows:</p>
-<pre><code class="lang-javascript">var name = ko.observable(&#39;Bert&#39;).extend({ rateLimit: 500 });
+<p>... then <code>upperCaseName</code> will be recomputed immediately, before your next line of code runs. But if you instead define <code class="lang-applescript"><span class="hljs-property">name</span></code> using <code>rateLimit</code> as follows:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> name = ko.observable(<span class="hljs-string">'Bert'</span>).extend({ rateLimit: <span class="hljs-number">500</span> });
 </code></pre>
-<p>... then <code>upperCaseName</code> will not be recomputed immediately when <code>name</code> changes---instead, <code>name</code> will wait for 500 milliseconds (half a second) before notifying its new value to <code>upperCaseName</code>, which will then recompute its value. No matter how many times <code>name</code> is changed during those 500 ms, <code>upperCaseName</code> will only be updated once with the most recent value.</p>
+<p>... then <code>upperCaseName</code> will not be recomputed immediately when <code class="lang-applescript"><span class="hljs-property">name</span></code> changes---instead, <code class="lang-applescript"><span class="hljs-property">name</span></code> will wait for 500 milliseconds (half a second) before notifying its new value to <code>upperCaseName</code>, which will then recompute its value. No matter how many times <code class="lang-applescript"><span class="hljs-property">name</span></code> is changed during those 500 ms, <code>upperCaseName</code> will only be updated once with the most recent value.</p>
 <h3 id="example-2-doing-something-when-the-user-stops-typing">Example 2: Doing something when the user stops typing</h3>
-<p>In this live example, there&#39;s an <code>instantaneousValue</code> observable that reacts immediately when you press a key. This is then wrapped inside a <code>delayedValue</code> computed observable that&#39;s configured to notify only when changes stop for at least 400 milliseconds, using the <code>notifyWhenChangesStop</code> rate-limit method.</p>
+<p>In this live example, there's an <code>instantaneousValue</code> observable that reacts immediately when you press a key. This is then wrapped inside a <code>delayedValue</code> computed observable that's configured to notify only when changes stop for at least 400 milliseconds, using the <code>notifyWhenChangesStop</code> rate-limit method.</p>
 <p>Try it:</p>
-<p><live-example params='id: "rate-limit"'></live-example></p>
+<p><live-example params="id: &quot;rate-limit&quot;"></live-example></p>
 <h3 id="example-3-avoiding-multiple-ajax-requests">Example 3: Avoiding multiple Ajax requests</h3>
 <p>The following model represents data that you could render as a paged grid:</p>
-<pre><code class="lang-javascript">function GridViewModel() {
-    this.pageSize = ko.observable(20);
-    this.pageIndex = ko.observable(1);
-    this.currentPageData = ko.observableArray();
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GridViewModel</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.pageSize = ko.observable(<span class="hljs-number">20</span>);
+    <span class="hljs-keyword">this</span>.pageIndex = ko.observable(<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">this</span>.currentPageData = ko.observableArray();
 
-    // Query /Some/Json/Service whenever pageIndex or pageSize changes,
-    // and use the results to update currentPageData
-    ko.computed(function() {
-        var params = { page: this.pageIndex(), size: this.pageSize() };
-        $.getJSON(&#39;/Some/Json/Service&#39;, params, this.currentPageData);
-    }, this);
+    <span class="hljs-comment">// Query /Some/Json/Service whenever pageIndex or pageSize changes,</span>
+    <span class="hljs-comment">// and use the results to update currentPageData</span>
+    ko.computed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> params = { page: <span class="hljs-keyword">this</span>.pageIndex(), size: <span class="hljs-keyword">this</span>.pageSize() };
+        $.getJSON(<span class="hljs-string">'/Some/Json/Service'</span>, params, <span class="hljs-keyword">this</span>.currentPageData);
+    }, <span class="hljs-keyword">this</span>);
 }
 </code></pre>
-<p>Because the computed observable evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery&#39;s <a href="http://api.jquery.com/jQuery.getJSON/"><code>$.getJSON</code> function</a> to reload <code>currentPageData</code> when a <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
-<p>This is very simple and elegant (and it&#39;s trivial to add yet more observable query parameters that also trigger a refresh automatically whenever they change), but there is a potential efficiency problem. Suppose you add the following function to <code>GridViewModel</code> that changes both <code>pageIndex</code> and <code>pageSize</code>:</p>
-<pre><code class="lang-javascript">this.setPageSize = function(newPageSize) {
-    // Whenever you change the page size, we always reset the page index to 1
-    this.pageSize(newPageSize);
-    this.pageIndex(1);
+<p>Because the computed observable evaluates both <code>pageIndex</code> and <code>pageSize</code>, it becomes dependent on both of them. So, this code will use jQuery's <a href="http://api.jquery.com/jQuery.getJSON/"><code class="lang-crystal"><span class="hljs-variable">$.</span>getJSON</code> function</a> to reload <code>currentPageData</code> when a <code>GridViewModel</code> is first instantiated <em>and</em> whenever the <code>pageIndex</code> or <code>pageSize</code> properties are later changed.</p>
+<p>This is very simple and elegant (and it's trivial to add yet more observable query parameters that also trigger a refresh automatically whenever they change), but there is a potential efficiency problem. Suppose you add the following function to <code>GridViewModel</code> that changes both <code>pageIndex</code> and <code>pageSize</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">this</span>.setPageSize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newPageSize</span>) </span>{
+    <span class="hljs-comment">// Whenever you change the page size, we always reset the page index to 1</span>
+    <span class="hljs-keyword">this</span>.pageSize(newPageSize);
+    <span class="hljs-keyword">this</span>.pageIndex(<span class="hljs-number">1</span>);
 }
 </code></pre>
 <p>The problem is that this will cause <em>two</em> Ajax requests: the first one will start when you update <code>pageSize</code>, and the second one will start immediately afterwards when you update <code>pageIndex</code>. This is a waste of bandwidth and server resources, and a source of unpredictable race conditions.</p>
 <p>When applied to a computed observable, the <code>rateLimit</code> extender will also avoid excess evaluation of the computed function. Using a short rate-limit timeout (e.g., 0 milliseconds) ensures that any sequence of synchronous changes to dependencies will trigger just <em>one</em> re-evaluation of your computed observable. For example:</p>
-<pre><code class="lang-javascript">ko.computed(function() {
-    // This evaluation logic is exactly the same as before
-    var params = { page: this.pageIndex(), size: this.pageSize() };
-    $.getJSON(&#39;/Some/Json/Service&#39;, params, this.currentPageData);
-}, this).extend({ rateLimit: 0 });
+<pre><code class="lang-javascript">ko.computed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// This evaluation logic is exactly the same as before</span>
+    <span class="hljs-keyword">var</span> params = { page: <span class="hljs-keyword">this</span>.pageIndex(), size: <span class="hljs-keyword">this</span>.pageSize() };
+    $.getJSON(<span class="hljs-string">'/Some/Json/Service'</span>, params, <span class="hljs-keyword">this</span>.currentPageData);
+}, <span class="hljs-keyword">this</span>).extend({ rateLimit: <span class="hljs-number">0</span> });
 </code></pre>
 <p>Now you can change <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once after you release your thread back to the JavaScript runtime.</p>
 <h2 id="special-consideration-for-computed-observables">Special consideration for computed observables</h2>
-<p>For a computed observable, the rate-limit timer is triggered when one of the computed observable&#39;s dependencies change instead of when its value changes. The computed observable is not re-evaluated until its value is actually needed---after the timeout period when the change notification should happen, or when the computed observable value is accessed directly. If you need to access the value of the computed&#39;s most recent evaluation, you can do so with the <code>peek</code> method.</p>
+<p>For a computed observable, the rate-limit timer is triggered when one of the computed observable's dependencies change instead of when its value changes. The computed observable is not re-evaluated until its value is actually needed---after the timeout period when the change notification should happen, or when the computed observable value is accessed directly. If you need to access the value of the computed's most recent evaluation, you can do so with the <code>peek</code> method.</p>
 <h2 id="forcing-rate-limited-observables-to-always-notify-subscribers">Forcing rate-limited observables to always notify subscribers</h2>
 <p>When the value of any observable is primitive (a number, string, boolean, or null), the dependents of the observable are by default notified only when it is set to a value that is actually different from before. So, primitive-valued rate-limited observables notify only when their value is actually different at the end of the timeout period. In other words, if a primitive-valued rate-limited observable is changed to a new value and then changed back to the original value before the timeout period ends, no notification will happen.</p>
-<p>If you want to ensure that the subscribers are always notified of an update, even if the value is the same, you would use the <code>notify</code> extender in addition to <code>rateLimit</code>:</p>
-<pre><code class="lang-javascript">myViewModel.fullName = ko.computed(function() {
-    return myViewModel.firstName() + &quot; &quot; + myViewModel.lastName();
-}).extend({ notify: &#39;always&#39;, rateLimit: 500 });
+<p>If you want to ensure that the subscribers are always notified of an update, even if the value is the same, you would use the <code class="lang-oxygene"><span class="hljs-keyword">notify</span></code> extender in addition to <code>rateLimit</code>:</p>
+<pre><code class="lang-javascript">myViewModel.fullName = ko.computed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> myViewModel.firstName() + <span class="hljs-string">" "</span> + myViewModel.lastName();
+}).extend({ notify: <span class="hljs-string">'always'</span>, rateLimit: <span class="hljs-number">500</span> });
 </code></pre>
 <h2 id="comparison-with-the-throttle-extender">Comparison with the throttle extender</h2>
-<p>If you&#39;d like to migrate code from using the deprecated <code>throttle</code> extender, you should note the following ways that the <code>rateLimit</code> extender is different from the <code>throttle</code> extender.</p>
+<p>If you'd like to migrate code from using the deprecated <code>throttle</code> extender, you should note the following ways that the <code>rateLimit</code> extender is different from the <code>throttle</code> extender.</p>
 <p>When using <code>rateLimit</code>:</p>
 <ol>
-<li><em>Writes</em> to observables are not delayed; the observable&#39;s value is updated right away. For writable computed observables, this means that the write function is always run right away.</li>
-<li>All <code>change</code> notifications are delayed, including when calling <code>valueHasMutated</code> manually. This means you can&#39;t use <code>valueHasMutated</code> to force a rate-limited observable to notify an un-changed value.</li>
+<li><em>Writes</em> to observables are not delayed; the observable's value is updated right away. For writable computed observables, this means that the write function is always run right away.</li>
+<li>All <code class="lang-sql"><span class="hljs-operator"><span class="hljs-keyword">change</span></span></code> notifications are delayed, including when calling <code>valueHasMutated</code> manually. This means you can't use <code>valueHasMutated</code> to force a rate-limited observable to notify an un-changed value.</li>
 <li>The default rate-limit method is different from the <code>throttle</code> algorithm. To match the <code>throttle</code> behavior, use the <code>notifyWhenChangesStop</code> method.</li>
-<li>Evaluation of a rate-limited computed observable isn&#39;t rate-limited; it will re-evaluate if you read its value.</li>
+<li>Evaluation of a rate-limited computed observable isn't rate-limited; it will re-evaluate if you read its value.</li>
 </ol>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

@@ -1,39 +1,55 @@
-<p>The <code>component</code> binding injects a specified <a href="component-overview.html">component</a> into an element, and optionally passes parameters to it.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>component</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>component</h1>
+
+  <p>The <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding injects a specified <a href="component-overview.html">component</a> into an element, and optionally passes parameters to it.</p>
 <ul>
 <li>[Table of contents injected here]
 {:toc}</li>
 </ul>
 <h3 id="live-example">Live example</h3>
-<p><live-example params='id: "component-binding"'></live-example></p>
+<p><live-example params="id: &quot;component-binding&quot;"></live-example></p>
 <p>Note: In more realistic cases, you would typically load component viewmodels and templates from external files, instead of hardcoding them into the registration. See <a href="#component-overview">an example</a> and <a href="#component-registration">registration documentation</a>.</p>
 <h3 id="api">API</h3>
-<p>There are two ways to use the <code>component</code> binding:</p>
+<p>There are two ways to use the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding:</p>
 <ul>
 <li><p><strong>Shorthand syntax</strong></p>
 <p>If you pass just a string, it is interpreted as a component name. The named component is then injected without supplying any parameters to it. Example:</p>
-<pre><code class="lang-html">&lt;div data-bind=&#39;component: &quot;my-component&quot;&#39;&gt;&lt;/div&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'component: "my-component"'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>The shorthand value can also be observable. In this case, if it changes, the <code>component</code> binding will <a href="#disposal-and-memory-management">dispose</a> the old component instance, and inject the newly-referenced component. Example:</p>
-<pre><code class="lang-html">&lt;div data-bind=&#39;component: observableWhoseValueIsAComponentName&#39;&gt;&lt;/div&gt;
+<p>The shorthand value can also be observable. In this case, if it changes, the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding will <a href="#disposal-and-memory-management">dispose</a> the old component instance, and inject the newly-referenced component. Example:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'component: observableWhoseValueIsAComponentName'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
 </li>
 <li><p><strong>Full syntax</strong></p>
 <p>To supply parameters to the component, pass an object with the following properties:</p>
 <ul>
-<li><code>name</code> --- the name of the component to inject. Again, this can be observable.</li>
-<li><code>params</code> --- an object that will be passed on to the component. Typically this is a key-value object containing multiple parameters, and is typically received by the component&#39;s viewmodel constructor.</li>
+<li><code class="lang-applescript"><span class="hljs-property">name</span></code> --- the name of the component to inject. Again, this can be observable.</li>
+<li><code class="lang-crmsh"><span class="hljs-keyword">params</span></code> --- an object that will be passed on to the component. Typically this is a key-value object containing multiple parameters, and is typically received by the component's viewmodel constructor.</li>
 </ul>
 <p>Example:</p>
 </li>
 </ul>
-<pre><code class="lang-html">&lt;div data-bind=&#39;component: {
-    name: &quot;shopping-cart&quot;,
-    params: { mode: &quot;detailed-list&quot;, items: productsList }
-  }&#39;&gt;&lt;/div&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'component: {
+    name: "shopping-cart",
+    params: { mode: "detailed-list", items: productsList }
+  }'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>Note that whenever a component is removed (either because the <code>name</code> observable changed, or because an enclosing control-flow binding removed the entire element), the removed component is <a href="#disposal-and-memory-management">disposed</a></p>
+<p>Note that whenever a component is removed (either because the <code class="lang-applescript"><span class="hljs-property">name</span></code> observable changed, or because an enclosing control-flow binding removed the entire element), the removed component is <a href="#disposal-and-memory-management">disposed</a></p>
 <h3 id="component-lifecycle">Component lifecycle</h3>
-<p>When a <code>component</code> binding injects a component,</p>
+<p>When a <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding injects a component,</p>
 <ol>
 <li><p><strong>Your component loaders are asked to supply the viewmodel factory and template</strong></p>
 <ul>
@@ -46,114 +62,122 @@
 <p>Any existing content is removed and discarded.</p>
 </li>
 <li><p><strong>If the component has a viewmodel, it is instantiated</strong></p>
-<p>If the viewmodel is given as a constructor function, this means Knockout calls <code>new YourViewModel(params)</code>.</p>
-<p>If the viewmodel is given as a <code>createViewModel</code> factory function, Knockout calls <code>createViewModel(params, componentInfo)</code>, where <code>componentInfo.element</code> is the element into which the not-yet-bound template has already been injected.</p>
+<p>If the viewmodel is given as a constructor function, this means Knockout calls <code class="lang-stylus">new <span class="hljs-function"><span class="hljs-title">YourViewModel</span><span class="hljs-params">(params)</span></span></code>.</p>
+<p>If the viewmodel is given as a <code>createViewModel</code> factory function, Knockout calls <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">createViewModel</span><span class="hljs-params">(params, componentInfo)</span></span></code>, where <code class="lang-css"><span class="hljs-tag">componentInfo</span><span class="hljs-class">.element</span></code> is the element into which the not-yet-bound template has already been injected.</p>
 <p>This phase always completes synchronously (constructors and factory functions are not allowed to be asynchronous), since it occurs <em>every time a component is instantiated</em> and performance would be unacceptable if it involved waiting for network requests.</p>
 </li>
 <li><p><strong>The viewmodel is bound to the view</strong></p>
-<p>Or, if the component has no viewmodel, then the view is bound to any <code>params</code> you&#39;ve supplied to the <code>component</code> binding.</p>
+<p>Or, if the component has no viewmodel, then the view is bound to any <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> you've supplied to the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding.</p>
 </li>
 <li><p><strong>The component is active</strong></p>
 <p>Now the component is operating, and can remain on-screen for as long as needed.</p>
 <p>If any of the parameters passed to the component is observable, then the component can of course observe any changes, or even write back modified values. This is how it can communicate cleanly with its parent, without tightly coupling the component code to any parent that uses it.</p>
 </li>
 <li><p><strong>The component is torn down, and the viewmodel is disposed</strong></p>
-<p>If the <code>component</code> binding&#39;s <code>name</code> value changes observably, or if an enclosing control-flow binding causes the container element to be removed, then any <code>dispose</code> function on the viewmodel is called just before the container element is removed from the DOM. See also: <a href="#disposal-and-memory-management">disposal and memory management</a>.</p>
+<p>If the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding's <code class="lang-applescript"><span class="hljs-property">name</span></code> value changes observably, or if an enclosing control-flow binding causes the container element to be removed, then any <code>dispose</code> function on the viewmodel is called just before the container element is removed from the DOM. See also: <a href="#disposal-and-memory-management">disposal and memory management</a>.</p>
 <p>Note: If the user navigates to an entirely different web page, browsers do this without asking any code running in the page to clean up. So in this case no <code>dispose</code> functions will be invoked. This is OK because the browser will automatically release the memory used by all objects that were in use.</p>
 </li>
 </ol>
 <h3 id="note-template-only-components">Note: Template-only components</h3>
-<p>Components usually have viewmodels, but they don&#39;t necessarily have to. A component can specify just a template.</p>
-<p>In this case, the object to which the component&#39;s view is bound is the <code>params</code> object that you passed to the <code>component</code> binding. Example:</p>
-<pre><code class="lang-html">ko.components.register(&#39;special-offer&#39;, {
-    template: &#39;&lt;div class=&quot;offer-box&quot; data-bind=&quot;text: productName&quot;&gt;&lt;/div&gt;&#39;
+<p>Components usually have viewmodels, but they don't necessarily have to. A component can specify just a template.</p>
+<p>In this case, the object to which the component's view is bound is the <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> object that you passed to the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding. Example:</p>
+<pre><code class="lang-html">ko.components.register('special-offer', {
+    template: '<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"offer-box"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: productName"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>'
 });
 </code></pre>
 <p>... can be injected with:</p>
-<pre><code class="lang-html">&lt;div data-bind=&#39;component: {
-     name: &quot;special-offer-callout&quot;,
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'component: {
+     name: "special-offer-callout",
      params: { productName: someProduct.name }
-}&#39;&gt;&lt;/div&gt;
+}'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
 <p>... or, more conveniently, as a <a href="#component-custom-elements">custom element</a>:</p>
-<pre><code class="lang-html">&lt;special-offer params=&#39;productName: someProduct.name&#39;&gt;&lt;/special-offer&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">special-offer</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">'productName: someProduct.name'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">special-offer</span>&gt;</span>
 </code></pre>
-<h3 id="note-using-component-without-a-container-element">Note: Using <code>component</code> without a container element</h3>
+<h3 id="note-using-component-without-a-container-element">Note: Using <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> without a container element</h3>
 <p>Sometimes you may want to inject a component into a view without using an extra container element. You can do this using <em>containerless control flow syntax</em>, which is based on comment tags. For example,</p>
-<pre><code class="lang-html">&lt;!-- ko component: &quot;message-editor&quot; --&gt;
-&lt;!-- /ko --&gt;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- ko component: "message-editor" --&gt;</span>
+<span class="hljs-comment">&lt;!-- /ko --&gt;</span>
 </code></pre>
 <p>... or passing parameters:</p>
-<pre><code class="lang-html">&lt;!-- ko component: {
-    name: &quot;message-editor&quot;,
-    params: { initialText: &quot;Hello, world!&quot;, otherParam: 123 }
-} --&gt;
-&lt;!-- /ko --&gt;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- ko component: {
+    name: "message-editor",
+    params: { initialText: "Hello, world!", otherParam: 123 }
+} --&gt;</span>
+<span class="hljs-comment">&lt;!-- /ko --&gt;</span>
 </code></pre>
-<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<p>The <code class="lang-xml"><span class="hljs-comment">&lt;!-- ko --&gt;</span></code> and <code class="lang-xml"><span class="hljs-comment">&lt;!-- /ko --&gt;</span></code> comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
 <h3 id="note-passing-markup-to-components">Note: Passing markup to components</h3>
-<p>The element you attach a <code>component</code> binding to may contain further markup. For example,</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;component: { name: &#39;my-special-list&#39;, params: { items: someArrayOfPeople } }&quot;&gt;
-    &lt;!-- Look, here&#39;s some arbitrary markup. By default it gets stripped out
-         and is replaced by the component output. --&gt;
-    The person &lt;em data-bind=&quot;text: name&quot;&gt;&lt;/em&gt;
-    is &lt;em data-bind=&quot;text: age&quot;&gt;&lt;/em&gt; years old.
-&lt;/div&gt;
+<p>The element you attach a <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding to may contain further markup. For example,</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"component: { name: 'my-special-list', params: { items: someArrayOfPeople } }"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Look, here's some arbitrary markup. By default it gets stripped out
+         and is replaced by the component output. --&gt;</span>
+    The person <span class="hljs-tag">&lt;<span class="hljs-title">em</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">em</span>&gt;</span>
+    is <span class="hljs-tag">&lt;<span class="hljs-title">em</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: age"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">em</span>&gt;</span> years old.
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>Although the DOM nodes in this element will be stripped out and not bound by default, they are not lost. Instead, they are supplied to the component (in this case, <code>my-special-list</code>), which can include them in its output however it wishes.</p>
-<p>This is useful if you want to build components that represent &quot;container&quot; UI elements, such as grids, lists, dialogs, or tab sets, which need to inject and bind arbitrary markup into a common structure. See <a href="#component-custom-elements.html">a complete example for custom elements</a>, which also works without custom elements using the syntax shown above.</p>
+<p>Although the DOM nodes in this element will be stripped out and not bound by default, they are not lost. Instead, they are supplied to the component (in this case, <code class="lang-applescript"><span class="hljs-keyword">my</span>-special-<span class="hljs-type">list</span></code>), which can include them in its output however it wishes.</p>
+<p>This is useful if you want to build components that represent "container" UI elements, such as grids, lists, dialogs, or tab sets, which need to inject and bind arbitrary markup into a common structure. See <a href="#component-custom-elements.html">a complete example for custom elements</a>, which also works without custom elements using the syntax shown above.</p>
 <h3 id="disposal-and-memory-management">Disposal and memory management</h3>
-<p>Optionally, your viewmodel class may have a <code>dispose</code> function. If implemented, Knockout will call this whenever the component is being torn down and removed from the DOM (e.g., because the corresponding item was removed from a <code>foreach</code>, or an <code>if</code> binding has become <code>false</code>).</p>
-<p>You must use <code>dispose</code> to release any resources that aren&#39;t inherently garbage-collectable. For example:</p>
+<p>Optionally, your viewmodel class may have a <code>dispose</code> function. If implemented, Knockout will call this whenever the component is being torn down and removed from the DOM (e.g., because the corresponding item was removed from a <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, or an <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding has become <code class="lang-actionscript"><span class="hljs-literal">false</span></code>).</p>
+<p>You must use <code>dispose</code> to release any resources that aren't inherently garbage-collectable. For example:</p>
 <ul>
-<li><code>setInterval</code> callbacks will continue to fire until explicitly cleared.<ul>
-<li>Use <code>clearInterval(handle)</code> to stop them, otherwise your viewmodel might be held in memory.</li>
+<li><code class="lang-bash"><span class="hljs-built_in">set</span>Interval</code> callbacks will continue to fire until explicitly cleared.<ul>
+<li>Use <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">clearInterval</span><span class="hljs-params">(handle)</span></span></code> to stop them, otherwise your viewmodel might be held in memory.</li>
 </ul>
 </li>
-<li><code>ko.computed</code> properties continue to receive notifications from their dependencies until explicitly disposed.<ul>
-<li>If a dependency is on an external object, then be sure to use <code>.dispose()</code> on the computed property, otherwise it (and possibly also your viewmodel) will be held in memory. Alternatively, consider using a <a href="#computed-pure"><em>pure</em> computed</a> to avoid the need for manual disposal.</li>
+<li><code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.computed</span></code> properties continue to receive notifications from their dependencies until explicitly disposed.<ul>
+<li>If a dependency is on an external object, then be sure to use <code class="lang-stylus">.<span class="hljs-function"><span class="hljs-title">dispose</span><span class="hljs-params">()</span></span></code> on the computed property, otherwise it (and possibly also your viewmodel) will be held in memory. Alternatively, consider using a <a href="#computed-pure"><em>pure</em> computed</a> to avoid the need for manual disposal.</li>
 </ul>
 </li>
 <li><strong>Subscriptions</strong> to observables continue to fire until explicitly disposed.<ul>
-<li>If you have subscribed to an external observable, be sure to use <code>.dispose()</code> on the subscription, otherwise the callback (and possibly also your viewmodel) will be held in memory.</li>
+<li>If you have subscribed to an external observable, be sure to use <code class="lang-stylus">.<span class="hljs-function"><span class="hljs-title">dispose</span><span class="hljs-params">()</span></span></code> on the subscription, otherwise the callback (and possibly also your viewmodel) will be held in memory.</li>
 </ul>
 </li>
-<li>Manually-created <strong>event handlers</strong> on external DOM elements, if created inside a <code>createViewModel</code> function (or even inside a regular component viewmodel, although to fit the MVVM pattern you shouldn&#39;t) must be removed.<ul>
-<li>Of course, you don&#39;t have to worry about releasing any event handlers created by standard Knockout bindings in your view, as KO automatically unregisters them when the elements are removed.</li>
+<li>Manually-created <strong>event handlers</strong> on external DOM elements, if created inside a <code>createViewModel</code> function (or even inside a regular component viewmodel, although to fit the MVVM pattern you shouldn't) must be removed.<ul>
+<li>Of course, you don't have to worry about releasing any event handlers created by standard Knockout bindings in your view, as KO automatically unregisters them when the elements are removed.</li>
 </ul>
 </li>
 </ul>
 <p>For example:</p>
-<pre><code class="lang-javascript">var someExternalObservable = ko.observable(123);
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> someExternalObservable = ko.observable(<span class="hljs-number">123</span>);
 
-function SomeComponentViewModel() {
-    this.myComputed = ko.computed(function() {
-        return someExternalObservable() + 1;
-    }, this);
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SomeComponentViewModel</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.myComputed = ko.computed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> someExternalObservable() + <span class="hljs-number">1</span>;
+    }, <span class="hljs-keyword">this</span>);
 
-    this.myPureComputed = ko.pureComputed(function() {
-        return someExternalObservable() + 2;
-    }, this);
+    <span class="hljs-keyword">this</span>.myPureComputed = ko.pureComputed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> someExternalObservable() + <span class="hljs-number">2</span>;
+    }, <span class="hljs-keyword">this</span>);
 
-    this.mySubscription = someExternalObservable.subscribe(function(val) {
-        console.log(&#39;The external observable changed to &#39; + val);
-    }, this);
+    <span class="hljs-keyword">this</span>.mySubscription = someExternalObservable.subscribe(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'The external observable changed to '</span> + val);
+    }, <span class="hljs-keyword">this</span>);
 
-    this.myIntervalHandle = window.setInterval(function() {
-        console.log(&#39;Another second passed, and the component is still alive.&#39;);
-    }, 1000);
+    <span class="hljs-keyword">this</span>.myIntervalHandle = <span class="hljs-built_in">window</span>.setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Another second passed, and the component is still alive.'</span>);
+    }, <span class="hljs-number">1000</span>);
 }
 
-SomeComponentViewModel.prototype.dispose = function() {
-    this.myComputed.dispose();
-    this.mySubscription.dispose();
-    window.clearInterval(this.myIntervalHandle);
-    // this.myPureComputed doesn&#39;t need to be manually disposed.
+SomeComponentViewModel.prototype.dispose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.myComputed.dispose();
+    <span class="hljs-keyword">this</span>.mySubscription.dispose();
+    <span class="hljs-built_in">window</span>.clearInterval(<span class="hljs-keyword">this</span>.myIntervalHandle);
+    <span class="hljs-comment">// this.myPureComputed doesn't need to be manually disposed.</span>
 }
 
-ko.components.register(&#39;your-component-name&#39;, {
+ko.components.register(<span class="hljs-string">'your-component-name'</span>, {
     viewModel: SomeComponentViewModel,
-    template: &#39;some template&#39;
+    template: <span class="hljs-string">'some template'</span>
 });
 </code></pre>
-<p>It isn&#39;t strictly necessary to dispose computeds and subscriptions that only depend on properties of the same viewmodel object, since this creates only a circular reference which JavaScript garbage collectors know how to release. However, to avoid having to remember which things need disposal, you may prefer to use <code>pureComputed</code> wherever possible, and explicitly dispose all other computeds/subscriptions whether technically necessary or not.</p>
+<p>It isn't strictly necessary to dispose computeds and subscriptions that only depend on properties of the same viewmodel object, since this creates only a circular reference which JavaScript garbage collectors know how to release. However, to avoid having to remember which things need disposal, you may prefer to use <code>pureComputed</code> wherever possible, and explicitly dispose all other computeds/subscriptions whether technically necessary or not.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

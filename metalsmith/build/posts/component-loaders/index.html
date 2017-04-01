@@ -1,25 +1,41 @@
-<p>Whenever you inject a <a href="component-overview.html">component</a> using the <a href="component-binding.html"><code>component</code> binding</a> or a <a href="component-custom-elements.html">custom element</a>, Knockout fetches that component&#39;s template and viewmodel using one or more <em>component loaders</em>. The job of a component loader is to asynchronously supply a template/viewmodel pair for any given component name.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Component loaders</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Component loaders</h1>
+
+  <p>Whenever you inject a <a href="component-overview.html">component</a> using the <a href="component-binding.html"><code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding</a> or a <a href="component-custom-elements.html">custom element</a>, Knockout fetches that component's template and viewmodel using one or more <em>component loaders</em>. The job of a component loader is to asynchronously supply a template/viewmodel pair for any given component name.</p>
 <ul>
 <li>[Table of contents injected here]
 {:toc}</li>
 </ul>
 <h1 id="the-default-component-loader-default-component-loader-">The default component loader {#default-component-loader}</h1>
-<p>The built-in default component loader, <code>ko.components.defaultLoader</code>, is based around a central &quot;registry&quot; of component definitions. It relies on you explicitly registering a configuration for each component before you can use that component.</p>
+<p>The built-in default component loader, <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span></code>, is based around a central "registry" of component definitions. It relies on you explicitly registering a configuration for each component before you can use that component.</p>
 <p><a href="component-registration.html">Learn more about configuring and registering components with the default loader</a></p>
 <h1 id="component-loader-utility-functions">Component loader utility functions</h1>
-<p>The following functions read and write the default component loader&#39;s registry:</p>
+<p>The following functions read and write the default component loader's registry:</p>
 <ul>
-<li><p><code>ko.components.register(name, configuration)</code></p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span>(name, configuration)</code></p>
 <ul>
 <li>Registers a component. See: <a href="component-registration.html">full documentation</a>.</li>
 </ul>
 </li>
-<li><p><code>ko.components.isRegistered(name)</code></p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.isRegistered</span>(name)</code></p>
 <ul>
-<li>Returns <code>true</code> if a component with the specified name is already registered; <code>false</code> otherwise.</li>
+<li>Returns <code class="lang-actionscript"><span class="hljs-literal">true</span></code> if a component with the specified name is already registered; <code class="lang-actionscript"><span class="hljs-literal">false</span></code> otherwise.</li>
 </ul>
 </li>
-<li><p><code>ko.components.unregister(name)</code></p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.unregister</span>(name)</code></p>
 <ul>
 <li>Removes the named component from the registry. Or if no such component was registered, does nothing.</li>
 </ul>
@@ -27,215 +43,223 @@
 </ul>
 <p>The following functions work across the complete list of registered component loaders (not only the default loader):</p>
 <ul>
-<li><p><code>ko.components.get(name, callback)</code></p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.get</span>(name, callback)</code></p>
 <ul>
-<li>Consults each registered loader in turn (by default, that&#39;s just the default loader), to find the first one that supplies a viewmodel/template definition for the named component, then invokes <code>callback</code> to return than viewmodel/template declaration. Invokes <code>callback(null)</code> if none of the registered loaders know about this component.</li>
+<li>Consults each registered loader in turn (by default, that's just the default loader), to find the first one that supplies a viewmodel/template definition for the named component, then invokes <code class="lang-haxe"><span class="hljs-keyword">callback</span></code> to return than viewmodel/template declaration. Invokes <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(null)</span></span></code> if none of the registered loaders know about this component.</li>
 </ul>
 </li>
-<li><p><code>ko.components.clearCachedDefinition(name)</code></p>
+<li><p><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.clearCachedDefinition</span>(name)</code></p>
 <ul>
 <li>Normally, Knockout consults the loaders <em>once per component name</em>, then caches the resulting definition. This ensures that large numbers of components may be instantiated very quickly. If you want to clear the cache entry for a given component, call this, and then the loaders will be consulted again the next time that component is needed.</li>
 </ul>
 </li>
 </ul>
-<p>Also, since <code>ko.components.defaultLoader</code> is a component loader, it implements the following standard component loader functions. You can invoke these directly, e.g., as part of your implementation of a custom loader:</p>
+<p>Also, since <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span></code> is a component loader, it implements the following standard component loader functions. You can invoke these directly, e.g., as part of your implementation of a custom loader:</p>
 <ul>
-<li><code>ko.components.defaultLoader.getConfig(name, callback)</code></li>
-<li><code>ko.components.defaultLoader.loadComponent(name, componentConfig, callback)</code></li>
-<li><code>ko.components.defaultLoader.loadTemplate(name, templateConfig, callback)</code></li>
-<li><code>ko.components.defaultLoader.loadViewModel(name, viewModelConfig, callback)</code></li>
+<li><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span><span class="hljs-class">.getConfig</span>(name, callback)</code></li>
+<li><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span><span class="hljs-class">.loadComponent</span>(name, componentConfig, callback)</code></li>
+<li><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span><span class="hljs-class">.loadTemplate</span>(name, templateConfig, callback)</code></li>
+<li><code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span><span class="hljs-class">.loadViewModel</span>(name, viewModelConfig, callback)</code></li>
 </ul>
 <p>For documentation on these standard component loader functions, see <a href="#custom-component-loader">implementing a custom component loader</a>.</p>
 <h1 id="implementing-a-custom-component-loader-custom-component-loader-">Implementing a custom component loader {#custom-component-loader}</h1>
-<p>You might want to implement a custom component loader if you want to use naming conventions, rather than explicit registration, to load components. Or, if you want to use a third-party &quot;loader&quot; library to fetch component viewmodels or templates from external locations.</p>
+<p>You might want to implement a custom component loader if you want to use naming conventions, rather than explicit registration, to load components. Or, if you want to use a third-party "loader" library to fetch component viewmodels or templates from external locations.</p>
 <h2 id="functions-you-can-implement">Functions you can implement</h2>
 <p>A custom component loader is simply an object whose properties are <strong>any combination</strong> of the following functions:</p>
-<h3 id="-getconfig-name-callback-"><code>getConfig(name, callback)</code></h3>
+<h3 id="-getconfig-name-callback-"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">getConfig</span><span class="hljs-params">(name, callback)</span></span></code></h3>
 <p><strong><em>Define this if:</em></strong> <em>you want to supply configurations programmatically based on names, e.g., to implement a naming convention.</em></p>
 <p>If declared, Knockout will call this function to obtain a configuration object for each component being instantiated.</p>
 <ul>
-<li>To supply a configuration, call <code>callback(componentConfig)</code>, where <code>componentConfig</code> is any object that can be understood by the <code>loadComponent</code> function on your loader or any other loader. The default loader simply supplies whatever object was registered using <code>ko.components.register</code>.</li>
-<li>For example, a <code>componentConfig</code> like <code>{ template: &#39;someElementId&#39;, viewModel: { require: &#39;myModule&#39; } }</code> can be understood and instantiated by the default loader.</li>
-<li>You are not limited to supplying configuration objects in any standard format. You can supply arbitrary objects as long as your <code>loadComponent</code> function understands them.</li>
-<li>If you do not want your loader to supply a configuration for the named component, then call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</li>
+<li>To supply a configuration, call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(componentConfig)</span></span></code>, where <code>componentConfig</code> is any object that can be understood by the <code class="lang-pf"><span class="hljs-built_in">load</span>Component</code> function on your loader or any other loader. The default loader simply supplies whatever object was registered using <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code>.</li>
+<li>For example, a <code>componentConfig</code> like <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">template</span>:<span class="hljs-value"> <span class="hljs-string">'someElementId'</span>, viewModel: { require: <span class="hljs-string">'myModule'</span> </span></span></span>} }</code> can be understood and instantiated by the default loader.</li>
+<li>You are not limited to supplying configuration objects in any standard format. You can supply arbitrary objects as long as your <code class="lang-pf"><span class="hljs-built_in">load</span>Component</code> function understands them.</li>
+<li>If you do not want your loader to supply a configuration for the named component, then call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(null)</span></span></code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> value.</li>
 </ul>
-<h3 id="-loadcomponent-name-componentconfig-callback-"><code>loadComponent(name, componentConfig, callback)</code></h3>
-<p><strong><em>Define this if:</em></strong> <em>you want to take control over how component configurations are interpreted, e.g., if you do not want to use the standard <code>viewModel</code>/<code>template</code> pair format.</em></p>
+<h3 id="-loadcomponent-name-componentconfig-callback-"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">loadComponent</span><span class="hljs-params">(name, componentConfig, callback)</span></span></code></h3>
+<p><strong><em>Define this if:</em></strong> <em>you want to take control over how component configurations are interpreted, e.g., if you do not want to use the standard <code>viewModel</code>/<code class="lang-cpp"><span class="hljs-keyword">template</span></code> pair format.</em></p>
 <p>If declared, Knockout will call this function to convert a <code>componentConfig</code> object into a viewmodel/template pair.</p>
 <ul>
-<li><p>To supply a viewmodel/template pair, call <code>callback(result)</code>, where <code>result</code> is an object with the following properties:</p>
+<li><p>To supply a viewmodel/template pair, call <code class="lang-nimrod">callback(<span class="hljs-literal">result</span>)</code>, where <code class="lang-nimrod"><span class="hljs-literal">result</span></code> is an object with the following properties:</p>
 <ul>
-<li><code>template</code> - <strong>Required.</strong> An array of DOM nodes</li>
-<li><code>createViewModel(params, componentInfo)</code> - <strong>Optional.</strong> A function that will later be called to supply a viewmodel object for each instance of this component</li>
+<li><code class="lang-cpp"><span class="hljs-keyword">template</span></code> - <strong>Required.</strong> An array of DOM nodes</li>
+<li><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">createViewModel</span><span class="hljs-params">(params, componentInfo)</span></span></code> - <strong>Optional.</strong> A function that will later be called to supply a viewmodel object for each instance of this component</li>
 </ul>
 </li>
-<li><p>If you do not want your loader to supply a viewmodel/template pair for the given parameters, then call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</p>
+<li><p>If you do not want your loader to supply a viewmodel/template pair for the given parameters, then call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(null)</span></span></code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> value.</p>
 </li>
 </ul>
-<h3 id="-loadtemplate-name-templateconfig-callback-"><code>loadTemplate(name, templateConfig, callback)</code></h3>
+<h3 id="-loadtemplate-name-templateconfig-callback-"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">loadTemplate</span><span class="hljs-params">(name, templateConfig, callback)</span></span></code></h3>
 <p><strong><em>Define this if:</em></strong> <em>you want to use custom logic to supply DOM nodes for a given template configuration (e.g., using an ajax request to fetch a template by URL).</em></p>
-<p>The default component loader will call this function on any registered loaders that declare it, to convert the <code>template</code> part of a component configuration into an array of DOM nodes. The nodes are then cached and cloned for each instance of the component.</p>
-<p>The <code>templateConfig</code> value is simply the <code>template</code> property from any <code>componentConfig</code> object. For example, it may contain <code>&quot;some markup&quot;</code> or <code>{ element: &quot;someId&quot; }</code> or a custom format such as <code>{ loadFromUrl: &quot;someUrl.html&quot; }</code>.</p>
+<p>The default component loader will call this function on any registered loaders that declare it, to convert the <code class="lang-cpp"><span class="hljs-keyword">template</span></code> part of a component configuration into an array of DOM nodes. The nodes are then cached and cloned for each instance of the component.</p>
+<p>The <code>templateConfig</code> value is simply the <code class="lang-cpp"><span class="hljs-keyword">template</span></code> property from any <code>componentConfig</code> object. For example, it may contain <code class="lang-1c"><span class="hljs-string">"some markup"</span></code> or <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">element</span>:<span class="hljs-value"> <span class="hljs-string">"someId"</span> </span></span></span>}</code> or a custom format such as <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">loadFromUrl</span>:<span class="hljs-value"> <span class="hljs-string">"someUrl.html"</span> </span></span></span>}</code>.</p>
 <ul>
-<li><p>To supply an array of DOM nodes, call <code>callback(domNodeArray)</code>.</p>
+<li><p>To supply an array of DOM nodes, call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(domNodeArray)</span></span></code>.</p>
 </li>
-<li><p>If you do not want your loader to supply a template for the given parameters (e.g., because it does not recognize the configuration format), call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</p>
+<li><p>If you do not want your loader to supply a template for the given parameters (e.g., because it does not recognize the configuration format), call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(null)</span></span></code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> value.</p>
 </li>
 </ul>
-<h3 id="-loadviewmodel-name-templateconfig-callback-"><code>loadViewModel(name, templateConfig, callback)</code></h3>
+<h3 id="-loadviewmodel-name-templateconfig-callback-"><code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">loadViewModel</span><span class="hljs-params">(name, templateConfig, callback)</span></span></code></h3>
 <p><strong><em>Define this if:</em></strong> <em>you want to use custom logic to supply a viewmodel factory for a given viewmodel configuration (e.g., integrating with a third-party module loader or dependency injection system).</em></p>
 <p>The default component loader will call this function on any registered loaders that declare it, to convert the <code>viewModel</code> part of a component configuration into a <code>createViewModel</code> factory function. The function is then cached and called for each new instance of the component that needs a viewmodel.</p>
-<p>The <code>viewModelConfig</code> value is simply the <code>viewModel</code> property from any <code>componentConfig</code> object. For example, it may be a constructor function, or a custom format such as <code>{ myViewModelType: &#39;Something&#39;, options: {} }</code>.</p>
+<p>The <code>viewModelConfig</code> value is simply the <code>viewModel</code> property from any <code>componentConfig</code> object. For example, it may be a constructor function, or a custom format such as <code class="lang-css"><span class="hljs-rules">{ <span class="hljs-rule"><span class="hljs-attribute">myViewModelType</span>:<span class="hljs-value"> <span class="hljs-string">'Something'</span>, options: {</span></span></span>} }</code>.</p>
 <ul>
-<li><p>To supply a <code>createViewModel</code> function, call <code>callback(yourCreateViewModelFunction)</code>. The <code>createViewModel</code> function must accept parameters <code>(params, componentInfo)</code> and must synchronously return a new viewmodel instance each time it is called.</p>
+<li><p>To supply a <code>createViewModel</code> function, call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(yourCreateViewModelFunction)</span></span></code>. The <code>createViewModel</code> function must accept parameters <code class="lang-clojure"><span class="hljs-list">(<span class="hljs-keyword">params</span>, componentInfo)</span></code> and must synchronously return a new viewmodel instance each time it is called.</p>
 </li>
-<li><p>If you do not want your loader to supply a <code>createViewModel</code> function for the given parameters (e.g., because it does not recognize the configuration format), call <code>callback(null)</code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code>null</code> value.</p>
+<li><p>If you do not want your loader to supply a <code>createViewModel</code> function for the given parameters (e.g., because it does not recognize the configuration format), call <code class="lang-stylus"><span class="hljs-function"><span class="hljs-title">callback</span><span class="hljs-params">(null)</span></span></code>. Knockout will then consult any other registered loaders in sequence, until one supplies a non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> value.</p>
 </li>
 </ul>
 <h2 id="registering-custom-component-loaders">Registering custom component loaders</h2>
 <p>Knockout allows you to use multiple component loaders simultaneously. This is useful so that, for example, you can plug in loaders that implement different mechanisms (e.g., one might fetch templates from a backend server according to a naming convention; another might set up viewmodels using a dependency injection system) and have them work together.</p>
-<p>So, <code>ko.components.loaders</code> is an array containing all the loaders currently enabled. By default, this array contains just one item: <code>ko.components.defaultLoader</code>. To add additional loaders, simply insert them into the <code>ko.components.loaders</code> array.</p>
+<p>So, <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.loaders</span></code> is an array containing all the loaders currently enabled. By default, this array contains just one item: <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span></code>. To add additional loaders, simply insert them into the <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.loaders</span></code> array.</p>
 <h2 id="controlling-precedence">Controlling precedence</h2>
 <p>If you want your custom loader to take precedence over the default loader (so it gets the first opportunity to supply configuration/values), then add it to the <em>beginning</em> of the array. If you want the default loader to take precedence (so your custom loader is only called for components not explicitly registered), then add it to the <em>end</em> of the array.</p>
 <p>Example:</p>
-<pre><code class="lang-javascript">  // Adds myLowPriorityLoader to the end of the loaders array.
-  // It runs after other loaders, only if none of them returned a value.
+<pre><code class="lang-javascript">  <span class="hljs-comment">// Adds myLowPriorityLoader to the end of the loaders array.</span>
+  <span class="hljs-comment">// It runs after other loaders, only if none of them returned a value.</span>
   ko.components.loaders.push(myLowPriorityLoader);
 
-  // Adds myHighPriorityLoader to the beginning of the loaders array.
-  // It runs before other loaders, getting the first chance to return values.
+  <span class="hljs-comment">// Adds myHighPriorityLoader to the beginning of the loaders array.</span>
+  <span class="hljs-comment">// It runs before other loaders, getting the first chance to return values.</span>
   ko.components.loaders.unshift(myHighPriorityLoader)
 </code></pre>
-<p>If required, you can remove <code>ko.components.defaultLoader</code> from the loaders array altogether.</p>
+<p>If required, you can remove <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.defaultLoader</span></code> from the loaders array altogether.</p>
 <h2 id="sequence-of-calls">Sequence of calls</h2>
 <p>The first time Knockout needs to construct a component with a given name, it:</p>
 <ul>
-<li>Calls each of the registered loaders&#39; <code>getConfig</code> functions in turn, until the first one supplies a non-null <code>componentConfig</code>.</li>
-<li>Then, with this <code>componentConfig</code> object, calls each of the registered loaders&#39; <code>loadComponent</code> functions in turn, until the first one supplies a non-null <code>template</code>/<code>createViewModel</code> pair.</li>
+<li>Calls each of the registered loaders' <code>getConfig</code> functions in turn, until the first one supplies a non-null <code>componentConfig</code>.</li>
+<li>Then, with this <code>componentConfig</code> object, calls each of the registered loaders' <code class="lang-pf"><span class="hljs-built_in">load</span>Component</code> functions in turn, until the first one supplies a non-null <code class="lang-cpp"><span class="hljs-keyword">template</span></code>/<code>createViewModel</code> pair.</li>
 </ul>
-<p>When the default loader&#39;s <code>loadComponent</code> runs, it simultaneously:</p>
+<p>When the default loader's <code class="lang-pf"><span class="hljs-built_in">load</span>Component</code> runs, it simultaneously:</p>
 <ul>
-<li><p>Calls each of the registered loaders&#39; <code>loadTemplate</code> functions in turn, until the first one supplies a non-null DOM array.</p>
+<li><p>Calls each of the registered loaders' <code class="lang-pf"><span class="hljs-built_in">load</span>Template</code> functions in turn, until the first one supplies a non-null DOM array.</p>
 <ul>
-<li>The default loader itself has a <code>loadTemplate</code> function that resolves a range of template configuration formats into DOM arrays.</li>
+<li>The default loader itself has a <code class="lang-pf"><span class="hljs-built_in">load</span>Template</code> function that resolves a range of template configuration formats into DOM arrays.</li>
 </ul>
 </li>
-<li><p>Calls each of the registered loaders&#39; <code>loadViewModel</code> functions in turn, until the first one supplies a non-null <code>createViewModel</code> function.</p>
+<li><p>Calls each of the registered loaders' <code class="lang-pf"><span class="hljs-built_in">load</span>ViewModel</code> functions in turn, until the first one supplies a non-null <code>createViewModel</code> function.</p>
 <ul>
-<li>The default loader itself has a <code>loadViewModel</code> function that resolves a range of viewmodel configuration formats into <code>createViewModel</code> functions.</li>
+<li>The default loader itself has a <code class="lang-pf"><span class="hljs-built_in">load</span>ViewModel</code> function that resolves a range of viewmodel configuration formats into <code>createViewModel</code> functions.</li>
 </ul>
 </li>
 </ul>
-<p>Custom loaders can plug into any part of this process, so you can take control over supplying configurations, interpreting configurations, supplying DOM nodes, or supplying viewmodel factory functions. By putting custom loaders into a chosen order inside <code>ko.components.loaders</code>, you can control the priority order of different loading strategies.</p>
+<p>Custom loaders can plug into any part of this process, so you can take control over supplying configurations, interpreting configurations, supplying DOM nodes, or supplying viewmodel factory functions. By putting custom loaders into a chosen order inside <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.loaders</span></code>, you can control the priority order of different loading strategies.</p>
 <h1 id="example-1-a-component-loader-that-sets-up-naming-conventions">Example 1: A component loader that sets up naming conventions</h1>
 <p>To implement a naming convention, your custom component loader only needs to implement <code>getConfig</code>. For example:</p>
-<pre><code class="lang-javascript">var namingConventionLoader = {
-    getConfig: function(name, callback) {
-        // 1. Viewmodels are classes corresponding to the component name.
-        //    e.g., my-component maps to MyApp.MyComponentViewModel
-        // 2. Templates are in elements whose ID is the component name
-        //    plus &#39;-template&#39;.
-        var viewModelConfig = MyApp[toPascalCase(name) + &#39;ViewModel&#39;],
-            templateConfig = { element: name + &#39;-template&#39; };
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> namingConventionLoader = {
+    getConfig: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name, callback</span>) </span>{
+        <span class="hljs-comment">// 1. Viewmodels are classes corresponding to the component name.</span>
+        <span class="hljs-comment">//    e.g., my-component maps to MyApp.MyComponentViewModel</span>
+        <span class="hljs-comment">// 2. Templates are in elements whose ID is the component name</span>
+        <span class="hljs-comment">//    plus '-template'.</span>
+        <span class="hljs-keyword">var</span> viewModelConfig = MyApp[toPascalCase(name) + <span class="hljs-string">'ViewModel'</span>],
+            templateConfig = { element: name + <span class="hljs-string">'-template'</span> };
 
         callback({ viewModel: viewModelConfig, template: templateConfig });
     }
 };
 
-function toPascalCase(dasherized) {
-    return dasherized.replace(/(^|-)([a-z])/g, function (g, m1, m2) { return m2.toUpperCase(); });
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toPascalCase</span>(<span class="hljs-params">dasherized</span>) </span>{
+    <span class="hljs-keyword">return</span> dasherized.replace(<span class="hljs-regexp">/(^|-)([a-z])/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">g, m1, m2</span>) </span>{ <span class="hljs-keyword">return</span> m2.toUpperCase(); });
 }
 
-// Register it. Make it take priority over the default loader.
+<span class="hljs-comment">// Register it. Make it take priority over the default loader.</span>
 ko.components.loaders.unshift(namingConventionLoader);
 </code></pre>
 <p>Now this is registered, you can reference components with any name (without preregistering them), e.g.:</p>
-<pre><code class="lang-html">&lt;div data-bind=&quot;component: &#39;my-component&#39;&quot;&gt;&lt;/div&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"component: 'my-component'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-&lt;!-- Declare template --&gt;
-&lt;template id=&#39;my-component-template&#39;&gt;Hello World!&lt;/template&gt;
+<span class="hljs-comment">&lt;!-- Declare template --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">template</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">'my-component-template'</span>&gt;</span>Hello World!<span class="hljs-tag">&lt;/<span class="hljs-title">template</span>&gt;</span>
 
-&lt;script&gt;
-    // Declare viewmodel
-    window.MyApp = window.MyApp || {};
-    MyApp.MyComponentViewModel = function(params) {
-        // ...
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-comment">// Declare viewmodel</span>
+    <span class="hljs-built_in">window</span>.MyApp = <span class="hljs-built_in">window</span>.MyApp || {};
+    MyApp.MyComponentViewModel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) </span>{
+        <span class="hljs-comment">// ...</span>
     }
-&lt;/script&gt;
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 </code></pre>
 <h1 id="example-2-a-component-loader-that-loads-external-files-using-custom-code">Example 2: A component loader that loads external files using custom code</h1>
-<p>If your custom loader implements <code>loadTemplate</code> and/or <code>loadViewModel</code>, then you can plug in custom code to the loading process. You can also use these functions to interpret custom configuration formats.</p>
+<p>If your custom loader implements <code class="lang-pf"><span class="hljs-built_in">load</span>Template</code> and/or <code class="lang-pf"><span class="hljs-built_in">load</span>ViewModel</code>, then you can plug in custom code to the loading process. You can also use these functions to interpret custom configuration formats.</p>
 <p>For example, you might want to enable configuration formats like the following:</p>
-<pre><code class="lang-javascript">ko.components.register(&#39;my-component&#39;, {
-    template: { fromUrl: &#39;file.html&#39;, maxCacheAge: 1234 },
-    viewModel: { viaLoader: &#39;/path/myvm.js&#39; }
+<pre><code class="lang-javascript">ko.components.register(<span class="hljs-string">'my-component'</span>, {
+    template: { fromUrl: <span class="hljs-string">'file.html'</span>, maxCacheAge: <span class="hljs-number">1234</span> },
+    viewModel: { viaLoader: <span class="hljs-string">'/path/myvm.js'</span> }
 });
 </code></pre>
 <p>... and you can do so using custom loaders.</p>
-<p>The following custom loader will take care of loading templates configured with a <code>fromUrl</code> value:</p>
-<pre><code class="lang-javascript">var templateFromUrlLoader = {
-    loadTemplate: function(name, templateConfig, callback) {
-        if (templateConfig.fromUrl) {
-            // Uses jQuery&#39;s ajax facility to load the markup from a file
-            var fullUrl = &#39;/templates/&#39; + templateConfig.fromUrl + &#39;?cacheAge=&#39; + templateConfig.maxCacheAge;
-            $.get(fullUrl, function(markupString) {
-                // We need an array of DOM nodes, not a string.
-                // We can use the default loader to convert to the
-                // required format.
+<p>The following custom loader will take care of loading templates configured with a <code class="lang-pf"><span class="hljs-keyword">from</span>Url</code> value:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> templateFromUrlLoader = {
+    loadTemplate: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name, templateConfig, callback</span>) </span>{
+        <span class="hljs-keyword">if</span> (templateConfig.fromUrl) {
+            <span class="hljs-comment">// Uses jQuery's ajax facility to load the markup from a file</span>
+            <span class="hljs-keyword">var</span> fullUrl = <span class="hljs-string">'/templates/'</span> + templateConfig.fromUrl + <span class="hljs-string">'?cacheAge='</span> + templateConfig.maxCacheAge;
+            $.get(fullUrl, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">markupString</span>) </span>{
+                <span class="hljs-comment">// We need an array of DOM nodes, not a string.</span>
+                <span class="hljs-comment">// We can use the default loader to convert to the</span>
+                <span class="hljs-comment">// required format.</span>
                 ko.components.defaultLoader.loadTemplate(name, markupString, callback);
             });
-        } else {
-            // Unrecognized config format. Let another loader handle it.
-            callback(null);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// Unrecognized config format. Let another loader handle it.</span>
+            callback(<span class="hljs-literal">null</span>);
         }
     }
 };
 
-// Register it
+<span class="hljs-comment">// Register it</span>
 ko.components.loaders.unshift(templateFromUrlLoader);
 </code></pre>
 <p>... and the following custom loader will take care of loading viewmodels configured with a <code>viaLoader</code> value:</p>
-<pre><code class="lang-javascript">var viewModelCustomLoader = {
-    loadViewModel: function(name, viewModelConfig, callback) {
-        if (viewModelConfig.viaLoader) {
-            // You could use arbitrary logic, e.g., a third-party
-            // code loader, to asynchronously supply the constructor.
-            // For this example, just use a hard-coded constructor function.
-            var viewModelConstructor = function(params) {
-                this.prop1 = 123;
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> viewModelCustomLoader = {
+    loadViewModel: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name, viewModelConfig, callback</span>) </span>{
+        <span class="hljs-keyword">if</span> (viewModelConfig.viaLoader) {
+            <span class="hljs-comment">// You could use arbitrary logic, e.g., a third-party</span>
+            <span class="hljs-comment">// code loader, to asynchronously supply the constructor.</span>
+            <span class="hljs-comment">// For this example, just use a hard-coded constructor function.</span>
+            <span class="hljs-keyword">var</span> viewModelConstructor = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">params</span>) </span>{
+                <span class="hljs-keyword">this</span>.prop1 = <span class="hljs-number">123</span>;
             };
 
-            // We need a createViewModel function, not a plain constructor.
-            // We can use the default loader to convert to the
-            // required format.
+            <span class="hljs-comment">// We need a createViewModel function, not a plain constructor.</span>
+            <span class="hljs-comment">// We can use the default loader to convert to the</span>
+            <span class="hljs-comment">// required format.</span>
             ko.components.defaultLoader.loadViewModel(name, viewModelConstructor, callback);
-        } else {
-            // Unrecognized config format. Let another loader handle it.
-            callback(null);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// Unrecognized config format. Let another loader handle it.</span>
+            callback(<span class="hljs-literal">null</span>);
         }
     }
 };
 
-// Register it
+<span class="hljs-comment">// Register it</span>
 ko.components.loaders.unshift(viewModelCustomLoader);
 </code></pre>
-<p>If you prefer, you could combine <code>templateFromUrlLoader</code> and <code>viewModelCustomLoader</code> into a single loader by putting the <code>loadTemplate</code> and <code>loadViewModel</code> functions on a single object. However it&#39;s quite nice to separate out these concerns, since their implementations are quite independent.</p>
+<p>If you prefer, you could combine <code>templateFromUrlLoader</code> and <code>viewModelCustomLoader</code> into a single loader by putting the <code class="lang-pf"><span class="hljs-built_in">load</span>Template</code> and <code class="lang-pf"><span class="hljs-built_in">load</span>ViewModel</code> functions on a single object. However it's quite nice to separate out these concerns, since their implementations are quite independent.</p>
 <h1 id="note-custom-component-loaders-and-custom-elements">Note: Custom component loaders and custom elements</h1>
-<p>If you are using a component loader to fetch components by a naming convention, and are <em>not</em> registering your components using <code>ko.components.register</code>, then those components will not automatically be usable as custom elements (because you haven&#39;t told Knockout that they even exist).</p>
-<p>See: <a href="component-custom-elements.html#registering-custom-elements">How to enable custom elements with names that don&#39;t correspond to explicitly registered components</a></p>
+<p>If you are using a component loader to fetch components by a naming convention, and are <em>not</em> registering your components using <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code>, then those components will not automatically be usable as custom elements (because you haven't told Knockout that they even exist).</p>
+<p>See: <a href="component-custom-elements.html#registering-custom-elements">How to enable custom elements with names that don't correspond to explicitly registered components</a></p>
 <h1 id="note-integrating-with-browserify">Note: Integrating with browserify</h1>
-<p><a href="http://browserify.org/">Browserify</a> is a popular library for referencing JavaScript libraries with a Node-style synchronous <code>require</code> syntax. It&#39;s often considered as an alternative to an AMD loader such as require.js. However Browserify solves a rather different problem: synchronous build-time reference resolution, rather than asynchronous runtime reference resolution as handled by AMD.</p>
-<p>Since Browserify is a build-time tool, it doesn&#39;t really need any special integration with KO components, and there&#39;s no need to implement any kind of custom component loader to work with it. You can simply use Browserify&#39;s <code>require</code> statements to grab instances of your component viewmodels, then explicitly register them, e.g.:</p>
-<pre><code class="lang-javascript">// Note that the following *only* works with Browserify - not with require.js,
-// since it relies on require() returning synchronously.
+<p><a href="http://browserify.org/">Browserify</a> is a popular library for referencing JavaScript libraries with a Node-style synchronous <code class="lang-coffeescript"><span class="hljs-built_in">require</span></code> syntax. It's often considered as an alternative to an AMD loader such as require.js. However Browserify solves a rather different problem: synchronous build-time reference resolution, rather than asynchronous runtime reference resolution as handled by AMD.</p>
+<p>Since Browserify is a build-time tool, it doesn't really need any special integration with KO components, and there's no need to implement any kind of custom component loader to work with it. You can simply use Browserify's <code class="lang-coffeescript"><span class="hljs-built_in">require</span></code> statements to grab instances of your component viewmodels, then explicitly register them, e.g.:</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Note that the following *only* works with Browserify - not with require.js,</span>
+<span class="hljs-comment">// since it relies on require() returning synchronously.</span>
 
-ko.components.register(&#39;my-browserify-component&#39;, {
-    viewModel: require(&#39;myViewModel&#39;),
-    template: require(&#39;fs&#39;).readFileSync(__dirname + &#39;/my-template.html&#39;, &#39;utf8&#39;)
+ko.components.register(<span class="hljs-string">'my-browserify-component'</span>, {
+    viewModel: <span class="hljs-built_in">require</span>(<span class="hljs-string">'myViewModel'</span>),
+    template: <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>).readFileSync(__dirname + <span class="hljs-string">'/my-template.html'</span>, <span class="hljs-string">'utf8'</span>)
 });
 </code></pre>
-<p>This uses the <a href="https://github.com/substack/brfs">brfs Browserify plugin</a> to automatically inline the <code>.html</code> file, so you would need to build the script file using a command similar to:</p>
+<p>This uses the <a href="https://github.com/substack/brfs">brfs Browserify plugin</a> to automatically inline the <code class="lang-asciidoc"><span class="hljs-title">.html</span></code> file, so you would need to build the script file using a command similar to:</p>
 <ul>
-<li><code>npm install brfs</code></li>
-<li><code>browserify -t brfs main.js &gt; bundle.js</code></li>
+<li><code class="lang-cmake">npm <span class="hljs-keyword">install</span> brfs</code></li>
+<li><code class="lang-armasm"><span class="hljs-keyword">browserify </span>-t <span class="hljs-keyword">brfs </span>main.js &gt; <span class="hljs-keyword">bundle.js</span></code></li>
 </ul>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: visible
 cat: 4
@@ -10,7 +11,7 @@ The `visible` binding causes the associated DOM element to become hidden or visi
 
 ### Example
 
-```example
+```javascript
 html: |-
   <div data-bind="visible: shouldShowMessage">
     You will see this message only when "shouldShowMessage" holds a true value.
@@ -46,7 +47,7 @@ You can also use a JavaScript function or arbitrary JavaScript expression as the
 
 For example,
 
-```example
+```javascript
 html: |-
   <div data-bind="visible: myValues().length > 0">
     You will see this message only when 'myValues' has at least one member.

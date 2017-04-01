@@ -1,51 +1,75 @@
-<p>Knockout&#39;s declarative binding system provides a concise and powerful way to link data to the UI. It&#39;s generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout&#39;s binding system.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The &quot;data-bind&quot; syntax</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>The &quot;data-bind&quot; syntax</h1>
+
+  <p>Knockout's declarative binding system provides a concise and powerful way to link data to the UI. It's generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout's binding system.</p>
 <h3 id="binding-syntax">Binding syntax</h3>
 <p>A binding consists of two items, the binding <em>name</em> and <em>value</em>, separated by a colon. Here is an example of a single, simple binding:</p>
-<pre><code class="lang-html">Today&#39;s message is: &lt;span data-bind=&quot;text: myMessage&quot;&gt;&lt;/span&gt;
+<pre><code class="lang-html">Today's message is: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: myMessage"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
 </code></pre>
 <p>An element can include multiple bindings (related or unrelated), with each binding separated by a comma. Here are some examples:</p>
-<pre><code class="lang-html">&lt;!-- related bindings: valueUpdate is a parameter for value --&gt;
-Your value: &lt;input data-bind=&quot;value: someValue, valueUpdate: &#39;afterkeydown&#39;&quot; /&gt;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- related bindings: valueUpdate is a parameter for value --&gt;</span>
+Your value: <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"value: someValue, valueUpdate: 'afterkeydown'"</span> /&gt;</span>
 
-&lt;!-- unrelated bindings --&gt;
-Cellphone: &lt;input data-bind=&quot;value: cellphoneNumber, enable: hasCellphone&quot; /&gt;
+<span class="hljs-comment">&lt;!-- unrelated bindings --&gt;</span>
+Cellphone: <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"value: cellphoneNumber, enable: hasCellphone"</span> /&gt;</span>
 </code></pre>
-<p>The binding <em>name</em> should generally match a registered binding handler (either built-in or <a href="custom-bindings.html">custom</a>) or be a parameter for another binding. If the name matches neither of those, Knockout will ignore it (without any error or warning). So if a binding doesn&#39;t appear to work, first check that the name is correct.</p>
+<p>The binding <em>name</em> should generally match a registered binding handler (either built-in or <a href="custom-bindings.html">custom</a>) or be a parameter for another binding. If the name matches neither of those, Knockout will ignore it (without any error or warning). So if a binding doesn't appear to work, first check that the name is correct.</p>
 <h4 id="binding-values">Binding values</h4>
 <p>The binding <em>value</em> can be a single <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Values,_variables,_and_literals">value, variable, or literal</a> or almost any valid <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Expressions_and_Operators">JavaScript expression</a>. Here are examples of various binding values:</p>
-<pre><code class="lang-html">&lt;!-- variable (usually a property of the current view model --&gt;
-&lt;div data-bind=&quot;visible: shouldShowMessage&quot;&gt;...&lt;/div&gt;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- variable (usually a property of the current view model --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"visible: shouldShowMessage"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-&lt;!-- comparison and conditional --&gt;
-The item is &lt;span data-bind=&quot;text: price() &gt; 50 ? &#39;expensive&#39; : &#39;cheap&#39;&quot;&gt;&lt;/span&gt;.
+<span class="hljs-comment">&lt;!-- comparison and conditional --&gt;</span>
+The item is <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: price() &gt; 50 ? 'expensive' : 'cheap'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>.
 
-&lt;!-- function call and comparison --&gt;
-&lt;button data-bind=&quot;enable: parseAreaCode(cellphoneNumber()) != &#39;555&#39;&quot;&gt;...&lt;/button&gt;
+<span class="hljs-comment">&lt;!-- function call and comparison --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"enable: parseAreaCode(cellphoneNumber()) != '555'"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 
-&lt;!-- function expression --&gt;
-&lt;div data-bind=&quot;click: function (data) { myFunction(&#39;param1&#39;, data) }&quot;&gt;...&lt;/div&gt;
+<span class="hljs-comment">&lt;!-- function expression --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"click: function (data) { myFunction('param1', data) }"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
-&lt;!-- object literal (with unquoted and quoted property names) --&gt;
-&lt;div data-bind=&quot;with: {emotion: &#39;happy&#39;, &#39;facial-expression&#39;: &#39;smile&#39;}&quot;&gt;...&lt;/div&gt;
+<span class="hljs-comment">&lt;!-- object literal (with unquoted and quoted property names) --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"with: {emotion: 'happy', 'facial-expression': 'smile'}"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>These examples show that the value can be just about any JavaScript expression. Even the comma is fine when it&#39;s enclosed in braces, brackets, or parentheses. When the value is an object literal, the object&#39;s property names must be valid JavaScript identifiers or be enclosed in quotes. If the binding value is an invalid expression or references an unknown variable, Knockout will output an error and stop processing bindings.</p>
+<p>These examples show that the value can be just about any JavaScript expression. Even the comma is fine when it's enclosed in braces, brackets, or parentheses. When the value is an object literal, the object's property names must be valid JavaScript identifiers or be enclosed in quotes. If the binding value is an invalid expression or references an unknown variable, Knockout will output an error and stop processing bindings.</p>
 <h4 id="whitespace">Whitespace</h4>
-<p>Bindings can include any amount of <em>whitespace</em> (spaces, tab, and newlines), so you&#39;re free to use it to arrange your bindings as you like. The following examples are all equivalent:</p>
-<pre><code class="lang-html">&lt;!-- no spaces --&gt;
-&lt;select data-bind=&quot;options:availableCountries,optionsText:&#39;countryName&#39;,value:selectedCountry,optionsCaption:&#39;Choose...&#39;&quot;&gt;&lt;/select&gt;
+<p>Bindings can include any amount of <em>whitespace</em> (spaces, tab, and newlines), so you're free to use it to arrange your bindings as you like. The following examples are all equivalent:</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- no spaces --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">select</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"options:availableCountries,optionsText:'countryName',value:selectedCountry,optionsCaption:'Choose...'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">select</span>&gt;</span>
 
-&lt;!-- some spaces --&gt;
-&lt;select data-bind=&quot;options : availableCountries, optionsText : &#39;countryName&#39;, value : selectedCountry, optionsCaption : &#39;Choose...&#39;&quot;&gt;&lt;/select&gt;
+<span class="hljs-comment">&lt;!-- some spaces --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">select</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"options : availableCountries, optionsText : 'countryName', value : selectedCountry, optionsCaption : 'Choose...'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">select</span>&gt;</span>
 
-&lt;!-- spaces and newlines --&gt;
-&lt;select data-bind=&quot;
+<span class="hljs-comment">&lt;!-- spaces and newlines --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">select</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"
     options: availableCountries,
-    optionsText: &#39;countryName&#39;,
+    optionsText: 'countryName',
     value: selectedCountry,
-    optionsCaption: &#39;Choose...&#39;&quot;&gt;&lt;/select&gt;
+    optionsCaption: 'Choose...'"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">select</span>&gt;</span>
 </code></pre>
 <h4 id="skipping-the-binding-value">Skipping the binding value</h4>
-<p>Starting with Knockout 3.0, you can specify bindings without a value, which will give the binding an <code>undefined</code> value. For example:</p>
-<pre><code class="lang-html">&lt;span data-bind=&quot;text&quot;&gt;Text that will be cleared when bindings are applied.&lt;/span&gt;
+<p>Starting with Knockout 3.0, you can specify bindings without a value, which will give the binding an <code class="lang-actionscript"><span class="hljs-literal">undefined</span></code> value. For example:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text"</span>&gt;</span>Text that will be cleared when bindings are applied.<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
 </code></pre>
 <p>This ability is especially useful when paired with <a href="#binding-preprocessing">binding preprocessing</a>, which can assign a default value for a binding.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

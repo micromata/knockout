@@ -1,14 +1,38 @@
-<h2>Books</h2>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Literature on Knockout</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Literature on Knockout</h1>
 
-<div class='pure-g book-list' data-bind='foreach: books'>
-  {{# template: &#39;book&#39; /}}
+  <h2>Books</h2>
+
+<div class="pure-g book-list" data-bind="foreach: books">
+  {{# template: 'book' /}}
 </div>
 
 
 
-<p><em style='text-align: center; display: block;'>
-  <a href='https://github.com/knockout/knockout/issues/new'>
+<p><em style="text-align: center; display: block;">
+  <a href="https://github.com/knockout/knockout/issues/new">
     Let us know
   </a>
   if you think we are missing something!
 </em></p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

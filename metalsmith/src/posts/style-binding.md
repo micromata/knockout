@@ -1,4 +1,60 @@
 ---
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
+layout: post.html
 kind: documentation
 title: style
 cat: 4
@@ -12,7 +68,7 @@ The `style` binding adds or removes one or more style values to the associated D
 
 ### Example
 
-```example
+```javascript
 name: Control Text & Appearance
 html: |-
   <div data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black' }">

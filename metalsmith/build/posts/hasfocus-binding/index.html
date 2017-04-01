@@ -1,22 +1,38 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>hasFocus</code> binding links a DOM element&#39;s focus state with a viewmodel property. It is a two-way binding, so:</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>hasFocus</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>hasFocus</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code>hasFocus</code> binding links a DOM element's focus state with a viewmodel property. It is a two-way binding, so:</p>
 <ul>
-<li>If you set the viewmodel property to <code>true</code> or <code>false</code>, the associated element will become focused or unfocused.</li>
-<li>If the user manually focuses or unfocuses the associated element, the viewmodel property will be set to <code>true</code> or <code>false</code> accordingly.</li>
+<li>If you set the viewmodel property to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> or <code class="lang-actionscript"><span class="hljs-literal">false</span></code>, the associated element will become focused or unfocused.</li>
+<li>If the user manually focuses or unfocuses the associated element, the viewmodel property will be set to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> or <code class="lang-actionscript"><span class="hljs-literal">false</span></code> accordingly.</li>
 </ul>
-<p>This is useful if you&#39;re building sophisticated forms in which editable elements appear dynamically, and you would like to control where the user should start typing, or respond to the location of the caret.</p>
+<p>This is useful if you're building sophisticated forms in which editable elements appear dynamically, and you would like to control where the user should start typing, or respond to the location of the caret.</p>
 <h3 id="example-1-the-basics">Example 1: The basics</h3>
 <p>This example simply displays a message if the textbox currently has focus, and uses a button to show that you can trigger focus programmatically.</p>
-<p><live-example params='id: "hasfocus-binding"'></live-example></p>
+<p><live-example params="id: &quot;hasfocus-binding&quot;"></live-example></p>
 <h3 id="example-2-click-to-edit">Example 2: Click-to-edit</h3>
-<p>Because the <code>hasFocus</code> binding works in both directions (setting the associated value focuses or unfocuses the element; focusing or unfocusing the element sets the associated value), it&#39;s a convenient way to toggle an &quot;edit&quot; mode. In this example, the UI displays either a <code>&lt;span&gt;</code> or an <code>&lt;input&gt;</code> element depending on the model&#39;s <code>editing</code> property. Unfocusing the <code>&lt;input&gt;</code> element sets <code>editing</code> to <code>false</code>, so the UI switches out of &quot;edit&quot; mode.</p>
-<p><live-example params='id: "hasfocus-edit"'></live-example></p>
+<p>Because the <code>hasFocus</code> binding works in both directions (setting the associated value focuses or unfocuses the element; focusing or unfocusing the element sets the associated value), it's a convenient way to toggle an "edit" mode. In this example, the UI displays either a <code class="lang-apache"><span class="hljs-tag">&lt;span&gt;</span></code> or an <code class="lang-apache"><span class="hljs-tag">&lt;input&gt;</span></code> element depending on the model's <code>editing</code> property. Unfocusing the <code class="lang-apache"><span class="hljs-tag">&lt;input&gt;</span></code> element sets <code>editing</code> to <code class="lang-actionscript"><span class="hljs-literal">false</span></code>, so the UI switches out of "edit" mode.</p>
+<p><live-example params="id: &quot;hasfocus-edit&quot;"></live-example></p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
-<p>Pass <code>true</code> (or some value that evaluates as true) to focus the associated element. Otherwise, the associated element will be unfocused.</p>
-<p>When the user manually focuses or unfocuses the element, your value will be set to <code>true</code> or <code>false</code> accordingly.</p>
-<p>If the value you supply is observable, the <code>hasFocus</code> binding will update the element&#39;s focus state whenever that observable value changes.</p>
+<p>Pass <code class="lang-actionscript"><span class="hljs-literal">true</span></code> (or some value that evaluates as true) to focus the associated element. Otherwise, the associated element will be unfocused.</p>
+<p>When the user manually focuses or unfocuses the element, your value will be set to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> or <code class="lang-actionscript"><span class="hljs-literal">false</span></code> accordingly.</p>
+<p>If the value you supply is observable, the <code>hasFocus</code> binding will update the element's focus state whenever that observable value changes.</p>
 </li>
 <li><p>Additional parameters</p>
 <ul>
@@ -24,3 +40,11 @@
 </ul>
 </li>
 </ul>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

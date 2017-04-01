@@ -1,5 +1,6 @@
 ---
 title: Literature on Knockout
+layout: post.html
 kind: Title
 ---
 

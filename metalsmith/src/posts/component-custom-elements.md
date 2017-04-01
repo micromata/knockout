@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Custom Component Elements
 cat: 3

@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: External links and tutorials
 cat: 5

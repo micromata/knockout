@@ -1,14 +1,30 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>enable</code> binding causes the associated DOM element to be enabled only when the parameter value is <code>true</code>. This is useful with form elements like <code>input</code>, <code>select</code>, and <code>textarea</code>.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>enable</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>enable</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code class="lang-bash"><span class="hljs-built_in">enable</span></code> binding causes the associated DOM element to be enabled only when the parameter value is <code class="lang-actionscript"><span class="hljs-literal">true</span></code>. This is useful with form elements like <code class="lang-stata"><span class="hljs-keyword">input</span></code>, <code class="lang-autoit"><span class="hljs-keyword">select</span></code>, and <code>textarea</code>.</p>
 <h3 id="example">Example</h3>
-<p><live-example params='id: "enable-binding"'></live-example></p>
-<p>In this example, the &quot;Your cellphone number&quot; text box will initially be disabled. It will be enabled only when the user checks the box labelled &quot;I have a cellphone&quot;.</p>
+<p><live-example params="id: &quot;enable-binding&quot;"></live-example></p>
+<p>In this example, the "Your cellphone number" text box will initially be disabled. It will be enabled only when the user checks the box labelled "I have a cellphone".</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
 <p>A value that controls whether or not the associated DOM element should be enabled.</p>
-<p>Non-boolean values are interpreted loosely as boolean. For example, <code>0</code> and <code>null</code> are treated as <code>false</code>, whereas <code>21</code> and non-<code>null</code> objects are treated as <code>true</code>.</p>
-<p>If your parameter references an observable value, the binding will update the enabled/disabled state whenever the observable value changes. If the parameter doesn&#39;t reference an observable value, it will only set the state once and will not do so again later.</p>
+<p>Non-boolean values are interpreted loosely as boolean. For example, <code class="lang-cpp"><span class="hljs-number">0</span></code> and <code class="lang-actionscript"><span class="hljs-literal">null</span></code> are treated as <code class="lang-actionscript"><span class="hljs-literal">false</span></code>, whereas <code class="lang-cpp"><span class="hljs-number">21</span></code> and non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> objects are treated as <code class="lang-actionscript"><span class="hljs-literal">true</span></code>.</p>
+<p>If your parameter references an observable value, the binding will update the enabled/disabled state whenever the observable value changes. If the parameter doesn't reference an observable value, it will only set the state once and will not do so again later.</p>
 </li>
 <li><p>Additional parameters</p>
 <ul>
@@ -17,10 +33,18 @@
 </li>
 </ul>
 <h3 id="note-using-arbitrary-javascript-expressions">Note: Using arbitrary JavaScript expressions</h3>
-<p>You&#39;re not limited to referencing variables - you can reference arbitrary expressions to control an element&#39;s enabledness. For example,</p>
-<pre><code class="lang-html">&lt;button data-bind=&quot;enable: parseAreaCode(viewModel.cellphoneNumber()) != &#39;555&#39;&quot;&gt;
+<p>You're not limited to referencing variables - you can reference arbitrary expressions to control an element's enabledness. For example,</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"enable: parseAreaCode(viewModel.cellphoneNumber()) != '555'"</span>&gt;</span>
     Do something
-&lt;/button&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 </code></pre>
 <h3 id="dependencies">Dependencies</h3>
 <p>None, other than the core Knockout library.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

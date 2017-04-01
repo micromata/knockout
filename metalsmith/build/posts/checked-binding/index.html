@@ -1,88 +1,112 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>checked</code> binding links a checkable form control &mdash; i.e., a checkbox (<code>&lt;input type=&#39;checkbox&#39;&gt;</code>) or a radio button (<code>&lt;input type=&#39;radio&#39;&gt;</code>) &mdash; with a property on your view model.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>checked</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>checked</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code class="lang-cs"><span class="hljs-keyword">checked</span></code> binding links a checkable form control — i.e., a checkbox (<code class="lang-rust">&lt;input <span class="hljs-keyword">type</span>=<span class="hljs-string">'checkbox</span>'&gt;</code>) or a radio button (<code class="lang-rust">&lt;input <span class="hljs-keyword">type</span>=<span class="hljs-string">'radio</span>'&gt;</code>) — with a property on your view model.</p>
 <p>When the user checks the associated form control, this updates the value on your view model. Likewise, when you update the value in your view model, this checks or unchecks the form control on screen.</p>
-<p>Note: For text boxes, drop-down lists, and all non-checkable form controls, use <a href="value-binding.html">the <code>value</code> binding</a> to read and write the element&#39;s value, not the <code>checked</code> binding.</p>
+<p>Note: For text boxes, drop-down lists, and all non-checkable form controls, use <a href="value-binding.html">the <code class="lang-ceylon"><span class="hljs-keyword">value</span></code> binding</a> to read and write the element's value, not the <code class="lang-cs"><span class="hljs-keyword">checked</span></code> binding.</p>
 <h3 id="example-with-checkbox">Example with checkbox</h3>
-<pre><code class="lang-html">&lt;p&gt;Send me spam: &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: wantsSpam&quot; /&gt;&lt;/p&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Send me spam: <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: wantsSpam"</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">  var viewModel = {
-    wantsSpam: ko.observable(true) // Initially checked
+<pre><code class="lang-javascript">  <span class="hljs-keyword">var</span> viewModel = {
+    wantsSpam: ko.observable(<span class="hljs-literal">true</span>) <span class="hljs-comment">// Initially checked</span>
   };
 
-  // ... then later ...
-  viewModel.wantsSpam(false); // The checkbox becomes unchecked
+  <span class="hljs-comment">// ... then later ...</span>
+  viewModel.wantsSpam(<span class="hljs-literal">false</span>); <span class="hljs-comment">// The checkbox becomes unchecked</span>
 </code></pre>
 <h3 id="example-adding-checkboxes-bound-to-an-array">Example adding checkboxes bound to an array</h3>
-<pre><code class="lang-html">&lt;p&gt;Send me spam: &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: wantsSpam&quot; /&gt;&lt;/p&gt;
-&lt;div data-bind=&quot;visible: wantsSpam&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Send me spam: <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: wantsSpam"</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"visible: wantsSpam"</span>&gt;</span>
     Preferred flavors of spam:
-    &lt;div&gt;&lt;input type=&quot;checkbox&quot; value=&quot;cherry&quot; data-bind=&quot;checked: spamFlavors&quot; /&gt; Cherry&lt;/div&gt;
-    &lt;div&gt;&lt;input type=&quot;checkbox&quot; value=&quot;almond&quot; data-bind=&quot;checked: spamFlavors&quot; /&gt; Almond&lt;/div&gt;
-    &lt;div&gt;&lt;input type=&quot;checkbox&quot; value=&quot;msg&quot; data-bind=&quot;checked: spamFlavors&quot; /&gt; Monosodium Glutamate&lt;/div&gt;
-&lt;/div&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"cherry"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: spamFlavors"</span> /&gt;</span> Cherry<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"almond"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: spamFlavors"</span> /&gt;</span> Almond<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"msg"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: spamFlavors"</span> /&gt;</span> Monosodium Glutamate<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">var viewModel = {
-  wantsSpam: ko.observable(true),
-  spamFlavors: ko.observableArray([&quot;cherry&quot;,&quot;almond&quot;]) // Initially checks the Cherry and Almond checkboxes
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> viewModel = {
+  wantsSpam: ko.observable(<span class="hljs-literal">true</span>),
+  spamFlavors: ko.observableArray([<span class="hljs-string">"cherry"</span>,<span class="hljs-string">"almond"</span>]) <span class="hljs-comment">// Initially checks the Cherry and Almond checkboxes</span>
 };
 
-// ... then later ...
-viewModel.spamFlavors.push(&quot;msg&quot;); // Now additionally checks the Monosodium Glutamate checkbox
+<span class="hljs-comment">// ... then later ...</span>
+viewModel.spamFlavors.push(<span class="hljs-string">"msg"</span>); <span class="hljs-comment">// Now additionally checks the Monosodium Glutamate checkbox</span>
 </code></pre>
 <h3 id="example-adding-radio-buttons">Example adding radio buttons</h3>
-<pre><code class="lang-html">&lt;p&gt;Send me spam: &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: wantsSpam&quot; /&gt;&lt;/p&gt;
-&lt;div data-bind=&quot;visible: wantsSpam&quot;&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Send me spam: <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: wantsSpam"</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"visible: wantsSpam"</span>&gt;</span>
     Preferred flavor of spam:
-    &lt;div&gt;&lt;input type=&quot;radio&quot; name=&quot;flavorGroup&quot; value=&quot;cherry&quot; data-bind=&quot;checked: spamFlavor&quot; /&gt; Cherry&lt;/div&gt;
-    &lt;div&gt;&lt;input type=&quot;radio&quot; name=&quot;flavorGroup&quot; value=&quot;almond&quot; data-bind=&quot;checked: spamFlavor&quot; /&gt; Almond&lt;/div&gt;
-    &lt;div&gt;&lt;input type=&quot;radio&quot; name=&quot;flavorGroup&quot; value=&quot;msg&quot; data-bind=&quot;checked: spamFlavor&quot; /&gt; Monosodium Glutamate&lt;/div&gt;
-&lt;/div&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"radio"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"flavorGroup"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"cherry"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: spamFlavor"</span> /&gt;</span> Cherry<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"radio"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"flavorGroup"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"almond"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: spamFlavor"</span> /&gt;</span> Almond<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"radio"</span> <span class="hljs-attribute">name</span>=<span class="hljs-value">"flavorGroup"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"msg"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checked: spamFlavor"</span> /&gt;</span> Monosodium Glutamate<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">  var viewModel = {
-    wantsSpam: ko.observable(true),
-    spamFlavor: ko.observable(&quot;almond&quot;) // Initially selects only the Almond radio button
+<pre><code class="lang-javascript">  <span class="hljs-keyword">var</span> viewModel = {
+    wantsSpam: ko.observable(<span class="hljs-literal">true</span>),
+    spamFlavor: ko.observable(<span class="hljs-string">"almond"</span>) <span class="hljs-comment">// Initially selects only the Almond radio button</span>
   };
 
-  // ... then later ...
-  viewModel.spamFlavor(&quot;msg&quot;); // Now only Monosodium Glutamate is checked
+  <span class="hljs-comment">// ... then later ...</span>
+  viewModel.spamFlavor(<span class="hljs-string">"msg"</span>); <span class="hljs-comment">// Now only Monosodium Glutamate is checked</span>
 </code></pre>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
-<p>KO sets the element&#39;s checked state to match your parameter value. Any previous checked state will be overwritten. The way your parameter is interpreted depends on what type of element you&#39;re binding to:</p>
+<p>KO sets the element's checked state to match your parameter value. Any previous checked state will be overwritten. The way your parameter is interpreted depends on what type of element you're binding to:</p>
 <ul>
-<li><p>For <strong>checkboxes</strong>, KO will set the element to be <em>checked</em> when the parameter value is <code>true</code>, and <em>unchecked</em> when it is <code>false</code>. If you give a value that isn&#39;t actually boolean, it will be interpreted loosely. This means that nonzero numbers and non-<code>null</code> objects and non-empty strings will all be interpreted as <code>true</code>, whereas zero, <code>null</code>, <code>undefined</code>, and empty strings will be interpreted as <code>false</code>.</p>
-<p>When the user checks or unchecks the checkbox, KO will set your model property to <code>true</code> or <code>false</code> accordingly.</p>
-<p>Special consideration is given if your parameter resolves to an <code>array</code>. In this case, KO will set the element to be <em>checked</em> if the value matches an item in the array, and <em>unchecked</em> if it is not contained in the array.</p>
+<li><p>For <strong>checkboxes</strong>, KO will set the element to be <em>checked</em> when the parameter value is <code class="lang-actionscript"><span class="hljs-literal">true</span></code>, and <em>unchecked</em> when it is <code class="lang-actionscript"><span class="hljs-literal">false</span></code>. If you give a value that isn't actually boolean, it will be interpreted loosely. This means that nonzero numbers and non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> objects and non-empty strings will all be interpreted as <code class="lang-actionscript"><span class="hljs-literal">true</span></code>, whereas zero, <code class="lang-actionscript"><span class="hljs-literal">null</span></code>, <code class="lang-actionscript"><span class="hljs-literal">undefined</span></code>, and empty strings will be interpreted as <code class="lang-actionscript"><span class="hljs-literal">false</span></code>.</p>
+<p>When the user checks or unchecks the checkbox, KO will set your model property to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> or <code class="lang-actionscript"><span class="hljs-literal">false</span></code> accordingly.</p>
+<p>Special consideration is given if your parameter resolves to an <code class="lang-cpp"><span class="hljs-built_in">array</span></code>. In this case, KO will set the element to be <em>checked</em> if the value matches an item in the array, and <em>unchecked</em> if it is not contained in the array.</p>
 <p>When the user checks or unchecks the checkbox, KO will add or remove the value from the array accordingly.</p>
 </li>
-<li><p>For <strong>radio buttons</strong>, KO will set the element to be <em>checked</em> if and only if the parameter value equals the radio button node&#39;s <code>value</code> attribute or the value specified by the <code>checkedValue</code> parameter. In the previous example, the radio button with <code>value=&quot;almond&quot;</code> was checked only when the view model&#39;s <code>spamFlavor</code> property was equal to <code>&quot;almond&quot;</code>.</p>
-<p>When the user changes which radio button is selected, KO will set your model property to equal the value of the selected radio button. In the preceding example, clicking on the radio button with <code>value=&quot;cherry&quot;</code> would set <code>viewModel.spamFlavor</code> to be <code>&quot;cherry&quot;</code>.</p>
-<p>Of course, this is most useful when you have multiple radio button elements bound to a single model property. To ensure that only <em>one</em> of those radio buttons can be checked at any one time, you should set all of their <code>name</code> attributes to an arbitrary common value (e.g., the value <code>flavorGroup</code> in the preceding example) - doing this puts them into a group where only one can be selected.</p>
+<li><p>For <strong>radio buttons</strong>, KO will set the element to be <em>checked</em> if and only if the parameter value equals the radio button node's <code class="lang-ceylon"><span class="hljs-keyword">value</span></code> attribute or the value specified by the <code>checkedValue</code> parameter. In the previous example, the radio button with <code class="lang-ceylon"><span class="hljs-keyword">value</span>=<span class="hljs-string">"almond"</span></code> was checked only when the view model's <code>spamFlavor</code> property was equal to <code class="lang-1c"><span class="hljs-string">"almond"</span></code>.</p>
+<p>When the user changes which radio button is selected, KO will set your model property to equal the value of the selected radio button. In the preceding example, clicking on the radio button with <code class="lang-ceylon"><span class="hljs-keyword">value</span>=<span class="hljs-string">"cherry"</span></code> would set <code class="lang-css"><span class="hljs-tag">viewModel</span><span class="hljs-class">.spamFlavor</span></code> to be <code class="lang-1c"><span class="hljs-string">"cherry"</span></code>.</p>
+<p>Of course, this is most useful when you have multiple radio button elements bound to a single model property. To ensure that only <em>one</em> of those radio buttons can be checked at any one time, you should set all of their <code class="lang-applescript"><span class="hljs-property">name</span></code> attributes to an arbitrary common value (e.g., the value <code>flavorGroup</code> in the preceding example) - doing this puts them into a group where only one can be selected.</p>
 </li>
 </ul>
-<p>If your parameter is an observable value, the binding will update the element&#39;s checked state whenever the value changes. If the parameter isn&#39;t observable, it will only set the element&#39;s checked state once and will not update it again later.</p>
+<p>If your parameter is an observable value, the binding will update the element's checked state whenever the value changes. If the parameter isn't observable, it will only set the element's checked state once and will not update it again later.</p>
 </li>
 <li><p>Additional parameters</p>
 <ul>
 <li><p><code>checkedValue</code></p>
-<p>If your binding also includes <code>checkedValue</code>, this defines the value used by the <code>checked</code> binding instead of the element&#39;s <code>value</code> attribute. This is useful if you want the value to be something other than a string (such as an integer or object), or you want the value set dynamically.</p>
+<p>If your binding also includes <code>checkedValue</code>, this defines the value used by the <code class="lang-cs"><span class="hljs-keyword">checked</span></code> binding instead of the element's <code class="lang-ceylon"><span class="hljs-keyword">value</span></code> attribute. This is useful if you want the value to be something other than a string (such as an integer or object), or you want the value set dynamically.</p>
 <p>In the following example, the item objects themselves (not their <code>itemName</code> strings) will be included in the <code>chosenItems</code> array when their corresponding checkboxes are checked:</p>
-<pre><code class="lang-html">&lt;!-- ko foreach: items --&gt;
-   &lt;input type=&quot;checkbox&quot; data-bind=&quot;checkedValue: $data, checked: $root.chosenItems&quot; /&gt;
-   &lt;span data-bind=&quot;text: itemName&quot;&gt;&lt;/span&gt;
-&lt;!-- /ko --&gt;
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- ko foreach: items --&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"checkbox"</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"checkedValue: $data, checked: $root.chosenItems"</span> /&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: itemName"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- /ko --&gt;</span>
 </code></pre>
-<pre><code class="lang-javascript">   var viewModel = {
+<pre><code class="lang-javascript">   <span class="hljs-keyword">var</span> viewModel = {
        items: ko.observableArray([
-           { itemName: &#39;Choice 1&#39; },
-           { itemName: &#39;Choice 2&#39; }
+           { itemName: <span class="hljs-string">'Choice 1'</span> },
+           { itemName: <span class="hljs-string">'Choice 2'</span> }
        ]),
        chosenItems: ko.observableArray()
    };
 </code></pre>
-<p>If your <code>checkedValue</code> parameter is an observable value, whenever the value changes and the element is currently checked, the binding will update the <code>checked</code> model property. For checkboxes, it will remove the old value from the array and add the new value. For radio buttons, it will just update the model value.</p>
+<p>If your <code>checkedValue</code> parameter is an observable value, whenever the value changes and the element is currently checked, the binding will update the <code class="lang-cs"><span class="hljs-keyword">checked</span></code> model property. For checkboxes, it will remove the old value from the array and add the new value. For radio buttons, it will just update the model value.</p>
 </li>
 </ul>
 </li>
 </ul>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

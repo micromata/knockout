@@ -1,5 +1,6 @@
 ---
 title: Introduction
+layout: post.html
 kind: Title
 ---
 
@@ -53,7 +54,7 @@ kind: Title
 
 <h2>Live example</h2>
 
-```example
+```javascript
 name: Introduction
 html: |-
   Choose a ticket class

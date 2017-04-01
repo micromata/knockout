@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: The "throttle" extender
 cat: 2

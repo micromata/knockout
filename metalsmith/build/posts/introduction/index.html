@@ -1,4 +1,20 @@
-<p>Knockout is a JavaScript library that helps you to create rich, responsive display and editor user interfaces with a clean underlying data model. Any time you have sections of UI that update dynamically (e.g., changing depending on the user&#39;s actions or when an external data source changes), KO can help you implement it more simply and maintainably.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Introduction</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Introduction</h1>
+
+  <p>Knockout is a JavaScript library that helps you to create rich, responsive display and editor user interfaces with a clean underlying data model. Any time you have sections of UI that update dynamically (e.g., changing depending on the user's actions or when an external data source changes), KO can help you implement it more simply and maintainably.</p>
 <p>Headline features:</p>
 <ul>
 <li><strong>Elegant dependency tracking</strong> - automatically updates the right parts of your UI whenever your data model changes.</li>
@@ -15,16 +31,24 @@
 </ul>
 <p>Developers familiar with Ruby on Rails, ASP.NET MVC, or other MV* technologies may see MVVM as a real-time form of MVC with declarative syntax. In another sense, you can think of KO as a general way to make UIs for editing JSON data... whatever works for you :)</p>
 <h2 id="ok-how-do-you-use-it-">OK, how do you use it?</h2>
-<p>The quickest and most fun way to get started is by working through the <a href="http://learn.knockoutjs.com">interactive tutorials</a>. Once you&#39;ve got to grips with the basics, explore the <a href="../examples/index.html">live examples</a> and then have a go with it in your own project.</p>
+<p>The quickest and most fun way to get started is by working through the <a href="http://learn.knockoutjs.com">interactive tutorials</a>. Once you've got to grips with the basics, explore the <a href="../examples/index.html">live examples</a> and then have a go with it in your own project.</p>
 <h2 id="is-ko-intended-to-compete-with-jquery-or-prototype-etc-or-work-with-it-">Is KO intended to compete with jQuery (or Prototype, etc.) or work with it?</h2>
-<p>Everyone loves jQuery! It&#39;s an outstanding replacement for the clunky, inconsistent DOM API we had to put up with in the past. jQuery is an excellent low-level way to manipulate elements and event handlers in a web page. KO solves a different problem.</p>
-<p>As soon as your UI gets nontrivial and has a few overlapping behaviors, things can get tricky and expensive to maintain if you only use jQuery. Consider an example: you&#39;re displaying a list of items, stating the number of items in that list, and want to enable an &#39;Add&#39; button only when there are fewer than 5 items. jQuery doesn&#39;t have a concept of an underlying data model, so to get the number of items you have to infer it from the number of TRs in a table or the number of DIVs with a certain CSS class. Maybe the number of items is displayed in some SPAN, and you have to remember to update that SPAN&#39;s text when the user adds an item. You also must remember to disable the &#39;Add&#39; button when the number of TRs is 5. Later, you&#39;re asked also to implement a &#39;Delete&#39; button and you have to figure out which DOM elements to change whenever it&#39;s clicked.</p>
+<p>Everyone loves jQuery! It's an outstanding replacement for the clunky, inconsistent DOM API we had to put up with in the past. jQuery is an excellent low-level way to manipulate elements and event handlers in a web page. KO solves a different problem.</p>
+<p>As soon as your UI gets nontrivial and has a few overlapping behaviors, things can get tricky and expensive to maintain if you only use jQuery. Consider an example: you're displaying a list of items, stating the number of items in that list, and want to enable an 'Add' button only when there are fewer than 5 items. jQuery doesn't have a concept of an underlying data model, so to get the number of items you have to infer it from the number of TRs in a table or the number of DIVs with a certain CSS class. Maybe the number of items is displayed in some SPAN, and you have to remember to update that SPAN's text when the user adds an item. You also must remember to disable the 'Add' button when the number of TRs is 5. Later, you're asked also to implement a 'Delete' button and you have to figure out which DOM elements to change whenever it's clicked.</p>
 <h3 id="how-is-knockout-different-">How is Knockout different?</h3>
-<p>It&#39;s much easier with KO. It lets you scale up in complexity without fear of introducing inconsistencies. Just represent your items as a JavaScript array, and then use a <code>foreach</code> binding to transform this array into a TABLE or set of DIVs. Whenever the array changes, the UI changes to match (you don&#39;t have to figure out how to inject new TRs or where to inject them). The rest of the UI stays in sync. For example, you can declaratively bind a SPAN to display the number of items as follows:</p>
-<pre><code class="lang-html">There are &lt;span data-bind=&quot;text: myItems().count&quot;&gt;&lt;/span&gt; items
+<p>It's much easier with KO. It lets you scale up in complexity without fear of introducing inconsistencies. Just represent your items as a JavaScript array, and then use a <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> binding to transform this array into a TABLE or set of DIVs. Whenever the array changes, the UI changes to match (you don't have to figure out how to inject new TRs or where to inject them). The rest of the UI stays in sync. For example, you can declaratively bind a SPAN to display the number of items as follows:</p>
+<pre><code class="lang-html">There are <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: myItems().count"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span> items
 </code></pre>
-<p>That&#39;s it! You don&#39;t have to write code to update it; it updates on its own when the <code>myItems</code> array changes. Similarly, to make the &#39;Add&#39; button enable or disable depending on the number of items, just write:</p>
-<pre><code class="lang-html">&lt;button data-bind=&quot;enable: myItems().count &lt; 5&quot;&gt;Add&lt;/button&gt;
+<p>That's it! You don't have to write code to update it; it updates on its own when the <code>myItems</code> array changes. Similarly, to make the 'Add' button enable or disable depending on the number of items, just write:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"enable: myItems().count &lt; 5"</span>&gt;</span>Add<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 </code></pre>
-<p>Later, when you&#39;re asked to implement the &#39;Delete&#39; functionality, you don&#39;t have to figure out what bits of the UI it has to interact with; you just make it alter the underlying data model.</p>
-<p>To summarise: KO doesn&#39;t compete with jQuery or similar low-level DOM APIs. KO provides a complementary, high-level way to link a data model to a UI. KO itself doesn&#39;t depend on jQuery, but you can certainly use jQuery at the same time, and indeed that&#39;s often useful if you want things like animated transitions.</p>
+<p>Later, when you're asked to implement the 'Delete' functionality, you don't have to figure out what bits of the UI it has to interact with; you just make it alter the underlying data model.</p>
+<p>To summarise: KO doesn't compete with jQuery or similar low-level DOM APIs. KO provides a complementary, high-level way to link a data model to a UI. KO itself doesn't depend on jQuery, but you can certainly use jQuery at the same time, and indeed that's often useful if you want things like animated transitions.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

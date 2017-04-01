@@ -1,33 +1,49 @@
-<h3 id="purpose">Purpose</h3>
-<p>The <code>if</code> binding causes a section of markup to appear in your document (and to have its <code>data-bind</code> attributes applied), only if a specified expression evaluates to <code>true</code> (or a <code>true</code>-ish value such as a non-<code>null</code> object or nonempty string).</p>
-<p><code>if</code> plays a similar role to <a href="visible-binding.html">the <code>visible</code> binding</a>. The difference is that, with <code>visible</code>, the contained markup always remains in the DOM and always has its <code>data-bind</code> attributes applied - the <code>visible</code> binding just uses CSS to toggle the container element&#39;s visiblity. The <code>if</code> binding, however, physically adds or removes the contained markup in your DOM, and only applies bindings to descendants if the expression is <code>true</code>.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>if</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>if</h1>
+
+  <h3 id="purpose">Purpose</h3>
+<p>The <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding causes a section of markup to appear in your document (and to have its <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes applied), only if a specified expression evaluates to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> (or a <code class="lang-actionscript"><span class="hljs-literal">true</span></code>-ish value such as a non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> object or nonempty string).</p>
+<p><code class="lang-actionscript"><span class="hljs-keyword">if</span></code> plays a similar role to <a href="visible-binding.html">the <code class="lang-scss"><span class="hljs-value">visible</span></code> binding</a>. The difference is that, with <code class="lang-scss"><span class="hljs-value">visible</span></code>, the contained markup always remains in the DOM and always has its <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes applied - the <code class="lang-scss"><span class="hljs-value">visible</span></code> binding just uses CSS to toggle the container element's visiblity. The <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding, however, physically adds or removes the contained markup in your DOM, and only applies bindings to descendants if the expression is <code class="lang-actionscript"><span class="hljs-literal">true</span></code>.</p>
 <h3 id="example-1">Example 1</h3>
-<p>This example shows that the <code>if</code> binding can dynamically add and remove sections of markup as observable values change.</p>
-<p><live-example params='id: "if-binding"'></live-example></p>
+<p>This example shows that the <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding can dynamically add and remove sections of markup as observable values change.</p>
+<p><live-example params="id: &quot;if-binding&quot;"></live-example></p>
 <h3 id="example-2">Example 2</h3>
-<p>In the following example, the <code>&lt;div&gt;</code> element will be empty for &quot;Mercury&quot;, but populated for &quot;Earth&quot;. That&#39;s because Earth has a non-null <code>capital</code> property, whereas &quot;Mercury&quot; has <code>null</code> for that property.</p>
-<pre><code class="lang-html">&lt;ul data-bind=&quot;foreach: planets&quot;&gt;
-    &lt;li&gt;
-        Planet: &lt;b data-bind=&quot;text: name&quot;&gt; &lt;/b&gt;
-        &lt;div data-bind=&quot;if: capital&quot;&gt;
-            Capital: &lt;b data-bind=&quot;text: capital.cityName&quot;&gt; &lt;/b&gt;
-        &lt;/div&gt;
-    &lt;/li&gt;
-&lt;/ul&gt;
+<p>In the following example, the <code class="lang-apache"><span class="hljs-tag">&lt;div&gt;</span></code> element will be empty for "Mercury", but populated for "Earth". That's because Earth has a non-null <code>capital</code> property, whereas "Mercury" has <code class="lang-actionscript"><span class="hljs-literal">null</span></code> for that property.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"foreach: planets"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+        Planet: <span class="hljs-tag">&lt;<span class="hljs-title">b</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"if: capital"</span>&gt;</span>
+            Capital: <span class="hljs-tag">&lt;<span class="hljs-title">b</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: capital.cityName"</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-title">b</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
 <pre><code class="lang-javascript">ko.applyBindings({
     planets: [
-        { name: &#39;Mercury&#39;, capital: null },
-        { name: &#39;Earth&#39;, capital: { cityName: &#39;Barnsley&#39; } }
+        { name: <span class="hljs-string">'Mercury'</span>, capital: <span class="hljs-literal">null</span> },
+        { name: <span class="hljs-string">'Earth'</span>, capital: { cityName: <span class="hljs-string">'Barnsley'</span> } }
     ]
 });
 </code></pre>
-<p>It&#39;s important to understand that the <code>if</code> binding really is vital to make this code work properly. Without it, there would be an error when trying to evaluate <code>capital.cityName</code> in the context of &quot;Mercury&quot; where <code>capital</code> is <code>null</code>. In JavaScript, you&#39;re not allowed to evaluate subproperties of <code>null</code> or <code>undefined</code> values.</p>
+<p>It's important to understand that the <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding really is vital to make this code work properly. Without it, there would be an error when trying to evaluate <code class="lang-css"><span class="hljs-tag">capital</span><span class="hljs-class">.cityName</span></code> in the context of "Mercury" where <code>capital</code> is <code class="lang-actionscript"><span class="hljs-literal">null</span></code>. In JavaScript, you're not allowed to evaluate subproperties of <code class="lang-actionscript"><span class="hljs-literal">null</span></code> or <code class="lang-actionscript"><span class="hljs-literal">undefined</span></code> values.</p>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><p>Main parameter</p>
-<p>The expression you wish to evaluate. If it evaluates to <code>true</code> (or a true-ish value), the contained markup will be present in the document, and any <code>data-bind</code> attributes on it will be applied. If your expression evaluates to <code>false</code>, the contained markup will be removed from your document without first applying any bindings to it.</p>
-<p>If your expression involves any observable values, the expression will be re-evaluated whenever any of them change. Correspondingly, the markup within your <code>if</code> block can be added or removed dynamically as the result of the expression changes. <code>data-bind</code> attributes will be applied to <strong>a new copy of the contained markup</strong> whenever it is re-added.</p>
+<p>The expression you wish to evaluate. If it evaluates to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> (or a true-ish value), the contained markup will be present in the document, and any <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes on it will be applied. If your expression evaluates to <code class="lang-actionscript"><span class="hljs-literal">false</span></code>, the contained markup will be removed from your document without first applying any bindings to it.</p>
+<p>If your expression involves any observable values, the expression will be re-evaluated whenever any of them change. Correspondingly, the markup within your <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> block can be added or removed dynamically as the result of the expression changes. <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes will be applied to <strong>a new copy of the contained markup</strong> whenever it is re-added.</p>
 </li>
 <li><p>Additional parameters</p>
 <ul>
@@ -35,20 +51,28 @@
 </ul>
 </li>
 </ul>
-<h3 id="note-using-if-without-a-container-element">Note: Using &quot;if&quot; without a container element</h3>
-<p>Sometimes you may want to control the presence/absence of a section of markup <em>without</em> having any container element that can hold an <code>if</code> binding. For example, you might want to control whether a certain <code>&lt;li&gt;</code> element appears alongside siblings that always appear:</p>
-<pre><code class="lang-html">&lt;ul&gt;
-  &lt;li&gt;This item always appears&lt;/li&gt;
-  &lt;li&gt;I want to make this item present/absent dynamically&lt;/li&gt;
-&lt;/ul&gt;
+<h3 id="note-using-if-without-a-container-element">Note: Using "if" without a container element</h3>
+<p>Sometimes you may want to control the presence/absence of a section of markup <em>without</em> having any container element that can hold an <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding. For example, you might want to control whether a certain <code class="lang-apache"><span class="hljs-tag">&lt;li&gt;</span></code> element appears alongside siblings that always appear:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>This item always appears<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>I want to make this item present/absent dynamically<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
-<p>In this case, you can&#39;t put <code>if</code> on the <code>&lt;ul&gt;</code> (because then it would affect the first <code>&lt;li&gt;</code> too), and you can&#39;t put any other container around the second <code>&lt;li&gt;</code> (because HTML doesn&#39;t allow extra containers within <code>&lt;ul&gt;</code>s).</p>
+<p>In this case, you can't put <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> on the <code class="lang-apache"><span class="hljs-tag">&lt;ul&gt;</span></code> (because then it would affect the first <code class="lang-apache"><span class="hljs-tag">&lt;li&gt;</span></code> too), and you can't put any other container around the second <code class="lang-apache"><span class="hljs-tag">&lt;li&gt;</span></code> (because HTML doesn't allow extra containers within <code class="lang-apache"><span class="hljs-tag">&lt;ul&gt;</span></code>s).</p>
 <p>To handle this, you can use the <em>containerless control flow syntax</em>, which is based on comment tags. For example,</p>
-<pre><code class="lang-html">&lt;ul&gt;
-    &lt;li&gt;This item always appears&lt;/li&gt;
-    &lt;!-- ko if: someExpressionGoesHere --&gt;
-        &lt;li&gt;I want to make this item present/absent dynamically&lt;/li&gt;
-    &lt;!-- /ko --&gt;
-&lt;/ul&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>This item always appears<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- ko if: someExpressionGoesHere --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>I want to make this item present/absent dynamically<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- /ko --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
-<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<p>The <code class="lang-xml"><span class="hljs-comment">&lt;!-- ko --&gt;</span></code> and <code class="lang-xml"><span class="hljs-comment">&lt;!-- /ko --&gt;</span></code> comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

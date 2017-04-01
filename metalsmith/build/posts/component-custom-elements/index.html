@@ -1,206 +1,230 @@
-<p>Custom elements provide a convenient way of injecting <a href="#component-overview">components</a> into your views.</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom Component Elements</title>
+  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
+	<link rel="stylesheet" href="/assets/css/code.css">
+</head>
+<body>
+  <header>
+    <p>
+      <a href="/">Home</a>
+    </p>
+  </header>
+  <h1>Custom Component Elements</h1>
+
+  <p>Custom elements provide a convenient way of injecting <a href="#component-overview">components</a> into your views.</p>
 <ul>
 <li>[Table of contents injected here]
 {:toc}</li>
 </ul>
 <h3 id="introduction">Introduction</h3>
-<p>Custom elements are a syntactical alternative to the <a href="component-binding.html"><code>component</code> binding</a> (and in fact, custom elements make use of a component binding behind the scenes).</p>
+<p>Custom elements are a syntactical alternative to the <a href="component-binding.html"><code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding</a> (and in fact, custom elements make use of a component binding behind the scenes).</p>
 <p>For example, instead of writing this:</p>
-<pre><code class="lang-html">&lt;div data-bind=&#39;component: { name: &quot;flight-deals&quot;, params: { from: &quot;lhr&quot;, to: &quot;sfo&quot; } }&#39;&gt;&lt;/div&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'component: { name: "flight-deals", params: { from: "lhr", to: "sfo" } }'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
 <p>... you can write:</p>
-<pre><code class="lang-html">&lt;flight-deals params=&#39;from: &quot;lhr&quot;, to: &quot;sfo&quot;&#39;&gt;&lt;/flight-deals&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">flight-deals</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">'from: "lhr", to: "sfo"'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">flight-deals</span>&gt;</span>
 </code></pre>
 <p>This allows for a very modern, <a href="http://www.w3.org/TR/components-intro/">WebComponents</a>-like way to organize your code, while retaining support for even very old browsers (see <a href="#note-custom-elements-and-internet-explorer-6-to-8">custom elements and IE 6 to 8</a>).</p>
 <h3 id="example">Example</h3>
 <p>This example declares a component, and then injects two instances of it into a view. See the source code below.</p>
-<pre><code class="lang-html">&lt;live-example params=&#39;id: &quot;component-custom-element&quot;&#39;&gt;&lt;/live-example&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">live-example</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">'id: "component-custom-element"'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">live-example</span>&gt;</span>
 </code></pre>
 <p>Note: In more realistic cases, you would typically load component viewmodels and templates from external files, instead of hardcoding them into the registration. See <a href="#component-overview.html#example-loading-the-likedislike-widget-from-external-files-on-demand">an example</a> and <a href="#component-registration">registration documentation</a>.</p>
 <h3 id="passing-parameters">Passing parameters</h3>
-<p>As you have seen in the examples above, you can use a <code>params</code> attribute to supply parameters to the component viewmodel. The contents of the <code>params</code> attribute are interpreted like a JavaScript object literal (just like a <code>data-bind</code> attribute), so you can pass arbitrary values of any type. Example:</p>
-<pre><code class="lang-html">&lt;unrealistic-component
-    params=&#39;stringValue: &quot;hello&quot;,
+<p>As you have seen in the examples above, you can use a <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> attribute to supply parameters to the component viewmodel. The contents of the <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> attribute are interpreted like a JavaScript object literal (just like a <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attribute), so you can pass arbitrary values of any type. Example:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">unrealistic-component</span>
+    <span class="hljs-attribute">params</span>=<span class="hljs-value">'stringValue: "hello",
             numericValue: 123,
             boolValue: true,
             objectValue: { a: 1, b: 2 },
             dateValue: new Date(),
             someModelProperty: myModelValue,
-            observableSubproperty: someObservable().subprop&#39;&gt;
-&lt;/unrealistic-component&gt;
+            observableSubproperty: someObservable().subprop'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">unrealistic-component</span>&gt;</span>
 </code></pre>
 <h4 id="communication-between-parent-and-child-components">Communication between parent and child components</h4>
-<p>If you refer to model properties in a <code>params</code> attribute, then you are of course referring to the properties on the viewmodel outside the component (the &#39;parent&#39; or &#39;host&#39; viewmodel), since the component itself is not instantiated yet. In the above example, <code>myModelValue</code> would be a property on the parent viewmodel, and would be received by the child component viewmodel&#39;s constructor as <code>params.someModelProperty</code>.</p>
+<p>If you refer to model properties in a <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> attribute, then you are of course referring to the properties on the viewmodel outside the component (the 'parent' or 'host' viewmodel), since the component itself is not instantiated yet. In the above example, <code>myModelValue</code> would be a property on the parent viewmodel, and would be received by the child component viewmodel's constructor as <code class="lang-crmsh"><span class="hljs-keyword">params</span>.someModelProperty</code>.</p>
 <p>This is how you can pass properties from a parent viewmodel to a child component. If the properties themselves are observable, then the parent viewmodel will be able to observe and react to any new values inserted into them by the child component.</p>
 <h4 id="passing-observable-expressions">Passing observable expressions</h4>
 <p>In the following example,</p>
-<pre><code class="lang-html">&lt;some-component
-    params=&#39;simpleExpression: 1 + 1,
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">some-component</span>
+    <span class="hljs-attribute">params</span>=<span class="hljs-value">'simpleExpression: 1 + 1,
             simpleObservable: myObservable,
-            observableExpression: myObservable() + 1&#39;&gt;
-&lt;/some-component&gt;
+            observableExpression: myObservable() + 1'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">some-component</span>&gt;</span>
 </code></pre>
-<p>... the component viewmodel&#39;s <code>params</code> parameter will contain three values:</p>
+<p>... the component viewmodel's <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> parameter will contain three values:</p>
 <ul>
 <li><p><code>simpleExpression</code></p>
 <ul>
-<li><p>This will be the numeric value <code>2</code>. It will not be an observable or computed value, since there are no observables involved.</p>
-<p>In general, if a parameter&#39;s evaluation does not involve evaluating an observable (in this case, the value did not involve observables at all), then the value is passed literally. If the value was an object, then the child component could mutate it, but since it&#39;s not observable the parent would not know the child had done so.</p>
+<li><p>This will be the numeric value <code class="lang-cpp"><span class="hljs-number">2</span></code>. It will not be an observable or computed value, since there are no observables involved.</p>
+<p>In general, if a parameter's evaluation does not involve evaluating an observable (in this case, the value did not involve observables at all), then the value is passed literally. If the value was an object, then the child component could mutate it, but since it's not observable the parent would not know the child had done so.</p>
 </li>
 </ul>
 </li>
 <li><p><code>simpleObservable</code></p>
 <ul>
-<li><p>This will be the <a href="observables.html"><code>ko.observable</code></a> instance declared on the parent viewmodel as <code>myObservable</code>. It is not a wrapper --- it&#39;s the actual same instance as referenced by the parent. So if the child viewmodel writes to this observable, the parent viewmodel will receive that change.</p>
-<p>In general, if a parameter&#39;s evaluation does not involve evaluating an observable (in this case, the observable was simply passed without evaluating it), then the value is passed literally.</p>
+<li><p>This will be the <a href="observables.html"><code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.observable</span></code></a> instance declared on the parent viewmodel as <code>myObservable</code>. It is not a wrapper --- it's the actual same instance as referenced by the parent. So if the child viewmodel writes to this observable, the parent viewmodel will receive that change.</p>
+<p>In general, if a parameter's evaluation does not involve evaluating an observable (in this case, the observable was simply passed without evaluating it), then the value is passed literally.</p>
 </li>
 </ul>
 </li>
 <li><p><code>observableExpression</code></p>
 <ul>
-<li><p>This one is trickier. The expression itself, when evaluated, reads an observable. That observable&#39;s value could change over time, so the expression result could change over time.</p>
-<p>To ensure that the child component can react to changes in the expression value, Knockout <strong>automatically upgrades this parameter to a computed property</strong>. So, the child component will be able to read <code>params.observableExpression()</code> to get the current value, or use <code>params.observableExpression.subscribe(...)</code>, etc.</p>
-<p>In general, with custom elements, if a parameter&#39;s evaluation involves evaluating an observable, then Knockout automatically constructs a <code>ko.computed</code> value to give the expression&#39;s result, and supplies that to the component.</p>
+<li><p>This one is trickier. The expression itself, when evaluated, reads an observable. That observable's value could change over time, so the expression result could change over time.</p>
+<p>To ensure that the child component can react to changes in the expression value, Knockout <strong>automatically upgrades this parameter to a computed property</strong>. So, the child component will be able to read <code class="lang-stylus">params.<span class="hljs-function"><span class="hljs-title">observableExpression</span><span class="hljs-params">()</span></span></code> to get the current value, or use <code class="lang-stylus">params<span class="hljs-class">.observableExpression</span><span class="hljs-class">.subscribe</span>(...)</code>, etc.</p>
+<p>In general, with custom elements, if a parameter's evaluation involves evaluating an observable, then Knockout automatically constructs a <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.computed</span></code> value to give the expression's result, and supplies that to the component.</p>
 </li>
 </ul>
 </li>
 </ul>
 <p>In summary, the general rule is:</p>
 <ol>
-<li>If a parameter&#39;s evaluation <strong>does not</strong> involve evaluating an observable/computed, it is passed literally.</li>
-<li>If a parameter&#39;s evaluation <strong>does</strong> involve evaluating one or more observables/computeds, it is passed as a computed property so that you can react to changes in the parameter value.</li>
+<li>If a parameter's evaluation <strong>does not</strong> involve evaluating an observable/computed, it is passed literally.</li>
+<li>If a parameter's evaluation <strong>does</strong> involve evaluating one or more observables/computeds, it is passed as a computed property so that you can react to changes in the parameter value.</li>
 </ol>
 <h3 id="passing-markup-into-components">Passing markup into components</h3>
-<p>Sometimes you may want to create a component that receives markup and uses it as part of its output. For example, you may want to build a &quot;container&quot; UI element such as a grid, list, dialog, or tab set that can receive and bind arbitrary markup inside itself.</p>
+<p>Sometimes you may want to create a component that receives markup and uses it as part of its output. For example, you may want to build a "container" UI element such as a grid, list, dialog, or tab set that can receive and bind arbitrary markup inside itself.</p>
 <p>Consider a special list component that can be invoked as follows:</p>
-<pre><code class="lang-html">&lt;my-special-list params=&quot;items: someArrayOfPeople&quot;&gt;
-    &lt;!-- Look, I&#39;m putting markup inside a custom element --&gt;
-    The person &lt;em data-bind=&quot;text: name&quot;&gt;&lt;/em&gt;
-    is &lt;em data-bind=&quot;text: age&quot;&gt;&lt;/em&gt; years old.
-&lt;/my-special-list&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">my-special-list</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">"items: someArrayOfPeople"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Look, I'm putting markup inside a custom element --&gt;</span>
+    The person <span class="hljs-tag">&lt;<span class="hljs-title">em</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">em</span>&gt;</span>
+    is <span class="hljs-tag">&lt;<span class="hljs-title">em</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: age"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">em</span>&gt;</span> years old.
+<span class="hljs-tag">&lt;/<span class="hljs-title">my-special-list</span>&gt;</span>
 </code></pre>
-<p>By default, the DOM nodes inside <code>&lt;my-special-list&gt;</code> will be stripped out (without being bound to any viewmodel) and replaced by the component&#39;s output. However, those DOM nodes aren&#39;t lost: they are remembered, and are supplied to the component in two ways:</p>
+<p>By default, the DOM nodes inside <code class="lang-applescript">&lt;<span class="hljs-keyword">my</span>-special-<span class="hljs-type">list</span>&gt;</code> will be stripped out (without being bound to any viewmodel) and replaced by the component's output. However, those DOM nodes aren't lost: they are remembered, and are supplied to the component in two ways:</p>
 <ul>
-<li>As an array, <code>$componentTemplateNodes</code>, available to any binding expression in the component&#39;s template (i.e., as a <a href="binding-context.html">binding context</a> property). Usually this is the most convenient way to use the supplied markup. See the example below.</li>
-<li>As an array, <code>componentInfo.templateNodes</code>, passed to its <a href="component-registration.html#a-createviewmodel-factory-function"><code>createViewModel</code> function</a></li>
+<li>As an array, <code class="lang-xquery"><span class="hljs-variable">$componentTemplateNodes</span></code>, available to any binding expression in the component's template (i.e., as a <a href="binding-context.html">binding context</a> property). Usually this is the most convenient way to use the supplied markup. See the example below.</li>
+<li>As an array, <code class="lang-css"><span class="hljs-tag">componentInfo</span><span class="hljs-class">.templateNodes</span></code>, passed to its <a href="component-registration.html#a-createviewmodel-factory-function"><code>createViewModel</code> function</a></li>
 </ul>
-<p>The component can then choose to use the supplied DOM nodes as part of its output however it wishes, such as by using <code>template: { nodes: $componentTemplateNodes }</code> on any element in the component&#39;s template.</p>
-<p>For example, the <code>my-special-list</code> component&#39;s template can reference <code>$componentTemplateNodes</code> so that its output includes the supplied markup. Here&#39;s the complete working example:</p>
-<p><live-example params='id: "component-markdown-example"'></live-example></p>
-<p>This &quot;special list&quot; example does nothing more than insert a heading above each list item. But the same technique can be used to create sophisticated grids, dialogs, tab sets, and so on, since all that is needed for such UI elements is common UI markup (e.g., to define the grid or dialog&#39;s heading and borders) wrapped around arbitrary supplied markup.</p>
-<p>This technique is also possible when using components <em>without</em> custom elements, i.e., <a href="component-binding.html#note-passing-markup-to-components">passing markup when using the <code>component</code> binding directly</a>.</p>
+<p>The component can then choose to use the supplied DOM nodes as part of its output however it wishes, such as by using <code class="lang-xquery">template: { nodes: <span class="hljs-variable">$componentTemplateNodes</span> }</code> on any element in the component's template.</p>
+<p>For example, the <code class="lang-applescript"><span class="hljs-keyword">my</span>-special-<span class="hljs-type">list</span></code> component's template can reference <code class="lang-xquery"><span class="hljs-variable">$componentTemplateNodes</span></code> so that its output includes the supplied markup. Here's the complete working example:</p>
+<p><live-example params="id: &quot;component-markdown-example&quot;"></live-example></p>
+<p>This "special list" example does nothing more than insert a heading above each list item. But the same technique can be used to create sophisticated grids, dialogs, tab sets, and so on, since all that is needed for such UI elements is common UI markup (e.g., to define the grid or dialog's heading and borders) wrapped around arbitrary supplied markup.</p>
+<p>This technique is also possible when using components <em>without</em> custom elements, i.e., <a href="component-binding.html#note-passing-markup-to-components">passing markup when using the <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding directly</a>.</p>
 <h3 id="controlling-custom-element-tag-names">Controlling custom element tag names</h3>
-<p>By default, Knockout assumes that your custom element tag names correspond exactly to the names of components registered using <code>ko.components.register</code>. This convention-over-configuration strategy is ideal for most applications.</p>
+<p>By default, Knockout assumes that your custom element tag names correspond exactly to the names of components registered using <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code>. This convention-over-configuration strategy is ideal for most applications.</p>
 <p>If you want to have different custom element tag names, you can override <code>getComponentNameForNode</code> to control this. For example,</p>
-<pre><code class="lang-javascript">ko.components.getComponentNameForNode = function(node) {
-    var tagNameLower = node.tagName &amp;&amp; node.tagName.toLowerCase();
+<pre><code class="lang-javascript">ko.components.getComponentNameForNode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node</span>) </span>{
+    <span class="hljs-keyword">var</span> tagNameLower = node.tagName &amp;&amp; node.tagName.toLowerCase();
 
-    if (ko.components.isRegistered(tagNameLower)) {
-        // If the element&#39;s name exactly matches a preregistered
-        // component, use that component
-        return tagNameLower;
-    } else if (tagNameLower === &quot;special-element&quot;) {
-        // For the element &lt;special-element&gt;, use the component
-        // &quot;MySpecialComponent&quot; (whether or not it was preregistered)
-        return &quot;MySpecialComponent&quot;;
-    } else {
-        // Treat anything else as not representing a component
-        return null;
+    <span class="hljs-keyword">if</span> (ko.components.isRegistered(tagNameLower)) {
+        <span class="hljs-comment">// If the element's name exactly matches a preregistered</span>
+        <span class="hljs-comment">// component, use that component</span>
+        <span class="hljs-keyword">return</span> tagNameLower;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (tagNameLower === <span class="hljs-string">"special-element"</span>) {
+        <span class="hljs-comment">// For the element &lt;special-element&gt;, use the component</span>
+        <span class="hljs-comment">// "MySpecialComponent" (whether or not it was preregistered)</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"MySpecialComponent"</span>;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// Treat anything else as not representing a component</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
     }
 }
 </code></pre>
 <p>You can use this technique if, for example, you want to control which subset of registered components may be used as custom elements.</p>
 <h3 id="registering-custom-elements-registering-custom-elements-">Registering custom elements {#registering-custom-elements}</h3>
-<p>If you are using the default component loader, and hence are registering your components using <code>ko.components.register</code>, then there is nothing extra you need to do. Components registered this way are immediately available for use as custom elements.</p>
-<p>If you have implemented a <a href="component-loaders.html">custom component loader</a>, and are not using <code>ko.components.register</code>, then you need to tell Knockout about any element names you wish to use as custom elements. To do this, simply call <code>ko.components.register</code> - you don&#39;t need to specify any configuration, since your custom component loader won&#39;t be using the configuration anyway. For example,</p>
-<pre><code class="lang-javascript">ko.components.register(&#39;my-custom-element&#39;, { /* No config needed */ });
+<p>If you are using the default component loader, and hence are registering your components using <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code>, then there is nothing extra you need to do. Components registered this way are immediately available for use as custom elements.</p>
+<p>If you have implemented a <a href="component-loaders.html">custom component loader</a>, and are not using <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code>, then you need to tell Knockout about any element names you wish to use as custom elements. To do this, simply call <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span></code> - you don't need to specify any configuration, since your custom component loader won't be using the configuration anyway. For example,</p>
+<pre><code class="lang-javascript">ko.components.register(<span class="hljs-string">'my-custom-element'</span>, { <span class="hljs-comment">/* No config needed */</span> });
 </code></pre>
 <p>Alternatively, you can <a href="#controlling-custom-element-tag-names">override <code>getComponentNameForNode</code></a> to control dynamically which elements map to which component names, independently of preregistration.</p>
 <h3 id="note-combining-custom-elements-with-regular-bindings">Note: Combining custom elements with regular bindings</h3>
-<p>A custom element can have a regular <code>data-bind</code> attribute (in addition to any <code>params</code> attribute) if needed. For example,</p>
-<pre><code class="lang-html">&lt;products-list params=&#39;category: chosenCategory&#39;
-               data-bind=&#39;visible: shouldShowProducts&#39;&gt;
-&lt;/products-list&gt;
+<p>A custom element can have a regular <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attribute (in addition to any <code class="lang-crmsh"><span class="hljs-keyword">params</span></code> attribute) if needed. For example,</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">products-list</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">'category: chosenCategory'</span>
+               <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'visible: shouldShowProducts'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">products-list</span>&gt;</span>
 </code></pre>
-<p>However, it does not make sense to use bindings that would modify the element&#39;s contents, such as the <a href="text-binding.html"><code>text</code></a> or <a href="template-binding.html"><code>template</code></a> bindings, since they would overwrite the template injected by your component.</p>
-<p>Knockout will prevent the use of any bindings that use <a href="custom-bindings-controlling-descendant-bindings.html"><code>controlsDescendantBindings</code></a>, because this also would clash with the component when trying to bind its viewmodel to the injected template. Therefore if you want to use a control flow binding such as <code>if</code> or <code>foreach</code>, then you must wrap it around your custom element rather than using it directly on the custom element, e.g.,:</p>
-<pre><code class="lang-html">&lt;!-- ko if: someCondition --&gt;
-    &lt;products-list&gt;&lt;/products-list&gt;
-&lt;!-- /ko --&gt;
+<p>However, it does not make sense to use bindings that would modify the element's contents, such as the <a href="text-binding.html"><code class="lang-applescript"><span class="hljs-type">text</span></code></a> or <a href="template-binding.html"><code class="lang-cpp"><span class="hljs-keyword">template</span></code></a> bindings, since they would overwrite the template injected by your component.</p>
+<p>Knockout will prevent the use of any bindings that use <a href="custom-bindings-controlling-descendant-bindings.html"><code>controlsDescendantBindings</code></a>, because this also would clash with the component when trying to bind its viewmodel to the injected template. Therefore if you want to use a control flow binding such as <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> or <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code>, then you must wrap it around your custom element rather than using it directly on the custom element, e.g.,:</p>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- ko if: someCondition --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">products-list</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">products-list</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- /ko --&gt;</span>
 </code></pre>
 <p>or:</p>
-<pre><code class="lang-html">&lt;ul data-bind=&#39;foreach: allProducts&#39;&gt;
-    &lt;product-details params=&#39;product: $data&#39;&gt;&lt;/product-details&gt;
-&lt;/ul&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'foreach: allProducts'</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">product-details</span> <span class="hljs-attribute">params</span>=<span class="hljs-value">'product: $data'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">product-details</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
 <h3 id="note-custom-elements-cannot-be-self-closing">Note: Custom elements cannot be self-closing</h3>
-<p>You must write <code>&lt;my-custom-element&gt;&lt;/my-custom-element&gt;</code>, and <strong>not</strong> <code>&lt;my-custom-element /&gt;</code>. Otherwise, your custom element is not closed and subsequent elements will be parsed as child elements.</p>
-<p>This is a limitation of the HTML specification and is outside the scope of what Knockout can control. HTML parsers, following the HTML specification, <a href="http://dev.w3.org/html5/spec-author-view/syntax.html#syntax-start-tag">ignore any self-closing slashes</a> (except on a small number of special &quot;foreign elements&quot;, which are hardcoded into the parser). HTML is not the same as XML.</p>
+<p>You must write <code class="lang-apache"><span class="hljs-tag">&lt;my-custom-element&gt;</span><span class="hljs-tag">&lt;/my-custom-element&gt;</span></code>, and <strong>not</strong> <code class="lang-apache"><span class="hljs-tag">&lt;my-custom-element /&gt;</span></code>. Otherwise, your custom element is not closed and subsequent elements will be parsed as child elements.</p>
+<p>This is a limitation of the HTML specification and is outside the scope of what Knockout can control. HTML parsers, following the HTML specification, <a href="http://dev.w3.org/html5/spec-author-view/syntax.html#syntax-start-tag">ignore any self-closing slashes</a> (except on a small number of special "foreign elements", which are hardcoded into the parser). HTML is not the same as XML.</p>
 <h3 id="note-custom-elements-and-internet-explorer-6-to-8">Note: Custom elements and Internet Explorer 6 to 8</h3>
 <p>Knockout tries hard to spare developers the pain of dealing with cross-browser compatiblity issues, especially those relating to older browsers! Even though custom elements provide a very modern style of web development, they still work on all commonly-encountered browsers:</p>
 <ul>
 <li>HTML5-era browsers, which includes <strong>Internet Explorer 9</strong> and later, automatically allow for custom elements with no difficulties.</li>
 <li><strong>Internet Explorer 6 to 8</strong> also supports custom elements, <em>but only if they are registered before the HTML parser encounters any of those elements</em>.</li>
 </ul>
-<p>IE 6-8&#39;s HTML parser will discard any unrecognized elements. To ensure it doesn&#39;t throw out your custom elements, you must do one of the following:</p>
+<p>IE 6-8's HTML parser will discard any unrecognized elements. To ensure it doesn't throw out your custom elements, you must do one of the following:</p>
 <ul>
-<li>Ensure you call <code>ko.components.register(&#39;your-component&#39;)</code> <em>before</em> the HTML parser sees any <code>&lt;your-component&gt;</code> elements</li>
-<li>Or, at least call <code>document.createElement(&#39;your-component&#39;)</code> <em>before</em> the HTML parser sees any <code>&lt;your-component&gt;</code> elements. You can ignore the result of the <code>createElement</code> call --- all that matters is that you have called it.</li>
+<li>Ensure you call <code class="lang-stylus">ko<span class="hljs-class">.components</span><span class="hljs-class">.register</span>(<span class="hljs-string">'your-component'</span>)</code> <em>before</em> the HTML parser sees any <code class="lang-apache"><span class="hljs-tag">&lt;your-component&gt;</span></code> elements</li>
+<li>Or, at least call <code class="lang-stylus">document.<span class="hljs-function"><span class="hljs-title">createElement</span><span class="hljs-params">(<span class="hljs-string">'your-component'</span>)</span></span></code> <em>before</em> the HTML parser sees any <code class="lang-apache"><span class="hljs-tag">&lt;your-component&gt;</span></code> elements. You can ignore the result of the <code>createElement</code> call --- all that matters is that you have called it.</li>
 </ul>
 <p>For example, if you structure your page like this, then everything will be OK:</p>
-<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;body&gt;
-        &lt;script src=&#39;some-script-that-registers-components.js&#39;&gt;&lt;/script&gt;
+<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'some-script-that-registers-components.js'</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-        &lt;my-custom-element&gt;&lt;/my-custom-element&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">my-custom-element</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">my-custom-element</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre>
-<p>If you&#39;re working with AMD, then you might prefer a structure like this:</p>
-<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;body&gt;
-        &lt;script&gt;
-            // Since the components aren&#39;t registered until the AMD module
-            // loads, which is asynchronous, the following prevents IE6-8&#39;s
-            // parser from discarding the custom element
-            document.createElement(&#39;my-custom-element&#39;);
-        &lt;/script&gt;
+<p>If you're working with AMD, then you might prefer a structure like this:</p>
+<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+            <span class="hljs-comment">// Since the components aren't registered until the AMD module</span>
+            <span class="hljs-comment">// loads, which is asynchronous, the following prevents IE6-8's</span>
+            <span class="hljs-comment">// parser from discarding the custom element</span>
+            <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'my-custom-element'</span>);
+        </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-        &lt;script src=&#39;require.js&#39; data-main=&#39;app/startup&#39;&gt;&lt;/script&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'require.js'</span> <span class="hljs-attribute">data-main</span>=<span class="hljs-value">'app/startup'</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-        &lt;my-custom-element&gt;&lt;/my-custom-element&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">my-custom-element</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">my-custom-element</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre>
-<p>Or if you really don&#39;t like the hackiness of the <code>document.createElement</code> call, then you could use a <a href="component-binding.html"><code>component</code> binding</a> for your top-level component instead of a custom element. As long as all other components are registered before your <code>ko.applyBindings</code> call, they can be used as custom elements on IE6-8 without futher trouble:</p>
-<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;body&gt;
-        &lt;!-- The startup module registers all other KO components before calling
-             ko.applyBindings(), so they are OK as custom elements on IE6-8 --&gt;
-        &lt;script src=&#39;require.js&#39; data-main=&#39;app/startup&#39;&gt;&lt;/script&gt;
+<p>Or if you really don't like the hackiness of the <code class="lang-coffeescript"><span class="hljs-built_in">document</span>.createElement</code> call, then you could use a <a href="component-binding.html"><code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding</a> for your top-level component instead of a custom element. As long as all other components are registered before your <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.applyBindings</span></code> call, they can be used as custom elements on IE6-8 without futher trouble:</p>
+<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- The startup module registers all other KO components before calling
+             ko.applyBindings(), so they are OK as custom elements on IE6-8 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'require.js'</span> <span class="hljs-attribute">data-main</span>=<span class="hljs-value">'app/startup'</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 
-        &lt;div data-bind=&#39;component: &quot;my-custom-element&quot;&#39;&gt;&lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">'component: "my-custom-element"'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre>
-<h3 id="advanced-accessing-raw-parameters">Advanced: Accessing <code>$raw</code> parameters</h3>
+<h3 id="advanced-accessing-raw-parameters">Advanced: Accessing <code class="lang-xquery"><span class="hljs-variable">$raw</span></code> parameters</h3>
 <p>Consider the following unusual case, in which <code>useObservable1</code>, <code>observable1</code>, and <code>observable2</code> are all observables:</p>
-<pre><code class="lang-html">&lt;some-component
-    params=&#39;myExpr: useObservable1() ? observable1 : observable2&#39;&gt;
-&lt;/some-component&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">some-component</span>
+    <span class="hljs-attribute">params</span>=<span class="hljs-value">'myExpr: useObservable1() ? observable1 : observable2'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">some-component</span>&gt;</span>
 </code></pre>
 <p>Since evaluating <code>myExpr</code> involves reading an observable (<code>useObservable1</code>), KO will supply the parameter to the component as a computed property.</p>
-<p>However, the value of the computed property is itself an observable. This would seem to lead to an awkward scenario, where reading its current value would involve double-unwrapping (i.e., <code>params.myExpr()()</code>, where the first parentheses give the value of the expression, and the second give the value of the resulting observable instance).</p>
-<p>This double-unwrapping would be ugly, inconvenient, and unexpected, so Knockout automatically sets up the generated computed property (<code>params.myExpr</code>) to unwrap its value for you. That is, the component can read <code>params.myExpr()</code> to get the value of whichever observable has been selected (<code>observable1</code> or <code>observable2</code>), without the need for double-unwrapping.</p>
-<p>In the unlikely event that you <em>don&#39;t</em> want the automatic unwrapping, because you want to access the <code>observable1</code>/<code>observable2</code> instances directly, you can read values from <code>params.$raw</code>. For example,</p>
-<pre><code class="lang-javascript">function MyComponentViewModel(params) {
-    var currentObservableInstance = params.$raw.myExpr();
+<p>However, the value of the computed property is itself an observable. This would seem to lead to an awkward scenario, where reading its current value would involve double-unwrapping (i.e., <code class="lang-stylus">params.<span class="hljs-function"><span class="hljs-title">myExpr</span><span class="hljs-params">()</span><span class="hljs-params">()</span></span></code>, where the first parentheses give the value of the expression, and the second give the value of the resulting observable instance).</p>
+<p>This double-unwrapping would be ugly, inconvenient, and unexpected, so Knockout automatically sets up the generated computed property (<code class="lang-crmsh"><span class="hljs-keyword">params</span>.myExpr</code>) to unwrap its value for you. That is, the component can read <code class="lang-stylus">params.<span class="hljs-function"><span class="hljs-title">myExpr</span><span class="hljs-params">()</span></span></code> to get the value of whichever observable has been selected (<code>observable1</code> or <code>observable2</code>), without the need for double-unwrapping.</p>
+<p>In the unlikely event that you <em>don't</em> want the automatic unwrapping, because you want to access the <code>observable1</code>/<code>observable2</code> instances directly, you can read values from <code class="lang-xquery">params.<span class="hljs-variable">$raw</span></code>. For example,</p>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyComponentViewModel</span>(<span class="hljs-params">params</span>) </span>{
+    <span class="hljs-keyword">var</span> currentObservableInstance = params.$raw.myExpr();
 
-    // Now currentObservableInstance is either observable1 or observable2
-    // and you would read its value with &quot;currentObservableInstance()&quot;
+    <span class="hljs-comment">// Now currentObservableInstance is either observable1 or observable2</span>
+    <span class="hljs-comment">// and you would read its value with "currentObservableInstance()"</span>
 }
 </code></pre>
-<p>This should be a very unusual scenario, so normally you will not need to work with <code>$raw</code>.</p>
+<p>This should be a very unusual scenario, so normally you will not need to work with <code class="lang-xquery"><span class="hljs-variable">$raw</span></code>.</p>
+
+
+  <footer>
+    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
+  </footer>
+
+</body>
+</html>

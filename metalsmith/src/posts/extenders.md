@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: Using extenders to augment observables
 cat: 2

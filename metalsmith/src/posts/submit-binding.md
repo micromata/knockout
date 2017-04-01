@@ -1,4 +1,5 @@
 ---
+layout: post.html
 kind: documentation
 title: submit
 cat: 4
@@ -12,7 +13,7 @@ When you use the `submit` binding on a form, Knockout will prevent the browser's
 
 ### Example
 
-```example
+```javascript
 html: |-
   <form data-bind="submit: doSomething">
       ... form contents go here ...
