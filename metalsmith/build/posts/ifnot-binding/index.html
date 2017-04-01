@@ -1,0 +1,11 @@
+<h3 id="purpose">Purpose</h3>
+<p>The <code>ifnot</code> binding is exactly the same as <a href="#if-binding">the <code>if</code> binding</a>, except that it inverts the result of whatever expression you pass to it. For more details, see documentation for <a href="#if-binding">the <code>if</code> binding</a>.</p>
+<h3 id="note-ifnot-is-the-same-as-a-negated-if-">Note: &quot;ifnot&quot; is the same as a negated &quot;if&quot;</h3>
+<p>The following markup:</p>
+<pre><code class="lang-html">&lt;div data-bind=&quot;ifnot: someProperty&quot;&gt;...&lt;/div&gt;
+</code></pre>
+<p>... is equivalent to the following:</p>
+<pre><code class="lang-html">&lt;div data-bind=&quot;if: !someProperty()&quot;&gt;...&lt;/div&gt;
+</code></pre>
+<p>... assuming that <code>someProperty</code> is <em>observable</em> and hence you need to invoke it as a function to obtain the current value.</p>
+<p>The only reason to use <code>ifnot</code> instead of a negated <code>if</code> is just as a matter of taste: many developers feel that it looks tidier.</p>

@@ -1,0 +1,55 @@
+<h3 id="purpose">Purpose</h3>
+<p>The <code>text</code> binding causes the associated DOM element to display the text value of your parameter.</p>
+<p>Typically this is useful with elements like <code>&lt;span&gt;</code> or <code>&lt;em&gt;</code> that traditionally display text, but technically you can use it with any element.</p>
+<h3 id="example">Example</h3>
+<p><live-example params='id: "text-binding"'>&lt;/</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>Knockout sets the element&#39;s content to a text node with your parameter value. Any previous content will be overwritten.</p>
+<p>If this parameter is an observable value, the binding will update the element&#39;s text whenever the value changes. If the parameter isn&#39;t observable, it will only set the element&#39;s text once and will not update it again later.</p>
+<p>If you supply something other than a number or a string (e.g., you pass an object or an array), the displayed text will be equivalent to <code>yourParameter.toString()</code></p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-using-functions-and-expressions-to-detemine-text-values">Note 1: Using functions and expressions to detemine text values</h3>
+<p>If you want to detemine text programmatically, one option is to create a <a href="computedObservables.html">computed observable</a>, and use its evaluator function as a place for your code that works out what text to display.</p>
+<p>For example,</p>
+<p><live-example params='id: text-computed'></live-example></p>
+<p>Now, the text will switch between &quot;expensive&quot; and &quot;affordable&quot; as needed whenever <code>price</code> changes.</p>
+<p>Alternatively, you don&#39;t need to create a computed observable if you&#39;re doing something simple like this. You can pass an arbitrary JavaScript expression to the <code>text</code> binding. For example,</p>
+<pre><code class="lang-html">The item is
+&lt;span data-bind=&quot;text: price() &gt; 50 ? &#39;expensive&#39; : &#39;affordable&#39;&quot;&gt;&lt;/span&gt;
+today.
+</code></pre>
+<p>This has exactly the same result, without requiring the <code>priceRating</code> computed observable.</p>
+<h3 id="note-2-about-html-encoding">Note 2: About HTML encoding</h3>
+<p>Since this binding sets your text value using a text node, it&#39;s safe to set any string value without risking HTML or script injection. For example, if you wrote:</p>
+<pre><code class="lang-javascript">viewModel.myMessage(&quot;&lt;i&gt;Hello, world!&lt;/i&gt;&quot;);
+</code></pre>
+<p>... this would <em>not</em> render as italic text, but would render as literal text with visible angle brackets.</p>
+<p>If you need to set HTML content in this manner, see <a href="html-binding.html">the html binding</a>.</p>
+<h3 id="note-3-using-text-without-a-container-element">Note 3: Using &quot;text&quot; without a container element</h3>
+<p>Sometimes you may want to set text using Knockout without including an extra element for the <code>text</code> binding. For example, you&#39;re not allowed to include other elements within an <code>option</code> element, so the following will not work.</p>
+<pre><code class="lang-html">&lt;select data-bind=&quot;foreach: items&quot;&gt;
+    &lt;option&gt;Item &lt;span data-bind=&quot;text: name&quot;&gt;&lt;/span&gt;&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>To handle this, you can use the <em>containerless syntax</em>, which is based on comment tags.</p>
+<pre><code class="lang-html">&lt;select data-bind=&quot;foreach: items&quot;&gt;
+  &lt;option&gt;Item &lt;!--ko text: name--&gt;&lt;!--/ko--&gt;&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>The <code>&lt;!--ko--&gt;</code> and <code>&lt;!--/ko--&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
+<h3 id="note-4-about-an-ie-6-whitespace-quirk">Note 4: About an IE 6 whitespace quirk</h3>
+<p>IE 6 has a strange quirk whereby it sometimes ignores whitespace that immediately follows an empty span. This has nothing directly to do with Knockout, but in case you do want to write:</p>
+<pre><code class="lang-html">Welcome, `&lt;span data-bind=&quot;text: userName&quot;&gt;&lt;/span&gt;` to our web site.
+</code></pre>
+<p>... and IE 6 renders no whitespace before the words <code>to our web site</code>, you can avoid the problem by putting any text into the <code>&lt;span&gt;</code>, e.g.:</p>
+<pre><code class="lang-html">Welcome, &lt;span data-bind=&quot;text: userName&quot;&gt;&amp;nbsp;&lt;/span&gt; to our web site.
+</code></pre>
+<p>Other browsers, and newer versions of IE, don&#39;t have this quirk.</p>

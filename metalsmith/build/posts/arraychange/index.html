@@ -1,0 +1,18 @@
+<p>Since <a href="http://blog.stevensanderson.com/2013/10/08/knockout-3-0-release-candidate-available/">Knockout 3.0</a>
+there has been an <code>arrayChange</code> event that can be attached to an <code>observable</code>
+or <code>observableArray</code>.</p>
+<p>One subscribes to changes as follows:</p>
+<pre><code class="lang-javascript">obsArray.subscribe(fn, thisArg, &quot;arrayChange&quot;);
+</code></pre>
+<p>The main advantages of subscribing to changes:</p>
+<ul>
+<li><p>Performance is O(1) in most cases, i.e., there’s basically no performance implication at all, because for straightforward operations, (push, splice, etc.) KO supplies the change log without running any diff algorithm. KO now only falls back on the diff algorithm if you’ve made an arbitrary change without using a typical array mutation function.</p>
+</li>
+<li><p>The change log is filtered down just to give you the items that actually changed.</p>
+</li>
+</ul>
+<p>The <code>observableArray</code> has array tracking enabled at construction, but
+you can extend any other <code>subscribable</code> (i.e. <code>ko.observable</code> and <code>ko.computed</code>) by extending it as follows:</p>
+<pre><code class="lang-javascript">trackable = ko.observable().extend({trackArrayChanges: true});
+</code></pre>
+<p><live-example params='id: "arraychange"'></live-example></p>

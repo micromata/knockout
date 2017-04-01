@@ -1,0 +1,61 @@
+<h3 id="purpose">Purpose</h3>
+<p>The <code>css</code> binding adds or removes one or more named CSS classes to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative.</p>
+<p>(Note: If you don&#39;t want to apply a CSS class but instead want to assign a <code>style</code> attribute value directly, see <a href="style-binding.html">the style binding</a>.)</p>
+<h3 id="example-with-static-classes">Example with static classes</h3>
+<pre><code class="lang-html">&lt;div data-bind=&quot;css: { profitWarning: currentProfit() &lt; 0 }&quot;&gt;
+   Profit Information
+&lt;/div&gt;
+
+```javascript
+var viewModel = {
+    currentProfit: ko.observable(150000) // Positive value, so initially we don&#39;t apply the &quot;profitWarning&quot; class
+};
+viewModel.currentProfit(-50); // Causes the &quot;profitWarning&quot; class to be applied
+</code></pre>
+<p>This will apply the CSS class <code>profitWarning</code> whenever the <code>currentProfit</code> value dips below zero, and remove that class whenever it goes above zero.</p>
+<h3 id="example-with-dynamic-classes">Example with dynamic classes</h3>
+<pre><code class="lang-html">&lt;div data-bind=&quot;css: profitStatus&quot;&gt;
+   Profit Information
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-javascript">var viewModel = {
+    currentProfit: ko.observable(150000)
+};
+
+// Evalutes to a positive value, so initially we apply the &quot;profitPositive&quot; class
+viewModel.profitStatus = ko.computed(function() {
+    return this.currentProfit() &lt; 0 ? &quot;profitWarning&quot; : &quot;profitPositive&quot;;
+}, viewModel);
+
+// Causes the &quot;profitPositive&quot; class to be removed and &quot;profitWarning&quot; class to be added
+viewModel.currentProfit(-50);
+</code></pre>
+<p>This will apply the CSS class <code>profitPositive</code> when the <code>currentProfit</code> value is positive, otherwise it will apply the <code>profitWarning</code> CSS class.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>If you are using static CSS class names, then you can pass a JavaScript object in which the property names are your CSS classes, and their values evaluate to <code>true</code> or <code>false</code> according to whether the class should currently be applied.</p>
+<p>You can set multiple CSS classes at once. For example, if your view model has a property called <code>isSevere</code>,</p>
+<pre><code class="lang-html"> &lt;div data-bind=&quot;css: { profitWarning: currentProfit() &lt; 0, majorHighlight: isSevere }&quot;&gt;
+</code></pre>
+<p>You can even set multiple CSS classes based on the same condition by wrapping the names in quotes like:</p>
+<pre><code class="lang-html"> &lt;div data-bind=&quot;css: { profitWarning: currentProfit() &lt; 0, &#39;major highlight&#39;: isSevere }&quot;&gt;
+</code></pre>
+<p>Non-boolean values are interpreted loosely as boolean. For example, <code>0</code> and <code>null</code> are treated as <code>false</code>, whereas <code>21</code> and non-<code>null</code> objects are treated as <code>true</code>.</p>
+<p>If your parameter references an observable value, the binding will add or remove the CSS class whenever the observable value changes. If the parameter doesn&#39;t reference an observable value, it will only add or remove the class once and will not do so again later.</p>
+<p>If you want to use dynamic CSS class names, then you can pass a string that corresponds to the CSS class or classes that you want to add to the element. If the parameter references an observable value, then the binding will remove any previously added classes and add the class or classes corresponding to the observable&#39;s new value.</p>
+<p>As usual, you can use arbitrary JavaScript expressions or functions as parameter values. KO will evaluate them and use the resulting values to determine the appropriate CSS classes to add or remove.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-applying-css-classes-whose-names-aren-t-legal-javascript-variable-names">Note: Applying CSS classes whose names aren&#39;t legal JavaScript variable names</h3>
+<p>If you want to apply the CSS class <code>my-class</code>, you <em>can&#39;t</em> write this:</p>
+<pre><code class="lang-html">&lt;div data-bind=&quot;css: { my-class: someValue }&quot;&gt;...&lt;/div&gt;
+</code></pre>
+<p>... because <code>my-class</code> isn&#39;t a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,</p>
+<pre><code class="lang-html">&lt;div data-bind=&quot;css: { &#39;my-class&#39;: someValue }&quot;&gt;...&lt;/div&gt;
+</code></pre>

@@ -1,0 +1,93 @@
+<h3 id="purpose">Purpose</h3>
+<p>The <code>with</code> binding creates a new <a href="binding-context.html">binding context</a>, so that descendant elements are bound in the context of a specified object.</p>
+<p>Of course, you can arbitrarily nest <code>with</code> bindings along with the other control-flow bindings such as <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>.</p>
+<h3 id="example-1">Example 1</h3>
+<p>Here is a very basic example of switching the binding context to a child object. Notice that in the <code>data-bind</code> attributes, it is <em>not</em> necessary to prefix <code>latitude</code> or <code>longitude</code> with <code>coords.</code>, because the binding context is switched to <code>coords</code>.</p>
+<pre><code class="lang-example">html: |-
+    &lt;h1 data-bind=&quot;text: city&quot;&gt; &lt;/h1&gt;
+    &lt;p data-bind=&quot;with: coords&quot;&gt;
+        Latitude: &lt;span data-bind=&quot;text: latitude&quot;&gt; &lt;/span&gt;,
+        Longitude: &lt;span data-bind=&quot;text: longitude&quot;&gt; &lt;/span&gt;
+    &lt;/p&gt;
+
+javascript: |-
+    ko.applyBindings({
+        city: &quot;London&quot;,
+        coords: {
+            latitude:  51.5001524,
+            longitude: -0.1262362
+        }
+    });
+</code></pre>
+<h3 id="example-2">Example 2</h3>
+<p>This interactive example demonstrates that:</p>
+<ul>
+<li>The <code>with</code> binding will dynamically add or remove descendant elements depending on whether the associated value is <code>null</code>/<code>undefined</code> or not</li>
+<li>If you want to access data/functions from parent binding contexts, you can use <a href="binding-context.html">special context properties such as <code>$parent</code> and <code>root</code></a>.</li>
+</ul>
+<pre><code class="lang-example">html: |-
+  &lt;form data-bind=&quot;submit: getTweets&quot;&gt;
+      Twitter account:
+      &lt;input data-bind=&quot;value: twitterName&quot; /&gt;
+      &lt;button type=&quot;submit&quot;&gt;Get tweets&lt;/button&gt;
+  &lt;/form&gt;
+
+  &lt;div data-bind=&quot;with: resultData&quot;&gt;
+      &lt;h3&gt;Recent tweets fetched at &lt;span data-bind=&quot;text: retrievalDate&quot;&gt; &lt;/span&gt;&lt;/h3&gt;
+      &lt;ol data-bind=&quot;foreach: topTweets&quot;&gt;
+          &lt;li data-bind=&quot;text: text&quot;&gt;&lt;/li&gt;
+      &lt;/ol&gt;
+
+      &lt;button data-bind=&quot;click: $parent.clearResults&quot;&gt;Clear tweets&lt;/button&gt;
+  &lt;/div&gt;
+javascript: |-
+  function AppViewModel() {
+      var self = this;
+      self.twitterName = ko.observable(&#39;@example&#39;);
+      self.resultData = ko.observable(); // No initial value
+
+      self.getTweets = function() {
+          var name = self.twitterName(),
+              simulatedResults = [
+                  { text: name + &#39; What a nice day.&#39; },
+                  { text: name + &#39; Building some cool apps.&#39; },
+                  { text: name + &#39; Just saw a famous celebrity eating lard. Yum.&#39; }
+              ];
+
+          self.resultData({ retrievalDate: new Date(), topTweets: simulatedResults });
+      }
+
+      self.clearResults = function() {
+          self.resultData(undefined);
+      }
+  }
+
+  ko.applyBindings(new AppViewModel());
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>The object that you want to use as the context for binding descendant elements.</p>
+<p>If the expression you supply evaluates to <code>null</code> or <code>undefined</code>, descendant elements will <em>not</em> be bound at all, but will instead be removed from the document.</p>
+<p>If the expression you supply involves any observable values, the expression will be re-evaluated whenever any of those observables change. Then, descendant elements will be cleared out, and <strong>a new copy of the markup</strong> will be added to your document and bound in the context of the new evaluation result.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-using-with-without-a-container-element">Note 1: Using &quot;with&quot; without a container element</h3>
+<p>Just like other control flow elements such as <a href="if-binding.html"><code>if</code></a> and <a href="foreach-binding.html"><code>foreach</code></a>, you can use <code>with</code> without any container element to host it. This is useful if you need to use <code>with</code> in a place where it would not be legal to introduce a new container element just to hold the <code>with</code> binding. See the documentation for <a href="if-binding.html"><code>if</code></a> or <a href="foreach-binding.html"><code>foreach</code></a> for more details.</p>
+<p>Example:</p>
+<pre><code class="lang-html">&lt;ul&gt;
+    &lt;li&gt;Header element&lt;/li&gt;
+    &lt;!-- ko with: outboundFlight --&gt;
+        ...
+    &lt;!-- /ko --&gt;
+    &lt;!-- ko with: inboundFlight --&gt;
+        ...
+    &lt;!-- /ko --&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>The <code>&lt;!-- ko --&gt;</code> and <code>&lt;!-- /ko --&gt;</code> comments act as start/end markers, defining a &quot;virtual element&quot; that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>

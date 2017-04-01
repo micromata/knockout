@@ -1,0 +1,71 @@
+<p>Knockout allows you to implement sophisticated client-side interactivity, but almost all web applications also need to exchange data with the server, or at least to serialize the data for local storage. The most convenient way to exchange or store data is in <a href="http://json.org/">JSON format</a> - the format that the majority of Ajax applications use today.</p>
+<h3 id="loading-or-saving-data">Loading or Saving Data</h3>
+<p>Knockout doesn&#39;t force you to use any one particular technique to load or save data. You can use whatever mechanism is a convenient fit for your chosen server-side technology. The most commonly-used mechanism is jQuery&#39;s Ajax helper methods, such as <a href="http://api.jquery.com/jQuery.getJSON/"><code>getJSON</code></a>, <a href="http://api.jquery.com/jQuery.post/"><code>post</code></a>, and <a href="http://api.jquery.com/jQuery.ajax/"><code>ajax</code></a>. You can fetch data from the server:</p>
+<pre><code class="lang-javascript">  $.getJSON(&quot;/some/url&quot;, function(data) {
+      // Now use this data to update your view models,
+      // and Knockout will update your UI automatically
+  })
+</code></pre>
+<p>... or you can send data to the server:</p>
+<pre><code class="lang-javascript">var data = /* Your data in JSON format - see below */;
+$.post(&quot;/some/url&quot;, data, function(returnedData) {
+    // This callback is executed if the post was successful
+})
+</code></pre>
+<p>Or, if you don&#39;t want to use jQuery, you can use any other mechanism for loading or saving JSON data. So, all Knockout needs to help you do is:</p>
+<ul>
+<li>For saving, get your view model data into a simple JSON format so you can send it using one of the above techniques</li>
+<li>For loading, update your view model using data that you&#39;ve received using one of the above techniques</li>
+</ul>
+<h3 id="converting-view-model-data-to-plain-json">Converting View Model Data to Plain JSON</h3>
+<p>Your view models <em>are</em> JavaScript objects, so in a sense, you could just serialize them as JSON using any standard JSON serializer, such as <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a> (a native function in modern browsers), or the <a href="https://github.com/douglascrockford/JSON-js/blob/master/json2.js"><code>json2.js</code></a> library. However, your view models probably contain observables, computed observables, and observable arrays, which are implemented as JavaScript functions and therefore won&#39;t always serialize cleanly without additional work on your behalf.</p>
+<p>To make it easy to serialize view model data, including observables and the like, Knockout includes two helper functions:</p>
+<ul>
+<li><code>ko.toJS</code> --- this clones your view model&#39;s object graph, substituting for each observable the current value of that observable, so you get a plain copy that contains only your data and no Knockout-related artifacts</li>
+<li><code>ko.toJSON</code> --- this produces a JSON string representing your view model&#39;s data. Internally, it simply calls <code>ko.toJS</code> on your view model, and then uses the browser&#39;s native JSON serializer on the result. Note: for this to work on older browsers that have no native JSON serializer (e.g., IE 7 or earlier), you must also reference the <a href="https://github.com/douglascrockford/JSON-js/blob/master/json2.js"><code>json2.js</code></a> library.</li>
+</ul>
+<p>For example, define a view model as follows:</p>
+<pre><code class="lang-javascript">var viewModel = {
+    firstName : ko.observable(&quot;Bert&quot;),
+    lastName : ko.observable(&quot;Smith&quot;),
+    pets : ko.observableArray([&quot;Cat&quot;, &quot;Dog&quot;, &quot;Fish&quot;]),
+    type : &quot;Customer&quot;
+};
+viewModel.hasALotOfPets = ko.computed(function() {
+    return this.pets().length &gt; 2
+}, viewModel)
+</code></pre>
+<p>This contains a mix of observables, computed observables, observable arrays, and plain values. You can convert it to a JSON string suitable for sending to the server using <code>ko.toJSON</code> as follows:</p>
+<pre><code class="lang-javascript">var jsonData = ko.toJSON(viewModel);
+
+// Result: jsonData is now a string equal to the following value
+// &#39;{&quot;firstName&quot;:&quot;Bert&quot;,&quot;lastName&quot;:&quot;Smith&quot;,&quot;pets&quot;:[&quot;Cat&quot;,&quot;Dog&quot;,&quot;Fish&quot;],&quot;type&quot;:&quot;Customer&quot;,&quot;hasALotOfPets&quot;:true}&#39;
+</code></pre>
+<p>Or, if you just want the plain JavaScript object graph <em>before</em> serialization, use <code>ko.toJS</code> as follows:</p>
+<pre><code class="lang-javascript">var plainJs = ko.toJS(viewModel);
+
+// Result: plainJS is now a plain JavaScript object in which nothing is observable. It&#39;s just data.
+// The object is equivalent to the following:
+//   {
+//      firstName: &quot;Bert&quot;,
+//      lastName: &quot;Smith&quot;,
+//      pets: [&quot;Cat&quot;,&quot;Dog&quot;,&quot;Fish&quot;],
+//      type: &quot;Customer&quot;,
+//      hasALotOfPets: true
+//   }
+</code></pre>
+<p>Note that <code>ko.toJSON</code> accepts the same arguments as <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/JSON/stringify">JSON.stringify</a>. For example, it can be useful to have a &quot;live&quot; representation of your view model data when debugging a Knockout application. To generate a nicely formatted display for this purpose, you can pass the <em>spaces</em> argument into <code>ko.toJSON</code> and bind against your view model like:</p>
+<pre><code class="lang-html">&lt;pre data-bind=&quot;text: ko.toJSON($root, null, 2)&quot;&gt;&lt;/pre&gt;
+</code></pre>
+<h3 id="updating-view-model-data-using-json">Updating View Model Data using JSON</h3>
+<p>If you&#39;ve loaded some data from the server and want to use it to update your view model, the most straightforward way is to do it yourself. For example,</p>
+<pre><code class="lang-javascript">// Load and parse the JSON
+var someJSON = /* Omitted: fetch it from the server however you want */;
+var parsed = JSON.parse(someJSON);
+
+// Update view model properties
+viewModel.firstName(parsed.firstName);
+viewModel.pets(parsed.pets);
+</code></pre>
+<p>In many scenarios, this direct approach is the simplest and most flexible solution. Of course, as you update the properties on your view model, Knockout will take care of updating the visible UI to match it.</p>
+<p>However, many developers prefer to use a more conventions-based approach to updating their view models using incoming data without manually writing a line of code for every property to be updated. This can be beneficial if your view models have many properties, or deeply nested data structures, because it can greatly reduce the amount of manual mapping code you need to write. For more details about this technique, see <a href="#plugins-mapping">the knockout.mapping plugin</a>.</p>

@@ -1,0 +1,95 @@
+<p>Knockout is built around three core features:</p>
+<ol>
+<li>Observables and dependency tracking</li>
+<li>Declarative bindings</li>
+<li>Templating</li>
+</ol>
+<p>On this page, you&#39;ll learn about the first of these three. But before that, let&#39;s examine the MVVM pattern and the concept of a <em>view model</em>.</p>
+<h1 id="mvvm-and-view-models">MVVM and View Models</h1>
+<p><em>Model-View-View Model (MVVM)</em> is a design pattern for building user interfaces. It describes how you can keep a potentially sophisticated UI simple by splitting it into three parts:</p>
+<ul>
+<li><p>A <em>model</em>: your application&#39;s stored data. This data represents objects and operations in your business domain (e.g., bank accounts that can perform money transfers) and is independent of any UI. When using KO, you will usually make Ajax calls to some server-side code to read and write this stored model data.</p>
+</li>
+<li><p>A <em>view model</em>: a pure-code representation of the data and operations on a UI. For example, if you&#39;re implementing a list editor, your view model would be an object holding a list of items, and exposing methods to add and remove items.</p>
+<p>Note that this is not the UI itself: it doesn&#39;t have any concept of buttons or display styles. It&#39;s not the persisted data model either - it holds the unsaved data the user is working with. When using KO, your view models are pure JavaScript objects that hold no knowledge of HTML. Keeping the view model abstract in this way lets it stay simple, so you can manage more sophisticated behaviors without getting lost.</p>
+</li>
+<li><p>A <em>view</em>: a visible, interactive UI representing the state of the view model. It displays information from the view model, sends commands to the view model (e.g., when the user clicks buttons), and updates whenever the state of the view model changes.</p>
+<p>When using KO, your view is simply your HTML document with declarative bindings to link it to the view model. Alternatively, you can use templates that generate HTML using data from your view model.</p>
+</li>
+</ul>
+<p>To create a view model with KO, just declare any JavaScript object. For example,</p>
+<pre><code class="lang-javascript">var myViewModel = {
+    personName: &#39;Bob&#39;,
+    personAge: 123
+};
+</code></pre>
+<p>You can then create a very simple <em>view</em> of this view model using a declarative binding. For example, the following markup displays the <code>personName</code> value:</p>
+<pre><code class="lang-html">The name is &lt;span data-bind=&quot;text: personName&quot;&gt;&lt;/span&gt;
+</code></pre>
+<h2 id="activating-knockout">Activating Knockout</h2>
+<p>The <code>data-bind</code> attribute isn&#39;t native to HTML, though it is perfectly OK (it&#39;s strictly compliant in HTML 5, and causes no problems with HTML 4 even though a validator will point out that it&#39;s an unrecognized attribute). But since the browser doesn&#39;t know what it means, you need to activate Knockout to make it take effect.</p>
+<p>To activate Knockout, add the following line to a <code>&lt;script&gt;</code> block:</p>
+<pre><code class="lang-javascript">ko.applyBindings(myViewModel);
+</code></pre>
+<p>You can either put the script block at the bottom of your HTML document, or you can put it at the top and wrap the contents in a DOM-ready handler such as <a href="http://api.jquery.com/jQuery/#jQuery3">jQuery&#39;s <code>$</code> function</a>.</p>
+<p>That does it! Now, your view will display as if you&#39;d written the following HTML:</p>
+<pre><code class="lang-html">The name is &lt;span&gt;Bob&lt;/span&gt;
+</code></pre>
+<p>In case you&#39;re wondering what the parameters to <code>ko.applyBindings</code> do,</p>
+<ul>
+<li><p>The first parameter says what view model object you want to use with the declarative bindings it activates</p>
+</li>
+<li><p>Optionally, you can pass a second parameter to define which part of the document you want to search for <code>data-bind</code> attributes. For example, <code>ko.applyBindings(myViewModel, document.getElementById(&#39;someElementId&#39;))</code>. This restricts the activation to the element with ID <code>someElementId</code> and its descendants, which is useful if you want to have multiple view models and associate each with a different region of the page.</p>
+</li>
+</ul>
+<p>Pretty simple, really.</p>
+<h1 id="observables">Observables</h1>
+<p>OK, you&#39;ve seen how to create a basic view model and how to display one of its properties using a binding. But one of the key benefits of KO is that it updates your UI automatically when the view model changes. How can KO know when parts of your view model change? Answer: you need to declare your model properties as <em>observables</em>, because these are special JavaScript objects that can notify subscribers about changes, and can automatically detect dependencies.</p>
+<p>For example, rewrite the preceding view model object as follows:</p>
+<pre><code class="lang-javascript">var myViewModel = {
+    personName: ko.observable(&#39;Bob&#39;),
+    personAge: ko.observable(123)
+};
+</code></pre>
+<p>You don&#39;t have to change the view at all - the same <code>data-bind</code> syntax will keep working. The difference is that it&#39;s now capable of detecting changes, and when it does, it will update the view automatically.</p>
+<h2 id="reading-and-writing-observables">Reading and writing observables</h2>
+<p>Not all browsers support JavaScript getters and setters (* cough * IE * cough *), so for compatibility, <code>ko.observable</code> objects are actually <em>functions</em>.</p>
+<ul>
+<li><p>To <strong>read</strong> the observable&#39;s current value, just call the observable with no parameters. In this example, <code>myViewModel.personName()</code> will return <code>&#39;Bob&#39;</code>, and <code>myViewModel.personAge()</code> will return <code>123</code>.</p>
+</li>
+<li><p>To <strong>write</strong> a new value to the observable, call the observable and pass the new value as a parameter. For example, calling <code>myViewModel.personName(&#39;Mary&#39;)</code> will change the name value to <code>&#39;Mary&#39;</code>.</p>
+</li>
+<li><p>To write values to <strong>multiple observable properties</strong> on a model object, you can use <em>chaining syntax</em>. For example, <code>myViewModel.personName(&#39;Mary&#39;).personAge(50)</code> will change the name value to <code>&#39;Mary&#39;</code> <em>and</em> the age value to <code>50</code>.</p>
+</li>
+</ul>
+<p>The whole point of observables is that they can be observed, i.e., other code can say that it wants to be notified of changes. That&#39;s what many of KO&#39;s built-in bindings do internally. So, when you wrote <code>data-bind=&quot;text: personName&quot;</code>, the <code>text</code> binding registered itself to be notified when <code>personName</code> changes (assuming it&#39;s an observable value, which it is now).</p>
+<p>When you change the name value to <code>&#39;Mary&#39;</code> by calling <code>myViewModel.personName(&#39;Mary&#39;)</code>, the <code>text</code> binding will automatically update the text contents of the associated DOM element. That&#39;s how changes to the view model automatically propagate to the view.</p>
+<h2 id="explicitly-subscribing-to-observables">Explicitly subscribing to observables</h2>
+<p><em>You won&#39;t normally need to set up subscriptions manually, so beginners should skip this section.</em></p>
+<p>For advanced users, if you want to register your own subscriptions to be notified of changes to observables, you can call their <code>subscribe</code> function. For example:</p>
+<pre><code class="lang-javascript">myViewModel.personName.subscribe(function(newValue) {
+    alert(&quot;The person&#39;s new name is &quot; + newValue);
+});
+</code></pre>
+<p>The <code>subscribe</code> function is how many parts of KO work internally. Most of the time you don&#39;t need to use this, because the built-in bindings and templating system take care of managing subscriptions.</p>
+<p>The <code>subscribe</code> function accepts three parameters: <code>callback</code> is the function that is called whenever the notification happens, <code>target</code> (optional) defines the value of <code>this</code> in the callback function, and <code>event</code> (optional; default is <code>&quot;change&quot;</code>) is the name of the event to receive notification for.</p>
+<p>You can also terminate a subscription if you wish: first capture the return value as a variable, then you can call its <code>dispose</code> function, e.g.:</p>
+<pre><code class="lang-javascript">var subscription = myViewModel.personName.subscribe(function(newValue) { /* do stuff */ });
+// ...then later...
+subscription.dispose(); // I no longer want notifications
+</code></pre>
+<p>If you want to be notified of the value of an observable before it is about to be changed, you can subscribe to the <code>beforeChange</code> event. For example:</p>
+<pre><code class="lang-javascript">myViewModel.personName.subscribe(function(oldValue) {
+    alert(&quot;The person&#39;s previous name is &quot; + oldValue);
+}, null, &quot;beforeChange&quot;);
+</code></pre>
+<p>Note: Knockout does not guarantee that the <code>beforeChange</code> and <code>change</code> events will occur in pairs, since other parts of your code might raise either event individually. If you need to track the previous value of an observable, it&#39;s up to you to use a subscription to capture and track it.</p>
+<h2 id="forcing-observables-to-always-notify-subscribers">Forcing observables to always notify subscribers</h2>
+<p>When writing to an observable that contains a primitive value (a number, string, boolean, or null), the dependencies of the observable are normally only notified if the value actually changed. However, it is possible to use the built-in <code>notify</code> <a href="extenders.html">extender</a> to ensure that an observable&#39;s subscribers are always notified on a write, even if the value is the same. You would apply the extender to an observable like this:</p>
+<pre><code class="lang-javascript">myViewModel.personName.extend({ notify: &#39;always&#39; });
+</code></pre>
+<h2 id="delaying-and-or-suppressing-change-notifications">Delaying and/or suppressing change notifications</h2>
+<p>Normally, an observable notifies its subscribers immediately, as soon as it&#39;s changed. But if an observable is changed repeatedly or triggers expensive updates, you may get better performance by limiting or delaying the observable&#39;s change notifications. This is accomplished using the <a href="rateLimit-observable.html"><code>rateLimit</code> extender</a> like this:</p>
+<pre><code class="lang-javascript">// Ensure it notifies about changes no more than once per 50-millisecond period
+myViewModel.personName.extend({ rateLimit: 50 });
+</code></pre>

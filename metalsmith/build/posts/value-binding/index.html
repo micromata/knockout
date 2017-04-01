@@ -1,0 +1,88 @@
+<p><em>Note: The <a href="#textInput-binding"><code>textInput</code></a> binding can be used in many places instead of the <code>value</code> binding, providing broader support for many edge
+  cases and textInput update the observables on a per-character change (as opposed to the default of <code>blur</code> for the <code>value</code> binding).</em></p>
+<h3 id="purpose">Purpose</h3>
+<p>The <code>value</code> binding links the associated DOM element&#39;s value with a property on your view model. This is typically useful with form elements such as <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> and <code>&lt;textarea&gt;</code>.</p>
+<p>When the user edits the value in the associated form control, it updates the value on your view model. Likewise, when you update the value in your view model, this updates the value of the form control on screen.</p>
+<p>Note: If you&#39;re working with checkboxes or radio buttons, use <a href="checked-binding.html">the <code>checked</code> binding</a> to read and write your element&#39;s checked state, not the <code>value</code> binding.</p>
+<h3 id="example">Example</h3>
+<p><live-example params='id: "value-binding"'></live-example></p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>KO sets the element&#39;s <code>value</code> property to your parameter value. Any previous value will be overwritten.</p>
+<p>If this parameter is an observable value, the binding will update the element&#39;s value whenever the value changes. If the parameter isn&#39;t observable, it will only set the element&#39;s value once and will not update it again later.</p>
+<p>If you supply something other than a number or a string (e.g., you pass an object or an array), the displayed text will be equivalent to <code>yourParameter.toString()</code> (that&#39;s usually not very useful, so it&#39;s best to supply string or numeric values).</p>
+<p>Whenever the user edits the value in the associated form control, KO will update the property on your view model. KO will always attempt to update your view model when the value has been modified and a user transfers focus to another DOM node (i.e., on the <code>change</code> event), but you can also trigger updates based on other events by using the <code>valueUpdate</code> parameter described below.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li><p><code>valueUpdate</code></p>
+<p>If your binding also includes a parameter called <code>valueUpdate</code>, this defines additional browser events KO should use to detect changes besides the <code>change</code> event. The following string values are the most commonly useful choices:</p>
+<ul>
+<li><code>&quot;input&quot;</code> - updates your view model when the value of an <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> element changes. Note that this event is only raised by reasonably modern browsers (e.g., IE 9+).</li>
+<li><code>&quot;keyup&quot;</code> - updates your view model when the user releases a key</li>
+<li><code>&quot;keypress&quot;</code> - updates your view model when the user has typed a key. Unlike <code>keyup</code>, this updates repeatedly while the user holds a key down</li>
+<li><code>&quot;afterkeydown&quot;</code> - updates your view model as soon as the user begins typing a character. This works by catching the browser&#39;s <code>keydown</code> event and handling the event asynchronously.</li>
+</ul>
+<p>Of these options, <code>&quot;input&quot;</code> is the best choice if you want to keep your view model updated in real-time, and you only need to support reasonably modern browsers such as IE 9+ (whereas <code>&quot;afterkeydown&quot;</code> is a good choice for older browsers). For example:</p>
+<pre><code class="lang-html">&lt;p&gt;Your value: &lt;input data-bind=&quot;value: someValue, valueUpdate: &#39;input&#39;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;You have typed: &lt;span data-bind=&quot;text: someValue&quot;&gt;&lt;/span&gt;&lt;/p&gt; &lt;!-- updates in real-time --&gt;
+</code></pre>
+<pre><code class="lang-javascript">var viewModel = {
+   someValue: ko.observable(&quot;edit me&quot;)
+};
+</code></pre>
+<ul>
+<li><p><code>valueAllowUnset</code></p>
+<p>See <a href="#using-valueallowunset-with-select-elements">Note 1</a> below. Note that <code>valueAllowUnset</code> is only applicable when using <code>value</code> to control selection on a <code>&lt;select&gt;</code> element. On other elements it has no effect.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-working-with-drop-down-lists-i-e-select-elements-">Note 1: Working with drop-down lists (i.e., <code>&lt;select&gt;</code> elements)</h3>
+<p>Knockout has special support for drop-down lists (i.e., <code>&lt;select&gt;</code> elements). The <code>value</code> binding works in conjunction with the <code>options</code> binding to let you read and write values that are arbitrary JavaScript objects, not just string values. This is very useful if you want to let the user select from a set of model objects. For examples of this, see <a href="options-binding.html">the <code>options</code> binding</a> or for handling multi-select lists, see the documentation for <a href="selectedOptions-binding.html">the <code>selectedOptions</code> binding</a>.</p>
+<p>You can also use the <code>value</code> binding with a <code>&lt;select&gt;</code> element that does not use the <code>options</code> binding. In this case, you can choose to specify your <code>&lt;option&gt;</code> elements in markup or build them using the <code>foreach</code> or <code>template</code> bindings. You can even nest options within <code>&lt;optgroup&gt;</code> elements and Knockout will set the selected value appropriately.</p>
+<h4 id="using-valueallowunset-with-select-elements">Using <code>valueAllowUnset</code> with <code>&lt;select&gt;</code> elements</h4>
+<p>Normally, when you use the <code>value</code> binding on a <code>&lt;select&gt;</code> element, it means that you want the associated model value to describe which item in the <code>&lt;select&gt;</code> is selected. But what happens if you set the model value to something that has no corresponding entry in the list? The default behavior is for Knockout to overwrite your model value to reset it to whatever is already selected in the dropdown, thereby preventing the model and UI from getting out of sync.</p>
+<p>However, sometimes you might not want that behavior. If instead you want Knockout to allow your model observable to take values that have no corresponding entry in the <code>&lt;select&gt;</code>, then specify <code>valueAllowUnset: true</code>. In this case, whenever your model value cannot be represented in the <code>&lt;select&gt;</code>, then the <code>&lt;select&gt;</code> simply has no selected value at that time, which is visually represented by it being blank. When the user later selects an entry from the dropdown, this will be written to your model as usual. For example:</p>
+<pre><code class="lang-html">  &lt;p&gt;
+      Select a country:
+      &lt;select data-bind=&quot;options: countries,
+                         optionsCaption: &#39;Choose one...&#39;,
+                         value: selectedCountry,
+                         valueAllowUnset: true&quot;&gt;&lt;/select&gt;
+  &lt;/p&gt;
+</code></pre>
+<pre><code class="lang-javascript">  var viewModel = {
+    countries: [&#39;Japan&#39;, &#39;Bolivia&#39;, &#39;New Zealand&#39;],
+    selectedCountry: ko.observable(&#39;Latvia&#39;)
+  };
+</code></pre>
+<p>In the above example, <code>selectedCountry</code> will retain the value <code>&#39;Latvia&#39;</code>, and the dropdown will be blank, because there is no corresponding option.</p>
+<p>If <code>valueAllowUnset</code> had not been enabled, then Knockout would have overwritten <code>selectedCountry</code> with <code>undefined</code>, so that it would match the value of the <code>&#39;Choose one...&#39;</code> caption entry.</p>
+<h3 id="note-2-updating-observable-and-non-observable-property-values">Note 2: Updating observable and non-observable property values</h3>
+<p>If you use <code>value</code> to link a form element to an observable property, KO is able to set up a 2-way binding so that changes to either affect the other.</p>
+<p>However, if you use <code>value</code> to link a form element to a <em>non</em>-observable property (e.g., a plain old string, or an arbitrary JavaScript expression), KO will do the following:</p>
+<ul>
+<li><p>If you reference a <em>simple property</em>, i.e., it is just a regular property on your view model, KO will set the form element&#39;s initial state to the property value, and when the form element is edited, KO will write the changes back to your property. It cannot detect when the property changes (because it isn&#39;t observable), so this is only a 1-way binding.</p>
+</li>
+<li><p>If you reference something that is <em>not</em> a simple property, e.g., the result of a function call or comparison operation, KO will set the form element&#39;s initial state to that value, but it will not be able to write any changes back when the user edits the form element. In this case it&#39;s a one-time-only value setter, not an ongoing binding that reacts to changes.</p>
+</li>
+</ul>
+<p>Example:</p>
+<pre><code class="lang-html">&lt;!-- Two-way binding. Populates textbox; syncs both ways. --&gt;
+&lt;p&gt;First value: &lt;input data-bind=&quot;value: firstValue&quot; /&gt;&lt;/p&gt;
+
+&lt;!-- One-way binding. Populates textbox; syncs only from textbox to model. --&gt;
+&lt;p&gt;Second value: &lt;input data-bind=&quot;value: secondValue&quot; /&gt;&lt;/p&gt;
+
+&lt;!-- No binding. Populates textbox, but doesn&#39;t react to any changes. --&gt;
+&lt;p&gt;Third value: &lt;input data-bind=&quot;value: secondValue.length &gt; 8&quot; /&gt;&lt;/p&gt;
+</code></pre>
+<pre><code class="lang-javascript">var viewModel = {
+    firstValue: ko.observable(&quot;hello&quot;), // Observable
+    secondValue: &quot;hello, again&quot;         // Not observable
+};
+</code></pre>

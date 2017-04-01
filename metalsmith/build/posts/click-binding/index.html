@@ -1,0 +1,55 @@
+<h3 id="purpose">Purpose</h3>
+<p>The <code>click</code> binding adds an event handler so that your chosen JavaScript function will be invoked when the associated DOM element is clicked. This is most commonly used with elements like <code>button</code>, <code>input</code>, and <code>a</code>, but actually works with any visible DOM element.</p>
+<h3 id="example">Example</h3>
+<p><live-example params='id: "click"'></live-example></p>
+<p>Each time you click the button, this will invoke <code>incrementClickCounter()</code> on the view model, which in turn changes the view model state, which causes the UI to update.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li><p>Main parameter</p>
+<p>The function you want to bind to the element&#39;s <code>click</code> event.</p>
+<p>You can reference any JavaScript function - it doesn&#39;t have to be a function on your view model. You can reference a function on any object by writing <code>click: someObject.someFunction</code>.</p>
+</li>
+<li><p>Additional parameters</p>
+<ul>
+<li>None</li>
+</ul>
+</li>
+</ul>
+<h3 id="note-1-passing-a-current-item-as-a-parameter-to-your-handler-function">Note 1: Passing a &quot;current item&quot; as a parameter to your handler function</h3>
+<p>When calling your handler, Knockout will supply the current model value as the first parameter. This is particularly useful if you&#39;re rendering
+some UI for each item in a collection, and you need to know which item&#39;s UI was clicked. For example,</p>
+<p><live-example params='id: "click-places"'></live-example></p>
+<p>Two points to note about this example:</p>
+<ul>
+<li>If you&#39;re inside a nested <a href="binding-context.html">binding context</a>, for example if you&#39;re inside a <code>foreach</code> or a <code>with</code> block, but your handler function
+is on the root viewmodel or some other parent context, you&#39;ll need to use a prefix such as <code>$parent</code> or <code>$root</code> to locate the
+handler function.</li>
+<li>In your viewmodel, it&#39;s often useful to declare <code>self</code> (or some other variable) as an alias for <code>this</code>. Doing so avoids any problems
+with <code>this</code> being redefined to mean something else in event handlers or Ajax request callbacks.</li>
+</ul>
+<h3 id="note-2-accessing-the-event-object-or-passing-more-parameters">Note 2: Accessing the event object, or passing more parameters</h3>
+<p>In some scenarios, you may need to access the DOM event object associated with your click event. Knockout will pass the event as the second parameter to your function, as in this example:</p>
+<p><live-example params='id: "click-event"'></live-example></p>
+<p>If you need to pass more parameters, one way to do it is by wrapping your handler in a function literal that takes in a parameter, as in this example:</p>
+<pre><code class="lang-html">&lt;button data-bind=&quot;click: function(data, event) { myFunction(&#39;param1&#39;, &#39;param2&#39;, data, event) }&quot;&gt;
+    Click me
+&lt;/button&gt;
+</code></pre>
+<p>Now, KO will pass the data and event objects to your function literal, which are then available to be passed to your handler.</p>
+<p>Alternatively, if you prefer to avoid the function literal in your view, you can use the <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind">bind</a> function, which attaches specific parameter values to a function reference:</p>
+<pre><code class="lang-html">&lt;button data-bind=&quot;click: myFunction.bind($data, &#39;param1&#39;, &#39;param2&#39;)&quot;&gt;
+  Click me
+&lt;/button&gt;
+</code></pre>
+<h3 id="note-3-allowing-the-default-click-action">Note 3: Allowing the default click action</h3>
+<p>By default, Knockout will prevent the click event from taking any default action. This means that if you use the <code>click</code> binding on an <code>a</code> tag (a link), for example, the browser will only call your handler function and will <em>not</em> navigate to the link&#39;s <code>href</code>. This is a useful default because when you use the <code>click</code> binding, it&#39;s normally because you&#39;re using the link as part of a UI that manipulates your view model, not as a regular hyperlink to another web page.</p>
+<p>However, if you <em>do</em> want to let the default click action proceed, just return <code>true</code> from your <code>click</code> handler function.</p>
+<h3 id="note-4-preventing-the-event-from-bubbling">Note 4: Preventing the event from bubbling</h3>
+<p>By default, Knockout will allow the click event to continue to bubble up to any higher level event handlers.  For example, if your element and a parent of that element are both handling the <code>click</code> event, then the click handler for both elements will be triggered.  If necessary, you can prevent the event from bubbling by including an additional binding that is named <code>clickBubble</code> and passing false to it, as in this example:</p>
+<pre><code class="lang-html">&lt;div data-bind=&quot;click: myDivHandler&quot;&gt;
+  &lt;button data-bind=&quot;click: myButtonHandler, clickBubble: false&quot;&gt;
+      Click me
+  &lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Normally, in this case <code>myButtonHandler</code> would be called first, then the click event would bubble up to <code>myDivHandler</code>.  However, the <code>clickBubble</code> binding that we added with a value of <code>false</code> prevents the event from making it past <code>myButtonHandler</code>.</p>

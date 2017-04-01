@@ -1,0 +1,63 @@
+<p>The following documentation describes how to construct and work with computed observables.</p>
+<h2 id="constructing-a-computed-observable">Constructing a computed observable</h2>
+<p>A computed observable can be constructed using one of the following forms:</p>
+<ol>
+<li><p><code>ko.computed( evaluator [, targetObject, options] )</code> --- This form supports the most common case of creating a computed observable.</p>
+<ul>
+<li><code>evaluator</code> --- A function that is used to evaluate the computed observable&#39;s current value.</li>
+<li><code>targetObject</code> --- If given, defines the value of <code>this</code> whenever KO invokes your callback functions. See the section on <a href="computedObservables.html#managing-this">managing <code>this</code></a> for more information.</li>
+<li><code>options</code> --- An object with further properties for the computed observable. See the full list below.</li>
+</ul>
+</li>
+<li><p><code>ko.computed( options )</code> --- This single parameter form for creating a computed observable accepts a JavaScript object with any of the following properties.</p>
+<ul>
+<li><code>read</code> --- Required. A function that is used to evaluate the computed observable&#39;s current value.</li>
+<li><code>write</code> --- Optional. If given, makes the computed observable writable. This is a function that receives values that other code is trying to write to your computed observable. It&#39;s up to you to supply custom logic to handle the incoming values, typically by writing the values to some underlying observable(s).</li>
+<li><code>owner</code> --- Optional. If given, defines the value of <code>this</code> whenever KO invokes your <code>read</code> or <code>write</code> callbacks.</li>
+<li><code>pure</code> --- Optional. If this option is <code>true</code>, the computed observable will be set up as a <a href="computed-pure.html"><em>pure</em> computed observable</a>. This option is an alternative to the <code>ko.pureComputed</code> constructor.</li>
+<li><code>deferEvaluation</code> --- Optional. If this option is <code>true</code>, then the value of the computed observable will not be evaluated until something actually attempts to access its value or manually subscribes to it. By default, a computed observable has its value determined immediately during creation.</li>
+<li><code>disposeWhen</code> --- Optional. If given, this function is executed before each re-evaluation to determine if the computed observable should be disposed. A <code>true</code>-ish result will trigger disposal of the computed observable.</li>
+<li><code>disposeWhenNodeIsRemoved</code> --- Optional. If given, disposal of the computed observable will be triggered when the specified DOM node is removed by KO. This feature is used to dispose computed observables used in bindings when nodes are removed by the <code>template</code> and control-flow bindings.</li>
+</ul>
+</li>
+<li><p><code>ko.pureComputed( evaluator [, targetObject] )</code> --- Constructs a <a href="computed-pure.html"><em>pure</em> computed observable</a> using the given evaluator function and optional object to use for <code>this</code>. Unlike <code>ko.computed</code>, this method doesn&#39;t accept an <code>options</code> parameter.</p>
+</li>
+<li><p><code>ko.pureComputed( options )</code> --- Constructs a <em>pure</em> computed observable using an <code>options</code> object. This accepts the <code>read</code>, <code>write</code>, and <code>owner</code> options described above.</p>
+</li>
+</ol>
+<h2 id="using-a-computed-observable">Using a computed observable</h2>
+<p>A computed observable provides the following functions:</p>
+<ul>
+<li><code>dispose()</code> --- Manually disposes the computed observable, clearing all subscriptions to dependencies. This function is useful if you want to stop a computed observable from being updated or want to clean up memory for a computed observable that has dependencies on observables that won&#39;t be cleaned.</li>
+<li><code>extend(extenders)</code> --- Applies the given <a href="extenders.html">extenders</a> to the computed observable.</li>
+<li><code>getDependenciesCount()</code> --- Returns the current number of dependencies of the computed observable.</li>
+<li><code>getSubscriptionsCount( [event] )</code> --- Returns the current number of subscriptions (either from other computed observables or manual subscriptions) of the computed observable. Optionally, pass an event name (like <code>&quot;change&quot;</code>) to return just the count of subscriptions for that event.</li>
+<li><code>isActive()</code> --- Returns whether the computed observable may be updated in the future. A computed observable is inactive if it has no dependencies.</li>
+<li><code>peek()</code> --- Returns the current value of the computed observable without creating a dependency (see the section on <a href="computed-dependency-tracking.html#controlling-dependencies-using-peek"><code>peek</code></a>).</li>
+<li><code>subscribe( callback [,callbackTarget, event] )</code> --- Registers a <a href="observables.html#explicitly-subscribing-to-observables">manual subscription</a> to be notified of changes to the computed observable.</li>
+</ul>
+<h2 id="using-the-computed-context">Using the computed context</h2>
+<p>During the execution of a computed observable&#39;s evaluator function, you can access <code>ko.computedContext</code> to get information about the current computed property. It provides the following functions:</p>
+<ul>
+<li><p><code>isInitial()</code> --- A function that returns <code>true</code> if called during the first ever evaluation of the current computed observable, or <code>false</code> otherwise. For <em>pure</em> computed observables, <code>isInitial()</code> is always <code>undefined</code>.</p>
+</li>
+<li><p><code>getDependenciesCount()</code> --- Returns the number of dependencies of the computed observable detected so far during the current evaluation.</p>
+<ul>
+<li>Note: <code>ko.computedContext.getDependenciesCount()</code> is equivalent to calling <code>getDependenciesCount()</code> on the computed observable itself. The reason that it also exists on <code>ko.computedContext</code> is to provide a way of counting the dependencies during the first ever evaluation, before the computed observable has even finished being constructed.</li>
+</ul>
+</li>
+</ul>
+<p>Example:</p>
+<pre><code class="lang-javascript">var myComputed = ko.computed(function() {
+    // ... Omitted: read some data that might be observable ...
+
+    // Now let&#39;s inspect ko.computedContext
+    var isFirstEvaluation = ko.computedContext.isInitial(),
+        dependencyCount = ko.computedContext.getDependenciesCount(),
+    console.log(&quot;Evaluating &quot; + (isFirstEvaluation ? &quot;for the first time&quot; : &quot;again&quot;));
+    console.log(&quot;By now, this computed has &quot; + dependencyCount + &quot; dependencies&quot;);
+
+    // ... Omitted: return the result ...
+});
+</code></pre>
+<p>These facilities are typically useful only in advanced scenarios, for example when your computed observable&#39;s primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
