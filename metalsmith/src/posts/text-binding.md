@@ -1,5 +1,5 @@
 ---
-layout: post.html
+layout: post.hbs
 kind: documentation
 title: text
 cat: 4

@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Loading and Saving JSON data</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Loading and Saving JSON data</h1>
-
-  <p>Knockout allows you to implement sophisticated client-side interactivity, but almost all web applications also need to exchange data with the server, or at least to serialize the data for local storage. The most convenient way to exchange or store data is in <a href="http://json.org/">JSON format</a> - the format that the majority of Ajax applications use today.</p>
+<p>Knockout allows you to implement sophisticated client-side interactivity, but almost all web applications also need to exchange data with the server, or at least to serialize the data for local storage. The most convenient way to exchange or store data is in <a href="http://json.org/">JSON format</a> - the format that the majority of Ajax applications use today.</p>
 <h3 id="loading-or-saving-data">Loading or Saving Data</h3>
 <p>Knockout doesn't force you to use any one particular technique to load or save data. You can use whatever mechanism is a convenient fit for your chosen server-side technology. The most commonly-used mechanism is jQuery's Ajax helper methods, such as <a href="http://api.jquery.com/jQuery.getJSON/"><code>getJSON</code></a>, <a href="http://api.jquery.com/jQuery.post/"><code class="lang-livecodeserver"><span class="hljs-built_in">post</span></code></a>, and <a href="http://api.jquery.com/jQuery.ajax/"><code>ajax</code></a>. You can fetch data from the server:</p>
 <pre><code class="lang-javascript">  $.getJSON(<span class="hljs-string">"/some/url"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
@@ -85,11 +69,3 @@ viewModel.pets(parsed.pets);
 </code></pre>
 <p>In many scenarios, this direct approach is the simplest and most flexible solution. Of course, as you update the properties on your view model, Knockout will take care of updating the visible UI to match it.</p>
 <p>However, many developers prefer to use a more conventions-based approach to updating their view models using incoming data without manually writing a line of code for every property to be updated. This can be beneficial if your view models have many properties, or deeply nested data structures, because it can greatly reduce the amount of manual mapping code you need to write. For more details about this technique, see <a href="#plugins-mapping">the knockout.mapping plugin</a>.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

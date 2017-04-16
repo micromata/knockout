@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>attr</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>attr</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code class="lang-mizar"><span class="hljs-keyword">attr</span></code> binding provides a generic way to set the value of any attribute for the associated DOM element.  This is useful, for example, when you need to set the <code class="lang-dos"><span class="hljs-built_in">title</span></code> attribute of an element, the <code>src</code> of an <code>img</code> tag, or the <code>href</code> of a link based on values in your view model, with the attribute value being updated automatically whenever the corresponding model property changes.</p>
 <h3 id="example">Example</h3>
 <p><live-example params="id: &quot;attr&quot;"></live-example></p>
@@ -38,11 +22,3 @@
 <p>... because <code class="lang-haskell"><span class="hljs-typedef"><span class="hljs-keyword">data</span>-something</span></code> isn't a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"attr: { 'data-something': someValue }"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

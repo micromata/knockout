@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>component</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>component</h1>
-
-  <p>The <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding injects a specified <a href="component-overview.html">component</a> into an element, and optionally passes parameters to it.</p>
+<p>The <code class="lang-vhdl"><span class="hljs-keyword">component</span></code> binding injects a specified <a href="component-overview.html">component</a> into an element, and optionally passes parameters to it.</p>
 <ul>
 <li>[Table of contents injected here]
 {:toc}</li>
@@ -173,11 +157,3 @@ ko.components.register(<span class="hljs-string">'your-component-name'</span>, {
 });
 </code></pre>
 <p>It isn't strictly necessary to dispose computeds and subscriptions that only depend on properties of the same viewmodel object, since this creates only a circular reference which JavaScript garbage collectors know how to release. However, to avoid having to remember which things need disposal, you may prefer to use <code>pureComputed</code> wherever possible, and explicitly dispose all other computeds/subscriptions whether technically necessary or not.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

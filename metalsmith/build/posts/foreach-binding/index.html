@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>foreach</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>foreach</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> binding duplicates a section of markup for each entry in an array, and binds each copy of that markup to the corresponding array item. This is especially useful for rendering lists or tables.</p>
 <p>Assuming your array is an <a href="observableArrays.html">observable array</a>, whenever you later add, remove, or re-order array entries, the binding will efficiently update the UI to match - inserting or removing more copies of the markup, or re-ordering existing DOM elements, without affecting any other DOM elements. This is far faster than regenerating the entire <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> output after each array change.</p>
 <p>Of course, you can arbitrarily nest any number of <code class="lang-cmake"><span class="hljs-keyword">foreach</span></code> bindings along with other control-flow bindings such as <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> and <code class="lang-actionscript"><span class="hljs-keyword">with</span></code>.</p>
@@ -142,11 +126,3 @@ removing corresponding sections of markup in the DOM.</p>
 </li>
 </ul>
 <p>For examples of <code class="lang-erlang"><span class="hljs-keyword">after</span><span class="hljs-variable">Add</span></code> and <code>beforeRemove</code> see <a href="#animated">animated transitions</a>.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

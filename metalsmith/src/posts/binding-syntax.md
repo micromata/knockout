@@ -1,5 +1,5 @@
 ---
-layout: post.html
+layout: post.hbs
 kind: documentation
 title: The "data-bind" syntax
 cat: 2

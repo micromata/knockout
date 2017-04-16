@@ -1,5 +1,5 @@
 ---
-layout: post.html
+layout: post.hbs
 kind: documentation
 title: How dependency tracking works
 cat: 2

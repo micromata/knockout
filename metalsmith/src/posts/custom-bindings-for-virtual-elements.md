@@ -1,5 +1,5 @@
 ---
-layout: post.html
+layout: post.hbs
 kind: documentation
 title: Custom bindings and virtual elements
 cat: 3

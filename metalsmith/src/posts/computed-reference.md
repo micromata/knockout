@@ -1,5 +1,5 @@
 ---
-layout: post.html
+layout: post.hbs
 kind: documentation
 title: Computed Observable Reference
 cat: 3

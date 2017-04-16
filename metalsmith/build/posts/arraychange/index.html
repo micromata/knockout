@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Tracking array changes</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Tracking array changes</h1>
-
-  <p>Since <a href="http://blog.stevensanderson.com/2013/10/08/knockout-3-0-release-candidate-available/">Knockout 3.0</a>
+<p>Since <a href="http://blog.stevensanderson.com/2013/10/08/knockout-3-0-release-candidate-available/">Knockout 3.0</a>
 there has been an <code>arrayChange</code> event that can be attached to an <code>observable</code>
 or <code>observableArray</code>.</p>
 <p>One subscribes to changes as follows:</p>
@@ -32,11 +16,3 @@ you can extend any other <code>subscribable</code> (i.e. <code class="lang-css">
 <pre><code class="lang-javascript">trackable = ko.observable().extend({trackArrayChanges: <span class="hljs-literal">true</span>});
 </code></pre>
 <p><live-example params="id: &quot;arraychange&quot;"></live-example></p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

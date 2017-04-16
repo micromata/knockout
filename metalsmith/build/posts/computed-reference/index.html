@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Computed Observable Reference</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Computed Observable Reference</h1>
-
-  <p>The following documentation describes how to construct and work with computed observables.</p>
+<p>The following documentation describes how to construct and work with computed observables.</p>
 <h2 id="constructing-a-computed-observable">Constructing a computed observable</h2>
 <p>A computed observable can be constructed using one of the following forms:</p>
 <ol>
@@ -77,11 +61,3 @@
 });
 </code></pre>
 <p>These facilities are typically useful only in advanced scenarios, for example when your computed observable's primary purpose is to trigger some side-effect during its evaluator, and you want to perform some setup logic only during the first run, or only if it has at least one dependency (and hence might re-evaluate in the future). Most computed properties do not need to care whether they have been evaluated before, or how many dependencies they have.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Writable computed observables</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Writable computed observables</h1>
-
-  <p><em>Beginners may wish to skip this section - writable computed observables are fairly advanced and are not necessary in most situations</em></p>
+<p><em>Beginners may wish to skip this section - writable computed observables are fairly advanced and are not necessary in most situations</em></p>
 <p>Normally, computed observables have a value that is computed from other observables and are therefore <em>read-only</em>. What may seem surprising, then, is that it is possible to make computed observables <em>writable</em>. You just need to supply your own callback function that does something sensible with written values.</p>
 <p>You can use a writable computed observable exactly like a regular observable, with your own custom logic intercepting all reads and writes. Just like observables, you can write values to multiple observable or computed observable properties on a model object using <em>chaining syntax</em>. For example, <code class="lang-stylus">myViewModel.<span class="hljs-function"><span class="hljs-title">fullName</span><span class="hljs-params">(<span class="hljs-string">'Joe Smith'</span>)</span></span>.<span class="hljs-function"><span class="hljs-title">age</span><span class="hljs-params">(<span class="hljs-number">50</span>)</span></span></code>.</p>
 <p>Writable computed observables are a powerful feature with a wide range of possible uses.</p>
@@ -36,11 +20,3 @@
 <p><live-example params="id: &quot;computed-writable-filter&quot;"></live-example></p>
 <p>Now, <code>acceptedNumericValue</code> will only ever contain numeric values, and any other values entered will trigger the appearance of a validation message instead of updating <code>acceptedNumericValue</code>.</p>
 <p><strong>Note:</strong> For such trivial requirements as validating that an input is numeric, this technique is overkill. It would be far easier just to use jQuery Validation and its <code class="lang-applescript"><span class="hljs-type">number</span></code> class on the <code class="lang-apache"><span class="hljs-tag">&lt;input&gt;</span></code> element. Knockout and jQuery Validation work together nicely, as demonstrated on the <a href="../examples/gridEditor.html">grid editor</a> example. However, the preceding example demonstrates a more general mechanism for filtering and validating with custom logic to control what kind of user feedback appears, which may be of use if your scenario is more complex than jQuery Validation handles natively.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

@@ -1,9 +1,10 @@
-var Metalsmith  			= require('metalsmith')
-var collections 			= require('metalsmith-collections')
-var layouts     			= require('metalsmith-layouts')
-var markdown    			= require('metalsmith-markdown')
-var permalinks  			= require('metalsmith-permalinks')
-var codeHighlighting	= require('metalsmith-code-highlight')
+const Metalsmith        = require('metalsmith')
+const collections       = require('metalsmith-collections')
+const layouts           = require('metalsmith-layouts')
+const lunr              = require('metalsmith-lunr')
+const markdown          = require('metalsmith-markdown')
+const permalinks        = require('metalsmith-permalinks')
+const codeHighlighting  = require('metalsmith-code-highlight')
 
 Metalsmith(__dirname)
   .metadata({
@@ -20,14 +21,26 @@ Metalsmith(__dirname)
   .use(collections({          // group all blog posts by internally
     posts: 'posts/*.md'       // adding key 'collections':'posts'
   }))                         // use `collections.posts` in layouts
+  .use(lunr({
+    ref: 'title',
+    indexPath: 'searchIndex.json',
+    fields: {
+      contents: 1,
+      tags: 10,
+    },
+  }))
   .use(markdown())            // transpile all md into html
   .use(permalinks({           // change URLs to permalink URLs
     relative: false           // put css only in /css
   }))
-	.use(codeHighlighting())
+  .use(codeHighlighting())
   .use(layouts({              // wrap layouts around html
     engine: 'handlebars',     // use the layout engine you like
+    rename: true,
+    default: 'default.hbs',
+    pattern: '**/*.md',
+    partialExtension: '.hbs',
   }))
-  .build(function(err) {      // build process
-    if (err) throw err       // error handling is required
+  .build((error) => {        // build process
+    if (error) console.error(error) // error handling is required
   })

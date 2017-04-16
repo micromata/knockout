@@ -1,6 +1,6 @@
 ---
 title: Adding custom functions using "fn"
-layout: post.html
+layout: post.hbs
 kind: documentation
 cat: 2
 ---

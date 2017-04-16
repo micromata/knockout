@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>css</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>css</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code>css</code> binding adds or removes one or more named CSS classes to the associated DOM element. This is useful, for example, to highlight some value in red if it becomes negative.</p>
 <p>(Note: If you don't want to apply a CSS class but instead want to assign a <code>style</code> attribute value directly, see <a href="style-binding.html">the style binding</a>.)</p>
 <h3 id="example-with-static-classes">Example with static classes</h3>
@@ -75,11 +59,3 @@ viewModel.currentProfit(-<span class="hljs-number">50</span>);
 <p>... because <code class="lang-applescript"><span class="hljs-keyword">my</span>-<span class="hljs-type">class</span></code> isn't a legal identifier name at that point. The solution is simple: just wrap the identifier name in quotes so that it becomes a string literal, which is legal in a JavaScript object literal. For example,</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"css: { 'my-class': someValue }"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

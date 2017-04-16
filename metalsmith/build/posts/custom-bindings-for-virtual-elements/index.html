@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Custom bindings and virtual elements</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Custom bindings and virtual elements</h1>
-
-  <p><em>Note: Creating custom bindings that support virtual elements is an advanced technique, typically used only when creating libraries of reusable bindings. It's not something you'll normally need to do when building applications with Knockout.</em></p>
+<p><em>Note: Creating custom bindings that support virtual elements is an advanced technique, typically used only when creating libraries of reusable bindings. It's not something you'll normally need to do when building applications with Knockout.</em></p>
 <p>Knockout's <em>control flow bindings</em> (e.g., <a href="if-binding.html"><code class="lang-actionscript"><span class="hljs-keyword">if</span></code></a> and <a href="foreach-binding.html"><code class="lang-cmake"><span class="hljs-keyword">foreach</span></code></a>) can be applied not only to regular DOM elements, but also to "virtual" DOM elements defined by a special comment-based syntax. For example:</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"heading"</span>&gt;</span>My heading<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
@@ -128,11 +112,3 @@
 </li>
 </ul>
 <p>Notice that this is <em>not</em> intended to be a complete replacement to the full set of regular DOM APIs. Knockout provides only a minimal set of virtual element APIs to make it possible to perform the kinds of transformations needed when implementing control flow bindings.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

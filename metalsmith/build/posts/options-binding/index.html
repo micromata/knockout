@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>options</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>options</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code class="lang-apache"><span class="hljs-keyword"><span class="hljs-common">options</span></span></code> binding controls what options should appear in a drop-down list (i.e., a <code class="lang-apache"><span class="hljs-tag">&lt;select&gt;</span></code> element) or multi-select list (e.g., <code class="lang-mel">&lt;<span class="hljs-keyword">select</span> <span class="hljs-keyword">size</span>=<span class="hljs-string">'6'</span>&gt;</code>). This binding cannot be used with anything other than <code class="lang-apache"><span class="hljs-tag">&lt;select&gt;</span></code> elements.</p>
 <p>The value you assign should be an array (or observable array). The <code class="lang-apache"><span class="hljs-tag">&lt;select&gt;</span></code> element will then display one item for each item in your array.</p>
 <p>Note: For a multi-select list, to set which of the options are selected, or to read which of the options are selected, use <a href="selectedOptions-binding.html">the <code>selectedOptions</code> binding</a>. For a single-select list, you can also read and write the selected option using <a href="value-binding.html">the <code class="lang-ceylon"><span class="hljs-keyword">value</span></code> binding</a>.</p>
@@ -152,11 +136,3 @@ ko.applyBindings(vm);
 </code></pre>
 <h3 id="dependencies">Dependencies</h3>
 <p>None, other than the core Knockout library.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

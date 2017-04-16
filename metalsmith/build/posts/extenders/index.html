@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Using extenders to augment observables</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Using extenders to augment observables</h1>
-
-  <p>Knockout observables provide the basic features necessary to support reading/writing values and notifying subscribers when that value changes. In some cases, though, you may wish to add additional functionality to an observable. This might include adding additional properties to the observable or intercepting writes by placing a writeable computed observable in front of the observable. Knockout extenders provide an easy and flexible way to do this type of augmentation to an observable.</p>
+<p>Knockout observables provide the basic features necessary to support reading/writing values and notifying subscribers when that value changes. In some cases, though, you may wish to add additional functionality to an observable. This might include adding additional properties to the observable or intercepting writes by placing a writeable computed observable in front of the observable. Knockout extenders provide an easy and flexible way to do this type of augmentation to an observable.</p>
 <h3 id="how-to-create-an-extender">How to create an extender</h3>
 <p>Creating an extender involves adding a function to the <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.extenders</span></code> object. The function takes in the observable itself as the first argument and any options in the second argument. It can then either return the observable or return something new like a computed observable that uses the original observable in some way.</p>
 <p> This simple <code class="lang-bash"><span class="hljs-built_in">log</span>Change</code> extender subscribes to the observable and uses the console to write any changes along with a configurable message.</p>
@@ -41,11 +25,3 @@
 <pre><code class="lang-javascript"><span class="hljs-keyword">this</span>.firstName = ko.observable(first).extend({ required: <span class="hljs-string">"Please enter a first name"</span>, logChange: <span class="hljs-string">"first name"</span> });
 </code></pre>
 <p>In this case, both the <code class="lang-protobuf"><span class="hljs-keyword">required</span></code> and <code class="lang-bash"><span class="hljs-built_in">log</span>Change</code> extenders would be executed against our observable.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>click</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>click</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code>click</code> binding adds an event handler so that your chosen JavaScript function will be invoked when the associated DOM element is clicked. This is most commonly used with elements like <code class="lang-mel"><span class="hljs-keyword">button</span></code>, <code class="lang-stata"><span class="hljs-keyword">input</span></code>, and <code class="lang-autohotkey"><span class="hljs-literal">a</span></code>, but actually works with any visible DOM element.</p>
 <h3 id="example">Example</h3>
 <p><live-example params="id: &quot;click&quot;"></live-example></p>
@@ -69,11 +53,3 @@ with <code class="lang-actionscript"><span class="hljs-keyword">this</span></cod
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
 <p>Normally, in this case <code>myButtonHandler</code> would be called first, then the click event would bubble up to <code>myDivHandler</code>.  However, the <code>clickBubble</code> binding that we added with a value of <code class="lang-actionscript"><span class="hljs-literal">false</span></code> prevents the event from making it past <code>myButtonHandler</code>.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

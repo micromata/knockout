@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Pure computed observables</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Pure computed observables</h1>
-
-  <p><em>Pure</em> computed observables, introduced in Knockout 3.2.0, provide performance and memory benefits over regular computed observables for most applications. This is because a <em>pure</em> computed observable doesn't maintain subscriptions to its dependencies when it has no subscribers itself. This feature:</p>
+<p><em>Pure</em> computed observables, introduced in Knockout 3.2.0, provide performance and memory benefits over regular computed observables for most applications. This is because a <em>pure</em> computed observable doesn't maintain subscriptions to its dependencies when it has no subscribers itself. This feature:</p>
 <ul>
 <li><strong>Prevents memory leaks</strong> from computed observables that are no longer referenced in an application but whose dependencies still exist.</li>
 <li><strong>Reduces computation overhead</strong> by not re-calculating computed observables whose value isn't being observed.</li>
@@ -85,11 +69,3 @@
   }, <span class="hljs-keyword">this</span>, <span class="hljs-string">"asleep"</span>);
 </code></pre>
 <p>(The <code>awake</code> event also applies to normal computed observables created with the <code>deferEvaluation</code> option.)</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

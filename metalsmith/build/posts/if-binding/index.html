@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>if</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>if</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding causes a section of markup to appear in your document (and to have its <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes applied), only if a specified expression evaluates to <code class="lang-actionscript"><span class="hljs-literal">true</span></code> (or a <code class="lang-actionscript"><span class="hljs-literal">true</span></code>-ish value such as a non-<code class="lang-actionscript"><span class="hljs-literal">null</span></code> object or nonempty string).</p>
 <p><code class="lang-actionscript"><span class="hljs-keyword">if</span></code> plays a similar role to <a href="visible-binding.html">the <code class="lang-scss"><span class="hljs-value">visible</span></code> binding</a>. The difference is that, with <code class="lang-scss"><span class="hljs-value">visible</span></code>, the contained markup always remains in the DOM and always has its <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes applied - the <code class="lang-scss"><span class="hljs-value">visible</span></code> binding just uses CSS to toggle the container element's visiblity. The <code class="lang-actionscript"><span class="hljs-keyword">if</span></code> binding, however, physically adds or removes the contained markup in your DOM, and only applies bindings to descendants if the expression is <code class="lang-actionscript"><span class="hljs-literal">true</span></code>.</p>
 <h3 id="example-1">Example 1</h3>
@@ -68,11 +52,3 @@
 <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
 </code></pre>
 <p>The <code class="lang-xml"><span class="hljs-comment">&lt;!-- ko --&gt;</span></code> and <code class="lang-xml"><span class="hljs-comment">&lt;!-- /ko --&gt;</span></code> comments act as start/end markers, defining a "virtual element" that contains the markup inside. Knockout understands this virtual element syntax and binds as if you had a real container element.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

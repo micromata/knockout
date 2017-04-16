@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>The &quot;rateLimit&quot; extender</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>The &quot;rateLimit&quot; extender</h1>
-
-  <p><em>Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the <a href="throttle-extender.html"><code>throttle</code> extender</a> provides similar functionality.</em></p>
+<p><em>Note: This rate-limit API was added in Knockout 3.1.0. For previous versions, the <a href="throttle-extender.html"><code>throttle</code> extender</a> provides similar functionality.</em></p>
 <p>Normally, an <a href="observables.html">observable</a> that is changed notifies its subscribers immediately, so that any computed observables or bindings that depend on the observable are updated synchronously. The <code>rateLimit</code> extender, however, causes an observable to suppress and delay change notifications for a specified period of time. A rate-limited observable therefore updates dependencies asynchronously.</p>
 <p>The <code>rateLimit</code> extender can be applied to any type of observable, including <a href="observableArrays.html">observable arrays</a> and <a href="computedObservables.html">computed observables</a>. The main use cases for rate-limiting are:</p>
 <ul>
@@ -105,11 +89,3 @@ someObservableOrComputed.extend({ rateLimit: { timeout: <span class="hljs-number
 <li>The default rate-limit method is different from the <code>throttle</code> algorithm. To match the <code>throttle</code> behavior, use the <code>notifyWhenChangesStop</code> method.</li>
 <li>Evaluation of a rate-limited computed observable isn't rate-limited; it will re-evaluate if you read its value.</li>
 </ol>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

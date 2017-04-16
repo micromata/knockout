@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>html</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>html</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code>html</code> binding causes the associated DOM element to display the HTML specified by your parameter.</p>
 <p>Typically this is useful when values in your view model are actually strings of HTML markup that you want to render.</p>
 <h3 id="example">Example</h3>
@@ -40,11 +24,3 @@ viewModel.details(<span class="hljs-string">"&lt;em&gt;For further details, view
 </ul>
 <h3 id="note-about-html-encoding">Note: About HTML encoding</h3>
 <p>Since this binding sets your element's content using <code>innerHTML</code>, you should be careful not to use it with untrusted model values, because that might open the possibility of a script injection attack.  If you cannot guarantee that the content is safe to display (for example, if it is based on a different user's input that was stored in your database), then you can use <a href="text-binding.html">the text binding</a>, which will set the element's text value using <code>innerText</code> or <code>textContent</code> instead.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

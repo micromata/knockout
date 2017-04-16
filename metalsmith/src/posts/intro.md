@@ -1,6 +1,6 @@
 ---
 title: Introduction
-layout: post.html
+layout: post.hbs
 kind: Title
 ---
 

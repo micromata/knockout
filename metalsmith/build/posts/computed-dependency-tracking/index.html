@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>How dependency tracking works</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>How dependency tracking works</h1>
-
-  <p><em>Beginners don't need to know about this, but more advanced developers will want to know why we keep making all these claims about KO automatically tracking dependencies and updating the right parts of the UI...</em></p>
+<p><em>Beginners don't need to know about this, but more advanced developers will want to know why we keep making all these claims about KO automatically tracking dependencies and updating the right parts of the UI...</em></p>
 <p>It's actually very simple and rather lovely. The tracking algorithm goes like this:</p>
 <ol>
 <li>Whenever you declare a computed observable, KO immediately invokes its evaluator function to get its initial value.</li>
@@ -60,11 +44,3 @@
 <h2 id="note-why-circular-dependencies-aren-t-meaningful">Note: Why circular dependencies aren't meaningful</h2>
 <p>Computed observables are supposed to map a set of observable inputs into a single observable output. As such, it doesn't make sense to include cycles in your dependency chains. Cycles would <em>not</em> be analogous to recursion; they would be analogous to having two spreadsheet cells that are computed as functions of each other. It would lead to an infinite evaluation loop.</p>
 <p>So what does Knockout do if you have a cycle in your dependency graph? It avoids infinite loops by enforcing the following rule: <strong>Knockout will not restart evaluation of a computed while it is already evaluating</strong>. This is very unlikely to affect your code. It's relevant in two situations: when two computed observables are dependent on each other (possible only if one or both use the <code>deferEvaluation</code> option), or when a computed observable writes to another observable on which it has a dependency (either directly or via a dependency chain). If you need to use one of these patterns and want to entirely avoid the circular dependency, you can use the <code>peek</code> function described above.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Creating custom bindings</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Creating custom bindings</h1>
-
-  <p>You're not limited to using the built-in bindings like <code>click</code>, <code class="lang-ceylon"><span class="hljs-keyword">value</span></code>, and so on --- you can create your own ones. This is how to control how observables interact with DOM elements, and gives you a lot of flexibility to encapsulate sophisticated behaviors in an easy-to-reuse way.</p>
+<p>You're not limited to using the built-in bindings like <code>click</code>, <code class="lang-ceylon"><span class="hljs-keyword">value</span></code>, and so on --- you can create your own ones. This is how to control how observables interact with DOM elements, and gives you a lot of flexibility to encapsulate sophisticated behaviors in an easy-to-reuse way.</p>
 <p>For example, you can create interactive components like grids, tabsets, and so on, in the form of custom bindings (see the <a href="../examples/grid.html">grid example</a>).</p>
 <h3 id="registering-your-binding">Registering your binding</h3>
 <p>To register a binding, add it as a subproperty of <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.bindingHandlers</span></code>:</p>
@@ -132,11 +116,3 @@ ko.applyBindings(viewModel);
 <pre><code class="lang-html"><span class="hljs-comment">&lt;!-- ko mybinding: somedata --&gt;</span> ... <span class="hljs-comment">&lt;!-- /ko --&gt;</span>
 </code></pre>
 <p>... then see <a href="#custom-bindings-for-virtual-elements">the documentation for virtual elements</a>.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

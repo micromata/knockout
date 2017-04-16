@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>selectedOptions</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>selectedOptions</h1>
-
-  <h3 id="purpose">Purpose</h3>
+<h3 id="purpose">Purpose</h3>
 <p>The <code>selectedOptions</code> binding controls which elements in a multi-select list are currently selected. This is intended to be used in conjunction with a <code class="lang-apache"><span class="hljs-tag">&lt;select&gt;</span></code> element and the <code class="lang-apache"><span class="hljs-keyword"><span class="hljs-common">options</span></span></code> binding.</p>
 <p>When the user selects or de-selects an item in the multi-select list, this adds or removes the corresponding value to an array on your view model.
 Likewise, assuming it's an <em>observable</em> array on your view model, then whenever you add or remove (e.g., via <code class="lang-avrasm"><span class="hljs-keyword">push</span></code> or <code class="lang-perl"><span class="hljs-keyword">splice</span></code>) items to this array, the corresponding items in the UI become selected or deselected. It's a 2-way binding.</p>
@@ -47,11 +31,3 @@ viewModel.chosenCountries.push(<span class="hljs-string">'France'</span>); <span
 <h3 id="note-letting-the-user-select-from-arbitrary-javascript-objects">Note: Letting the user select from arbitrary JavaScript objects</h3>
 <p>In the example code above, the user can choose from an array of string values. You're <em>not</em> limited to providing strings - your <code class="lang-apache"><span class="hljs-keyword"><span class="hljs-common">options</span></span></code> array can contain arbitrary JavaScript objects if you wish. See <a href="options-binding.html">the <code class="lang-apache"><span class="hljs-keyword"><span class="hljs-common">options</span></span></code> binding</a> for details on how to control how arbitrary objects should be displayed in the list.</p>
 <p>In this scenario, the values you can read and write using <code>selectedOptions</code> are those objects themselves, <em>not</em> their textual representations. This leads to much cleaner and more elegant code in most cases. Your view model can imagine that the user chooses from an array of arbitrary objects, without having to care how those objects are mapped to an on-screen representation.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

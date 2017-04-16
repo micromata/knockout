@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Adding custom functions using &quot;fn&quot;</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Adding custom functions using &quot;fn&quot;</h1>
-
-  <p>  Occasionally, you may find opportunities to streamline your code by attaching new functionality to Knockout's core value types. You can define custom functions on any of the following types:</p>
+<p>  Occasionally, you may find opportunities to streamline your code by attaching new functionality to Knockout's core value types. You can define custom functions on any of the following types:</p>
 <p>  TODO: HIERARCHY
   <img src="images/fn/type-hierarchy.png" alt=""></p>
 <p>  Because of inheritance, if you attach a function to <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.subscribable</span></code>, it will be available on all the others too. If you attach a function to <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.observable</span></code>, it will be inherited by <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.observableArray</span></code> but not by <code class="lang-css"><span class="hljs-tag">ko</span><span class="hljs-class">.computed</span></code>.</p>
@@ -97,11 +81,3 @@ ko.applyBindings(<span class="hljs-keyword">new</span> AppViewModel());
     <span class="hljs-keyword">return</span> done;
 }, <span class="hljs-keyword">this</span>);
 </code></pre>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

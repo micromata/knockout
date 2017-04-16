@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>The &quot;throttle&quot; extender</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>The &quot;throttle&quot; extender</h1>
-
-  <p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
+<p><em>Note: This throttle API is deprecated as of Knockout 3.1.0. Please use the <a href="#rateLimit-observable"><code>rateLimit</code> extender</a> for similar functionality.</em></p>
 <p>Normally, <a href="#computedObservables">computed observables</a> are re-evaluated <em>synchronously</em>, as soon as each of their dependencies change. The <code>throttle</code> extender, however, causes a computed observable to delay re-evaluation until its dependencies have stopped changing for a specified period of time. Throttled computed observables therefore update <em>asychronously</em>.</p>
 <p>The main uses cases for throttling are:</p>
 <ul>
@@ -75,11 +59,3 @@
 }, <span class="hljs-keyword">this</span>).extend({ throttle: <span class="hljs-number">1</span> });
 </code></pre>
 <p>Now you can update <code>pageIndex</code> and <code>pageSize</code> as many times as you like, and the Ajax call will only happen once at the end of that sequence. It doesn't matter if your thread continually makes changes for longer than 1 millisecond, because re-evaluation won't start until you release your thread back to the JavaScript runtime.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

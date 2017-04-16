@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>The &quot;data-bind&quot; syntax</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>The &quot;data-bind&quot; syntax</h1>
-
-  <p>Knockout's declarative binding system provides a concise and powerful way to link data to the UI. It's generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout's binding system.</p>
+<p>Knockout's declarative binding system provides a concise and powerful way to link data to the UI. It's generally easy and obvious to bind to simple data properties or to use a single binding. For more complex bindings, it helps to better understand the behavior and syntax of Knockout's binding system.</p>
 <h3 id="binding-syntax">Binding syntax</h3>
 <p>A binding consists of two items, the binding <em>name</em> and <em>value</em>, separated by a colon. Here is an example of a single, simple binding:</p>
 <pre><code class="lang-html">Today's message is: <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text: myMessage"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
@@ -65,11 +49,3 @@ The item is <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <spa
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">data-bind</span>=<span class="hljs-value">"text"</span>&gt;</span>Text that will be cleared when bindings are applied.<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
 </code></pre>
 <p>This ability is especially useful when paired with <a href="#binding-preprocessing">binding preprocessing</a>, which can assign a default value for a binding.</p>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

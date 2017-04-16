@@ -1,5 +1,5 @@
 ---
-layout: post.html
+layout: post.hbs
 kind: documentation
 title: Pure computed observables
 cat: 2
@@ -59,7 +59,7 @@ In the following example of a simple wizard interface, the `fullName` *pure* com
 You should not use the *pure* feature for a computed observable that is meant to perform an action when its dependencies change. Examples include:
 
 * Using a computed observable to run a callback based on multiple observables.
-  
+
   ```javascript
   ko.computed(function () {
       var cleanData = ko.toJS(this);

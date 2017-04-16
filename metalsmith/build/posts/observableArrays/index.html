@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Observable Arrays</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Observable Arrays</h1>
-
-  <p>If you want to detect and respond to changes on one object, you'd use <a href="#observables">observables</a>. If you want to detect and respond to changes of a <em>collection of things</em>, use an <code>observableArray</code>. This is useful in many scenarios where you're displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.</p>
+<p>If you want to detect and respond to changes on one object, you'd use <a href="#observables">observables</a>. If you want to detect and respond to changes of a <em>collection of things</em>, use an <code>observableArray</code>. This is useful in many scenarios where you're displaying or editing multiple values and need repeated sections of UI to appear and disappear as items are added and removed.</p>
 <h3 id="example">Example</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> myObservableArray = ko.observableArray();    <span class="hljs-comment">// Initially an empty array</span>
 myObservableArray.push(<span class="hljs-string">'Some value'</span>);            <span class="hljs-comment">// Adds the value and notifies observers</span>
@@ -87,11 +71,3 @@ alert(<span class="hljs-string">'The first element is '</span> + myObservableArr
 <pre><code class="lang-javascript"><span class="hljs-comment">// Ensure it notifies about changes no more than once per 50-millisecond period</span>
 myViewModel.myObservableArray.extend({ rateLimit: <span class="hljs-number">50</span> });
 </code></pre>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>

@@ -1,5 +1,6 @@
 ---
-layout: post.html
+lunr: true
+layout: post.hbs
 kind: documentation
 title: Asynchronous Module Definition (AMD) With RequireJs
 cat: 5

@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Binding preprocessing</title>
-  <meta name="description" content="It&#x27;s about saying »Hello« to the world.">
-	<link rel="stylesheet" href="/assets/css/code.css">
-</head>
-<body>
-  <header>
-    <p>
-      <a href="/">Home</a>
-    </p>
-  </header>
-  <h1>Binding preprocessing</h1>
-
-  <p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It's not something you'll normally need to do when building applications with Knockout.</em></p>
+<p><em>Note: Extending the binding syntax using preprocessing is an advanced technique, typically used only when creating libraries of reusable bindings or extended syntaxes. It's not something you'll normally need to do when building applications with Knockout.</em></p>
 <p>Starting with Knockout 3.0, developers can define custom syntaxes by providing callbacks that rewrite DOM nodes and binding strings during the binding process.</p>
 <h2 id="preprocessing-binding-strings">Preprocessing binding strings</h2>
 <p>You can hook into Knockout's logic for interpreting <code class="lang-fortran"><span class="hljs-type">data</span>-<span class="hljs-keyword">bind</span></code> attributes by providing a <em>binding preprocessor</em> for a specific binding handler (such as <code>click</code>, <code class="lang-scss"><span class="hljs-value">visible</span></code>, or any <a href="custom-bindings.html">custom binding handler</a>).</p>
@@ -106,11 +90,3 @@
 <p>  If defined, this function will be called for each DOM node before bindings are processed. The function can modify, remove, or replace <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code>. Any new nodes must be inserted immediately before <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code>, and if any nodes were added or <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code> was removed, the function must return an array of the new nodes that are now in the document in place of <code class="lang-crmsh"><span class="hljs-keyword">node</span><span class="hljs-identifier"></span><span class="hljs-title"></span></code>.</p>
 </li>
 </ul>
-
-
-  <footer>
-    <p>Generated with Metalsmith &mdash; <a href="http://metalsmith.io">http://metalsmith.io</a></p>
-  </footer>
-
-</body>
-</html>
